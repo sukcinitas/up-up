@@ -1,3 +1,4 @@
+//finish handleSubmit to get to PollList page with this new poll inserted
 import React from "react";
 
 class CreatePollForm extends React.Component {
@@ -12,13 +13,17 @@ class CreatePollForm extends React.Component {
             option_2: ""
         }
     this.handleChange = this.handleChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.addOption = this.addOption.bind(this);
     }
     handleChange(e) {
-            this.setState({
-                [e.target.name]: e.target.value
-            }, ()=>{console.log(this.state)})
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+    handleSubmit(e){
+        e.preventDefault();
+        console.log(this.state);
     }
     addOption(e){
         const optionName = `option_${this.state.optionCount + 1}`;
@@ -31,7 +36,7 @@ class CreatePollForm extends React.Component {
     }       
     render() {
         const options = this.state.options.map((item)=> {
-            return  <div>
+            return  <div key={`option_${item}`}>
                         <input type="text" name={`option_${item}`} onChange={this.handleChange} value={this.state[`option_${item}`]}></input>
                     </div> 
         });
@@ -45,7 +50,7 @@ class CreatePollForm extends React.Component {
                     {options}
                 </div>
                 <button onClick={this.addOption}>Add another option</button>
-                <button type="submit">Submit</button>
+                <button type="submit" onClick={this.handleSubmit}>Submit</button>
             </form>
         )
     }

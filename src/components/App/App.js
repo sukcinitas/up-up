@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
 import PollList from "../PollList/PollList"
 import SignUpForm from "../SignUpForm/SignUpForm";
 import SignInForm from "../SignInForm/SignInForm";
@@ -14,9 +15,10 @@ class App extends React.Component {
             <>
                 <Header />
                 {/* <PollList list={[{question: "Kas tu?", votes: 100}, {question: "Kas tu esi?", votes: 120}]}/> */}
-                {/* <SignUpForm /> */}
+                <SignUpForm />
                 {/* <SignInForm /> */}
                 <CreatePollForm />
+                <Footer />
             </>
         )
     }
