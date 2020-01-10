@@ -31,7 +31,7 @@ class SignUpForm extends React.Component {
                 passwords_match: true
             })
             e.preventDefault();
-            console.log(this.state);
+            
         }
 
     }

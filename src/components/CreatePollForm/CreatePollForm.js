@@ -1,4 +1,4 @@
-//finish handleSubmit to get to PollList page with this new poll inserted
+
 import React from "react";
 
 class CreatePollForm extends React.Component {
@@ -23,7 +23,7 @@ class CreatePollForm extends React.Component {
     }
     handleSubmit(e){
         e.preventDefault();
-        console.log(this.state);
+        
     }
     addOption(e){
         const optionName = `option_${this.state.optionCount + 1}`;
