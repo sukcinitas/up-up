@@ -12,14 +12,17 @@ class App extends React.Component {
     constructor(props) {
         super(props);
     }
-    render (){
+    render() {
         return (
             <Router>
                 <Route path="/" component={Header} />
-                <Route path="/polls" component={PollList} />
-                <Route path="/polls/:id" component={Poll} />
-                <Route path="/polls/add" component={CreatePollForm} />
-                <Route path="/users/signup" component={SignUpForm} />
+                <Switch>
+                    <Route path="/create-poll" component={CreatePollForm} />
+                    <Route path="/poll/:id" component={Poll} />
+                    <Route path="/sign-up" component={SignUpForm} />
+                    <Route path="/sign-in" component={SignInForm} />
+                    <Route path="/" component={PollList} />
+                </Switch>
                 <Route path="/" component={Footer} />
             </Router>
         )

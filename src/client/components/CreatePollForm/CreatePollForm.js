@@ -1,5 +1,6 @@
 
 import React from "react";
+import axios from "axios";
 
 class CreatePollForm extends React.Component {
     constructor(props) {
@@ -10,7 +11,8 @@ class CreatePollForm extends React.Component {
             optionCount: 2,
             options: [1, 2],
             option_1: "",
-            option_2: ""
+            option_2: "",
+            created_by: "username"
         }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,16 +25,33 @@ class CreatePollForm extends React.Component {
     }
     handleSubmit(e){
         e.preventDefault();
-        
+        const options = this.state.options.map(option => {
+            return  {option: this.state[`option_${option}`], votes: 0}
+        })
+        const poll = {
+            options,
+            name: this.state.name,
+            question: this.state.question,
+            created_by: this.state.created_by
+        }
+        axios.post("http://localhost:8080/create-poll", poll)
+            .then(res => {
+                if (res.data.redirect) {
+                    window.location.href = "/";
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
     addOption(e){
+        e.preventDefault();
         const optionName = `option_${this.state.optionCount + 1}`;
         this.setState((prevState) => ({
             optionCount: prevState.optionCount + 1,
             options: [...prevState.options, prevState.optionCount + 1],
             [optionName]: "" 
         }))
-        e.preventDefault();
     }       
     render() {
         const options = this.state.options.map((item)=> {

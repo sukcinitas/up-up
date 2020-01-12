@@ -6,17 +6,19 @@ module.exports = merge(common, {
     mode: "development",
     output: {
         filename: "main.js",
-        path: path.resolve(__dirname, "dist"),
-        publicPath: "/"
+        path: path.join(__dirname, "dist"),
     },
-    // devServer: {
-    //     port: 3000,
-    //     open: true,
-    //     proxy: {
-    //         "/": "http://localhost:8080"
-    //     }
-    // }
     devServer: {
-        historyApiFallback: true
+        // historyApiFallback: true,
+        // hot: true,
+        // inline: true,
+        // host: "localhost",
+        open: true,
+        port: 3000,
+        proxy: {
+            "/": {
+                target: "http://localhost:8080/",
+            }
+        }
     }
 })

@@ -1,7 +1,9 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const webpack = require("webpack");
 
 module.exports = {
-    entry: "./src/index.js",
+    entry: "./src/client/index.js",
     module: {
         rules: [
             {
@@ -19,7 +21,8 @@ module.exports = {
             }
         ]
     },
-    plugins: [new HtmlWebpackPlugin({
-        template: "src/template.html"
-    })]
+    plugins: [
+        new CleanWebpackPlugin(),
+        new HtmlWebpackPlugin({template: "template.html"}),
+    ]
 }

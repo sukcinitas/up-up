@@ -1,4 +1,6 @@
 import React from "react";
+import {Link} from "react-router-dom";
+import axios from "axios";
 
 class SignUpForm extends React.Component {
     constructor(props) {
@@ -19,7 +21,6 @@ class SignUpForm extends React.Component {
         })
     }
     handleSubmit(e){
-        //should lead to user page or not
         if (this.state.signup_password !== this.state.signup_confirm_password) {
             this.setState({
                 passwords_match: false
@@ -27,10 +28,22 @@ class SignUpForm extends React.Component {
             e.preventDefault();
             return;
         } else {
+            e.preventDefault();
+            const user = {
+                signup_username: this.state.signup_username,
+                signup_email: this.state.signup_email,
+                signup_password: this.state.signup_password,
+            }
+            console.log(user);
+            axios.post("http://localhost:8080/sign-up", user)
+                 .then(res => console.log(res.data));
             this.setState({
+                signup_username: "",
+                signup_email: "",
+                signup_password: "",
+                signup_confirm_password: "",
                 passwords_match: true
             })
-            e.preventDefault();
             
         }
 
@@ -56,7 +69,7 @@ class SignUpForm extends React.Component {
                 </div>
                 <div>
                     <button onClick={this.handleSubmit}>Sign up</button>
-                    <span>Already have an account?</span><button>Sign in</button>
+                    <span>Already have an account?</span><Link to="/users/signin">Sign in</Link>
                 </div>
                 {this.state.passwords_match ? "" : <span>Passwords should match</span>}
             </form>
