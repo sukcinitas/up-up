@@ -33,7 +33,7 @@ class SignInForm extends React.Component {
                 </div>
                 <div>
                     <button onClick={this.handleSubmit}>Sign in</button>
-                    <span>Don't have an account?</span><Link to="/users/signup">Sign up</Link>
+                    <span>Don't have an account?</span><Link to="/sign-up">Sign up</Link>
                 </div>
             </form> 
         ) 

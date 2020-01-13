@@ -9,7 +9,7 @@ const pollSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    options: [],
+    options: {},
     votes: Number,
     created_by: {
         type: String,

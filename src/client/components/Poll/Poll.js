@@ -7,12 +7,12 @@ class Poll extends React.Component {
         this.state = {
             name: "",
             question: "",
-            options: [],
+            options: {},
             votes: 0,
             created_by: "",
             createdAt: ""
         }
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleVote = this.handleVote.bind(this);
         this.handlePollDeletion = this.handlePollDeletion.bind(this);
     }
     componentDidMount(){
@@ -29,8 +29,20 @@ class Poll extends React.Component {
                 })
             })
     }
-    handleSubmit(){
-        // 
+    handleVote(e){
+        console.log(e.target.dataset.option)
+        axios.put(`http://localhost:8080/poll/${this.props.match.params.id}`, 
+                {option: e.target.dataset.option,
+                options: this.state.options,
+                votes: this.state.votes})
+                .then(res => {
+                    if (res.data.redirect) {
+                        window.location.reload; 
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                })
     }
     handlePollDeletion(){
         axios.delete(`http://localhost:8080/poll/${this.props.match.params.id}`)
@@ -50,9 +62,12 @@ class Poll extends React.Component {
                 <h2>{name}</h2>
                 <div>
                     <h3>{question}</h3>
-                    {options.map(option => (
-                    <button key={option.option+name} onClick={this.handleSubmit}>{option.option}</button>
-                    ))}
+                    {Object.keys(options).map(option => {
+                        return (<div key={option}>
+                                    <button data-option={option} onClick={this.handleVote}>{option}</button>
+                                    <small>{options[option]}</small>
+                                </div>)
+                    })}
                     <p>{votes}</p>
                     <p>{created_by}</p>
                     <p>{createdAt}</p>

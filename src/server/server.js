@@ -1,5 +1,4 @@
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config(); //.env file must be at root
 
 const express = require("express");
 const cors = require("cors");
@@ -21,8 +20,8 @@ app.use(function(req, res, next) {
     next();
   });
 
-
-mongoose.connect("mongodb+srv://gintare_cer:pavasarisateina@cluster0-t4lki.mongodb.net/test?retryWrites=true&w=majority", {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
+const uri = process.env.MONGODB_URI;
+mongoose.connect(uri, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
 const connection = mongoose.connection;
 connection.once("open", () => {
     console.log("Connection with MongoDB database established");

@@ -12,9 +12,9 @@ class PollList extends React.Component {
     }
     componentDidMount(){
         axios.get("http://localhost:8080/")
-            .then(response => {
+            .then(res => {
                 this.setState({
-                    polls: [...response.data]
+                    polls: [...res.data]
                 })
             })
             .catch(error => {

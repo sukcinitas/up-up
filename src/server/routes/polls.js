@@ -14,11 +14,8 @@ router.route("/create-poll").post((req, res) => {
         name,
         question,
         votes: 0,
-        options: [],
+        options,
         created_by
-    })
-    options.forEach(option => {
-        newPoll.options.push(option);
     })
     newPoll.save()
         .then(() => res.json({"redirect": true}))
@@ -35,6 +32,16 @@ router.route("/poll/:id").delete((req, res) => {
     Poll.findByIdAndDelete(req.params.id)
         .then(res.json({"redirect": true}))
         .catch(err => res.status(400).json(`Error: ${err}`));
+});
+
+router.route("/poll/:id").put((req, res) => {
+    const {option, options, votes} = req.body;
+    const updatedOptions = options;
+    updatedOptions[option] = options[option] + 1;
+    console.log(updatedOptions);
+    Poll.findByIdAndUpdate(req.params.id, {votes: votes + 1, options: updatedOptions})
+        .then(res.json({"redirect": true}))
+        .catch(err => res.status(400).json(`Error: ${err}`));   
 });
 
 module.exports = router;

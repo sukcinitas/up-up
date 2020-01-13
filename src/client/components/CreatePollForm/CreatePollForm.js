@@ -25,8 +25,12 @@ class CreatePollForm extends React.Component {
     }
     handleSubmit(e){
         e.preventDefault();
-        const options = this.state.options.map(option => {
-            return  {option: this.state[`option_${option}`], votes: 0}
+        // const options = this.state.options.map(option => {
+        //     return  {[this.state[`option_${option}`]]: 0}
+        // });
+        const options = {};
+        this.state.options.map(option => {
+            options[this.state[`option_${option}`]] = 0;
         })
         const poll = {
             options,

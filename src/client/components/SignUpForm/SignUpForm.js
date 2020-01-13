@@ -23,7 +23,9 @@ class SignUpForm extends React.Component {
     handleSubmit(e){
         if (this.state.signup_password !== this.state.signup_confirm_password) {
             this.setState({
-                passwords_match: false
+                passwords_match: false,
+                signup_password: "",
+                signup_confirm_password: ""
             })
             e.preventDefault();
             return;
@@ -34,9 +36,12 @@ class SignUpForm extends React.Component {
                 signup_email: this.state.signup_email,
                 signup_password: this.state.signup_password,
             }
-            console.log(user);
             axios.post("http://localhost:8080/sign-up", user)
-                 .then(res => console.log(res.data));
+                 .then(res => {
+                     if(res.data.redirect) {
+                        // this.props.history.push = "/sign-in";
+                     }
+                 });
             this.setState({
                 signup_username: "",
                 signup_email: "",
@@ -69,7 +74,7 @@ class SignUpForm extends React.Component {
                 </div>
                 <div>
                     <button onClick={this.handleSubmit}>Sign up</button>
-                    <span>Already have an account?</span><Link to="/users/signin">Sign in</Link>
+                    <span>Already have an account?</span><Link to="/sign-in">Sign in</Link>
                 </div>
                 {this.state.passwords_match ? "" : <span>Passwords should match</span>}
             </form>
