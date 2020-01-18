@@ -7,7 +7,7 @@
   "scripts": {
     "start": "webpack-dev-server --open --config webpack.dev.js",
     "dev-client": "webpack-dev-server --config webpack.dev.js --devtool inline-source-map --hot",
-    "dev-server": "nodemon src/server/server.js",
+    "dev-server": "nodemon --exec babel-node src/server/server.js",
     "dev": "concurrently \"npm run dev-server\" \"npm run dev-client\""
   },
   "author": "",
@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
+    "@babel/node": "^7.8.3",
     "@babel/preset-env": "^7.7.7",
     "@babel/preset-react": "^7.7.4",
     "babel-cli": "^6.26.0",

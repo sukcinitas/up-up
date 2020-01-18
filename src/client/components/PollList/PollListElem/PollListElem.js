@@ -1,15 +1,18 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import "./PollListElem.css";
 
-const PollListElem = (props) => {
+const PollListElem = ({_id, name, votes, created_by, createdAt}) => {
     return (
-        <div>
-            <Link to={`/poll/${props._id}`}>
-                <h2>{props.name}</h2>
+        <div className="poll-list__elem">
+            <Link to={`/polls/${_id}`}>
+                <h2>{name}</h2>
             </Link>
-            <p>votes: {props.votes}</p>
-            <p>created by: {props.created_by}</p>
-            <p>{props.createdAt}</p>
+            <div>
+                <p class="votes">{votes} {votes === 1 ? "vote" : "votes"}</p>
+                <p class="created-by">created by: {created_by}</p>
+                <p class="created-at">{createdAt}</p>
+            </div>
         </div>
     )
 }

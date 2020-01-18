@@ -1,0 +1,27 @@
+.form--poll {
+    max-width: 70%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-gap: 10px;
+}
+.label--poll {
+    justify-self: end;
+    align-self: end;
+}
+.input--poll {
+    padding: 10px;
+    border: none;
+    background-color: rgba(118, 25, 161, 0.1);
+}
+#options {
+    display: flex;
+    flex-direction: column;
+}
+.header1 {
+    justify-self: end;
+    color: blueviolet;
+}
+.header1, .header2 {
+    text-transform: uppercase;
+}

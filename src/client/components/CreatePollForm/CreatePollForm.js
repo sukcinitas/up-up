@@ -1,6 +1,7 @@
-
 import React from "react";
 import axios from "axios";
+import "./CreatePollForm.css";
+import { Redirect } from "react-router-dom";
 
 class CreatePollForm extends React.Component {
     constructor(props) {
@@ -12,12 +13,14 @@ class CreatePollForm extends React.Component {
             options: [1, 2],
             option_1: "",
             option_2: "",
-            created_by: "username"
+            created_by: "username",
+            redirect: false
         }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.addOption = this.addOption.bind(this);
     }
+
     handleChange(e) {
         this.setState({
             [e.target.name]: e.target.value
@@ -25,9 +28,6 @@ class CreatePollForm extends React.Component {
     }
     handleSubmit(e){
         e.preventDefault();
-        // const options = this.state.options.map(option => {
-        //     return  {[this.state[`option_${option}`]]: 0}
-        // });
         const options = {};
         this.state.options.map(option => {
             options[this.state[`option_${option}`]] = 0;
@@ -38,11 +38,11 @@ class CreatePollForm extends React.Component {
             question: this.state.question,
             created_by: this.state.created_by
         }
-        axios.post("http://localhost:8080/create-poll", poll)
+        axios.post("http://localhost:8080/user/create-poll", poll)
             .then(res => {
-                if (res.data.redirect) {
-                    window.location.href = "/";
-                }
+                    this.setState({
+                        redirect: res.data.redirect
+                    })
             })
             .catch(error => {
                 console.log(error);
@@ -56,25 +56,40 @@ class CreatePollForm extends React.Component {
             options: [...prevState.options, prevState.optionCount + 1],
             [optionName]: "" 
         }))
-    }       
+    } 
+    
+    renderRedirect() {
+        if (this.state.redirect) {
+          return <Redirect to="/" />
+        }
+      }
+
     render() {
         const options = this.state.options.map((item)=> {
-            return  <div key={`option_${item}`}>
-                        <input type="text" name={`option_${item}`} onChange={this.handleChange} value={this.state[`option_${item}`]}></input>
-                    </div> 
+            return  <input key={`option_${item}`} className="input--poll" type="text" name={`option_${item}`} onChange={this.handleChange} value={this.state[`option_${item}`]}></input>
+
         });
         return (
-            <form>
-                <label htmlFor="name">Name</label>
-                <input type="text" name="name" onChange={this.handleChange} value={this.state.name}></input>
-                <label htmlFor="question">Question/statement</label>
-                <input type="text" name="question" onChange={this.handleChange} value={this.state.question}></input>
-                <div id="options">
-                    {options}
-                </div>
-                <button onClick={this.addOption}>Add another option</button>
-                <button type="submit" onClick={this.handleSubmit}>Submit</button>
-            </form>
+                <form className="form--poll">
+                    {this.renderRedirect()}
+
+                    <h1 className="header1">Create</h1>
+                    <h1 className="header2">Poll</h1>
+
+                    <label className="label--poll" htmlFor="name">Poll name</label>
+                    <input className="input--poll" type="text" name="name" onChange={this.handleChange} value={this.state.name}></input>
+
+                    <label className="label--poll" htmlFor="question">Poll question/statement</label>
+                    <input className="input--poll" type="text" name="question" onChange={this.handleChange} value={this.state.question}></input>
+
+                    <label className="label--poll" htmlFor="answers">Poll answers</label>
+                    <div id="options" name="answers">
+                        {options} 
+                    </div>
+
+                    <button onClick={this.addOption}>Add another option</button>
+                    <button type="submit" onClick={this.handleSubmit}>Submit</button>
+                </form>
         )
     }
 }

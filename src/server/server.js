@@ -27,8 +27,8 @@ connection.once("open", () => {
     console.log("Connection with MongoDB database established");
 })
 
-app.use("/", pollsRouter);
-app.use("/", usersRouter);
+app.use("/polls", pollsRouter);
+app.use("/user", usersRouter);
 
 app.listen(process.env.PORT || 8080, () => {
     console.log(`app is running`);
