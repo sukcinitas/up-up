@@ -1,5 +1,5 @@
 require("dotenv").config(); //.env file must be at root
-
+const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -10,7 +10,7 @@ mongoose.Promise = global.Promise;
 
 const app = express();
 app.use(cors());
-app.use(express.static("dist"));
+// app.use(express.static("dist"));
 app.use(express.json()); //instead of bodyParser, since 4.16 Express
 app.use(express.urlencoded()); //Parse URL-encoded bodies
 
@@ -27,8 +27,16 @@ connection.once("open", () => {
     console.log("Connection with MongoDB database established");
 })
 
-app.use("/polls", pollsRouter);
-app.use("/user", usersRouter);
+app.use("/api/polls", pollsRouter);
+app.use("/api/user", usersRouter);
+
+// app.get('/*', function(req, res) {
+//     res.sendFile(path.join(__dirname, 'dist/index.html'), function(err) {
+//       if (err) {
+//         res.status(500).send(err)
+//       }
+//     })
+//   })
 
 app.listen(process.env.PORT || 8080, () => {
     console.log(`app is running`);

@@ -39,7 +39,7 @@ class Register extends React.Component {
                 signup_password: this.state.signup_password,
             }
 
-            axios.post("http://localhost:8080/user/register", user)
+            axios.post("http://localhost:8080/api/user/register", user)
                 .then(res => {
                     this.setState({
                         redirect: res.data.redirect || false,

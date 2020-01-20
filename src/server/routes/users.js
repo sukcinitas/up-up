@@ -39,13 +39,19 @@ router.route("/create-poll").post((req, res) => {
 
 router.route("/polls").get((req, res) => {
     Poll.find({username: req.body.username})
-        .then((polls) => res.json(polls))
+        .then((polls) => res.json({polls}))
         .catch(err => res.status(400).json(`Error: ${err}`));
 });
 
 router.route("/profile").get((req, res) => {
     User.find({username: req.body.username}, "-password")
-        .then((user) => res.json(user))
+        .then((user) => res.json({user}))
+        .catch(err => res.status(400).json(`Error: ${err}`));
+});
+
+router.route("/profile").put((req, res) => {
+    User.findByIdAndUpdate({_id: req.body._id}, req.body)
+        .then(() => res.send("successfully updated"))
         .catch(err => res.status(400).json(`Error: ${err}`));
 });
 

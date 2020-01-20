@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import "./CreatePollForm.css";
-import { Redirect } from "react-router-dom";
+// import { Redirect } from "react-router-dom";
 
 class CreatePollForm extends React.Component {
     constructor(props) {
@@ -38,11 +38,12 @@ class CreatePollForm extends React.Component {
             question: this.state.question,
             created_by: this.state.created_by
         }
-        axios.post("http://localhost:8080/user/create-poll", poll)
+        axios.post("http://localhost:8080/api/user/create-poll", poll)
             .then(res => {
                     this.setState({
                         redirect: res.data.redirect
                     })
+                    this.props.history.push("/")
             })
             .catch(error => {
                 console.log(error);
@@ -58,11 +59,11 @@ class CreatePollForm extends React.Component {
         }))
     } 
     
-    renderRedirect() {
-        if (this.state.redirect) {
-          return <Redirect to="/" />
-        }
-      }
+    // renderRedirect() {
+    //     if (this.state.redirect) {
+    //       return <Redirect to="/" />
+    //     }
+    //   }
 
     render() {
         const options = this.state.options.map((item)=> {
@@ -71,7 +72,7 @@ class CreatePollForm extends React.Component {
         });
         return (
                 <form className="form--poll">
-                    {this.renderRedirect()}
+                    {/* {this.renderRedirect()} */}
 
                     <h1 className="header1">Create</h1>
                     <h1 className="header2">Poll</h1>

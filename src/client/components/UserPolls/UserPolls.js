@@ -9,47 +9,57 @@ class UserPolls extends React.Component {
     constructor(props) {
         super();
         this.state = {
-            userPolls: [],
-            username: "",
-            email: "",
-            password: "",
-            id: ""
+            username: "username",
+            showDeletionMessage: false
         }
         this.handlePollDeletion = this.handlePollDeletion.bind(this);
     }
-
+//username must be global, from login
     componentDidMount(){
-        axios.get("http://localhost:8080/profile")
+        axios.get("http://localhost:8080/api/user/polls", {username: this.state.username})
             .then(res => {
                 this.setState({
-                    polls: [...res.data]
+                    userPolls: [...res.data.polls]
                 })
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
             })
     }
 
-    handlePollDeletion(){
-        axios.delete(`http://localhost:8080/polls/${this.state.id}`)
+    componentDidUpdate() {
+        axios.get("http://localhost:8080/api/user/polls", {username: this.state.username})
+        .then(res => {
+            this.setState({
+                userPolls: [...res.data.polls]
+            })
+        })
+        .catch(error => {
+            console.error(error);
+        })
+    }
+
+    handlePollDeletion(e){
+        axios.delete(`http://localhost:8080/api/polls/${e.target.id}`)
             .then(res => {
                     this.setState({
-                        redirect: res.data.redirect,
+                        showDeletionMessage: true
                     })
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
             })
     }
 
     render() {
         return(
             <div>
+                {this.state.showDeletionMessage ? <span>The poll has been successfully deleted!</span> : ""}
                 {userPolls.map(poll => 
-                <div key={poll.id}>
+                <div key={poll._id}>
                     <h2>{poll.name}</h2>
                     <p>Votes: {poll.votes}</p>
-                    <button onClick={this.handlePollDeletion}>Delete</button>
+                    <button id={poll._id} onClick={this.handlePollDeletion}>Delete</button>
                 </div>)}
             </div>
         );

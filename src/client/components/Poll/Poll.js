@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { Redirect } from "react-router";
+// import { Redirect } from "react-router";
 
 class Poll extends React.Component {
     constructor(props) {
@@ -20,7 +20,7 @@ class Poll extends React.Component {
         this.handlePollDeletion = this.handlePollDeletion.bind(this);
     }
     componentDidMount(){
-        axios.get(`http://localhost:8080/polls/${this.state.id}`)
+        axios.get(`http://localhost:8080/api/polls/${this.state.id}`)
             .then(res => {
                 const {name, question, options, votes, created_by, createdAt} = res.data;
                 this.setState({
@@ -34,7 +34,7 @@ class Poll extends React.Component {
             })
     }
     componentDidUpdate(){
-        axios.get(`http://localhost:8080/polls/${this.state.id}`)
+        axios.get(`http://localhost:8080/api/polls/${this.state.id}`)
         .then(res => {
             const {name, question, options, votes, created_by, createdAt} = res.data;
             this.setState({
@@ -48,7 +48,7 @@ class Poll extends React.Component {
         })
     }
     handleVote(e){
-        axios.put(`http://localhost:8080/polls/${this.state.id}`, 
+        axios.put(`http://localhost:8080/api/polls/${this.state.id}`, 
                 {option: e.target.dataset.option,
                 options: this.state.options,
                 votes: this.state.votes})
@@ -61,28 +61,30 @@ class Poll extends React.Component {
                     console.log(error);
                 })
     }
+    //only accessible to user
     handlePollDeletion(){
-        axios.delete(`http://localhost:8080/polls/${this.state.id}`)
+        axios.delete(`http://localhost:8080/api/polls/${this.state.id}`)
             .then(res => {
                     this.setState({
                         redirect: res.data.redirect,
                     })
+                    this.props.history.push("/");
             })
             .catch(error => {
                 console.log(error);
             })
     }
-    renderRedirect(){
-        if (this.state.redirect) {
-            return <Redirect to="/"/>  
-        }
-    }
+    // renderRedirect(){
+    //     if (this.state.redirect) {
+    //         return <Redirect to="/"/>  
+    //     }
+    // }
 
     render(){
         const {name, question, options, votes, created_by, createdAt} = this.state;
         return (
             <div>
-                {this.renderRedirect()}
+                {/* {this.renderRedirect()} */}
                 <h2>{name}</h2>
                 <div>
                     <h3>{question}</h3>
