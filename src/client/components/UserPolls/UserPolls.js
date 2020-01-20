@@ -9,7 +9,7 @@ class UserPolls extends React.Component {
     constructor(props) {
         super();
         this.state = {
-            username: "username",
+            username: "sukcinitas",
             showDeletionMessage: false
         }
         this.handlePollDeletion = this.handlePollDeletion.bind(this);
@@ -19,7 +19,7 @@ class UserPolls extends React.Component {
         axios.get("http://localhost:8080/api/user/polls", {username: this.state.username})
             .then(res => {
                 this.setState({
-                    userPolls: [...res.data.polls]
+                    userPolls: [...res.data.polls] 
                 })
             })
             .catch(error => {

@@ -9,9 +9,9 @@ const PollListElem = ({_id, name, votes, created_by, createdAt}) => {
                 <h2>{name}</h2>
             </Link>
             <div>
-                <p class="votes">{votes} {votes === 1 ? "vote" : "votes"}</p>
-                <p class="created-by">created by: {created_by}</p>
-                <p class="created-at">{createdAt}</p>
+                <p className="votes">{votes} {votes === 1 ? "vote" : "votes"}</p>
+                <p className="created-by">created by: {created_by}</p>
+                <p className="created-at">{createdAt}</p>
             </div>
         </div>
     )

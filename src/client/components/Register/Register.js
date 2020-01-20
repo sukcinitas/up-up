@@ -1,89 +1,107 @@
 import React from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 class Register extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            signup_username: "",
-            signup_email: "",
-            signup_password: "",
-            signup_confirm_password: "",
-            passwords_match: true, 
-            username_taken: false,
-            email_taken: false, 
-            redirect: false
+            username: "",
+            email: "",
+            password: "",
+            confirm_password: "",
+            redirect: false,
+            errors: {
+                username: "",
+                email: "",
+                password: "",
+                passwords_match: true,           
+                username_taken: false,
+                email_taken: false, 
+            }
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleChange(e) {
+        let { errors } = this.state;
+        switch(e.target.name) {
+            case "username":
+                errors.username = e.target.value.length < 5 ? "username must be at least 5 characters long"
+                : (e.target.name.length > 30 ? "username is too long" : "");
+                break;
+            case "email":
+                errors.email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(e.target.value) ?
+                "" : "email is not valid"
+                break;
+            case "password": 
+                errors.password = e.target.value.length < 6 ? "password must be at least 6 characters long" : "";
+                break;
+            case "confirm_password":
+                errors.passwords_match = this.state.password === e.target.value ? "" : "passwords should match";
+                break;
+            default: ""
+                break;
+        } 
         this.setState({
-            [e.target.name] : e.target.value
-        })
+            errors, 
+            [e.target.name]: e.target.value
+        });
     }
     handleSubmit(e){
         e.preventDefault();
-        if (this.state.signup_password !== this.state.signup_confirm_password) {
-            this.setState({
-                passwords_match: false,
-                signup_password: "",
-                signup_confirm_password: ""
-            })
+        const { username, email, password, passwords_match } = this.state.errors;
+        if (username !== "" || email !== "" || password !== "" || passwords_match !== "") {
             return;
         } else {
             const user = {
-                signup_username: this.state.signup_username,
-                signup_email: this.state.signup_email,
-                signup_password: this.state.signup_password,
-            }
+                username: this.state.username,
+                email: this.state.email,
+                password: this.state.password,
+        }
 
-            axios.post("http://localhost:8080/api/user/register", user)
-                .then(res => {
-                    this.setState({
-                        redirect: res.data.redirect || false,
-                        username_taken: res.data.username_taken || false,
-                        email_taken: res.data.email_taken || false
-                    })
+        axios.post("http://localhost:8080/api/user/register", user)
+            .then(res => {
+                const newErrors = Object.assign({}, this.state.errors, {
+                    username_taken: res.data.username_taken || false,
+                    email_taken: res.data.email_taken || false 
                 });
+                this.setState({
+                    redirect: res.data.redirect || false,
+                    errors: newErrors
+                }, () => {
+                    res.data.redirect ? this.props.history.push("/user/login") : "";
+                }); 
+            });
         }
+    }
 
-    }
-    renderRedirect(){
-        if (this.state.redirect) {
-            return <Redirect to="/user/login"/>
-        }
-    }
     render() {
-       return (
+        const { username, email, password, passwords_match, username_taken, email_taken} = this.state.errors;
+        return (
             <form className="form">
-                    {this.renderRedirect()}
                     <h1>Register</h1>
 
                     <label 
                         htmlFor="username" 
-                        className="label">Username 
-                            <span className="notes">{this.state.username_taken ? "username is already in use" : ""}</span>
+                        className="label">Username <span className="notes">{username}</span>
                     </label>
                     <input 
                         type="text" 
-                        name="signup_username" 
+                        name="username" 
                         onChange={this.handleChange} 
                         className="input"
                         required
-                        minLength="5"
-                        maxLength="20"
                     >
                     </input>
 
                     <label 
                         htmlFor="email" 
-                        className="label">E-mail <span className="notes">{this.state.email_taken ? "email is already in use" : ""}</span>
+                        className="label">E-mail<span className="notes"> {email}</span>
                     </label>
                     <input 
                         type="email" 
-                        name="signup_email" 
+                        name="email" 
                         onChange={this.handleChange} 
                         className="input"
                         required
@@ -92,11 +110,12 @@ class Register extends React.Component {
 
                     <label 
                         htmlFor="password" 
-                        className="label">Password <span className="notes">{this.state.passwords_match ? "" : "passwords should match"}</span>
+                        className="label">Password<span className="notes"> {passwords_match}</span>
+                        <span className="notes"> {password}</span>
                     </label>
                     <input 
                         type="password" 
-                        name="signup_password" 
+                        name="password" 
                         onChange={this.handleChange} 
                         className="input"
                         required
@@ -105,20 +124,23 @@ class Register extends React.Component {
 
                     <label 
                         htmlFor="password" 
-                        className="label">Repeat Password <span className="notes">{this.state.passwords_match ? "" : "passwords should match"}</span>
+                        className="label">Repeat Password <span className="notes"> {passwords_match}</span>
                     </label>
                     <input 
                         type="password" 
-                        name="signup_confirm_password" 
+                        name="confirm_password" 
                         onChange={this.handleChange} className="input"
                         required
                     >
                     </input>
 
-                    <button onClick={this.handleSubmit} className="label">Register</button>
-                    <span>Already have an account? <Link to="/user/login">Login</Link></span>
+                    <div>
+                         <span className="notes"> {username_taken ? "username is already in use" : ""}</span>
+                         <span className="notes">{email_taken ? "email is already in use" : ""}</span>
+                    </div>
 
-                    
+                    <button onClick={this.handleSubmit} className="label">Register</button>
+                    <span>Already have an account? <Link to="/user/login">Login</Link></span>  
             </form>
         
         )

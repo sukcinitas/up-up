@@ -8,7 +8,7 @@ router.route("/").get( async (req, res) => {
                                 .sort("-updatedAt");
         res.json(polls);
     } catch (err) {
-        res.status(400).json(`Error: ${err}`)
+        res.json(`Error: ${err}`)
     }
 
 });
@@ -18,7 +18,7 @@ router.route("/:id").get( async (req, res) => {
         const poll = await Poll.findById(req.params.id);
         res.json(poll);
     } catch (err) {
-        res.status(400).json(`Error: ${err}`)
+        res.json(`Error: ${err}`)
     }
 });
 
@@ -28,7 +28,7 @@ router.route("/:id").delete( async (req, res) => {
         await Poll.findByIdAndDelete(req.params.id);
         res.json({"redirect": true});
     } catch (err) {
-        res.status(400).json(`Error: ${err}`)
+        res.json(`Error: ${err}`)
     }
 })
 
@@ -42,7 +42,7 @@ router.route("/:id").put( async (req, res) => {
         await Poll.findByIdAndUpdate(req.params.id, {votes: votes + 1, options: updatedOptions, updatedAt: Date.now()});
         res.json({"redirect": true});
     } catch (err) {
-        res.status(400).json(`Error: ${err}`)
+        res.json(`Error: ${err}`)
     }
 });
 

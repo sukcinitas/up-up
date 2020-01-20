@@ -1,13 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "./Login.css";
 
 class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            signin_username: "",
-            signin_password: ""
+            username: "",
+            password: "",
+            error: ""
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -17,23 +19,30 @@ class Login extends React.Component {
             [e.target.name] : e.target.value
         })
     }
-    handleSubmit() {
+    handleSubmit(e) {
         e.preventDefault();
-        //lead to submitting
+        axios.post("http://localhost:8080/api/user/login", {
+            username: this.state.username,
+            password: this.state.password,
+        }).then(res => 
+            res.data.isAuthenticated? this.props.history.push("/") : this.setState({error: res.data.error})
+        );   
     }
     render() {
        return (
-            <form class="form">
+            <form className="form">
 
                 <h1>Login</h1>
 
-                <label htmlFor="username" class="label">Username</label>
-                <input type="text" name="signin_username" onChange={this.handleChange} class="input"></input>
+                <label htmlFor="username" className="label">Username</label>
+                <input type="text" name="username" onChange={this.handleChange} className="input"></input>
 
-                <label htmlFor="password" class="label">Password</label>
-                <input type="password" name="signin_password" onChange={this.handleChange} class="input"></input>
+                <label htmlFor="password" className="label">Password</label>
+                <input type="password" name="password" onChange={this.handleChange} className="input"></input>
 
-                <button onClick={this.handleSubmit} class="label">Login</button>
+                <button onClick={this.handleSubmit} className="label">Login</button>
+
+                <span>{this.state.error}</span>
 
                 <span>Don't have an account? <Link to="/user/register">Register</Link></span>
 
