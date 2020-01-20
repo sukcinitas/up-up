@@ -57,20 +57,20 @@ class Register extends React.Component {
     }
     render() {
        return (
-            <form class="form">
+            <form className="form">
                     {this.renderRedirect()}
                     <h1>Register</h1>
 
                     <label 
                         htmlFor="username" 
-                        class="label">Username 
-                            <span class="notes">{this.state.username_taken ? "username is already in use" : ""}</span>
+                        className="label">Username 
+                            <span className="notes">{this.state.username_taken ? "username is already in use" : ""}</span>
                     </label>
                     <input 
                         type="text" 
                         name="signup_username" 
                         onChange={this.handleChange} 
-                        class="input"
+                        className="input"
                         required
                         minLength="5"
                         maxLength="20"
@@ -79,44 +79,43 @@ class Register extends React.Component {
 
                     <label 
                         htmlFor="email" 
-                        class="label">E-mail <span class="notes">{this.state.email_taken ? "email is already in use" : ""}</span>
+                        className="label">E-mail <span className="notes">{this.state.email_taken ? "email is already in use" : ""}</span>
                     </label>
                     <input 
                         type="email" 
                         name="signup_email" 
                         onChange={this.handleChange} 
-                        class="input"
+                        className="input"
                         required
-                        pattern="*@*"
                     >
                     </input>
 
                     <label 
                         htmlFor="password" 
-                        class="label">Password <span class="notes">{this.state.passwords_match ? "" : "passwords should match"}</span>
+                        className="label">Password <span className="notes">{this.state.passwords_match ? "" : "passwords should match"}</span>
                     </label>
                     <input 
                         type="password" 
                         name="signup_password" 
                         onChange={this.handleChange} 
-                        class="input"
+                        className="input"
                         required
                         >
                     </input>
 
                     <label 
                         htmlFor="password" 
-                        class="label">Repeat Password <span class="notes">{this.state.passwords_match ? "" : "passwords should match"}</span>
+                        className="label">Repeat Password <span className="notes">{this.state.passwords_match ? "" : "passwords should match"}</span>
                     </label>
                     <input 
                         type="password" 
                         name="signup_confirm_password" 
-                        onChange={this.handleChange} class="input"
+                        onChange={this.handleChange} className="input"
                         required
                     >
                     </input>
 
-                    <button onClick={this.handleSubmit} class="label">Register</button>
+                    <button onClick={this.handleSubmit} className="label">Register</button>
                     <span>Already have an account? <Link to="/user/login">Login</Link></span>
 
                     
