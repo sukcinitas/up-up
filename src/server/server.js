@@ -11,27 +11,28 @@ const MongoStore = require("connect-mongo")(session);
     try {
         mongoose.Promise = global.Promise; 
 
-        const app = express();
+        const app = express();        
+        app.use(session({
+            name: process.env.SESS_NAME,
+            secret: process.env.SESS_SECRET,
+            saveUninitialized: false, //permissions for setting a cookie are required
+            resave: false, //prevents unnecessary re-saves
+            store: new MongoStore({
+              mongooseConnection: mongoose.connection,
+              collection: 'session',
+              ttl: parseInt(process.env.SESS_LIFETIME) / 1000 //uses seconds instead of milliseconds, match sess lifetime
+            }),
+            cookie: {
+              sameSite: true, //helps prevent CSRF attacks
+              secure: process.env.NODE_ENV === 'production',
+              maxAge: parseInt(process.env.SESS_LIFETIME)
+            }
+          }));
         app.use(cors());
         // app.use(express.static("dist"));
         app.use(express.urlencoded()); //Parse URL-encoded bodies
-        app.use(express.json({extended: true})); //instead of bodyParser, since 4.16 Express; extended - nested objects allowed
-        // app.use(session({
-        //     name: process.env.SESS_NAME,
-        //     secret: process.env.SESS_SECRET,
-        //     saveUninitialized: false, //permissions for setting a cookie are required
-        //     resave: false, //prevents unnecessary re-saves
-        //     store: new MongoStore({
-        //       mongooseConnection: mongoose.connection,
-        //       collection: 'session',
-        //       ttl: parseInt(process.env.SESS_LIFETIME) / 1000 //uses seconds instead of milliseconds, match sess lifetime
-        //     }),
-        //     cookie: {
-        //       sameSite: true, //helps prevent CSRF attacks
-        //       secure: NODE_ENV === 'production',
-        //       maxAge: parseInt(process.env.SESS_LIFETIME)
-        //     }
-        //   }));
+        app.use(express.json()); //instead of bodyParser, since 4.16 Express; extended - nested objects allowed
+
 
         app.use(function(req, res, next) {
             res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from

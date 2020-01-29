@@ -3,8 +3,18 @@ import {Link} from "react-router-dom";
 import "./Header.css";
 import { connect } from "react-redux";
 import { logoutCurrentUser } from "../../redux/actions";
+import axios from "axios";
 
 const Header = ({isLoggedIn, logout}) => {
+    const handleLogout = () => {
+        axios.delete("api//user/logout")
+             .then( res => {
+                 if (res.data.deleted_session) {
+                     logout();
+                 }
+             })
+        logout();
+    }
     return (
         <header className="header">
             <h1 className="header__heading"><Link to="/">Voting App</Link></h1>
@@ -12,7 +22,7 @@ const Header = ({isLoggedIn, logout}) => {
                 {isLoggedIn ? 
                     <>
                         <Link to="/user/profile" className="link">Profile</Link>
-                        <button onClick={logout}>Sign out</button>
+                        <button onClick={handleLogout}>Sign out</button>
                     </>
                     :
                     <>
