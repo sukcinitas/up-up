@@ -9,6 +9,7 @@ import Login from "../Login/Login";
 import Profile from "../Profile/Profile";
 import UserPolls from "../UserPolls/UserPolls";
 import CreatePollForm from "../CreatePollForm/CreatePollForm";
+import { AuthRoute, ProtectedRoute } from "../../util/route";
 
 class App extends React.Component {
     constructor(props) {
@@ -17,17 +18,17 @@ class App extends React.Component {
     render() {
         return (
             <Router>
-                <Route path="/" component={Header} />
+                <Route component={Header} />
                 <Switch>
-                    <Route path="/user/create-poll" component={CreatePollForm} />
-                    <Route path="/user/register" component={Register} />
-                    <Route path="/user/login" component={Login} />
-                    <Route path="/user/profile" component={Profile} />
-                    <Route path="/user/polls" component={UserPolls} />
+                    <ProtectedRoute path="/user/create-poll" component={CreatePollForm} />
+                    <AuthRoute path="/user/register" component={Register} />
+                    <AuthRoute path="/user/login" component={Login} />
+                    <ProtectedRoute path="/user/profile" component={Profile} />
+                    <ProtectedRoute path="/user/polls" component={UserPolls} />
                     <Route path="/polls/:id" component={Poll} />
-                    <Route path="/" component={PollList} />
+                    <Route exact path="/" component={PollList} />
                 </Switch>
-                <Route path="/" component={Footer} />
+                <Route component={Footer} />
             </Router>
         )
     }

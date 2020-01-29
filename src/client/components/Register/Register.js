@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { receiveCurrentUser } from "../../redux/actions";
+import { connect } from "react-redux";
 
 class Register extends React.Component {
     constructor(props) {
@@ -70,7 +72,8 @@ class Register extends React.Component {
                     redirect: res.data.redirect || false,
                     errors: newErrors
                 }, () => {
-                    res.data.redirect ? this.props.history.push("/user/login") : "";
+                    // res.data.redirect ? this.props.history.push("/user/login") : "";
+                    res.data.redirect ? this.props.register(res.data.sessionUser) : "";
                 }); 
             });
         }
@@ -147,4 +150,8 @@ class Register extends React.Component {
     } 
 }
 
-export default Register;
+const mapDispatchToProps = dispatch => ({
+    register: user => dispatch(receiveCurrentUser(user))
+}); 
+
+export default connect(null, mapDispatchToProps)(Register);

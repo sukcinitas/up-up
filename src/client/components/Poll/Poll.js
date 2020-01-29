@@ -33,19 +33,21 @@ class Poll extends React.Component {
                 })
             })
     }
-    componentDidUpdate(){
-        axios.get(`http://localhost:8080/api/polls/${this.state.id}`)
-        .then(res => {
-            const {name, question, options, votes, created_by, createdAt} = res.data;
-            this.setState({
-                name,
-                question,
-                options,
-                votes,
-                created_by,
-                createdAt
+    componentDidUpdate(prevProps, prevState){
+        if (prevState.vote !== this.state.vote) {
+            axios.get(`http://localhost:8080/api/polls/${this.state.id}`)
+            .then(res => {
+                const {name, question, options, votes, created_by, createdAt} = res.data;
+                this.setState({
+                    name,
+                    question,
+                    options,
+                    votes,
+                    created_by,
+                    createdAt
+                })
             })
-        })
+        }
     }
     handleVote(e){
         axios.put(`http://localhost:8080/api/polls/${this.state.id}`, 
@@ -67,18 +69,15 @@ class Poll extends React.Component {
             .then(res => {
                     this.setState({
                         redirect: res.data.redirect,
-                    })
-                    this.props.history.push("/");
+                    }, () => {
+                        this.props.history.push("/"); 
+                    });
+
             })
             .catch(error => {
                 console.log(error);
             })
     }
-    // renderRedirect(){
-    //     if (this.state.redirect) {
-    //         return <Redirect to="/"/>  
-    //     }
-    // }
 
     render(){
         const {name, question, options, votes, created_by, createdAt} = this.state;

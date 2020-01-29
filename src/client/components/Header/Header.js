@@ -1,18 +1,18 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import "./Header.css";
+import { connect } from "react-redux";
+import { logoutCurrentUser } from "../../redux/actions";
 
-const Header = () => {
-    const isAuthenticated = false;///should be global
-
+const Header = ({isLoggedIn, logout}) => {
     return (
         <header className="header">
             <h1 className="header__heading"><Link to="/">Voting App</Link></h1>
             <div className="header__links">
-                {isAuthenticated ? 
+                {isLoggedIn ? 
                     <>
                         <Link to="/user/profile" className="link">Profile</Link>
-                        <button>Sign out</button>
+                        <button onClick={logout}>Sign out</button>
                     </>
                     :
                     <>
@@ -24,5 +24,12 @@ const Header = () => {
         </header>
     )
 }
+const mapDispatchToProps = dispatch => ({
+    logout: () => dispatch(logoutCurrentUser())
+});
 
-export default Header;
+const mapStateToProps = state => ({
+    isLoggedIn: Boolean(state.userId) 
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

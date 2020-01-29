@@ -2,11 +2,15 @@ const router = require("express").Router();
 let User = require("../models/user.model");
 let Poll = require("../models/poll.model");
 
+const sessionizeUser = user => {
+    return {userId: user._id, username: user.username};
+};
+
 router.route("/register").post( async (req, res) => {
 
-    process.on('unhandledRejection', function(err) {
-        console.log(err);
-    });
+    // process.on('unhandledRejection', function(err) {
+    //     console.log(err);
+    // });
 
     try {
         // will need validation
@@ -25,9 +29,11 @@ router.route("/register").post( async (req, res) => {
         });
 
         await newUser.save();
-        res.json({redirect: true});
+        let sessionUser = sessionizeUser(newUser);
+        res.json({redirect: true, sessionUser});
 
     } catch (err) {
+        console.log("register", err);
         res.json(`Error: ${err}`);
     }
 });
@@ -37,9 +43,11 @@ router.route("/login").post( async (req, res) => {
         const {username, password} = req.body;
         const user = await User.findOne({username});
 
-        password === user.password ? res.json({isAuthenticated: true}) : res.json({error: "password incorrect"});
+        const sessionUser = sessionizeUser(user);
+        console.log(sessionUser);
+        password === user.password ? res.json({isAuthenticated: true, sessionUser}) : res.json({error: "password incorrect"});
     } catch (err) {
-        console.log(err);
+        console.log("login0",err);
         res.json(`Error: ${err}`);
     }
 });
@@ -57,6 +65,7 @@ router.route("/create-poll").post( async (req, res) => {
         await newPoll.save();
         res.json({"redirect": true});
     } catch (err) {
+        console.log("create err", err)
         res.json(`Error: ${err}`);
     }
 });

@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import "./CreatePollForm.css";
-// import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
 class CreatePollForm extends React.Component {
     constructor(props) {
@@ -13,8 +13,6 @@ class CreatePollForm extends React.Component {
             options: [1, 2],
             option_1: "",
             option_2: "",
-            created_by: "username",
-            redirect: false
         }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,24 +28,26 @@ class CreatePollForm extends React.Component {
         e.preventDefault();
         const options = {};
         this.state.options.map(option => {
+            if (this.state[`option_${option}`] === "") {
+                return;
+            }
             options[this.state[`option_${option}`]] = 0;
         })
         const poll = {
             options,
             name: this.state.name,
             question: this.state.question,
-            created_by: this.state.created_by
+            created_by: this.props.username
         }
         axios.post("http://localhost:8080/api/user/create-poll", poll)
             .then(res => {
-                    this.setState({
-                        redirect: res.data.redirect
-                    })
-                    this.props.history.push("/")
+                if (res.data.redirect) {
+                     this.props.history.push("/");
+                }
             })
             .catch(error => {
                 console.log(error);
-            })
+            });
     }
     addOption(e){
         e.preventDefault();
@@ -59,12 +59,6 @@ class CreatePollForm extends React.Component {
         }))
     } 
     
-    // renderRedirect() {
-    //     if (this.state.redirect) {
-    //       return <Redirect to="/" />
-    //     }
-    //   }
-
     render() {
         const options = this.state.options.map((item)=> {
             return  <input key={`option_${item}`} className="input--poll" type="text" name={`option_${item}`} onChange={this.handleChange} value={this.state[`option_${item}`]}></input>
@@ -72,7 +66,6 @@ class CreatePollForm extends React.Component {
         });
         return (
                 <form className="form--poll">
-                    {/* {this.renderRedirect()} */}
 
                     <h1 className="header1">Create</h1>
                     <h1 className="header2">Poll</h1>
@@ -95,4 +88,8 @@ class CreatePollForm extends React.Component {
     }
 }
 
-export default CreatePollForm;
+const mapStateToProps = state => ({
+    username: state.username
+});
+
+export default connect(mapStateToProps)(CreatePollForm);

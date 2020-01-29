@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "./Login.css";
+import { connect } from "react-redux";
+import { receiveCurrentUser } from "../../redux/actions";
 
 class Login extends React.Component {
     constructor(props) {
@@ -17,15 +19,17 @@ class Login extends React.Component {
     handleChange(e) {
         this.setState({
             [e.target.name] : e.target.value
-        })
+        });
     }
     handleSubmit(e) {
         e.preventDefault();
         axios.post("http://localhost:8080/api/user/login", {
             username: this.state.username,
             password: this.state.password,
-        }).then(res => 
-            res.data.isAuthenticated? this.props.history.push("/") : this.setState({error: res.data.error})
+        }).then(res => {
+            // res.data.isAuthenticated? this.props.history.push("/") : this.setState({error: res.data.error})
+                res.data.isAuthenticated ? this.props.login(res.data.sessionUser) : this.setState({error: res.data.error});
+            }
         );   
     }
     render() {
@@ -51,5 +55,8 @@ class Login extends React.Component {
     }
     
 }
+const mapDispathToProps = dispatch => ({
+    login: user => dispatch(receiveCurrentUser(user))
+});
 
-export default Login;
+export default connect(null, mapDispathToProps)(Login);

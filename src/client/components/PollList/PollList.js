@@ -4,35 +4,12 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "./PollList.css";
 
-const mockPollList=[
-    {
-        _id: 1,
-        name: "What's God gender?",
-        votes: 0,
-        created_by: "username1",
-        createdAt: "2012-10-12"
-    },
-    {
-        _id: 2,
-        name: "What's God gender?",
-        votes: 0,
-        created_by: "username2",
-        createdAt: "2012-10-12"
-    },
-    {
-        _id: 3,
-        name: "What's God gender?",
-        votes: 0,
-        created_by: "username3",
-        createdAt: "2012-10-12"
-    },
-]
 
 class PollList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            polls: [...mockPollList]
+            polls: []
         }
     }
     componentDidMount(){
