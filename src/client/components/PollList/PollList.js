@@ -3,6 +3,7 @@ import PollListElem from "./PollListElem/PollListElem";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "./PollList.css";
+import formatDate from "../../util/formatDate";
 
 
 class PollList extends React.Component {
@@ -30,7 +31,7 @@ class PollList extends React.Component {
                             name={poll.name} 
                             votes={poll.votes} 
                             created_by={poll.created_by}
-                            createdAt={poll.createdAt}
+                            createdAt={formatDate(poll.createdAt)}
                             _id={poll._id}
                         />
                     </div>

@@ -3,6 +3,7 @@ const router = require("express").Router();
 let Poll = require("../models/poll.model");
 
 router.route("/").get( async (req, res) => {
+    console.log(req.session)
     try {
         const polls = await Poll.find({}, "name votes createdAt created_by updatedAt")
                                 .sort("-updatedAt");

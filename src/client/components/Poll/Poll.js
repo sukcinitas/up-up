@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-// import { Redirect } from "react-router";
+import formatDate from "../../util/formatDate";
 
 class Poll extends React.Component {
     constructor(props) {
@@ -95,7 +95,7 @@ class Poll extends React.Component {
                     })}
                     <p>{votes}</p>
                     <p>{created_by}</p>
-                    <p>{createdAt}</p>
+                    <p>{formatDate(createdAt)}</p>
                 </div>
                 <button onClick={this.handlePollDeletion}>Delete</button>
             </div>

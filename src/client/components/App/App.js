@@ -24,7 +24,6 @@ class App extends React.Component {
                     <AuthRoute path="/user/register" component={Register} />
                     <AuthRoute path="/user/login" component={Login} />
                     <ProtectedRoute path="/user/profile" component={Profile} />
-                    <ProtectedRoute path="/user/polls" component={UserPolls} />
                     <Route path="/polls/:id" component={Poll} />
                     <Route exact path="/" component={PollList} />
                 </Switch>

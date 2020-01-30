@@ -16,7 +16,6 @@ class Profile extends React.Component {
             email: ""
         }
     }
-//username must be global, from login
     componentDidMount(){
         axios.get("http://localhost:8080/api/user/profile", {username: this.state.username})
             .then(res => {

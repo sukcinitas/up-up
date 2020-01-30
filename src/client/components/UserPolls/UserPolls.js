@@ -1,5 +1,5 @@
 import React from "react";
-
+import axios from "axios";
 //only shown then logged in, then instead of login/register => logout, changes global state
 //shows polls user have created with delete buttons
 //shows settings => change details
@@ -9,8 +9,9 @@ class UserPolls extends React.Component {
     constructor(props) {
         super();
         this.state = {
-            username: "sukcinitas",
-            showDeletionMessage: false
+            username: "panemume",
+            showDeletionMessage: false,
+            userPolls: []
         }
         this.handlePollDeletion = this.handlePollDeletion.bind(this);
     }
@@ -30,9 +31,12 @@ class UserPolls extends React.Component {
     componentDidUpdate() {
         axios.get("http://localhost:8080/api/user/polls", {username: this.state.username})
         .then(res => {
-            this.setState({
-                userPolls: [...res.data.polls]
-            })
+            if (res.data.polls) {
+                    this.setState({
+                         userPolls: [...res.data.polls]
+                    });  
+            }
+
         })
         .catch(error => {
             console.error(error);
@@ -55,7 +59,7 @@ class UserPolls extends React.Component {
         return(
             <div>
                 {this.state.showDeletionMessage ? <span>The poll has been successfully deleted!</span> : ""}
-                {userPolls.map(poll => 
+                {this.state.userPolls.map(poll => 
                 <div key={poll._id}>
                     <h2>{poll.name}</h2>
                     <p>Votes: {poll.votes}</p>

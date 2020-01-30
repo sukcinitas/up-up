@@ -39,13 +39,15 @@ router.route("/register").post( async (req, res) => {
     }
 });
 
-router.route("/login").post( async ({session}, req, res) => {
+router.route("/login").post( async (req, res) => {
     try {
         const { username, password } = req.body;
         const user = await User.findOne({ username });
+        console.log(compareSync(password, user.password))
         if (user && compareSync(password, user.password)) {
             const sessionUser = sessionizeUser(user);
             req.session.user = sessionUser;
+            req.session.save();
             res.json({isAuthenticated: true, sessionUser})
         } else {
             res.json({error: "password incorrect"});
@@ -76,7 +78,7 @@ router.route("/create-poll").post( async (req, res) => {
 
 router.route("/polls").get( async (req, res) => {
     try {
-        const polls = await Poll.find({username: req.body.username});
+        const polls = await Poll.find({created_by: req.body.username});
         res.json({polls});
     } catch (err) {
         res.json(`Error: ${err}`);
@@ -103,9 +105,9 @@ router.route("/profile").put( async (req, res) => {
 
 router.route("/logout").delete( async (req, res) => {
     try {
-        const { user } = session;
+        const { user } = req.session;
         if (user) {
-            session.destroy(err => {
+            req.session.destroy(err => {
                 if (err) throw err;
                 res.clearCookie(process.env.SESS_NAME);
                 res.json({session_deleted: true})
@@ -116,10 +118,10 @@ router.route("/logout").delete( async (req, res) => {
     }
 });
 
-router.route("/session").get( ({session}, res) => {
+router.route("/login").get( (req, res) => {
     try {
-    console.log("session user", session.user);
-    res.json({user: session.user});
+    console.log("session user", req.session);
+    res.json({user: req.session.user});
     } catch (err) {
         res.json(`Error: ${err}`);
     }
