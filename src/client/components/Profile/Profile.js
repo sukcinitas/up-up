@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 import UserPolls from "../UserPolls/UserPolls";
 import { Link } from "react-router-dom";
 
@@ -17,7 +18,7 @@ class Profile extends React.Component {
         }
     }
     componentDidMount(){
-        axios.get("http://localhost:8080/api/user/profile", {username: this.state.username})
+        axios.get("http://localhost:8080/api/user/profile", { withCredentials: true }, {username: this.state.username})
             .then(res => {
                 const { name, email } = res.data.user[0]
                 this.setState({

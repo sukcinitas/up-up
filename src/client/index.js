@@ -6,12 +6,11 @@ import axios from "axios";
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import reducer from "./redux/reducers";
-// axios.defaults.withCredentials = true;
 
 const checkSession = () => {
 
     let preloadedState = {};
-    axios.get("http://localhost:8080/api/user/login")
+    axios.get("http://localhost:8080/api/user/login", { withCredentials: true })
          .then( (res) => {
         if (res.data.user) {
             preloadedState = res.data.user;

@@ -62,7 +62,12 @@ class Register extends React.Component {
                 password: this.state.password,
         }
 
-        axios.post("http://localhost:8080/api/user/register", user)
+        axios("http://localhost:8080/api/user/register", 
+        {   
+            method: "post",
+            data: user,
+            withCredentials: true
+        })
             .then(res => {
                 const newErrors = Object.assign({}, this.state.errors, {
                     username_taken: res.data.username_taken || false,

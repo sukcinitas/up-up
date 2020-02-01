@@ -43,14 +43,12 @@ router.route("/login").post( async (req, res) => {
     try {
         const { username, password } = req.body;
         const user = await User.findOne({ username });
-        console.log(compareSync(password, user.password))
         if (user && compareSync(password, user.password)) {
             const sessionUser = sessionizeUser(user);
             req.session.user = sessionUser;
-            req.session.save();
-            res.json({isAuthenticated: true, sessionUser})
+            res.json({isAuthenticated: true, sessionUser});
         } else {
-            res.json({error: "password incorrect"});
+            res.status(404).res.json({error: "password incorrect"});
         };
     } catch (err) {
         console.log("login0",err);
@@ -110,7 +108,7 @@ router.route("/logout").delete( async (req, res) => {
             req.session.destroy(err => {
                 if (err) throw err;
                 res.clearCookie(process.env.SESS_NAME);
-                res.json({session_deleted: true})
+                res.json({session_deleted: true});
             });
         }
     } catch (err) {

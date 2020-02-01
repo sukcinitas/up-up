@@ -20,7 +20,7 @@ class Poll extends React.Component {
         this.handlePollDeletion = this.handlePollDeletion.bind(this);
     }
     componentDidMount(){
-        axios.get(`http://localhost:8080/api/polls/${this.state.id}`)
+        axios.get(`http://localhost:8080/api/polls/${this.state.id}`, { withCredentials: true })
             .then(res => {
                 const {name, question, options, votes, created_by, createdAt} = res.data;
                 this.setState({
@@ -35,7 +35,7 @@ class Poll extends React.Component {
     }
     componentDidUpdate(prevProps, prevState){
         if (prevState.vote !== this.state.vote) {
-            axios.get(`http://localhost:8080/api/polls/${this.state.id}`)
+            axios.get(`http://localhost:8080/api/polls/${this.state.id}`, { withCredentials: true })
             .then(res => {
                 const {name, question, options, votes, created_by, createdAt} = res.data;
                 this.setState({
@@ -50,10 +50,14 @@ class Poll extends React.Component {
         }
     }
     handleVote(e){
-        axios.put(`http://localhost:8080/api/polls/${this.state.id}`, 
-                {option: e.target.dataset.option,
-                options: this.state.options,
-                votes: this.state.votes})
+        axios(`http://localhost:8080/api/polls/${this.state.id}`, 
+        { 
+            method: "put",
+            withCredentials: true,
+            data: { option: e.target.dataset.option,
+                    options: this.state.options,
+                    votes: this.state.votes}
+        })
                 .then(res => {
                     this.setState({
                         vote: true 
@@ -65,7 +69,7 @@ class Poll extends React.Component {
     }
     //only accessible to user
     handlePollDeletion(){
-        axios.delete(`http://localhost:8080/api/polls/${this.state.id}`)
+        axios.delete(`http://localhost:8080/api/polls/${this.state.id}`, { withCredentials: true })
             .then(res => {
                     this.setState({
                         redirect: res.data.redirect,

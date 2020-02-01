@@ -17,7 +17,7 @@ class UserPolls extends React.Component {
     }
 //username must be global, from login
     componentDidMount(){
-        axios.get("http://localhost:8080/api/user/polls", {username: this.state.username})
+        axios.get("http://localhost:8080/api/user/polls", { withCredentials: true }, {username: this.state.username})
             .then(res => {
                 this.setState({
                     userPolls: [...res.data.polls] 
@@ -29,7 +29,7 @@ class UserPolls extends React.Component {
     }
 
     componentDidUpdate() {
-        axios.get("http://localhost:8080/api/user/polls", {username: this.state.username})
+        axios.get("http://localhost:8080/api/user/polls", { withCredentials: true }, {username: this.state.username})
         .then(res => {
             if (res.data.polls) {
                     this.setState({
@@ -44,7 +44,7 @@ class UserPolls extends React.Component {
     }
 
     handlePollDeletion(e){
-        axios.delete(`http://localhost:8080/api/polls/${e.target.id}`)
+        axios.delete(`http://localhost:8080/api/polls/${e.target.id}`, { withCredentials: true })
             .then(res => {
                     this.setState({
                         showDeletionMessage: true

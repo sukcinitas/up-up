@@ -7,7 +7,7 @@ import axios from "axios";
 
 const Header = ({isLoggedIn, logout}) => {
     const handleLogout = () => {
-        axios.delete("api//user/logout")
+        axios.delete("api//user/logout", { withCredentials: true })
              .then( res => {
                  if (res.data.deleted_session) {
                      logout();

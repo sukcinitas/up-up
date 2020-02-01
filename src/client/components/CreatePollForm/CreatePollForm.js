@@ -39,7 +39,12 @@ class CreatePollForm extends React.Component {
             question: this.state.question,
             created_by: this.props.username
         }
-        axios.post("http://localhost:8080/api/user/create-poll", poll)
+        axios("http://localhost:8080/api/user/create-poll", 
+        {   
+            method: "post",
+            data: poll, 
+            withCredentials: true 
+        })
             .then(res => {
                 if (res.data.redirect) {
                      this.props.history.push("/");

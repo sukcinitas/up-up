@@ -14,7 +14,7 @@ class PollList extends React.Component {
         }
     }
     componentDidMount(){
-        axios.get("http://localhost:8080/api/polls")
+        axios.get("http://localhost:8080/api/polls", { withCredentials: true })
             .then(res => {
                 this.setState({
                     polls: [...res.data]
@@ -31,7 +31,7 @@ class PollList extends React.Component {
                             name={poll.name} 
                             votes={poll.votes} 
                             created_by={poll.created_by}
-                            createdAt={formatDate(poll.createdAt)}
+                            updatedAt={formatDate(poll.updatedAt)}
                             _id={poll._id}
                         />
                     </div>
