@@ -1,23 +1,18 @@
 import React from "react";
 import axios from "axios";
-//only shown then logged in, then instead of login/register => logout, changes global state
-//shows polls user have created with delete buttons
-//shows settings => change details
-//shows poll creation link
 
 class UserPolls extends React.Component {
-    constructor(props) {
+    constructor() {
         super();
         this.state = {
-            username: "panemume",
             showDeletionMessage: false,
             userPolls: []
         }
         this.handlePollDeletion = this.handlePollDeletion.bind(this);
     }
-//username must be global, from login
+
     componentDidMount(){
-        axios.get("http://localhost:8080/api/user/polls", { withCredentials: true }, {username: this.state.username})
+        axios.get(`http://localhost:8080/api/user/polls/${this.props.username}`, { withCredentials: true })
             .then(res => {
                 this.setState({
                     userPolls: [...res.data.polls] 
@@ -28,19 +23,21 @@ class UserPolls extends React.Component {
             })
     }
 
-    componentDidUpdate() {
-        axios.get("http://localhost:8080/api/user/polls", { withCredentials: true }, {username: this.state.username})
-        .then(res => {
-            if (res.data.polls) {
-                    this.setState({
-                         userPolls: [...res.data.polls]
-                    });  
-            }
+    componentDidUpdate(prevState) {
+        if (prevState.showDeletionMessage !== this.state.showDeletionMessage) {
+            axios.get(`http://localhost:8080/api/user/polls/${this.props.username}`, { withCredentials: true })
+            .then(res => {
+                if (res.data.polls) {
+                        this.setState({
+                            userPolls: [...res.data.polls]
+                        });  
+                }
 
-        })
-        .catch(error => {
-            console.error(error);
-        })
+            })
+            .catch(error => {
+                console.error(error);
+            }) 
+        } 
     }
 
     handlePollDeletion(e){

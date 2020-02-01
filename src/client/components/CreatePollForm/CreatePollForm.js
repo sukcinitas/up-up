@@ -47,7 +47,7 @@ class CreatePollForm extends React.Component {
         })
             .then(res => {
                 if (res.data.redirect) {
-                     this.props.history.push("/");
+                     this.props.history.push(`/polls/${res.data.id}`);
                 }
             })
             .catch(error => {

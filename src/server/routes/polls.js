@@ -15,9 +15,8 @@ router.route("/").get( async (req, res) => {
 
 router.route("/:id").get( async (req, res) => {
     try {
-        console.log(req.session)
         const poll = await Poll.findById(req.params.id);
-        res.json(poll);
+        res.json({poll});
     } catch (err) {
         res.json(`Error: ${err}`)
     }

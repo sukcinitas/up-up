@@ -1,9 +1,10 @@
 import React from "react";
 import PollListElem from "./PollListElem/PollListElem";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import "./PollList.css";
 import formatDate from "../../util/formatDate";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 
 class PollList extends React.Component {
@@ -30,7 +31,7 @@ class PollList extends React.Component {
                         <PollListElem
                             name={poll.name} 
                             votes={poll.votes} 
-                            created_by={poll.created_by}
+                            created_by={this.props.username === poll.created_by ? "you" : poll.created_by}
                             updatedAt={formatDate(poll.updatedAt)}
                             _id={poll._id}
                         />
@@ -39,10 +40,14 @@ class PollList extends React.Component {
         return (
             <div className="poll-list">
                 {list}
-                <Link to="/user/create-poll">Create a poll</Link>
+                {this.props.username ? <Link to="/user/create-poll">Create a poll</Link> : ""}
             </div>
         ) 
     }
 }
 
-export default PollList;
+const mapStateToProps = state => ({
+    username: state.username
+});
+
+export default connect(mapStateToProps)(PollList);

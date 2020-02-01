@@ -67,25 +67,25 @@ router.route("/create-poll").post( async (req, res) => {
             created_by
         });
         await newPoll.save();
-        res.json({"redirect": true});
+        res.json({"redirect": true, id: newPoll.id});
     } catch (err) {
         console.log("create err", err)
         res.json(`Error: ${err}`);
     }
 });
 
-router.route("/polls").get( async (req, res) => {
+router.route("/polls/:username").get( async (req, res) => {
     try {
-        const polls = await Poll.find({created_by: req.body.username});
-        res.json({polls});
+        const polls = await Poll.find({created_by: req.params.username});
+        res.json({ polls });
     } catch (err) {
         res.json(`Error: ${err}`);
     }
 });
 
-router.route("/profile").get( async (req, res) => {
+router.route("/profile/:username").get( async (req, res) => {
     try {
-        const user = await User.find({username: req.body.username}, "-password");
+        const user = await User.find({username: req.params.username}, "-password");
         res.json({user});
     } catch (err) {
         res.json(`Error: ${err}`);
@@ -94,8 +94,24 @@ router.route("/profile").get( async (req, res) => {
 
 router.route("/profile").put( async (req, res) => {
     try {
-        await User.findByIdAndUpdate({_id: req.body._id}, req.body);
-        res.send("successfully updated");
+        const { parameter } = req.body;
+        if (parameter === "email") {
+            const email = await User.find({email: req.body.email});
+            email.length > 0 ? res.json({message: "email is already in use!"}) : "";
+            await User.findByIdAndUpdate({_id: req.body._id}, {email: req.body.email});
+        } else if (parameter === "password") {
+            const user = await User.findOne({username: req.body.username});
+            if (user && compareSync(req.body.oldpassword, user.password)) {
+                // const updatedUser = await User.findByIdAndUpdate({_id: req.body._id}, {password: req.body.newpassword}, {new: true});
+                // updatedUser.save(); //should hash password
+                user.password = req.body.newpassword;
+                await user.save();
+            } else {
+                res.json({message: "password incorrect"});
+            };
+        }
+
+        res.json({message: `Your ${parameter} has been successfully updated!`});
     } catch (err) {
         res.json(`Error: ${err}`);
     }

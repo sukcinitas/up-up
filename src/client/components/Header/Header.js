@@ -12,8 +12,7 @@ const Header = ({isLoggedIn, logout}) => {
                  if (res.data.deleted_session) {
                      logout();
                  }
-             })
-        logout();
+             });
     }
     return (
         <header className="header">

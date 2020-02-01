@@ -1,75 +1,71 @@
 import React from "react";
 import axios from "axios";
 import formatDate from "../../util/formatDate";
+import { connect } from "react-redux";
 
 class Poll extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: "",
-            question: "",
-            options: {},
-            votes: 0,
-            created_by: "",
-            createdAt: "",
-            redirect: false,
-            vote: false,
-            id: this.props.match.params.id
+            poll: {
+                name: "",
+                question: "",
+                options: [],
+                votes: 0,
+                created_by: "",
+                createdAt: ""
+            },
+            hasVoted: false, 
+            message: ""
         }
         this.handleVote = this.handleVote.bind(this);
         this.handlePollDeletion = this.handlePollDeletion.bind(this);
     }
     componentDidMount(){
-        axios.get(`http://localhost:8080/api/polls/${this.state.id}`, { withCredentials: true })
-            .then(res => {
-                const {name, question, options, votes, created_by, createdAt} = res.data;
+        axios.get(`http://localhost:8080/api/polls/${this.props.match.params.id}`, { withCredentials: true })
+            .then(res => {                
+                const { poll } = res.data;
                 this.setState({
-                    name,
-                    question,
-                    options,
-                    votes,
-                    created_by,
-                    createdAt
-                })
-            })
+                    poll
+                });
+            });
     }
-    componentDidUpdate(prevProps, prevState){
-        if (prevState.vote !== this.state.vote) {
-            axios.get(`http://localhost:8080/api/polls/${this.state.id}`, { withCredentials: true })
+    componentDidUpdate(prevState){
+        if (prevState.hasVoted !== this.state.hasVoted) {
+            axios.get(`http://localhost:8080/api/polls/${this.props.match.params.id}`, { withCredentials: true })
             .then(res => {
-                const {name, question, options, votes, created_by, createdAt} = res.data;
+                const { poll } = res.data;
                 this.setState({
-                    name,
-                    question,
-                    options,
-                    votes,
-                    created_by,
-                    createdAt
-                })
-            })
+                    poll
+                });
+            });
         }
     }
     handleVote(e){
-        axios(`http://localhost:8080/api/polls/${this.state.id}`, 
-        { 
-            method: "put",
-            withCredentials: true,
-            data: { option: e.target.dataset.option,
-                    options: this.state.options,
-                    votes: this.state.votes}
-        })
+        if (this.state.vote) {
+            return;
+        }; //initial dealing with only letting one vote per user
+        axios(`http://localhost:8080/api/polls/${this.props.match.params.id}`, 
+            { 
+                method: "put",
+                withCredentials: true,
+                data: { option: e.target.dataset.option,
+                        options: this.state.poll.options,
+                        votes: this.state.poll.votes}
+            })
                 .then(res => {
                     this.setState({
-                        vote: true 
+                        hasVoted: true, 
+                        message: "Your vote has been successfully submitted!" 
                     })
                 })
                 .catch(error => {
                     console.log(error);
-                })
+                });
     }
     //only accessible to user
     handlePollDeletion(){
-        axios.delete(`http://localhost:8080/api/polls/${this.state.id}`, { withCredentials: true })
+        axios.delete(`http://localhost:8080/api/polls/${this.props.match.params.id}`, { withCredentials: true })
             .then(res => {
                     this.setState({
                         redirect: res.data.redirect,
@@ -84,10 +80,10 @@ class Poll extends React.Component {
     }
 
     render(){
-        const {name, question, options, votes, created_by, createdAt} = this.state;
+        const {name, question, options, votes, created_by, createdAt} = this.state.poll;
         return (
             <div>
-                {/* {this.renderRedirect()} */}
+                {this.state.message ? <span>{this.state.message}</span> : ""}
                 <h2>{name}</h2>
                 <div>
                     <h3>{question}</h3>
@@ -95,16 +91,20 @@ class Poll extends React.Component {
                         return (<div key={option}>
                                     <button data-option={option} onClick={this.handleVote}>{option}</button>
                                     <small>{options[option]}</small>
-                                </div>)
+                                </div>);
                     })}
                     <p>{votes}</p>
                     <p>{created_by}</p>
                     <p>{formatDate(createdAt)}</p>
                 </div>
-                <button onClick={this.handlePollDeletion}>Delete</button>
+                {this.props.username === created_by ? <button onClick={this.handlePollDeletion}>Delete</button> : ""}
             </div>
         )   
     } 
 }
 
-export default Poll;
+const mapStateToProps = state => ({
+    username: state.username
+});
+
+export default connect(mapStateToProps)(Poll);
