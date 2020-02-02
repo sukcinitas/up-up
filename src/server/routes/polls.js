@@ -39,8 +39,8 @@ router.route("/:id").put( async (req, res) => {
         const updatedOptions = Object.assign({}, options);
         updatedOptions[option] = options[option] + 1;
 
-        await Poll.findByIdAndUpdate(req.params.id, {votes: votes + 1, options: updatedOptions, updatedAt: Date.now()});
-        res.json({"redirect": true});
+        const poll = await Poll.findByIdAndUpdate(req.params.id, {votes: votes + 1, options: updatedOptions, updatedAt: Date.now()}, { new: true});
+        res.json({poll});
     } catch (err) {
         res.json(`Error: ${err}`)
     }

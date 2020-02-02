@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import formatDate from "../../util/formatDate";
 import { connect } from "react-redux";
+import BarChart from "../BarChart/BarChart";
 
 class Poll extends React.Component {
     constructor(props) {
@@ -30,17 +31,7 @@ class Poll extends React.Component {
                 });
             });
     }
-    componentDidUpdate(prevState){
-        if (prevState.hasVoted !== this.state.hasVoted) {
-            axios.get(`http://localhost:8080/api/polls/${this.props.match.params.id}`, { withCredentials: true })
-            .then(res => {
-                const { poll } = res.data;
-                this.setState({
-                    poll
-                });
-            });
-        }
-    }
+
     handleVote(e){
         if (this.state.vote) {
             return;
@@ -57,7 +48,11 @@ class Poll extends React.Component {
                     this.setState({
                         hasVoted: true, 
                         message: "Your vote has been successfully submitted!" 
-                    })
+                    }, () => {
+                        this.setState({
+                            poll: res.data.poll
+                        });
+                    });
                 })
                 .catch(error => {
                     console.log(error);
@@ -81,12 +76,14 @@ class Poll extends React.Component {
 
     render(){
         const {name, question, options, votes, created_by, createdAt} = this.state.poll;
+        const data = Object.keys(options).map(option => ({ option, votes: options[option]}));
         return (
             <div>
                 {this.state.message ? <span>{this.state.message}</span> : ""}
                 <h2>{name}</h2>
                 <div>
                     <h3>{question}</h3>
+                    <BarChart data={data}/>
                     {Object.keys(options).map(option => {
                         return (<div key={option}>
                                     <button data-option={option} onClick={this.handleVote}>{option}</button>
