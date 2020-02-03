@@ -1,5 +1,6 @@
 import React from "react";
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { AuthRoute, ProtectedRoute } from "../../util/route";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import PollList from "../PollList/PollList"
@@ -7,14 +8,9 @@ import Poll from "../Poll/Poll";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
 import Profile from "../Profile/Profile";
-import UserPolls from "../UserPolls/UserPolls";
 import CreatePollForm from "../CreatePollForm/CreatePollForm";
-import { AuthRoute, ProtectedRoute } from "../../util/route";
 
 class App extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         return (
             <Router>

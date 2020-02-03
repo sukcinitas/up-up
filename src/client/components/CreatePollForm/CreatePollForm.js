@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
-import "./CreatePollForm.css";
 import { connect } from "react-redux";
+import "./CreatePollForm.css";
 
 class CreatePollForm extends React.Component {
     constructor(props) {

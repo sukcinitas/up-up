@@ -1,9 +1,9 @@
 import React from "react";
+import axios from "axios";
 import {Link} from "react-router-dom";
-import "./Header.css";
 import { connect } from "react-redux";
 import { logoutCurrentUser } from "../../redux/actions";
-import axios from "axios";
+import "./Header.css";
 
 const Header = ({isLoggedIn, logout}) => {
     const handleLogout = () => {

@@ -33,7 +33,7 @@ class Poll extends React.Component {
     }
 
     handleVote(e){
-        if (this.state.vote) {
+        if (this.state.hasVoted) {
             return;
         }; //initial dealing with only letting one vote per user
         axios(`http://localhost:8080/api/polls/${this.props.match.params.id}`, 
@@ -76,7 +76,10 @@ class Poll extends React.Component {
 
     render(){
         const {name, question, options, votes, created_by, createdAt} = this.state.poll;
-        const data = Object.keys(options).map(option => ({ option, votes: options[option]}));
+        const data = {
+            optionsList: Object.keys(options).map(option => ({ option, votes: options[option]})),
+            sumVotes: votes 
+        }
         return (
             <div>
                 {this.state.message ? <span>{this.state.message}</span> : ""}

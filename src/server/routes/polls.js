@@ -1,6 +1,7 @@
-const mongoose = require("mongoose");
 const router = require("express").Router();
-let Poll = require("../models/poll.model");
+const Poll = require("../models/poll.model");
+
+//GET all polls, GET one poll by id, DELETE one poll by id, PUT vote in poll by id
 
 router.route("/").get( async (req, res) => {
     try {
@@ -10,7 +11,6 @@ router.route("/").get( async (req, res) => {
     } catch (err) {
         res.json(`Error: ${err}`)
     }
-
 });
 
 router.route("/:id").get( async (req, res) => {
@@ -22,17 +22,15 @@ router.route("/:id").get( async (req, res) => {
     }
 });
 
-//only user
 router.route("/:id").delete( async (req, res) => {
     try {
         await Poll.findByIdAndDelete(req.params.id);
-        res.json({"redirect": true});
+        res.send("The poll has been successfully deleted!");
     } catch (err) {
         res.json(`Error: ${err}`)
     }
 })
 
-//vote
 router.route("/:id").put( async (req, res) => {
     try {
         const {option, options, votes} = req.body;

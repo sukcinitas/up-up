@@ -126,13 +126,14 @@ router.route("/logout").delete( async (req, res) => {
                 res.clearCookie(process.env.SESS_NAME);
                 res.json({session_deleted: true});
             });
-        }
+        };
+        res.end();
     } catch (err) {
         res.json(`Error: ${err}`);
     }
 });
 
-router.route("/login").get( (req, res) => {
+router.route("/login").get(async (req, res) => {
     try {
     console.log("session user", req.session);
     res.json({user: req.session.user});

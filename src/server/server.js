@@ -11,46 +11,45 @@ const MongoStore = require("connect-mongo")(session);
     try {
         mongoose.Promise = global.Promise; 
 
-        var whitelist = ['http://localhost:3000', 'http://localhost:8080']
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  },
-  credentials: true
-}
-
+        const whitelist = ['http://localhost:3000', 'http://localhost:8080'];
+        const corsOptions = {
+          origin: function (origin, callback) {
+            if (whitelist.indexOf(origin) !== -1) {
+              callback(null, true)
+            } else {
+              callback(new Error('Not allowed by CORS'))
+            }
+          },
+          credentials: true
+        };
 
         const app = express();  
         app.use(session({
             name: process.env.SESS_NAME,
             secret: process.env.SESS_SECRET,
-            saveUninitialized: false, //permissions for setting a cookie are required
-            resave: false, //prevents unnecessary re-saves
+            saveUninitialized: false, 
+            resave: false, 
             store: new MongoStore({
               mongooseConnection: mongoose.connection,
               collection: "session",
-              ttl: parseInt(process.env.SESS_LIFETIME) / 1000 //uses seconds instead of milliseconds, match sess lifetime
+              ttl: parseInt(process.env.SESS_LIFETIME) / 1000 
             }),
             cookie: {
-              sameSite: false, //helps prevent CSRF attacks
+              sameSite: false, 
               secure: process.env.NODE_ENV === "prod",
               maxAge: parseInt(process.env.SESS_LIFETIME)
             }
         }));   
 
         app.use(express.urlencoded({ extended: true })); //Parse URL-encoded bodies
-        app.use(express.json()); //instead of bodyParser, since 4.16 Express; extended - nested objects allowed             
+        app.use(express.json()); //instead of bodyParser, since 4.16 Express; extended            
         
         app.use(cors(corsOptions));
         app.options('*', cors(corsOptions)); // preflight OPTIONS; put before other routes
         app.use(express.static("dist"));
         app.use(function(req, res, next) {
             res.header("Access-Control-Allow-Credentials", true);
-            res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
+            res.header("Access-Control-Allow-Origin", "http://localhost:3000"); 
             res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
             res.header("Access-Control-Allow-Method", "GET, POST, PUT, PATCH, POST, DELETE, HEAD, OPTIONS");
             res.header("Access-Control-Max-Age", 86400);
@@ -68,7 +67,7 @@ var corsOptions = {
         app.use("/api/user", usersRouter);
         
         app.listen(process.env.PORT || 8080, () => {
-            console.log(`app is running`);
+            console.log(`App is running!`);
         });
     } catch(err) {
         console.error(err);
