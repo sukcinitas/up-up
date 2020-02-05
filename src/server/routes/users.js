@@ -3,37 +3,10 @@ let User = require("../models/user.model");
 let Poll = require("../models/poll.model");
 const { compareSync } = require("bcryptjs");
 const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
 
 const sessionizeUser = user => {
     return {userId: user._id, username: user.username};
 };
-
-// passport.use(new LocalStrategy( async (username, password, done) => {
-//         try {      
-//             const user = await User.findOne({ username });
-//             if (!user) {
-//                 return done(null, false, { message: "Incorrect username." });
-//             };
-//             if (!compareSync(password, user.password)) {
-//                 return done(null, false, { message: "Incorrect password." });
-//             };
-//             return (null, user);
-//         } catch (err) {
-//             return done(err);
-//         };
-//     }
-//   ));
-
-// passport.serializeUser((user, done) => {
-//     done(null, user.id);
-// });
-
-// passport.deserializeUser((id, done) => {
-//     User.findById(id, function(err, user) {
-//         done(err, user);
-//     });
-// });
 
 router.route("/register").post( async (req, res) => {
 
@@ -119,21 +92,22 @@ router.route("/profile").put( async (req, res) => {
         const { parameter } = req.body;
         if (parameter === "email") {
             const email = await User.find({email: req.body.email});
-            email.length > 0 ? res.json({message: "email is already in use!"}) : "";
-            await User.findByIdAndUpdate({_id: req.body._id}, {email: req.body.email});
+            if (email) {
+                res.json({message: "Email is already in use!"});
+            } else {
+                await User.findByIdAndUpdate({_id: req.body._id}, {email: req.body.email});
+                res.json({message: `Your email has been successfully updated!`});
+            }
         } else if (parameter === "password") {
             const user = await User.findOne({username: req.body.username});
             if (user && compareSync(req.body.oldpassword, user.password)) {
-                // const updatedUser = await User.findByIdAndUpdate({_id: req.body._id}, {password: req.body.newpassword}, {new: true});
-                // updatedUser.save(); //should hash password
                 user.password = req.body.newpassword;
-                await user.save();
+                await user.save(); //to hash password in pre-save
+                res.json({message: `Your password has been successfully updated!`});
             } else {
-                res.json({message: "password incorrect"});
+                res.json({message: "Password is incorrect!"});
             };
         }
-
-        res.json({message: `Your ${parameter} has been successfully updated!`});
     } catch (err) {
         res.json(`Error: ${err}`);
     }

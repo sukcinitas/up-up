@@ -44,7 +44,6 @@ class CreatePollForm extends React.Component {
         {   
             method: "post",
             data: poll, 
-            // withCredentials: true 
         })
             .then(res => {
                 if (res.data.redirect) {

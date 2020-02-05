@@ -66,8 +66,7 @@ class Register extends React.Component {
         axios("http://localhost:8080/api/user/register", 
         {   
             method: "post",
-            data: user,
-            // withCredentials: true
+            data: user
         })
             .then(res => {
                 const newErrors = Object.assign({}, this.state.errors, {
@@ -78,7 +77,6 @@ class Register extends React.Component {
                     redirect: res.data.redirect || false,
                     errors: newErrors
                 }, () => {
-                    // res.data.redirect ? this.props.history.push("/user/login") : "";
                     res.data.redirect ? this.props.register(res.data.sessionUser) : "";
                 }); 
             });

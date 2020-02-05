@@ -1,29 +1,36 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 import UserPolls from "../UserPolls/UserPolls";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
 
 class Profile extends React.Component {
     constructor(props) {
         super();
         this.state = {
             email: "",
-            emailChange: "",
-            passwordChange: "",
-            oldPasswordChange: "",
+            newEmail: "",
+            newPassword: "",
+            oldPassword: "",
             isChangingEmail: false,
             isChangingPassword: false,
-            message: ""
+            message: {
+                emailChange: "",
+                passwordChange: ""
+            }
         }
+        this.handleChange = this.handleChange.bind(this);
         this.showEmailChange = this.showEmailChange.bind(this);
         this.showPasswordChange = this.showPasswordChange.bind(this);
-        this.handleEmailChange = this.handleEmailChange.bind(this);
-        this.handlePasswordChange = this.handlePasswordChange.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+        this.changeEmail = this.changeEmail.bind(this);
+        this.changePassword = this.changePassword.bind(this);
+        this.getEmail = this.getEmail.bind(this);
     }
     componentDidMount(){
+        this.getEmail();
+    };
+    getEmail(){
         axios.get(`http://localhost:8080/api/user/profile/${this.props.username}`)
             .then(res => {
                 const { email } = res.data.user[0]
@@ -33,9 +40,8 @@ class Profile extends React.Component {
             })
             .catch(error => {
                 console.error(error);
-            })
+            });
     };
-
     showEmailChange(){
         this.setState({ isChangingEmail : true});
     };
@@ -46,67 +52,83 @@ class Profile extends React.Component {
 
     handleChange(e){
         this.setState({ [e.target.name]: e.target.value})
-    }
-    handleEmailChange(){
+    };
+    changeEmail(){
         axios("http://localhost:8080/api/user/profile", {
             method: "put",
-            // withCredentials: true,
             data: {
                 parameter: "email",
                 _id: this.props.userId,
-                email: this.state.emailChange
+                email: this.state.newEmail
             }
         }).then(res => {
+            this.getEmail();
             this.setState({
-                message: res.data.message
-            })
-        })
+                message: {
+                    emailChange: res.data.message
+                },
+                isChangingEmail: false
+            });
+        });
     };
-    handlePasswordChange(){
+    changePassword(){
         axios("http://localhost:8080/api/user/profile", {
             method: "put",
-            // withCredentials: true,
             data: {
                 parameter: "password",
                 _id: this.props.userId,
-                oldpassword: this.state.oldPasswordChange,
-                newpassword: this.state.passwordChange,
+                oldpassword: this.state.oldPassword,
+                newpassword: this.state.newPassword,
                 username: this.props.username
             }
         }).then(res => {
             this.setState({
-                message: res.data.message
-            })
-        })
+                message: {
+                    passwordChange: res.data.message
+                },
+                isChangingPassword: false
+            });
+        });
     }
     render() {
         return(
             <div>
-                <h2>User information</h2>
-                <div>
-                    {this.state.message ? <span>{this.state.message}</span> : ""}
-                    <p>username: {this.props.username}</p>
-                    <p>email: {this.state.email}</p><button onClick={this.showEmailChange}>Change email</button>
-                    {this.state.isChangingEmail ? 
+                <section>
+                    <h2>User information</h2>
+                    <div>
                         <div>
-                            <input value={this.state.value} name="emailChange" onChange={this.handleChange}/>
-                            <button onClick={this.handleEmailChange}>Change email</button>
+                            <p>Username: {this.props.username}</p>
                         </div>
-                        : ""
-                    }
-                    <button onClick={this.showPasswordChange}>Change password</button>
-                    {this.state.isChangingPassword ? 
                         <div>
-                            Old password: <input value={this.state.value} name="oldPasswordChange" onChange={this.handleChange}/>
-                            New password:<input value={this.state.value} name="passwordChange" onChange={this.handleChange}/>
-                            <button onClick={this.handlePasswordChange}>Change password</button>
+                            <p>Email: {this.state.email}</p><button onClick={this.showEmailChange}>Change email</button>
+                            {this.state.message.emailChange ? <span>{this.state.message.emailChange}</span> : ""}
+                            {this.state.isChangingEmail ? 
+                                <div>
+                                    <input value={this.state.newEmail} name="newEmail" onChange={this.handleChange}/>
+                                    <button onClick={this.changeEmail}>Change</button>
+                                </div>
+                                : ""
+                            }
                         </div>
-                        : ""
-                    }
-                </div>
-                <h2>Polls</h2>
-                <UserPolls username={this.props.username}/>
-                <Link to="/user/create-poll">Create a poll</Link>
+                        <div>
+                        <button onClick={this.showPasswordChange}>Change password</button>
+                        {this.state.message.passwordChange ? <span>{this.state.message.passwordChange}</span> : ""}
+                            {this.state.isChangingPassword ? 
+                                <div>
+                                    Old password: <input value={this.state.oldPassword} name="oldPassword" onChange={this.handleChange}/>
+                                    New password:<input value={this.state.newPassword} name="newPassword" onChange={this.handleChange}/>
+                                    <button onClick={this.changePassword}>Change password</button>
+                                </div>
+                                : ""
+                            }
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <h2>Polls</h2>
+                    <UserPolls username={this.props.username}/>
+                    <Link to="/user/create-poll">Create a poll</Link>
+                </section>
             </div>
         );
     }

@@ -31,9 +31,7 @@ class Login extends React.Component {
                 username: this.state.username,
                 password: this.state.password,
             },
-            // withCredentials: true
         }).then(res => {
-            // res.data.isAuthenticated? this.props.history.push("/") : this.setState({error: res.data.error})
                 res.data.isAuthenticated ? this.props.login(res.data.sessionUser) : this.setState({error: res.data.error});
             }
         );   

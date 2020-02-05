@@ -6,12 +6,13 @@ import { connect } from "react-redux";
 import { logoutCurrentUser } from "../../redux/actions";
 import "./Header.css";
 
-const Header = ({isLoggedIn, logout}) => {
+const Header = ({isLoggedIn, logout, history}) => {
     const handleLogout = () => {
-        axios.delete("api//user/logout")
-             .then( res => {
-                     logout();
-             });
+        axios.delete("http://localhost:8080/api/user/logout")
+            .then(res => {
+                    logout();
+                    history.push("/user/login");
+            });
     }
     return (
         <header className="header">

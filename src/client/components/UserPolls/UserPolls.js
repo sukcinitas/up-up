@@ -6,7 +6,6 @@ class UserPolls extends React.Component {
     constructor() {
         super();
         this.state = {
-            showDeletionMessage: false,
             userPolls: []
         }
         this.handlePollDeletion = this.handlePollDeletion.bind(this);
@@ -19,41 +18,43 @@ class UserPolls extends React.Component {
 
     getUserPolls() {
         axios.get(`http://localhost:8080/api/user/polls/${this.props.username}`)
-        .then(res => {
-            if (res.data.polls) {
-                this.setState({
-                    userPolls: [...res.data.polls]
-                });  
-            }
-        })
-        .catch(error => {
-            console.error(error);
-        }) 
+            .then(res => {
+                if (res.data.polls) {
+                    this.setState({
+                        userPolls: [...res.data.polls]
+                    });  
+                };
+            })
+            .catch(error => {
+                console.error(error);
+            }); 
     } 
 
     handlePollDeletion(e){
         axios.delete(`http://localhost:8080/api/polls/${e.target.id}`)
-            .then(res => {
+            .then(() => {
                     this.getUserPolls();
-                    this.setState({
-                        showDeletionMessage: true
-                    })
             })
             .catch(error => {
                 console.error(error);
-            })
+            });
     }
 
     render() {
         return(
             <div>
-                {this.state.showDeletionMessage ? <span>The poll has been successfully deleted!</span> : ""}
-                {this.state.userPolls.map(poll => 
-                <div key={poll._id}>
-                    <h2>{poll.name}</h2>
-                    <p>Votes: {poll.votes}</p>
-                    <button id={poll._id} onClick={this.handlePollDeletion}>Delete</button>
-                </div>)}
+                {
+                    this.state.userPolls.length === 0
+                    ?
+                    <p>You have no polls created!</p>
+                    :
+                    this.state.userPolls.map(poll => 
+                    <div key={poll._id}>
+                        <h3>{poll.name}</h3>
+                        <p>{poll.votes} {poll.votes === 1 ? "vote" : "votes"}</p>
+                        <button id={poll._id} onClick={this.handlePollDeletion}>Delete</button>
+                    </div>)
+                }
             </div>
         );
     }

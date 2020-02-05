@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import BarChart from "../BarChart/BarChart";
 axios.defaults.withCredentials = true;
 
-
 class Poll extends React.Component {
     constructor(props) {
         super(props);
@@ -41,7 +40,6 @@ class Poll extends React.Component {
         axios(`http://localhost:8080/api/polls/${this.props.match.params.id}`, 
             { 
                 method: "put",
-                // withCredentials: true,
                 data: { option: e.target.dataset.option,
                         options: this.state.poll.options,
                         votes: this.state.poll.votes}
@@ -60,7 +58,6 @@ class Poll extends React.Component {
                     console.log(error);
                 });
     }
-    //only accessible to user
     handlePollDeletion(){
         axios.delete(`http://localhost:8080/api/polls/${this.props.match.params.id}`)
             .then(res => {
