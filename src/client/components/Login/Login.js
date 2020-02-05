@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 import "./Login.css";
 import { connect } from "react-redux";
 import { receiveCurrentUser } from "../../redux/actions";
@@ -30,7 +31,7 @@ class Login extends React.Component {
                 username: this.state.username,
                 password: this.state.password,
             },
-            withCredentials: true
+            // withCredentials: true
         }).then(res => {
             // res.data.isAuthenticated? this.props.history.push("/") : this.setState({error: res.data.error})
                 res.data.isAuthenticated ? this.props.login(res.data.sessionUser) : this.setState({error: res.data.error});

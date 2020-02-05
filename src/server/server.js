@@ -6,9 +6,41 @@ const pollsRouter = require("./routes/polls");
 const usersRouter = require("./routes/users");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+let User = require("./models/user.model");
+const { compareSync } = require("bcryptjs");
 
 (async () => {
     try {
+
+      passport.use(new LocalStrategy( async (username, password, done) => {
+        try {      
+            const user = await User.findOne({ username });
+            if (!user) {
+                return done(null, false, { message: "Incorrect username." });
+            };
+            if (!compareSync(password, user.password)) {
+                return done(null, false, { message: "Incorrect password." });
+            };
+            return done(null, user);
+        } catch (err) {
+            return done(err);
+        };
+    }
+  ));
+
+passport.serializeUser((user, done) => {
+    done(null, user.id);
+});
+
+passport.deserializeUser((_id, done) => {
+    User.findById(_id, function(err, user) {
+        done(err, user);
+    });
+});
+
+
         mongoose.Promise = global.Promise; 
 
         const whitelist = ['http://localhost:3000', 'http://localhost:8080'];
@@ -37,17 +69,20 @@ const MongoStore = require("connect-mongo")(session);
             cookie: {
               sameSite: false, 
               secure: process.env.NODE_ENV === "prod",
-              maxAge: parseInt(process.env.SESS_LIFETIME)
+              maxAge: 86400000
             }
         }));   
 
         app.use(express.urlencoded({ extended: true })); //Parse URL-encoded bodies
-        app.use(express.json()); //instead of bodyParser, since 4.16 Express; extended            
-        
-        app.use(cors(corsOptions));
+        app.use(express.json()); //instead of bodyParser, since 4.16 Express; extended    
+
+        app.use(passport.initialize());
+        app.use(passport.session());
+
+        // app.use(cors(corsOptions));
         app.options('*', cors(corsOptions)); // preflight OPTIONS; put before other routes
         app.use(express.static("dist"));
-        app.use(function(req, res, next) {
+        app.use((req, res, next) => {
             res.header("Access-Control-Allow-Credentials", true);
             res.header("Access-Control-Allow-Origin", "http://localhost:3000"); 
             res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -55,6 +90,7 @@ const MongoStore = require("connect-mongo")(session);
             res.header("Access-Control-Max-Age", 86400);
             next();
           });
+
 
         const uri = process.env.MONGODB_URI;
         mongoose.connect(uri, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })

@@ -1,11 +1,39 @@
 const router = require("express").Router();
 let User = require("../models/user.model");
 let Poll = require("../models/poll.model");
-import { compareSync } from "bcryptjs";
+const { compareSync } = require("bcryptjs");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
 
 const sessionizeUser = user => {
     return {userId: user._id, username: user.username};
 };
+
+// passport.use(new LocalStrategy( async (username, password, done) => {
+//         try {      
+//             const user = await User.findOne({ username });
+//             if (!user) {
+//                 return done(null, false, { message: "Incorrect username." });
+//             };
+//             if (!compareSync(password, user.password)) {
+//                 return done(null, false, { message: "Incorrect password." });
+//             };
+//             return (null, user);
+//         } catch (err) {
+//             return done(err);
+//         };
+//     }
+//   ));
+
+// passport.serializeUser((user, done) => {
+//     done(null, user.id);
+// });
+
+// passport.deserializeUser((id, done) => {
+//     User.findById(id, function(err, user) {
+//         done(err, user);
+//     });
+// });
 
 router.route("/register").post( async (req, res) => {
 
@@ -39,25 +67,18 @@ router.route("/register").post( async (req, res) => {
     }
 });
 
-router.route("/login").post( async (req, res) => {
+router.route("/login").post(passport.authenticate("local", {session: true}), (req, res) => {
     try {
-        const { username, password } = req.body;
-        const user = await User.findOne({ username });
-        if (user && compareSync(password, user.password)) {
-            const sessionUser = sessionizeUser(user);
-            req.session.user = sessionUser;
-            res.json({isAuthenticated: true, sessionUser});
-        } else {
-            res.status(404).res.json({error: "password incorrect"});
-        };
+        const sessionUser = sessionizeUser(req.user);
+        res.json({isAuthenticated: true, sessionUser});
     } catch (err) {
-        console.log("login0",err);
         res.json(`Error: ${err}`);
     }
 });
 
 router.route("/create-poll").post( async (req, res) => {
     try {
+        console.log(req.session.passport)
         const {name, question, options, created_by} = req.body;
         const newPoll = new Poll({
             name,
@@ -76,6 +97,7 @@ router.route("/create-poll").post( async (req, res) => {
 
 router.route("/polls/:username").get( async (req, res) => {
     try {
+        console.log(req.user, req.session.passport.user)
         const polls = await Poll.find({created_by: req.params.username});
         res.json({ polls });
     } catch (err) {
@@ -135,8 +157,7 @@ router.route("/logout").delete( async (req, res) => {
 
 router.route("/login").get(async (req, res) => {
     try {
-    console.log("session user", req.session);
-    res.json({user: req.session.user});
+        res.json({user: sessionizeUser(req.user)});
     } catch (err) {
         res.json(`Error: ${err}`);
     }

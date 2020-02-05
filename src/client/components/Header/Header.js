@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 import {Link} from "react-router-dom";
 import { connect } from "react-redux";
 import { logoutCurrentUser } from "../../redux/actions";
@@ -7,7 +8,7 @@ import "./Header.css";
 
 const Header = ({isLoggedIn, logout}) => {
     const handleLogout = () => {
-        axios.delete("api//user/logout", { withCredentials: true })
+        axios.delete("api//user/logout")
              .then( res => {
                  if (res.data.deleted_session) {
                      logout();

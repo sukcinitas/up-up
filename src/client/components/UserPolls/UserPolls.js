@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 class UserPolls extends React.Component {
     constructor() {
@@ -17,7 +18,7 @@ class UserPolls extends React.Component {
     }
 
     getUserPolls() {
-        axios.get(`http://localhost:8080/api/user/polls/${this.props.username}`, { withCredentials: true })
+        axios.get(`http://localhost:8080/api/user/polls/${this.props.username}`)
         .then(res => {
             if (res.data.polls) {
                 this.setState({
@@ -31,7 +32,7 @@ class UserPolls extends React.Component {
     } 
 
     handlePollDeletion(e){
-        axios.delete(`http://localhost:8080/api/polls/${e.target.id}`, { withCredentials: true })
+        axios.delete(`http://localhost:8080/api/polls/${e.target.id}`)
             .then(res => {
                     this.getUserPolls();
                     this.setState({

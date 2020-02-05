@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { receiveCurrentUser } from "../../redux/actions";
@@ -66,7 +67,7 @@ class Register extends React.Component {
         {   
             method: "post",
             data: user,
-            withCredentials: true
+            // withCredentials: true
         })
             .then(res => {
                 const newErrors = Object.assign({}, this.state.errors, {

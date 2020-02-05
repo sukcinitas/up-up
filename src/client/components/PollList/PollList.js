@@ -1,6 +1,7 @@
 import React from "react";
 import PollListElem from "./PollListElem/PollListElem";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 import "./PollList.css";
 import formatDate from "../../util/formatDate";
 import { connect } from "react-redux";
@@ -15,7 +16,7 @@ class PollList extends React.Component {
         }
     }
     componentDidMount(){
-        axios.get("http://localhost:8080/api/polls", { withCredentials: true })
+        axios.get("http://localhost:8080/api/polls")
             .then(res => {
                 this.setState({
                     polls: [...res.data]

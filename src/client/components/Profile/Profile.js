@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 import UserPolls from "../UserPolls/UserPolls";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -23,7 +24,7 @@ class Profile extends React.Component {
         this.handleChange = this.handleChange.bind(this);
     }
     componentDidMount(){
-        axios.get(`http://localhost:8080/api/user/profile/${this.props.username}`, { withCredentials: true })
+        axios.get(`http://localhost:8080/api/user/profile/${this.props.username}`)
             .then(res => {
                 const { email } = res.data.user[0]
                 this.setState({
@@ -49,7 +50,7 @@ class Profile extends React.Component {
     handleEmailChange(){
         axios("http://localhost:8080/api/user/profile", {
             method: "put",
-            withCredentials: true,
+            // withCredentials: true,
             data: {
                 parameter: "email",
                 _id: this.props.userId,
@@ -64,7 +65,7 @@ class Profile extends React.Component {
     handlePasswordChange(){
         axios("http://localhost:8080/api/user/profile", {
             method: "put",
-            withCredentials: true,
+            // withCredentials: true,
             data: {
                 parameter: "password",
                 _id: this.props.userId,

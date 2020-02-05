@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 import { connect } from "react-redux";
 import "./CreatePollForm.css";
 
@@ -43,7 +44,7 @@ class CreatePollForm extends React.Component {
         {   
             method: "post",
             data: poll, 
-            withCredentials: true 
+            // withCredentials: true 
         })
             .then(res => {
                 if (res.data.redirect) {
