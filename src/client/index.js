@@ -8,20 +8,16 @@ import thunk from "redux-thunk";
 import reducer from "./redux/reducers";
 axios.defaults.withCredentials = true;
 
-const checkSession = () => {
-    axios.get("http://localhost:8080/api/user/login")
-         .then( (res) => {
+const renderApp = async () => {
+    const state = await axios.get("http://localhost:8080/api/user/login")
+    .then( res => {
         if (res.data.user) {
-            return Object.assign({}, res.data.user);
+            return res.data.user;
         };
+        return;
     });
-}
-
-const renderApp = () => {
-    const user = checkSession();
     
-    console.log(user, "check")
-    const store = createStore(reducer, user, applyMiddleware(thunk));   
+    const store = createStore(reducer, state, applyMiddleware(thunk));   
     ReactDOM.render(
         <Provider store={store}>
             <App />

@@ -141,21 +141,14 @@ router.route("/profile").put( async (req, res) => {
 
 router.route("/logout").delete( async (req, res) => {
     try {
-        const { user } = req.session;
-        if (user) {
-            req.session.destroy(err => {
-                if (err) throw err;
-                res.clearCookie(process.env.SESS_NAME);
-                res.json({session_deleted: true});
-            });
-        };
+        req.logout();
         res.end();
     } catch (err) {
         res.json(`Error: ${err}`);
     }
 });
 
-router.route("/login").get(async (req, res) => {
+router.route("/login").get((req, res) => {
     try {
         res.json({user: sessionizeUser(req.user)});
     } catch (err) {
