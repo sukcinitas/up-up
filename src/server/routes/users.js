@@ -51,7 +51,6 @@ router.route("/login").post(passport.authenticate("local", {session: true}), (re
 
 router.route("/create-poll").post( async (req, res) => {
     try {
-        console.log(req.session.passport)
         const {name, question, options, created_by} = req.body;
         const newPoll = new Poll({
             name,
@@ -70,7 +69,6 @@ router.route("/create-poll").post( async (req, res) => {
 
 router.route("/polls/:username").get( async (req, res) => {
     try {
-        console.log(req.user, req.session.passport.user)
         const polls = await Poll.find({created_by: req.params.username});
         res.json({ polls });
     } catch (err) {
@@ -108,6 +106,17 @@ router.route("/profile").put( async (req, res) => {
                 res.json({message: "Password is incorrect!"});
             };
         }
+    } catch (err) {
+        res.json(`Error: ${err}`);
+    }
+});
+
+router.route("/profile").delete( async (req, res) => {
+    try {
+        const { id } = req.body;
+        await User.findByIdAndDelete(id);
+        req.logout();
+        res.end();
     } catch (err) {
         res.json(`Error: ${err}`);
     }

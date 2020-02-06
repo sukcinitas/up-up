@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { logoutCurrentUser } from "../../redux/actions";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 import UserPolls from "../UserPolls/UserPolls";
@@ -17,7 +18,8 @@ class Profile extends React.Component {
             isChangingPassword: false,
             message: {
                 emailChange: "",
-                passwordChange: ""
+                passwordChange: "",
+                accountDelete: ""
             }
         }
         this.handleChange = this.handleChange.bind(this);
@@ -26,6 +28,7 @@ class Profile extends React.Component {
         this.changeEmail = this.changeEmail.bind(this);
         this.changePassword = this.changePassword.bind(this);
         this.getEmail = this.getEmail.bind(this);
+        this.handleDelete =  this.handleDelete.bind(this);
     }
     componentDidMount(){
         this.getEmail();
@@ -89,7 +92,18 @@ class Profile extends React.Component {
                 isChangingPassword: false
             });
         });
-    }
+    };
+    handleDelete(){
+        axios("http://localhost:8080/api/user/profile", 
+        {
+            method: "delete",
+            data: {id: this.props.userId}
+        })
+            .then(res => {
+                this.props.logout();
+                this.props.history.push("/");
+            });
+    };
     render() {
         return(
             <div>
@@ -122,6 +136,9 @@ class Profile extends React.Component {
                                 : ""
                             }
                         </div>
+                        <div>
+                            <button onClick={this.handleDelete}>Delete account</button>
+                        </div>
                     </div>
                 </section>
                 <section>
@@ -138,5 +155,8 @@ const mapStateToProps = state => ({
     username: state.username,
     userId: state.userId
 });
+const mapDispatchToProps = dispatch => ({
+    logout: () => dispatch(logoutCurrentUser())
+});
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
