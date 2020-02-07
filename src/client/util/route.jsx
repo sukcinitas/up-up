@@ -1,7 +1,7 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
 import { connect } from 'react-redux';
 import { Redirect, Route, withRouter } from 'react-router-dom';
 // with Router is needed sot that Auth and Protected children would

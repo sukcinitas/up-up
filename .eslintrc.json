@@ -3,5 +3,8 @@
     "extends": ["airbnb"],
     "settings": {
         "import/resolver": "webpack"
+    },
+    "rules": {
+        "jsx-a11y/label-has-associated-control": 0
     }
 }

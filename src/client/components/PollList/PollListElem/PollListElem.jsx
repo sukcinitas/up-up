@@ -19,7 +19,7 @@ const PollListElem = ({
       <p className="created-by">
         created by
         <span>
-          {createdBy}
+          { createdBy}
         </span>
       </p>
       <p className="created-at">

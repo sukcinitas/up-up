@@ -82,22 +82,28 @@ class CreatePollForm extends React.Component {
         <h1 className="header1">Create</h1>
         <h1 className="header2">Poll</h1>
 
-        <label className="label--poll" htmlFor="name">
+        <label
+          className="label--poll"
+          htmlFor="name"
+        >
           Poll name
-          <input className="input--poll" type="text" name="name" onChange={this.handleChange} value={name} />
         </label>
+        <input className="input--poll" type="text" name="name" onChange={this.handleChange} value={name} />
 
-        <label className="label--poll" htmlFor="question">
+
+        <label
+          className="label--poll"
+          htmlFor="question"
+        >
           Poll question/statement
-          <input className="input--poll" type="text" name="question" onChange={this.handleChange} value={question} />
         </label>
+        <input className="input--poll" type="text" name="question" onChange={this.handleChange} value={question} />
 
-        <label className="label--poll" htmlFor="answers">
-          Poll answers
-          <div id="options" name="answers">
-            {optionsList}
-          </div>
-        </label>
+
+        <label className="label--poll" htmlFor="answers">Poll answers</label>
+        <div id="options" name="answers">
+          {optionsList}
+        </div>
 
         <button type="button" onClick={this.addOption}>Add another option</button>
         <button type="submit" onClick={this.handleSubmit}>Submit</button>

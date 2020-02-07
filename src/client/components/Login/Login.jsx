@@ -53,17 +53,21 @@ class Login extends React.Component {
 
         <h1>Login</h1>
 
-        <label htmlFor="username" className="label">
+        <label
+          htmlFor="username"
+          className="label"
+        >
           Username
-          <input type="text" name="username" onChange={this.handleChange} className="input" />
         </label>
+        <input type="text" name="username" id="username" onChange={this.handleChange} className="input" />
 
-
-        <label htmlFor="password" className="label">
+        <label
+          htmlFor="password"
+          className="label"
+        >
           Password
-          <input type="password" name="password" onChange={this.handleChange} className="input" />
         </label>
-
+        <input type="password" name="password" id="password" onChange={this.handleChange} className="input" />
 
         <button type="button" onClick={this.handleSubmit} className="label">Login</button>
 
