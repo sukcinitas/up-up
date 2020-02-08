@@ -22,6 +22,7 @@ class Poll extends React.Component {
       },
       hasVoted: false,
       message: '',
+      isLoading: true,
     };
     this.handleVote = this.handleVote.bind(this);
     this.handlePollDeletion = this.handlePollDeletion.bind(this);
@@ -33,7 +34,11 @@ class Poll extends React.Component {
       .then((res) => {
         const updatedPoll = res.data.poll;
         this.setState({
-          poll: { ...updatedPoll },
+          isLoading: false,
+        }, () => {
+          this.setState({
+            poll: { ...updatedPoll },
+          });
         });
       });
   }
@@ -88,9 +93,11 @@ class Poll extends React.Component {
     const data = {
       optionsList: Object.keys(options).map((option) => ({ option, votes: options[option] })),
       sumVotes: votes,
-    };
-    console.log(data);
-    const { message } = this.state;
+    } || {};
+    const { message, isLoading } = this.state;
+    if (isLoading) {
+      return <p>Loading...</p>;
+    }
     return (
       <div>
         {message ? <span>{message}</span> : ''}

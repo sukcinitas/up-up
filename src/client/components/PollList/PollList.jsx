@@ -15,6 +15,7 @@ class PollList extends React.Component {
     super(props);
     this.state = {
       polls: [],
+      isLoading: true,
     };
   }
 
@@ -23,6 +24,7 @@ class PollList extends React.Component {
       .then((res) => {
         this.setState({
           polls: [...res.data],
+          isLoading: false,
         });
       })
       .catch((error) => {
@@ -32,7 +34,7 @@ class PollList extends React.Component {
 
   render() {
     const { username } = this.props;
-    const { polls } = this.state;
+    const { polls, isLoading } = this.state;
     const list = polls.map((poll) => (
       <div key={poll.id}>
         <PollListElem
@@ -44,6 +46,9 @@ class PollList extends React.Component {
         />
       </div>
     ));
+    if (isLoading) {
+      return <p>Loading...</p>;
+    }
     return (
       <div className="poll-list">
         {list}

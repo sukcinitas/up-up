@@ -2,6 +2,7 @@ import * as d3 from 'd3';
 
 const drawChart = (datum) => {
 // datum format: {{option: "", votes: 12}; votes: }
+  console.log('drawing...');
   d3.select('svg').remove();
 
   const data = datum.optionsList.sort((a, b) => b.votes - a.votes);

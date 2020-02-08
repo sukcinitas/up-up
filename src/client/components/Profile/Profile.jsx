@@ -24,6 +24,7 @@ class Profile extends React.Component {
         passwordChange: '',
         accountDelete: '',
       },
+      isLoading: true,
     };
     this.handleChange = this.handleChange.bind(this);
     this.showEmailChange = this.showEmailChange.bind(this);
@@ -45,6 +46,7 @@ class Profile extends React.Component {
         const { email } = res.data.user[0];
         this.setState({
           email,
+          isLoading: false,
         });
       })
       .catch((error) => {
@@ -123,9 +125,12 @@ class Profile extends React.Component {
   render() {
     const {
       email, message, isChangingEmail, isChangingPassword,
-      newEmail, oldPassword, newPassword,
+      newEmail, oldPassword, newPassword, isLoading,
     } = this.state;
     const { username } = this.props;
+    if (isLoading) {
+      return <p>Loading...</p>;
+    }
     return (
       <div>
         <section>
