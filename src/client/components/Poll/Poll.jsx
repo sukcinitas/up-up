@@ -100,7 +100,9 @@ class Poll extends React.Component {
     }
     return (
       <div>
-        {message ? <span>{message}</span> : ''}
+        <div style={{ height: '30px' }}>
+          {message ? <span>{message}</span> : <span />}
+        </div>
         <h2>{name}</h2>
         <div>
           <h3>{question}</h3>

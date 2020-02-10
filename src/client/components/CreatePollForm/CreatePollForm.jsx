@@ -39,7 +39,7 @@ class CreatePollForm extends React.Component {
       if (this.state[`option_${option}`] === '') {
         return;
       }
-      options[this.state[`option_${option}`]] = 0;
+      optionsList[this.state[`option_${option}`]] = 0;
     });
     const poll = {
       name,
@@ -105,7 +105,7 @@ class CreatePollForm extends React.Component {
           {optionsList}
         </div>
 
-        <button type="button" onClick={this.addOption}>Add another option</button>
+        <button type="button" onClick={this.addOption}> + </button>
         <button type="submit" onClick={this.handleSubmit}>Submit</button>
       </form>
     );

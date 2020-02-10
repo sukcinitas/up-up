@@ -5,11 +5,13 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logoutCurrentUser } from '../../redux/actions';
-import './Header.css';
+import './Header.scss';
 
 axios.defaults.withCredentials = true;
 
-const Header = ({ isLoggedIn, logout, history }) => {
+const Header = ({
+  isLoggedIn, logout, history, username,
+}) => {
   const handleLogout = () => {
     axios.delete('http://localhost:8080/api/user/logout')
       .then(() => {
@@ -24,14 +26,14 @@ const Header = ({ isLoggedIn, logout, history }) => {
         {isLoggedIn
           ? (
             <>
-              <Link to="/user/profile" className="link">Profile</Link>
-              <button type="button" onClick={handleLogout}>Sign out</button>
+              <Link to="/user/profile" className="header__profile">{ username }</Link>
+              <button type="button" onClick={handleLogout} className="header__signout"> Sign out </button>
             </>
           )
           : (
             <>
-              <Link to="/user/login" className="link">Login</Link>
-              <Link to="/user/register" className="link">Register</Link>
+              <Link to="/user/login" className="header__login"> Login </Link>
+              <Link to="/user/register" className="header__register"> Register </Link>
             </>
           )}
       </div>
@@ -43,6 +45,7 @@ Header.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
   logout: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -51,6 +54,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => ({
   isLoggedIn: Boolean(state.userId),
+  username: state.username,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

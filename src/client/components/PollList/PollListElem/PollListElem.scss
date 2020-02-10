@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One|Rajdhani:500&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Forum|Unica+One&display=swap');
+body {
+    /* background-color: rgba(0, 0, 0, 0.185); */
+}
+.poll-list-elem {
+    border: 1px solid lightgoldenrodyellow;
+    margin: 10px;
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    background-image: linear-gradient(to right, #a18cd1 0%, #fbc2eb 100%);
+    position: relative;
+    left: 0px;
+    transition: left 0.2s;
+
+    &:hover {
+        position: relative;
+        left: 50px;
+        transition: left 0.4s;
+    }
+
+    &__heading {
+        display: block;
+        text-decoration: none;
+        color: rgb(17, 16, 19);
+        width: 74%;
+        text-align: center;
+        padding: 0px;
+        margin: 0px;
+        align-self: center;
+
+        h2 {
+            font-size: 30px;
+            font-family: "Fjalla One", sans-serif;
+            margin: 0px;
+            text-align: center;
+            padding-left: 186px;
+        }
+    }
+
+    &__details {
+        margin: 0;
+        padding: 0;
+        align-self: center;
+
+        span{
+            font-weight: bold;
+        }
+    }
+
+    &__votes, &__created-by, &__updated-at {
+        margin: 0;
+        padding: 2px;
+        font-size: 12px;
+        font-style: italic;
+        font-family: "Forum", sans-serif;
+    }
+
+    &__votes {
+        position: absolute;
+        overflow: hidden;
+        font-size: 100px;
+        left: -16px;
+        color: white;
+        top: -26px;
+        width: 200px;
+    }
+}

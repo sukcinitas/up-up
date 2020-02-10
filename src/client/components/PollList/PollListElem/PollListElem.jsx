@@ -1,28 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import './PollListElem.css';
+import './PollListElem.scss';
 
 const PollListElem = ({
   id, name, votes, createdBy, updatedAt,
 }) => (
-  <div className="poll-list__elem">
-    <Link to={`/polls/${id}`}>
+  <div className="poll-list-elem">
+    <Link to={`/polls/${id}`} className="poll-list-elem__heading">
       <h2>{name}</h2>
     </Link>
-    <div className="details">
-      <p className="votes">
+    <div className="poll-list-elem__details">
+      <p className="poll-list-elem__votes">
         <span>{votes}</span>
-        {' '}
-        {votes === 1 ? 'vote' : 'votes'}
+        {/* {' '}
+        {votes === 1 ? 'vote' : 'votes'} */}
       </p>
-      <p className="created-by">
+      <p className="poll-list-elem__created-by">
         created by
         <span>
           {` ${createdBy}`}
         </span>
       </p>
-      <p className="created-at">
+      <p className="poll-list-elem__updated-at">
         updated on
         {` ${updatedAt}`}
       </p>

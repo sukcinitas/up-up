@@ -65,6 +65,7 @@ router.route('/create-poll').post(async (req, res) => {
       createdBy,
     });
     await newPoll.save();
+    // eslint-disable-next-line no-underscore-dangle
     res.json({ redirect: true, id: newPoll._id });
   } catch (err) {
     console.log('create err', err);

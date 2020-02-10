@@ -15,7 +15,8 @@ class Register extends React.Component {
       username: '',
       email: '',
       password: '',
-      // confirmPassword: '',
+      // eslint-disable-next-line react/no-unused-state
+      confirmPassword: '', // it is used in input
       errors: {
         usernameErr: '',
         emailErr: '',
