@@ -55,8 +55,7 @@ class UserPolls extends React.Component {
                 <h3>{poll.name}</h3>
                 <p>
                   {poll.votes}
-                  {' '}
-                  {poll.votes === 1 ? 'vote' : 'votes'}
+                  {poll.votes === 1 ? ' vote' : ' votes'}
                 </p>
                 <button type="button" id={poll.id} onClick={this.handlePollDeletion}>Delete</button>
               </div>

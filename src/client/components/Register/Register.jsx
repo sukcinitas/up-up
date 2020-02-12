@@ -109,7 +109,6 @@ class Register extends React.Component {
           className="label"
         >
           Username
-          <span className="notes">{` ${usernameErr}`}</span>
         </label>
         <input
           type="text"
@@ -118,16 +117,13 @@ class Register extends React.Component {
           className="input"
           required
         />
+        <span className="notes">{` ${usernameErr}`}</span>
 
         <label
           htmlFor="email"
           className="label"
         >
           E-mail
-          <span className="notes">
-            {' '}
-            {emailErr}
-          </span>
         </label>
         <input
           type="email"
@@ -136,20 +132,16 @@ class Register extends React.Component {
           className="input"
           required
         />
+        <span className="notes">
+          {' '}
+          {emailErr}
+        </span>
 
         <label
           htmlFor="password"
           className="label"
         >
           Password
-          <span className="notes">
-            {' '}
-            {passwordsMatch}
-          </span>
-          <span className="notes">
-            {' '}
-            {passwordErr}
-          </span>
         </label>
         <input
           type="password"
@@ -158,17 +150,16 @@ class Register extends React.Component {
           className="input"
           required
         />
+        <span className="notes">
+          {' '}
+          {passwordErr}
+        </span>
 
         <label
           htmlFor="confirmPassword"
           className="label"
         >
           Repeat Password
-          {' '}
-          <span className="notes">
-            {' '}
-            {passwordsMatch}
-          </span>
         </label>
         <input
           type="password"
@@ -177,6 +168,11 @@ class Register extends React.Component {
           className="input"
           required
         />
+        {' '}
+        <span className="notes">
+          {' '}
+          {passwordsMatch}
+        </span>
 
         <div>
           <span className="notes">
