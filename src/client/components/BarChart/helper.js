@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 
 const drawChart = (datum) => {
-// datum format: {{option: "", votes: 12}; votes: }
+// datum format: {[{option: "", votes: 12}], votes: }
   d3.select('svg').remove();
 
   const data = datum.optionsList.sort((a, b) => b.votes - a.votes);

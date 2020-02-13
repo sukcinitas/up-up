@@ -19,7 +19,6 @@ const renderApp = async () => {
     <Provider store={store}>
       <App />
     </Provider>,
-    // eslint-disable-next-line no-undef
     document.getElementById('root'),
   );
 };
