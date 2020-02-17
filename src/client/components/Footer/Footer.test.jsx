@@ -1,14 +1,16 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, cleanup } from '@testing-library/react';
 import Footer from './Footer.jsx';
 
-describe('<Footer />', () => {
-  it('renders the component', () => {
-    const footer = shallow(<Footer />);
-    expect(footer.find('h1').exists()).not.toBe(true);
-    expect(footer.find('footer').exists()).toBe(true);
-    expect(footer.find('a').exists()).toBe(true);
-    expect(footer.find('p').exists()).toBe(true);
-    expect(footer.text()).toEqual('Created by sukcinitas');
+afterEach(cleanup);
+
+describe('<Footer /> Component', () => {
+  it('renders footer component with link to github', () => {
+    const { getByText } = render(<Footer />);
+
+    expect(getByText(/^Created by/i).textContent).toBe('Created by sukcinitas');
+    const link = getByText(/sukcinitas/i);
+    expect(link.textContent).toBe(' sukcinitas');
+    expect(link.href).toBe('https://github.com/sukcinitas');
   });
 });

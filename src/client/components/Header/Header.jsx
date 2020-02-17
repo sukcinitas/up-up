@@ -26,14 +26,14 @@ const Header = ({
         {isLoggedIn
           ? (
             <>
-              <Link to="/user/profile" className="header__profile">{ username }</Link>
-              <button type="button" onClick={handleLogout} className="header__signout"> Sign out </button>
+              <Link to="/user/profile" className="header__profile">{username}</Link>
+              <button type="button" onClick={handleLogout} className="header__signout">Sign out</button>
             </>
           )
           : (
             <>
-              <Link to="/user/login" className="header__login"> Login </Link>
-              <Link to="/user/register" className="header__register"> Register </Link>
+              <Link to="/user/login" className="header__login">Login</Link>
+              <Link to="/user/register" className="header__register">Register</Link>
             </>
           )}
       </div>

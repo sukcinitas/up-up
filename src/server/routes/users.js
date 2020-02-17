@@ -75,7 +75,17 @@ router.route('/create-poll').post(async (req, res) => {
 
 router.route('/polls/:username').get(async (req, res) => {
   try {
-    const polls = await Poll.find({ created_by: req.params.username });
+    // const polls = await Poll.find({ createdBy: req.params.username });
+    const polls = await Poll.aggregate([
+      { $match: { createdBy: req.params.username } },
+      {
+        $project: {
+          id: '$_id',
+          name: 1,
+          votes: 1,
+        },
+      },
+    ]);
     res.json({ polls });
   } catch (err) {
     res.json(`Error: ${err}`);

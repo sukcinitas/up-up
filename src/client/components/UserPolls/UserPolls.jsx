@@ -49,13 +49,12 @@ class UserPolls extends React.Component {
       <div>
         {
           userPolls.length === 0
-            ? <p>You have no polls created!</p>
+            ? <p>You have not created any polls yet!</p>
             : userPolls.map((poll) => (
               <div key={poll.id}>
                 <h3>{poll.name}</h3>
                 <p>
-                  {poll.votes}
-                  {poll.votes === 1 ? ' vote' : ' votes'}
+                  { poll.votes === 1 ? `${poll.votes} vote` : `${poll.votes} votes`}
                 </p>
                 <button type="button" id={poll.id} onClick={this.handlePollDeletion}>Delete</button>
               </div>
