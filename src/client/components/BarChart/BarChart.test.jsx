@@ -13,5 +13,7 @@ describe('<BarChart /> Component', () => {
     drawChart(data);
     expect(getByText(/one/i).textContent).toBe('one');
     expect(getByText(/two/i).textContent).toBe('two');
+    expect(getByText(/^1$/i).textContent).toBe('1');
+    expect(getByText(/^2$/i).textContent).toBe('2');
   });
 });

@@ -23,7 +23,7 @@ class PollList extends React.Component {
     axios.get('http://localhost:8080/api/polls')
       .then((res) => {
         this.setState({
-          polls: [...res.data],
+          polls: [...res.data.polls],
           isLoading: false,
         });
       })
@@ -50,7 +50,7 @@ class PollList extends React.Component {
       return <p>Loading...</p>;
     }
     return (
-      <div className="poll-list">
+      <div data-testid="test-polls-list" className="poll-list">
         {list}
         {username ? <Link to="/user/create-poll">Create a poll</Link> : ''}
       </div>

@@ -13,8 +13,6 @@ const PollListElem = ({
     <div className="poll-list-elem__details">
       <p className="poll-list-elem__votes">
         <span>{votes}</span>
-        {/* {' '}
-        {votes === 1 ? 'vote' : 'votes'} */}
       </p>
       <p className="poll-list-elem__created-by">
         created by

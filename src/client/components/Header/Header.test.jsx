@@ -3,7 +3,11 @@ import { Route, Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { render, cleanup, fireEvent } from '@testing-library/react';
+import {
+  render, cleanup, fireEvent, waitForElement,
+} from '@testing-library/react';
+import axiosMock from 'axios';
+import 'regenerator-runtime/runtime';
 // eslint-disable-next-line no-unused-vars
 import reducer, { initialState } from '../../redux/reducers';
 
@@ -80,13 +84,10 @@ describe('<Header /> Component', () => {
   //   expect(getByText(user.username).textContent).toBe('panemune');
 
   //   jest.mock('axios');
-  //   axiosMock.get.mockResolvedValueOnce();
-  //   fireEvent.click(getByText('Sign out'))
+  //   axiosMock.delete();
+  //   fireEvent.click(getByText('Sign out'));
 
-  //   await waitForElement(() => getByText('Login'));
-
-  //   expect(axiosMock.get).toHaveBeenCalledTimes(1);
-  //   expect(getByText('Login').textContent).toBe('Login');
-  //   expect(getByText('Register').textContent).toBe('Register');
+  //   expect(axiosMock.delete()).toHaveBeenCalledTimes(1);
+  //   // await waitForElement(() => getByText('Login'));
   // });
 });

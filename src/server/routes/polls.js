@@ -20,7 +20,7 @@ router.route('/').get(async (req, res) => {
         },
       },
     ]);
-    res.json(polls);
+    res.json({ polls });
   } catch (err) {
     res.json(`Error: ${err}`);
   }
