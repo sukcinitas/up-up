@@ -35,6 +35,7 @@ class PollList extends React.Component {
   render() {
     const { username } = this.props;
     const { polls, isLoading } = this.state;
+    console.log(polls);
     const list = polls.map((poll) => (
       <div key={poll.id}>
         <PollListElem

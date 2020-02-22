@@ -16,8 +16,8 @@ class CreatePollForm extends React.Component {
       question: '',
       optionCount: 2,
       options: [1, 2],
-      option_1: '',
-      option_2: '',
+      option1: '',
+      option2: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,10 +36,10 @@ class CreatePollForm extends React.Component {
     const { options, name, question } = this.state;
     const optionsList = {};
     options.forEach((option) => {
-      if (this.state[`option_${option}`] === '') {
+      if (this.state[`option${option}`] === '') {
         return;
       }
-      optionsList[this.state[`option_${option}`]] = 0;
+      optionsList[this.state[`option${option}`]] = 0;
     });
     const poll = {
       name,
@@ -65,7 +65,7 @@ class CreatePollForm extends React.Component {
   addOption(e) {
     e.preventDefault();
     const { optionCount } = this.state;
-    const optionName = `option_${optionCount + 1}`;
+    const optionName = `option${optionCount + 1}`;
     this.setState((prevState) => ({
       optionCount: prevState.optionCount + 1,
       options: [...prevState.options, prevState.optionCount + 1],
@@ -75,7 +75,17 @@ class CreatePollForm extends React.Component {
 
   render() {
     const { name, question, options } = this.state;
-    const optionsList = options.map((item) => <input key={`option_${item}`} className="input--poll" type="text" name={`option_${item}`} onChange={this.handleChange} value={this.state[`option_${item}`]} />);
+    const optionsList = options.map((item) => (
+      <input
+        key={`option${item}`}
+        aria-label={`option${item}`}
+        className="input--poll"
+        type="text"
+        name={`option${item}`}
+        onChange={this.handleChange}
+        value={this.state[`option${item}`]}
+      />
+    ));
     return (
       <form className="form--poll">
 
@@ -88,7 +98,7 @@ class CreatePollForm extends React.Component {
         >
           Poll name
         </label>
-        <input className="input--poll" type="text" name="name" onChange={this.handleChange} value={name} />
+        <input className="input--poll" type="text" id="name" name="name" onChange={this.handleChange} value={name} />
 
 
         <label
@@ -97,7 +107,7 @@ class CreatePollForm extends React.Component {
         >
           Poll question/statement
         </label>
-        <input className="input--poll" type="text" name="question" onChange={this.handleChange} value={question} />
+        <input className="input--poll" type="text" id="question" name="question" onChange={this.handleChange} value={question} />
 
 
         <label className="label--poll" htmlFor="answers">Poll answers</label>
