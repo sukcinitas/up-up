@@ -28,12 +28,12 @@ class ProfileEmail extends React.Component {
           Email:
           {email}
         </p>
-        <button type="button" onClick={showEmailChange}>Change email</button>
+        <button type="button" data-testid="showEmailChange" onClick={showEmailChange}>Change email</button>
         {message ? <span>{message}</span> : ''}
         {isChangingEmail
           ? (
             <div>
-              <input value={newEmail} name="newEmail" onChange={this.handleChange} />
+              <input value={newEmail} data-testid="newEmail" name="newEmail" onChange={this.handleChange} />
               <button type="button" onClick={() => changeEmail(newEmail)}>Change</button>
             </div>
           )

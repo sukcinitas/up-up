@@ -113,6 +113,7 @@ class Register extends React.Component {
         <input
           type="text"
           name="username"
+          id="username"
           onChange={this.handleChange}
           className="input"
           required
@@ -128,6 +129,7 @@ class Register extends React.Component {
         <input
           type="email"
           name="email"
+          id="email"
           onChange={this.handleChange}
           className="input"
           required
@@ -146,6 +148,7 @@ class Register extends React.Component {
         <input
           type="password"
           name="password"
+          id="password"
           onChange={this.handleChange}
           className="input"
           required
@@ -164,6 +167,7 @@ class Register extends React.Component {
         <input
           type="password"
           name="confirmPassword"
+          id="confirmPassword"
           onChange={this.handleChange}
           className="input"
           required

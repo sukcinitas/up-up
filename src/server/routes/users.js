@@ -94,7 +94,7 @@ router.route('/polls/:username').get(async (req, res) => {
 
 router.route('/profile/:username').get(async (req, res) => {
   try {
-    const user = await User.find({ username: req.params.username }, '-password');
+    const user = await User.find({ username: req.params.username }, '-password -createdAt -updatedAt -v');
     res.json({ user });
   } catch (err) {
     res.json(`Error: ${err}`);
