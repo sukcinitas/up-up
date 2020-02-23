@@ -25,4 +25,20 @@ export default {
     },
   }),
   delete: jest.fn(),
+  post: jest.fn().mockResolvedValue({ data: {} }),
+  put: jest.fn().mockResolvedValue({
+    data: {
+      poll: {
+        _id: '1',
+        question: 'Test question',
+        name: 'Test one',
+        options: { one: 1, two: 3 },
+        votes: 70,
+        createdBy: 'testUser1',
+        createdAt: '2020-01-21T12:45:03.180Z',
+        updatedAt: '2020-02-14T09:39:26.151Z',
+        id: '1',
+      },
+    },
+  }),
 };

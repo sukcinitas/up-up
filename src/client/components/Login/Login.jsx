@@ -30,20 +30,14 @@ class Login extends React.Component {
     const { username, password } = this.state;
     const { login } = this.props;
     e.preventDefault();
-    axios('http://localhost:8080/api/user/login',
-      {
-        method: 'post',
-        data: {
-          username,
-          password,
-        },
-      }).then((res) => {
-      if (res.data.isAuthenticated) {
-        login(res.data.sessionUser);
-      } else {
-        this.setState({ error: res.data.error });
-      }
-    });
+    axios.post('http://localhost:8080/api/user/login', { username, password })
+      .then((res) => {
+        if (res.data.isAuthenticated) {
+          login(res.data.sessionUser);
+        } else {
+          this.setState({ error: res.data.error });
+        }
+      });
   }
 
   render() {
@@ -69,7 +63,7 @@ class Login extends React.Component {
         </label>
         <input type="password" name="password" id="password" onChange={this.handleChange} className="input" />
 
-        <button type="button" onClick={this.handleSubmit} className="label">Login</button>
+        <button data-testid="login-btn" type="button" onClick={this.handleSubmit} className="label">Login</button>
 
         <span>{error}</span>
 

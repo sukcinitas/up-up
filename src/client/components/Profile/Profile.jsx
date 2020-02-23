@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { logoutCurrentUser } from '../../redux/actions';
 import UserPolls from '../UserPolls/UserPolls.jsx';
+import ProfileEmail from '../ProfileEmail/ProfileEmail.jsx';
+import ProfilePassword from '../ProfilePassword/ProfilePassword.jsx';
 
 axios.defaults.withCredentials = true;
 
@@ -14,11 +16,8 @@ class Profile extends React.Component {
     super();
     this.state = {
       email: '',
-      newEmail: '',
-      newPassword: '',
-      oldPassword: '',
-      isChangingEmail: false,
       isChangingPassword: false,
+      isChangingEmail: false,
       message: {
         emailChange: '',
         passwordChange: '',
@@ -27,8 +26,8 @@ class Profile extends React.Component {
       isLoading: true,
     };
     this.handleChange = this.handleChange.bind(this);
-    this.showEmailChange = this.showEmailChange.bind(this);
     this.showPasswordChange = this.showPasswordChange.bind(this);
+    this.showEmailChange = this.showEmailChange.bind(this);
     this.changeEmail = this.changeEmail.bind(this);
     this.changePassword = this.changePassword.bind(this);
     this.getEmail = this.getEmail.bind(this);
@@ -54,21 +53,21 @@ class Profile extends React.Component {
       });
   }
 
-  showEmailChange() {
-    this.setState({ isChangingEmail: true });
-  }
-
   showPasswordChange() {
     this.setState({ isChangingPassword: true });
+  }
+
+  showEmailChange() {
+    const { isChangingEmail } = this.state;
+    this.setState({ isChangingEmail: !isChangingEmail });
   }
 
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  changeEmail() {
+  changeEmail(newEmail) {
     const { userId } = this.props;
-    const { newEmail } = this.state;
     axios('http://localhost:8080/api/user/profile', {
       method: 'put',
       data: {
@@ -87,8 +86,7 @@ class Profile extends React.Component {
     });
   }
 
-  changePassword() {
-    const { oldPassword, newPassword } = this.state;
+  changePassword(oldPassword, newPassword) {
     const { username, userId } = this.props;
     axios('http://localhost:8080/api/user/profile', {
       method: 'put',
@@ -124,8 +122,8 @@ class Profile extends React.Component {
 
   render() {
     const {
-      email, message, isChangingEmail, isChangingPassword,
-      newEmail, oldPassword, newPassword, isLoading,
+      email, message, isChangingPassword,
+      isLoading, isChangingEmail,
     } = this.state;
     const { username } = this.props;
     if (isLoading) {
@@ -142,38 +140,19 @@ class Profile extends React.Component {
                 {username}
               </p>
             </div>
-            <div>
-              <p>
-                Email:
-                {email}
-              </p>
-              <button type="button" onClick={this.showEmailChange}>Change email</button>
-              {message.emailChange ? <span>{message.emailChange}</span> : ''}
-              {isChangingEmail
-                ? (
-                  <div>
-                    <input value={newEmail} name="newEmail" onChange={this.handleChange} />
-                    <button type="button" onClick={this.changeEmail}>Change</button>
-                  </div>
-                )
-                : ''}
-            </div>
-            <div>
-              <button type="button" onClick={this.showPasswordChange}>Change password</button>
-              {message.passwordChange ? <span>{message.passwordChange}</span> : ''}
-              {isChangingPassword
-                ? (
-                  <div>
-                    Old password:
-                    {' '}
-                    <input value={oldPassword} name="oldPassword" onChange={this.handleChange} />
-                    New password:
-                    <input value={newPassword} name="newPassword" onChange={this.handleChange} />
-                    <button type="button" onClick={this.changePassword}>Change password</button>
-                  </div>
-                )
-                : ''}
-            </div>
+            <ProfileEmail
+              email={email}
+              message={message.emailChange}
+              changeEmail={this.changeEmail}
+              isChangingEmail={isChangingEmail}
+              showEmailChange={this.showEmailChange}
+            />
+            <ProfilePassword
+              message={message.passwordChange}
+              changePassword={this.changePassword}
+              isChangingPassword={isChangingPassword}
+              showPasswordChange={this.showPasswordChange}
+            />
             <div>
               <button type="button" onClick={this.handleDelete}>Delete account</button>
             </div>

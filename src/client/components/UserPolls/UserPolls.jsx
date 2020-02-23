@@ -51,12 +51,12 @@ class UserPolls extends React.Component {
           userPolls.length === 0
             ? <p>You have not created any polls yet!</p>
             : userPolls.map((poll) => (
-              <div key={poll.id}>
+              <div key={poll.id} data-testid={`div${poll.id}`}>
                 <h3>{poll.name}</h3>
                 <p>
                   { poll.votes === 1 ? `${poll.votes} vote` : `${poll.votes} votes`}
                 </p>
-                <button type="button" id={poll.id} onClick={this.handlePollDeletion}>Delete</button>
+                <button data-testid={poll.id} type="button" id={poll.id} onClick={this.handlePollDeletion}>Delete</button>
               </div>
             ))
       }

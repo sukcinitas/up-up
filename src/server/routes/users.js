@@ -48,7 +48,7 @@ router.route('/login').post(passport.authenticate('local', { session: true }), (
     const sessionUser = sessionizeUser(req.user);
     res.json({ isAuthenticated: true, sessionUser });
   } catch (err) {
-    res.json(`Error: ${err}`);
+    res.json({ error: req.message });
   }
 });
 

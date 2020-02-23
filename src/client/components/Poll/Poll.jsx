@@ -15,7 +15,7 @@ class Poll extends React.Component {
       poll: {
         name: '',
         question: '',
-        options: [],
+        options: {},
         votes: 0,
         createdBy: '',
         createdAt: '',
@@ -49,15 +49,11 @@ class Poll extends React.Component {
     if (hasVoted) {
       return;
     } // initial dealing with only letting one vote per user
-    axios(`http://localhost:8080/api/polls/${match.params.id}`,
-      {
-        method: 'put',
-        data: {
-          option: e.target.dataset.option,
-          options: poll.options,
-          votes: poll.votes,
-        },
-      })
+    axios.put(`http://localhost:8080/api/polls/${match.params.id}`, {
+      option: e.target.dataset.option,
+      options: poll.options,
+      votes: poll.votes,
+    })
       .then((res) => {
         this.setState({
           hasVoted: true,
@@ -93,7 +89,8 @@ class Poll extends React.Component {
     const data = {
       optionsList: Object.keys(options).map((option) => ({ option, votes: options[option] })),
       sumVotes: votes,
-    } || {};
+    };
+
     const { message, isLoading } = this.state;
     if (isLoading) {
       return <p>Loading...</p>;
@@ -109,7 +106,7 @@ class Poll extends React.Component {
           <BarChart data={data} />
           {Object.keys(options).map((option) => (
             <div key={option}>
-              <button type="button" data-option={option} onClick={this.handleVote}>{option}</button>
+              <button type="button" data-testid={option} data-option={option} onClick={this.handleVote}>{option}</button>
               <small>{options[option]}</small>
             </div>
           ))}
