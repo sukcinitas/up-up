@@ -15,119 +15,31 @@ class Profile extends React.Component {
   constructor() {
     super();
     this.state = {
-      email: '',
-      isChangingPassword: false,
-      isChangingEmail: false,
-      message: {
-        emailChange: '',
-        passwordChange: '',
-        accountDelete: '',
-      },
-      isLoading: true,
+      message: '',
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.showPasswordChange = this.showPasswordChange.bind(this);
-    this.showEmailChange = this.showEmailChange.bind(this);
-    this.changeEmail = this.changeEmail.bind(this);
-    this.changePassword = this.changePassword.bind(this);
-    this.getEmail = this.getEmail.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
-  }
-
-  componentDidMount() {
-    this.getEmail();
-  }
-
-  getEmail() {
-    const { username } = this.props;
-    axios.get(`http://localhost:8080/api/user/profile/${username}`)
-      .then((res) => {
-        const { email } = res.data.user[0];
-        this.setState({
-          email,
-          isLoading: false,
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-
-  showPasswordChange() {
-    this.setState({ isChangingPassword: true });
-  }
-
-  showEmailChange() {
-    const { isChangingEmail } = this.state;
-    this.setState({ isChangingEmail: !isChangingEmail });
-  }
-
-  handleChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
-  }
-
-  changeEmail(newEmail) {
-    const { userId } = this.props;
-    axios('http://localhost:8080/api/user/profile', {
-      method: 'put',
-      data: {
-        parameter: 'email',
-        id: userId,
-        email: newEmail,
-      },
-    }).then((res) => {
-      this.getEmail();
-      this.setState({
-        message: {
-          emailChange: res.data.message,
-        },
-        isChangingEmail: false,
-      });
-    });
-  }
-
-  changePassword(oldPassword, newPassword) {
-    const { username, userId } = this.props;
-    axios('http://localhost:8080/api/user/profile', {
-      method: 'put',
-      data: {
-        parameter: 'password',
-        id: userId,
-        username,
-        oldpassword: oldPassword,
-        newpassword: newPassword,
-      },
-    }).then((res) => {
-      this.setState({
-        message: {
-          passwordChange: res.data.message,
-        },
-        isChangingPassword: false,
-      });
-    });
   }
 
   handleDelete() {
     const { history, userId, logout } = this.props;
-    axios('http://localhost:8080/api/user/profile',
-      {
-        method: 'delete',
-        data: { id: userId },
-      })
+    axios.delete('http://localhost:8080/api/user/profile', { id: userId })
       .then(() => {
-        logout();
-        history.push('/');
+        this.setState({
+          message: 'User has been successfully deleted!',
+        }, () => {
+          setTimeout(() => {
+            logout();
+            history.push('/');
+          }, 1000);
+        });
       });
   }
 
   render() {
-    const {
-      email, message, isChangingPassword,
-      isLoading, isChangingEmail,
-    } = this.state;
-    const { username } = this.props;
-    if (isLoading) {
-      return <p>Loading...</p>;
+    const { username, userId } = this.props;
+    const { message } = this.state;
+    if (message) {
+      return <p>{message}</p>;
     }
     return (
       <div>
@@ -141,17 +53,12 @@ class Profile extends React.Component {
               </p>
             </div>
             <ProfileEmail
-              email={email}
-              message={message.emailChange}
-              changeEmail={this.changeEmail}
-              isChangingEmail={isChangingEmail}
-              showEmailChange={this.showEmailChange}
+              username={username}
+              userId={userId}
             />
             <ProfilePassword
-              message={message.passwordChange}
-              changePassword={this.changePassword}
-              isChangingPassword={isChangingPassword}
-              showPasswordChange={this.showPasswordChange}
+              username={username}
+              userId={userId}
             />
             <div>
               <button type="button" onClick={this.handleDelete}>Delete account</button>
