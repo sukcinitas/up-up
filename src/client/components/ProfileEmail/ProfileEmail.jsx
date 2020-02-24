@@ -47,16 +47,13 @@ class ProfileEmail extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  changeEmail(newEmail) {
+  changeEmail() {
     const { userId } = this.props;
-    const { isChangingEmail } = this.state;
-    axios('http://localhost:8080/api/user/profile', {
-      method: 'put',
-      data: {
-        parameter: 'email',
-        id: userId,
-        email: newEmail,
-      },
+    const { isChangingEmail, newEmail } = this.state;
+    axios.put('http://localhost:8080/api/user/profile', {
+      parameter: 'email',
+      id: userId,
+      email: newEmail,
     }).then((res) => {
       this.getEmail();
       this.setState({

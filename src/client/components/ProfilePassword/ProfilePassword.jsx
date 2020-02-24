@@ -27,21 +27,19 @@ class ProfilePassword extends React.Component {
     this.setState({ isChangingPassword: !isChangingPassword });
   }
 
-  changePassword(oldPassword, newPassword) {
+  changePassword() {
     const { username, userId } = this.props;
-    axios('http://localhost:8080/api/user/profile', {
-      method: 'put',
-      data: {
-        parameter: 'password',
-        id: userId,
-        username,
-        oldpassword: oldPassword,
-        newpassword: newPassword,
-      },
+    const { oldPassword, newPassword } = this.state;
+    axios.put('http://localhost:8080/api/user/profile', {
+      parameter: 'password',
+      id: userId,
+      username,
+      oldpassword: oldPassword,
+      newpassword: newPassword,
     }).then((res) => {
       this.setState({
         message: res.data.message,
-        isChangingPassword: false,
+        isChangingPassword: res.data.message === 'Password is incorrect!',
       });
     });
   }
@@ -59,10 +57,10 @@ class ProfilePassword extends React.Component {
             <div>
               Old password:
               {' '}
-              <input value={oldPassword} name="oldPassword" onChange={this.handleChange} />
+              <input data-testid="oldPassword" value={oldPassword} name="oldPassword" onChange={this.handleChange} />
               New password:
-              <input value={newPassword} name="newPassword" onChange={this.handleChange} />
-              <button type="button" onClick={this.changePassword}>Change password</button>
+              <input data-testid="newPassword" value={newPassword} name="newPassword" onChange={this.handleChange} />
+              <button type="button" onClick={this.changePassword}>Change</button>
             </div>
           )
           : ''}
