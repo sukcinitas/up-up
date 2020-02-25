@@ -16,6 +16,7 @@ class PollList extends React.Component {
     this.state = {
       polls: [],
       isLoading: true,
+      errorMessage: '',
     };
   }
 
@@ -28,13 +29,16 @@ class PollList extends React.Component {
         });
       })
       .catch((error) => {
-        console.log(error);
+        this.setState({
+          errorMessage: `Could not load polls! ${error.message}`,
+          isLoading: false,
+        });
       });
   }
 
   render() {
     const { username } = this.props;
-    const { polls, isLoading } = this.state;
+    const { polls, isLoading, errorMessage } = this.state;
     const list = polls.map((poll) => (
       <div key={poll.id}>
         <PollListElem
@@ -46,13 +50,11 @@ class PollList extends React.Component {
         />
       </div>
     ));
-    if (isLoading) {
-      return <p>Loading...</p>;
-    }
     return (
       <div data-testid="test-polls-list" className="poll-list">
-        {list}
-        {username ? <Link to="/user/create-poll">Create a poll</Link> : ''}
+        {isLoading && <h3>Loading...</h3>}
+        {errorMessage ? <h3>{errorMessage}</h3> : list}
+        {username && <Link to="/user/create-poll">Create a poll</Link>}
       </div>
     );
   }
