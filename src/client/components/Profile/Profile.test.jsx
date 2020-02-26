@@ -7,7 +7,6 @@ import {
   render, cleanup, waitForElement, fireEvent,
 } from '@testing-library/react';
 import axiosMock from 'axios';
-import 'regenerator-runtime/runtime';
 // eslint-disable-next-line no-unused-vars
 import reducer, { initialState } from '../../redux/reducers';
 

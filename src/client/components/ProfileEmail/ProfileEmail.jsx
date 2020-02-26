@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import ErrorMessage from '../ErrorMessage/ErrorMessage.jsx';
 
 axios.defaults.withCredentials = true;
 
@@ -12,6 +13,7 @@ class ProfileEmail extends React.Component {
       email: '',
       isChangingEmail: false,
       isLoading: true,
+      errorMessage: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.showEmailChange = this.showEmailChange.bind(this);
@@ -34,7 +36,9 @@ class ProfileEmail extends React.Component {
         });
       })
       .catch((error) => {
-        console.error(error);
+        this.setState({
+          errorMessage: `Error: ${error.response.status}: ${error.response.statusText}`,
+        });
       });
   }
 
@@ -65,10 +69,11 @@ class ProfileEmail extends React.Component {
 
   render() {
     const {
-      newEmail, email, message, isChangingEmail, isLoading,
+      newEmail, email, message, isChangingEmail, isLoading, errorMessage,
     } = this.state;
     return (
       <div>
+        {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         <p>
           Email:
           {isLoading ? 'Loading...' : email}

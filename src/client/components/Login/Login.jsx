@@ -5,6 +5,7 @@ import axios from 'axios';
 import './Login.css';
 import { connect } from 'react-redux';
 import { receiveCurrentUser } from '../../redux/actions';
+import ErrorMessage from '../ErrorMessage/ErrorMessage.jsx';
 
 axios.defaults.withCredentials = true;
 
@@ -14,7 +15,7 @@ class Login extends React.Component {
     this.state = {
       username: '',
       password: '',
-      error: '',
+      errorMessage: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,13 +36,13 @@ class Login extends React.Component {
         if (res.data.isAuthenticated) {
           login(res.data.sessionUser);
         } else {
-          this.setState({ error: res.data.error });
+          this.setState({ errorMessage: res.data.error });
         }
       });
   }
 
   render() {
-    const { error } = this.state;
+    const { errorMessage } = this.state;
     return (
       <form className="form">
 
@@ -65,7 +66,7 @@ class Login extends React.Component {
 
         <button data-testid="login-btn" type="button" onClick={this.handleSubmit} className="label">Login</button>
 
-        <span>{error}</span>
+        <ErrorMessage errorMessage={errorMessage} />
 
         <span>
           Do not have an account?

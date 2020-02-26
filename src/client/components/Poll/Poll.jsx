@@ -5,6 +5,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import formatDate from '../../util/formatDate';
 import BarChart from '../BarChart/BarChart.jsx';
+import ErrorMessage from '../ErrorMessage/ErrorMessage.jsx';
 
 axios.defaults.withCredentials = true;
 
@@ -23,6 +24,7 @@ class Poll extends React.Component {
       hasVoted: false,
       message: '',
       isLoading: true,
+      errorMessage: '',
     };
     this.handleVote = this.handleVote.bind(this);
     this.handlePollDeletion = this.handlePollDeletion.bind(this);
@@ -65,7 +67,9 @@ class Poll extends React.Component {
         });
       })
       .catch((error) => {
-        console.log(error);
+        this.setState({
+          errorMessage: `Error: ${error.response.status}: ${error.response.statusText}`,
+        });
       });
   }
 
@@ -76,13 +80,15 @@ class Poll extends React.Component {
         history.push('/');
       })
       .catch((error) => {
-        console.log(error);
+        this.setState({
+          errorMessage: `Error: ${error.response.status} ${error.response.statusText}`,
+        });
       });
   }
 
   render() {
     const { username } = this.props;
-    const { poll } = this.state;
+    const { poll, errorMessage } = this.state;
     const {
       name, question, options, votes, createdBy, createdAt,
     } = poll;
@@ -98,7 +104,8 @@ class Poll extends React.Component {
     return (
       <div>
         <div style={{ height: '30px' }}>
-          {message ? <span>{message}</span> : <span />}
+          {message && <span>{message}</span>}
+          {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         </div>
         <h2>{name}</h2>
         <div>

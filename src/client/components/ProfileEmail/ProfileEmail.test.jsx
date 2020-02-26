@@ -2,7 +2,6 @@ import React from 'react';
 import {
   render, cleanup, fireEvent, waitForElement,
 } from '@testing-library/react';
-import 'regenerator-runtime/runtime';
 import axiosMock from 'axios';
 // eslint-disable-next-line no-unused-vars
 

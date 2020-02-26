@@ -5,7 +5,6 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { render, cleanup, fireEvent } from '@testing-library/react';
 // import axiosMock from 'axios';
-import 'regenerator-runtime/runtime';
 // eslint-disable-next-line no-unused-vars
 import reducer, { initialState } from '../../redux/reducers';
 
@@ -50,7 +49,7 @@ describe('<CreatePollForm /> Component', () => {
     expect(getByText(/^Poll$/i).textContent).toBe('Poll');
     expect(getByText(/Poll name/i).textContent).toBe('Poll name');
     expect(getByText(/Poll question\/statement/i).textContent).toBe('Poll question/statement');
-    expect(getByText(/Poll answers/i).textContent).toBe('Poll answers');
+    expect(getByText(/Poll options/i).textContent).toBe('Poll options');
     expect(getByText(/\+/i).textContent).toBe(' + ');
     expect(getByText(/Submit/i).textContent).toBe('Submit');
     expect(getByLabelText('option1').value).toBe('');

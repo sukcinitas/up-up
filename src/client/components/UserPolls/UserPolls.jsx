@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import ErrorMessage from '../ErrorMessage/ErrorMessage.jsx';
 
 axios.defaults.withCredentials = true;
 
@@ -9,6 +10,7 @@ class UserPolls extends React.Component {
     super();
     this.state = {
       userPolls: [],
+      errorMessage: '',
     };
     this.handlePollDeletion = this.handlePollDeletion.bind(this);
     this.getUserPolls = this.getUserPolls.bind(this);
@@ -29,7 +31,9 @@ class UserPolls extends React.Component {
         }
       })
       .catch((error) => {
-        console.error(error);
+        this.setState({
+          errorMessage: `Error: ${error.response.status}: ${error.response.statusText}`,
+        });
       });
   }
 
@@ -39,14 +43,17 @@ class UserPolls extends React.Component {
         this.getUserPolls();
       })
       .catch((error) => {
-        console.error(error);
+        this.setState({
+          errorMessage: `Error: ${error.response.status}: ${error.response.statusText}`,
+        });
       });
   }
 
   render() {
-    const { userPolls } = this.state;
+    const { userPolls, errorMessage } = this.state;
     return (
       <div>
+        {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         {
           userPolls.length === 0
             ? <p>You have not created any polls yet!</p>

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import ErrorMessage from '../ErrorMessage/ErrorMessage.jsx';
 import './CreatePollForm.css';
 
 axios.defaults.withCredentials = true;
@@ -18,6 +19,7 @@ class CreatePollForm extends React.Component {
       options: [1, 2],
       option1: '',
       option2: '',
+      errorMessage: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -33,7 +35,15 @@ class CreatePollForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     const { history, username } = this.props;
-    const { options, name, question } = this.state;
+    const {
+      options, name, question, option1, option2,
+    } = this.state;
+    if (!name || !question || !option1 || !option2) {
+      this.setState({
+        errorMessage: 'Poll name, question/statement and at least two options are required for submission!',
+      });
+      return;
+    }
     const optionsList = {};
     options.forEach((option) => {
       if (this.state[`option${option}`] === '') {
@@ -47,18 +57,16 @@ class CreatePollForm extends React.Component {
       options: optionsList,
       createdBy: username,
     };
-    axios('http://localhost:8080/api/user/create-poll',
-      {
-        method: 'post',
-        data: poll,
-      })
+    axios.post('http://localhost:8080/api/user/create-poll', poll)
       .then((res) => {
         if (res.data.redirect) {
           history.push(`/polls/${res.data.id}`);
         }
       })
       .catch((error) => {
-        console.error(error);
+        this.setState({
+          errorMessage: error.response.data,
+        });
       });
   }
 
@@ -74,7 +82,9 @@ class CreatePollForm extends React.Component {
   }
 
   render() {
-    const { name, question, options } = this.state;
+    const {
+      name, question, options, errorMessage,
+    } = this.state;
     const optionsList = options.map((item) => (
       <input
         key={`option${item}`}
@@ -98,7 +108,14 @@ class CreatePollForm extends React.Component {
         >
           Poll name
         </label>
-        <input className="input--poll" type="text" id="name" name="name" onChange={this.handleChange} value={name} />
+        <input
+          className="input--poll"
+          type="text"
+          id="name"
+          name="name"
+          onChange={this.handleChange}
+          value={name}
+        />
 
 
         <label
@@ -107,16 +124,24 @@ class CreatePollForm extends React.Component {
         >
           Poll question/statement
         </label>
-        <input className="input--poll" type="text" id="question" name="question" onChange={this.handleChange} value={question} />
+        <input
+          className="input--poll"
+          type="text"
+          id="question"
+          name="question"
+          onChange={this.handleChange}
+          value={question}
+        />
 
-
-        <label className="label--poll" htmlFor="answers">Poll answers</label>
+        <label className="label--poll" htmlFor="answers">Poll options</label>
         <div id="options" name="answers">
           {optionsList}
         </div>
 
         <button type="button" onClick={this.addOption}> + </button>
         <button type="submit" onClick={this.handleSubmit}>Submit</button>
+
+        {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
       </form>
     );
   }

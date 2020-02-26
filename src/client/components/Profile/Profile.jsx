@@ -8,6 +8,7 @@ import { logoutCurrentUser } from '../../redux/actions';
 import UserPolls from '../UserPolls/UserPolls.jsx';
 import ProfileEmail from '../ProfileEmail/ProfileEmail.jsx';
 import ProfilePassword from '../ProfilePassword/ProfilePassword.jsx';
+import ErrorMessage from '../ErrorMessage/ErrorMessage.jsx';
 
 axios.defaults.withCredentials = true;
 
@@ -16,6 +17,7 @@ class Profile extends React.Component {
     super();
     this.state = {
       message: '',
+      errorMessage: '',
     };
     this.handleDelete = this.handleDelete.bind(this);
   }
@@ -32,17 +34,23 @@ class Profile extends React.Component {
             history.push('/');
           }, 1000);
         });
+      })
+      .catch((error) => {
+        this.setState({
+          errorMessage: `Error: ${error.response.status}: ${error.response.statusText}`,
+        });
       });
   }
 
   render() {
     const { username, userId } = this.props;
-    const { message } = this.state;
+    const { message, errorMessage } = this.state;
     if (message) {
       return <p>{message}</p>;
     }
     return (
       <div>
+        {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         <section>
           <h2>User information</h2>
           <div>

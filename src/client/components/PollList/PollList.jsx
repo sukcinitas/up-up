@@ -30,7 +30,7 @@ class PollList extends React.Component {
       })
       .catch((error) => {
         this.setState({
-          errorMessage: `Could not load polls! ${error.message}`,
+          errorMessage: `Error ${error.response.status}: ${error.response.statusText}`,
           isLoading: false,
         });
       });

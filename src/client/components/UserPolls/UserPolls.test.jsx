@@ -4,7 +4,6 @@ import {
 } from '@testing-library/react';
 import axiosMock from 'axios';
 import UserPolls from './UserPolls.jsx';
-import 'regenerator-runtime/runtime'; // for async
 
 afterEach(cleanup);
 jest.mock('axios');

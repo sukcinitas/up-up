@@ -5,8 +5,6 @@ const Poll = require('../models/poll.model');
 
 router.route('/').get(async (req, res) => {
   try {
-    // const polls = await Poll.find({}, 'name votes createdAt createdBy updatedAt')
-    //   .sort('-updatedAt');
     const polls = await Poll.aggregate([
       { $match: {} },
       {
@@ -14,7 +12,6 @@ router.route('/').get(async (req, res) => {
           id: '$_id',
           name: 1,
           votes: 1,
-          createdAt: 1,
           createdBy: 1,
           updatedAt: 1,
         },
