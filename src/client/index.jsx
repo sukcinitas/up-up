@@ -6,7 +6,6 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import reducer from './redux/reducers';
 import App from './components/App/App.jsx';
-import 'regenerator-runtime/runtime'; // directly including instead of using deprecated @babel/polyfill
 
 axios.defaults.withCredentials = true;
 
