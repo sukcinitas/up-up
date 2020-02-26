@@ -1,9 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import './PollListElem.scss';
 
-const PollListElem = ({
+interface IPollListElemProps {
+  id:string,
+  name:string,
+  votes:number,
+  createdBy:string, 
+  updatedAt:string,
+};
+
+const PollListElem:React.FunctionComponent<IPollListElemProps> = ({
   id, name, votes, createdBy, updatedAt,
 }) => (
   <div className="poll-list-elem">

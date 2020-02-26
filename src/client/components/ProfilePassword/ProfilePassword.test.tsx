@@ -3,13 +3,15 @@ import {
   render, cleanup, fireEvent, waitForElement,
 } from '@testing-library/react';
 import 'regenerator-runtime/runtime';
-import axiosMock from 'axios';
+// import axiosMock from 'axios';
+import axios from 'axios';
 // eslint-disable-next-line no-unused-vars
 
 import ProfilePassword from './ProfilePassword.jsx';
 
 afterEach(cleanup);
 jest.mock('axios');
+const axiosMock = axios as jest.Mocked<typeof axios>;
 
 describe('<ProfilePassword /> Component', () => {
   it('renders ProfilePassword component', async () => {

@@ -10,7 +10,7 @@ module.exports = {
   coverageDirectory: 'coverage',
 
   // An array of file extensions your modules use
-  moduleFileExtensions: ['js', 'json', 'jsx'],
+  moduleFileExtensions: ['js', 'json', 'jsx', '.ts', '.tsx'],
 
   // The paths to modules that run some code to configure or
   // set up the testing environment before each test
@@ -20,7 +20,7 @@ module.exports = {
   testEnvironment: 'jsdom',
 
   // The glob patterns Jest uses to detect test files
-  testMatch: ['**/__tests__/**/*.js?(x)', '**/?(*.)+(spec|test).js?(x)'],
+  testMatch: ['**/__tests__/**/*.ts?(x)', '**/?(*.)+(spec|test).ts?(x)'],
 
   // An array of regexp pattern strings that are matched against
   // all test paths, matched tests are skipped

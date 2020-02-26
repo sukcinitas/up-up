@@ -1,13 +1,27 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import axios from 'axios';
-import ErrorMessage from '../ErrorMessage/ErrorMessage.jsx';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 axios.defaults.withCredentials = true;
 
-class ProfileEmail extends React.Component {
-  constructor() {
-    super();
+interface IProfileEmailProps {
+  username:string,
+  userId:string,
+};
+
+interface IProfileEmailState {
+  newEmail:string,
+  email:string,
+  isChangingEmail:boolean,
+  isLoading:boolean,
+  errorMessage:string,
+};
+
+class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailState> {
+  static propTypes: { username: PropTypes.Validator<string>; userId: PropTypes.Validator<string>; };
+  constructor(props:IProfileEmailProps) {
+    super(props);
     this.state = {
       newEmail: '',
       email: '',
@@ -47,8 +61,10 @@ class ProfileEmail extends React.Component {
     this.setState({ isChangingEmail: !isChangingEmail });
   }
 
-  handleChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  handleChange(e:React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ 
+      newEmail: e.currentTarget.value, 
+    });
   }
 
   changeEmail() {
@@ -61,7 +77,7 @@ class ProfileEmail extends React.Component {
     }).then((res) => {
       this.getEmail();
       this.setState({
-        message: res.data.message,
+        errorMessage: res.data.message,
         isChangingEmail: !isChangingEmail,
       });
     });
@@ -69,7 +85,7 @@ class ProfileEmail extends React.Component {
 
   render() {
     const {
-      newEmail, email, message, isChangingEmail, isLoading, errorMessage,
+      newEmail, email, isChangingEmail, isLoading, errorMessage,
     } = this.state;
     return (
       <div>
@@ -79,7 +95,7 @@ class ProfileEmail extends React.Component {
           {isLoading ? 'Loading...' : email}
         </p>
         <button type="button" data-testid="showEmailChange" onClick={this.showEmailChange}>Change email</button>
-        {message ? <span>{message}</span> : ''}
+        {errorMessage ? <span>{errorMessage}</span> : ''}
         {isChangingEmail
           ? (
             <div>

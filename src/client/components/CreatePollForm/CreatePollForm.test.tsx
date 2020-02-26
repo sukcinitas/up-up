@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Route, Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { createStore } from 'redux';
@@ -8,7 +8,7 @@ import { render, cleanup, fireEvent } from '@testing-library/react';
 // eslint-disable-next-line no-unused-vars
 import reducer, { initialState } from '../../redux/reducers';
 
-import CreatePollForm from './CreatePollForm.jsx';
+import CreatePollForm from './CreatePollForm';
 
 function renderWithRedux(
   ui,

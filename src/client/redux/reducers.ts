@@ -1,6 +1,6 @@
 import { RECEIVE_CURRENT_USER, LOGOUT_CURRENT_USER } from './actions';
 
-export const initialState = { userId: '', username: '' };
+export const initialState:{userId:string, username:string} = { userId: '', username: '' };
 
 export default (state = initialState, action) => {
   switch (action.type) {

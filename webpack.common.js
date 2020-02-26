@@ -14,9 +14,14 @@ module.exports = {
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(tsx?)$/,
         exclude: /node_modules/,
         use: ['babel-loader', 'eslint-loader'],
+      },
+      {
+        test: /\.jsx?$/,
+        use: ['source-map-loader'],
+        enforce: 'pre',
       },
     ],
   },

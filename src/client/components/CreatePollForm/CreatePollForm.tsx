@@ -1,10 +1,10 @@
 /* eslint-disable react/destructuring-assignment */
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import ErrorMessage from '../ErrorMessage/ErrorMessage.jsx';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import './CreatePollForm.css';
 
 axios.defaults.withCredentials = true;

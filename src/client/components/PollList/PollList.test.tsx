@@ -8,7 +8,7 @@ import axiosMock from 'axios';
 // eslint-disable-next-line no-unused-vars
 import reducer, { initialState } from '../../redux/reducers';
 
-import PollList from './PollList.jsx';
+import PollList from './PollList.js';
 
 function renderWithRedux(
   ui,

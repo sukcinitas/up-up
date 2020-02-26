@@ -1,13 +1,14 @@
-import React from 'react';
+import * as React from 'react';
 import {
   render, cleanup, waitForElement, fireEvent, wait,
 } from '@testing-library/react';
-import axiosMock from 'axios';
-import UserPolls from './UserPolls.jsx';
+// import axiosMock from 'axios';
+import axios from 'axios';
+import UserPolls from './UserPolls.js';
 
 afterEach(cleanup);
 jest.mock('axios');
-
+const axiosMock = axios as jest.Mocked<typeof axios>
 describe('<UserPolls /> Component', () => {
   it('renders userPolls component', async () => {
     const polls = [{ id: '1', votes: 1, name: 'test-name-one' }, { id: '2', votes: 2, name: 'test-name-two' }];

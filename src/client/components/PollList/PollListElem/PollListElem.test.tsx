@@ -1,8 +1,8 @@
-import React from 'react';
+import * as React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
-import PollListElem from './PollListElem.jsx';
+import PollListElem from './PollListElem.js';
 
 afterEach(cleanup);
 

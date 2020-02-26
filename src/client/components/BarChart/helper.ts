@@ -1,10 +1,9 @@
 import * as d3 from 'd3';
 
-const drawChart = (datum) => {
-// datum format: {[{option: "", votes: 12}], votes: }
+const drawChart = (datum:{optionsList:Array<{}>, sumVotes:number}) => {
   d3.select('svg').remove();
 
-  const data = datum.optionsList.sort((a, b) => b.votes - a.votes);
+  const data = datum.optionsList.sort((a:{option:string, votes:number}, b:{option:string, votes:number}) => b.votes - a.votes);
   const { sumVotes } = datum;
   const margin = {
     top: 10, right: 40, bottom: 30, left: 400,
@@ -13,16 +12,16 @@ const drawChart = (datum) => {
   const height = 300 - margin.top - margin.bottom;
 
   const color = d3.scaleSequential(d3.interpolateViridis)
-    .domain([0, d3.max(data, (d) => d.votes)]);
+    .domain([0, d3.max(data, (d:{option:string, votes:number}) => d.votes)]);
 
   const y = d3.scaleBand()
     .range([height, 0])
-    .domain(data.map((d) => d.option))
+    .domain(data.map((d:{option:string, votes:number}) => d.option))
     .padding(0.05);
 
   const x = d3.scaleLinear()
     .range([0, width])
-    .domain([0, d3.max(data, (d) => (d.votes) / sumVotes) * 100]); // max percentage
+    .domain([0, d3.max(data, (d:{option:string, votes:number}) => (d.votes) / sumVotes) * 100]); // max percentage
 
   const svg = d3.select('#chart').append('svg')
     .attr('width', width + margin.left + margin.right)
@@ -34,22 +33,22 @@ const drawChart = (datum) => {
     .data(data)
     .enter().append('rect')
     .attr('class', 'bar')
-    .attr('width', (d) => x(((d.votes / sumVotes) * 100))) // percentage
-    .attr('y', (d) => y(d.option))
+    .attr('width', (d:{option:string, votes:number}) => x(((d.votes / sumVotes) * 100))) // percentage
+    .attr('y', (d:{option:string, votes:number}) => y(d.option))
     .attr('height', y.bandwidth())
-    .style('fill', (d) => color(d.votes));
+    .style('fill', (d:{option:string, votes:number}) => color(d.votes));
 
   svg.selectAll('.text')
     .data(data)
     .enter().append('text')
     .attr('class', 'text')
-    .attr('y', (d) => y(d.option) + y.bandwidth() / 2)
+    .attr('y', (d:{option:string, votes:number}) => y(d.option) + y.bandwidth() / 2)
     .attr('alignment-baseline', 'central')
-    .attr('x', (d) => x(((d.votes / sumVotes) * 100)) + 5)
-    .text((d) => d.votes)
+    .attr('x', (d:{option:string, votes:number}) => x(((d.votes / sumVotes) * 100)) + 5)
+    .text((d:{option:string, votes:number}) => d.votes)
     .attr('font-family', 'sans-serif')
     .attr('font-size', '20px')
-    .attr('fill', (d) => color(d.votes));
+    .attr('fill', (d:{option:string, votes:number}) => color(d.votes));
 
   const line = svg.append('line')
     .style('stroke', 'white')
@@ -71,7 +70,7 @@ const drawChart = (datum) => {
       .attr('x2', 0)
       .attr('y2', 0);
   });
-  bars.on('mouseover', function handleMouseOver(d) {
+  bars.on('mouseover', function handleMouseOver(d:{option:string, votes:number}) {
     d3.select(this)
       .style('opacity', '0.75');
     line

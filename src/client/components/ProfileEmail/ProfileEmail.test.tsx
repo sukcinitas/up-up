@@ -1,14 +1,16 @@
-import React from 'react';
+import * as React from 'react';
 import {
   render, cleanup, fireEvent, waitForElement,
 } from '@testing-library/react';
-import axiosMock from 'axios';
+// import axiosMock from 'axios';
+import axios from 'axios';
 // eslint-disable-next-line no-unused-vars
 
-import ProfileEmail from './ProfileEmail.jsx';
+import ProfileEmail from './ProfileEmail';
 
 afterEach(cleanup);
 jest.mock('axios');
+const axiosMock = axios as jest.Mocked<typeof axios>;
 
 describe('<ProfileEmail /> Component', () => {
   it('renders ProfileEmail component', async () => {
@@ -63,7 +65,7 @@ describe('<ProfileEmail /> Component', () => {
 
     const input = await waitForElement(() => getByTestId('newEmail'));
     fireEvent.change(input, { target: { value: 'test@test.lt' } });
-    expect(input.value).toBe('test@test.lt');
+    expect((input).value).toBe('test@test.lt');
 
     fireEvent.click(changebtn);
     const message = await waitForElement(() => getByText('Email is already in use!'));

@@ -1,13 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import axios from 'axios';
-import ErrorMessage from '../ErrorMessage/ErrorMessage.jsx';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 axios.defaults.withCredentials = true;
 
-class UserPolls extends React.Component {
-  constructor() {
-    super();
+interface IUserPollsProps {
+  username:string,
+};
+
+interface IUserPollsState {
+  userPolls: {}[],
+  errorMessage: string,
+}
+
+class UserPolls extends React.Component<IUserPollsProps, IUserPollsState> {
+  static propTypes: { username: PropTypes.Validator<string>; };
+  constructor(props:IUserPollsProps) {
+    super(props);
     this.state = {
       userPolls: [],
       errorMessage: '',
@@ -37,8 +47,8 @@ class UserPolls extends React.Component {
       });
   }
 
-  handlePollDeletion(e) {
-    axios.delete(`http://localhost:8080/api/polls/${e.target.id}`)
+  handlePollDeletion(e:React.MouseEvent<HTMLButtonElement>) {
+    axios.delete(`http://localhost:8080/api/polls/${e.currentTarget.id}`)
       .then(() => {
         this.getUserPolls();
       })
@@ -57,7 +67,11 @@ class UserPolls extends React.Component {
         {
           userPolls.length === 0
             ? <p>You have not created any polls yet!</p>
-            : userPolls.map((poll) => (
+            : userPolls.map((poll:{
+              id:string,
+              name:string,
+              votes:number,
+            }) => (
               <div key={poll.id} data-testid={`div${poll.id}`}>
                 <h3>{poll.name}</h3>
                 <p>

@@ -1,17 +1,32 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import axios from 'axios';
 import './PollList.css';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import PollListElem from './PollListElem/PollListElem.jsx';
+import PollListElem from './PollListElem/PollListElem';
 import formatDate from '../../util/formatDate';
 
 axios.defaults.withCredentials = true;
 
+interface IPollListProps {
+  username:string,
+};
 
-class PollList extends React.Component {
-  constructor(props) {
+interface IPollListState {
+  polls:Array<any>,
+  isLoading:boolean,
+  errorMessage:string,
+}
+
+interface IAppState {
+  username:string,
+  userId:string,
+};
+
+class PollList extends React.Component<IPollListProps, IPollListState> {
+  static propTypes: { username: any; };
+  constructor(props:IPollListProps) {
     super(props);
     this.state = {
       polls: [],
@@ -64,7 +79,7 @@ PollList.propTypes = {
   username: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:<IAppState>) => ({
   username: state.username,
 });
 

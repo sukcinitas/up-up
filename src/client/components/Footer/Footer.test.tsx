@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 import { render, cleanup } from '@testing-library/react';
-import Footer from './Footer.jsx';
+import Footer from './Footer';
 
 afterEach(cleanup);
 

@@ -1,14 +1,14 @@
-import React from 'react';
+import * as React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { AuthRoute, ProtectedRoute } from '../../util/route.jsx';
-import Header from '../Header/Header.jsx';
-import Footer from '../Footer/Footer.jsx';
-import PollList from '../PollList/PollList.jsx';
-import Poll from '../Poll/Poll.jsx';
-import Register from '../Register/Register.jsx';
-import Login from '../Login/Login.jsx';
-import Profile from '../Profile/Profile.jsx';
-import CreatePollForm from '../CreatePollForm/CreatePollForm.jsx';
+import { AuthRoute, ProtectedRoute } from '../../util/route';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
+import PollList from '../PollList/PollList';
+import Poll from '../Poll/Poll';
+import Register from '../Register/Register';
+import Login from '../Login/Login';
+import Profile from '../Profile/Profile';
+import CreatePollForm from '../CreatePollForm/CreatePollForm';
 
 const App = () => (
   <Router>

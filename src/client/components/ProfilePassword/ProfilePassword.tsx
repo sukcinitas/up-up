@@ -1,12 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import axios from 'axios';
 
 axios.defaults.withCredentials = true;
 
-class ProfilePassword extends React.Component {
-  constructor() {
-    super();
+interface IProfilePasswordProps {
+  username:string,
+  userId:string,
+};
+
+interface IProfilePasswordState {
+  newPassword:string,
+  oldPassword:string,
+  isChangingPassword:boolean,
+  message:string,
+};
+
+class ProfilePassword extends React.Component<IProfilePasswordProps, IProfilePasswordState> {
+  static propTypes: { username: PropTypes.Validator<string>; userId: PropTypes.Validator<string>; };
+  constructor(props:IProfilePasswordProps) {
+    super(props);
     this.state = {
       newPassword: '',
       oldPassword: '',
@@ -18,8 +31,13 @@ class ProfilePassword extends React.Component {
     this.changePassword = this.changePassword.bind(this);
   }
 
-  handleChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  handleChange(e:React.ChangeEvent<HTMLInputElement>) {
+    if (e.currentTarget.name === 'newPassword') {
+      this.setState({ newPassword: e.currentTarget.value });
+    };
+    if (e.currentTarget.name === 'oldPassword') {
+      this.setState({ oldPassword: e.currentTarget.value });
+    }; 
   }
 
   showPasswordChange() {

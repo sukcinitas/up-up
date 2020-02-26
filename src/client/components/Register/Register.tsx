@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-escape */
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -8,8 +8,27 @@ import { receiveCurrentUser } from '../../redux/actions';
 
 axios.defaults.withCredentials = true;
 
-class Register extends React.Component {
-  constructor(props) {
+interface IRegisterProps {
+
+};
+
+interface IRegisterState {
+  username:string,
+  email:string,
+  password:string,
+  confirmPassword:string, 
+  errors:{
+    usernameErr:string,
+    emailErr:string,
+    passwordErr: string,
+    passwordsMatch:string,
+    usernameTaken:boolean,
+    emailTaken:boolean,
+};
+
+class Register extends React.Component<IRegisterProps, IRegisterState> {
+  static propTypes: { register: PropTypes.Validator<(...args: any[]) => any>; };
+  constructor(props:IRegisterProps) {
     super(props);
     this.state = {
       username: '',
@@ -21,7 +40,7 @@ class Register extends React.Component {
         usernameErr: '',
         emailErr: '',
         passwordErr: '',
-        passwordsMatch: true,
+        passwordsMatch: '',
         usernameTaken: false,
         emailTaken: false,
       },
@@ -30,33 +49,33 @@ class Register extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(e) {
+  handleChange(e:React.KeyboardEvent<HTMLInputElement>) {
     const { errors, password } = this.state;
-    switch (e.target.name) {
+    switch (e.currentTarget.name) {
       case 'username':
-        errors.usernameErr = e.target.value.length < 5 || e.target.value.length > 30
+        errors.usernameErr = e.currentTarget.value.length < 5 || e.currentTarget.value.length > 30
           ? 'username must be 5-30 characters long'
           : '';
         break;
       case 'email':
-        errors.emailErr = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(e.target.value)
+        errors.emailErr = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(e.currentTarget.value)
           ? '' : 'email is not valid';
         break;
       case 'password':
-        errors.passwordErr = e.target.value.length < 6 ? 'password must be at least 6 characters long' : '';
+        errors.passwordErr = e.currentTarget.value.length < 6 ? 'password must be at least 6 characters long' : '';
         break;
       case 'confirmPassword':
-        errors.passwordsMatch = password === e.target.value ? '' : 'passwords should match';
+        errors.passwordsMatch = password === e.currentTarget.value ? '' : 'passwords should match';
         break;
       default: return;
     }
     this.setState({
       errors,
-      [e.target.name]: e.target.value,
+      [e.currentTarget.name]: e.currentTarget.value,
     });
   }
 
-  handleSubmit(e) {
+  handleSubmit(e:React.MouseEvent<HTMLButtonElement>) {
     const {
       errors, username, email, password,
     } = this.state;
