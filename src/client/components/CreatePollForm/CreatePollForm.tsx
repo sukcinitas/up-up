@@ -2,15 +2,32 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
+import { RouteComponentProps } from 'react-router-dom';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import './CreatePollForm.css';
+import { AppState } from '../../redux/actions';
 
 axios.defaults.withCredentials = true;
 
-class CreatePollForm extends React.Component {
-  constructor(props) {
+interface CreatePollFormRouteProps extends RouteComponentProps {};
+type AllProps = CreatePollFormRouteProps & AppState;
+
+interface ICreatePollFormState {
+  name:string,
+  question:string,
+  optionCount:number,
+  options:Array<number>,
+  option1:string,
+  option2:string,
+  errorMessage:string,
+  [index: string]:any, /// ?
+};
+
+class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
+  static propTypes: { history: any; username: PropTypes.Validator<string>; };
+  constructor(props:AllProps) {
     super(props);
     this.state = {
       name: '',
@@ -26,13 +43,13 @@ class CreatePollForm extends React.Component {
     this.addOption = this.addOption.bind(this);
   }
 
-  handleChange(e) {
+  handleChange(e:React.ChangeEvent<HTMLInputElement>) {
     this.setState({
       [e.target.name]: e.target.value,
     });
   }
 
-  handleSubmit(e) {
+  handleSubmit(e:React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     const { history, username } = this.props;
     const {
@@ -70,7 +87,7 @@ class CreatePollForm extends React.Component {
       });
   }
 
-  addOption(e) {
+  addOption(e:React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     const { optionCount } = this.state;
     const optionName = `option${optionCount + 1}`;
@@ -152,7 +169,7 @@ CreatePollForm.propTypes = {
   username: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:AppState) => ({
   username: state.username,
 });
 

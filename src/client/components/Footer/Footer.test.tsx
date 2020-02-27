@@ -9,7 +9,7 @@ describe('<Footer /> Component', () => {
     const { getByText } = render(<Footer />);
 
     expect(getByText(/^Created by/i).textContent).toBe('Created by sukcinitas');
-    const link = getByText(/sukcinitas/i);
+    const link = getByText(/sukcinitas/i) as HTMLLinkElement;
     expect(link.textContent).toBe(' sukcinitas');
     expect(link.href).toBe('https://github.com/sukcinitas');
   });

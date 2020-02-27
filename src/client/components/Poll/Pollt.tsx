@@ -1,16 +1,37 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import formatDate from '../../util/formatDate';
-import BarChart from '../BarChart/BarChart.jsx';
-import ErrorMessage from '../ErrorMessage/ErrorMessage.jsx';
+import { AppState } from '../../redux/actions';
+import BarChart from '../BarChart/BarChart.js';
+import ErrorMessage from '../ErrorMessage/ErrorMessage.js';
+import { RouteComponentProps } from 'react-router-dom';
 
 axios.defaults.withCredentials = true;
 
-class Poll extends React.Component {
-  constructor(props) {
+interface RouteProps extends RouteComponentProps<{id:string}> {};
+type AllProps = RouteProps & AppState;
+
+interface IPollState {
+  poll: {
+    name:string,
+    question:string,
+    options: {[index: string]:number},
+    votes:number,
+    createdBy:string,
+    createdAt:string,
+  },
+  hasVoted:boolean,
+  message:string,
+  isLoading:boolean,
+  errorMessage:string,
+};
+
+class Poll extends React.Component<AllProps, IPollState> {
+  static propTypes: { match: any; history: any; username: PropTypes.Validator<string>; };
+  constructor(props:AllProps) {
     super(props);
     this.state = {
       poll: {
@@ -45,14 +66,14 @@ class Poll extends React.Component {
       });
   }
 
-  handleVote(e) {
+  handleVote(e:React.MouseEvent<HTMLButtonElement>) {
     const { hasVoted, poll } = this.state;
     const { match } = this.props;
     if (hasVoted) {
       return;
     } // initial dealing with only letting one vote per user
     axios.put(`http://localhost:8080/api/polls/${match.params.id}`, {
-      option: e.target.dataset.option,
+      option: e.currentTarget.dataset.option,
       options: poll.options,
       votes: poll.votes,
     })
@@ -133,7 +154,7 @@ Poll.propTypes = {
   username: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:AppState) => ({
   username: state.username,
 });
 

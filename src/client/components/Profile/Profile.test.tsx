@@ -10,7 +10,7 @@ import axiosMock from 'axios';
 // eslint-disable-next-line no-unused-vars
 import reducer, { initialState } from '../../redux/reducers';
 
-import Profile from './Profile.jsx';
+import Profile from './Profile.js';
 
 function renderWithRedux(
   ui,

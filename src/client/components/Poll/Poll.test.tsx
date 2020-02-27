@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Route, Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { createStore } from 'redux';
@@ -12,7 +12,7 @@ import 'regenerator-runtime/runtime';
 import reducer, { initialState } from '../../redux/reducers';
 import formatDate from '../../util/formatDate';
 
-import Poll from './Poll.jsx';
+import Poll from './Poll';
 
 function renderWithRedux(
   ui,
