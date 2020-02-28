@@ -5,8 +5,8 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import formatDate from '../../util/formatDate';
 import { AppState } from '../../redux/actions';
-import BarChart from '../BarChart/BarChart.js';
-import ErrorMessage from '../ErrorMessage/ErrorMessage.js';
+import BarChart from '../BarChart/BarChart';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import { RouteComponentProps } from 'react-router-dom';
 
 axios.defaults.withCredentials = true;

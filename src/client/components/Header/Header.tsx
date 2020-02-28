@@ -1,15 +1,29 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logoutCurrentUser } from '../../redux/actions';
+import { Dispatch } from 'redux';
+import { logoutCurrentUser, ActionTypes, AppState } from '../../redux/actions';
 import './Header.scss';
 
 axios.defaults.withCredentials = true;
 
-const Header = ({
+interface IHeaderStateProps {
+  isLoggedIn:boolean,
+  username:string,
+};
+
+interface IHeaderRouteProps extends RouteComponentProps {};
+
+interface IHeaderDispatchProps {
+  logout: () => void,
+};
+
+type AllProps = IHeaderStateProps & IHeaderDispatchProps & IHeaderRouteProps;
+
+const Header:React.FunctionComponent<AllProps> = ({
   isLoggedIn, logout, history, username,
 }) => {
   const handleLogout = () => {
@@ -48,11 +62,11 @@ Header.propTypes = {
   username: PropTypes.string.isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch:Dispatch<ActionTypes>) => ({
   logout: () => dispatch(logoutCurrentUser()),
 });
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:AppState) => ({
   isLoggedIn: Boolean(state.userId),
   username: state.username,
 });

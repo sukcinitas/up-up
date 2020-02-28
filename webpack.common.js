@@ -2,7 +2,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-  entry: ['./src/client/index.jsx'],
+  entry: ['./src/client/index.tsx'],
   module: {
     rules: [
       {
@@ -14,19 +14,24 @@ module.exports = {
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
-        test: /\.(tsx?)$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: ['babel-loader', 'eslint-loader'],
+        loader: ["babel-loader", "eslint-loader"]
       },
       {
-        test: /\.jsx?$/,
-        use: ['source-map-loader'],
-        enforce: 'pre',
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        use: ['babel-loader'],
+      },
+      {
+        enforce: "pre",
+        test: /\.(js|jsx)$/,
+        loader: "source-map-loader"
       },
     ],
   },
   resolve: {
-    extensions: ['.js', '.json', 'jsx'],
+    extensions: ['.js', '.json', '.jsx', '.ts', '.tsx'],
   },
   plugins: [
     new CleanWebpackPlugin(),

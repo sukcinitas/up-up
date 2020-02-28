@@ -33,7 +33,7 @@ describe('<ProfileEmail /> Component', () => {
     const changebtn = await waitForElement(() => getByText(/^Change$/));
     expect(changebtn.textContent).toBe('Change');
 
-    const input = await waitForElement(() => getByTestId('newEmail'));
+    const input = await waitForElement(() => getByTestId('newEmail')) as HTMLInputElement;
     fireEvent.change(input, { target: { value: 'pa@pa.lt' } });
     expect(input.value).toBe('pa@pa.lt');
 
@@ -63,7 +63,7 @@ describe('<ProfileEmail /> Component', () => {
     const changebtn = await waitForElement(() => getByText(/^Change$/));
     expect(changebtn.textContent).toBe('Change');
 
-    const input = await waitForElement(() => getByTestId('newEmail'));
+    const input = await waitForElement(() => getByTestId('newEmail')) as HTMLInputElement;
     fireEvent.change(input, { target: { value: 'test@test.lt' } });
     expect((input).value).toBe('test@test.lt');
 

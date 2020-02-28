@@ -4,14 +4,13 @@ import axios from 'axios';
 import './PollList.css';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { AppState } from '../../redux/actions';
 import PollListElem from './PollListElem/PollListElem';
 import formatDate from '../../util/formatDate';
 
 axios.defaults.withCredentials = true;
 
-interface IPollListProps {
-  username:string,
-};
+type AllProps = AppState;
 
 interface IPollListState {
   polls:Array<any>,
@@ -19,14 +18,9 @@ interface IPollListState {
   errorMessage:string,
 }
 
-interface IAppState {
-  username:string,
-  userId:string,
-};
-
-class PollList extends React.Component<IPollListProps, IPollListState> {
-  static propTypes: { username: any; };
-  constructor(props:IPollListProps) {
+class PollList extends React.Component<AllProps, IPollListState> {
+  static propTypes: { username: PropTypes.Validator<string>; };
+  constructor(props:AllProps) {
     super(props);
     this.state = {
       polls: [],
@@ -79,7 +73,7 @@ PollList.propTypes = {
   username: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = (state:<IAppState>) => ({
+const mapStateToProps = (state:AppState) => ({
   username: state.username,
 });
 

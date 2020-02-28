@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Route, Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { createStore } from 'redux';
@@ -6,15 +6,17 @@ import { Provider } from 'react-redux';
 import {
   render, cleanup, fireEvent, waitForElement,
 } from '@testing-library/react';
-import axiosMock from 'axios';
+import axios from 'axios';
+// import axiosMock from 'axios';
 import 'regenerator-runtime/runtime';
 // eslint-disable-next-line no-unused-vars
 import reducer, { initialState } from '../../redux/reducers';
 
-import Header from './Header.jsx';
+import Header from './Header.js';
 
 afterEach(cleanup);
 jest.mock('axios');
+const axiosMock = axios as jest.Mocked<typeof axios>;
 
 function renderWithRedux(
   ui,

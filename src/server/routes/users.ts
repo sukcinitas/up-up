@@ -1,12 +1,13 @@
 const router = require('express').Router();
 const { compareSync } = require('bcryptjs');
+import { Request, Response } from 'express';
 const passport = require('passport');
 const User = require('../models/user.model');
 const Poll = require('../models/poll.model');
 
 const sessionizeUser = (user) => ({ userId: user.id, username: user.username });
 
-router.route('/register').post(async (req, res) => {
+router.route('/register').post(async (req:Request, res:Response) => {
   // process.on('unhandledRejection', function(err) {
   //     console.log(err);
   // });
@@ -43,7 +44,7 @@ router.route('/register').post(async (req, res) => {
   }
 });
 
-router.route('/login').post(passport.authenticate('local', { session: true }), (req, res) => {
+router.route('/login').post(passport.authenticate('local', { session: true }), (req:Request, res:Response) => {
   try {
     const sessionUser = sessionizeUser(req.user);
     res.json({ isAuthenticated: true, sessionUser });
@@ -52,7 +53,7 @@ router.route('/login').post(passport.authenticate('local', { session: true }), (
   }
 });
 
-router.route('/create-poll').post(async (req, res) => {
+router.route('/create-poll').post(async (req:Request, res:Response) => {
   try {
     const {
       name, question, options, createdBy,
@@ -73,9 +74,8 @@ router.route('/create-poll').post(async (req, res) => {
   }
 });
 
-router.route('/polls/:username').get(async (req, res) => {
+router.route('/polls/:username').get(async (req:Request, res:Response) => {
   try {
-    // const polls = await Poll.find({ createdBy: req.params.username });
     const polls = await Poll.aggregate([
       { $match: { createdBy: req.params.username } },
       {
@@ -92,7 +92,7 @@ router.route('/polls/:username').get(async (req, res) => {
   }
 });
 
-router.route('/profile/:username').get(async (req, res) => {
+router.route('/profile/:username').get(async (req:Request, res:Response) => {
   try {
     const user = await User.find({ username: req.params.username }, '-password -createdAt -updatedAt -v');
     res.json({ user });
@@ -101,7 +101,7 @@ router.route('/profile/:username').get(async (req, res) => {
   }
 });
 
-router.route('/profile').put(async (req, res) => {
+router.route('/profile').put(async (req:Request, res:Response) => {
   try {
     const { parameter } = req.body;
     if (parameter === 'email') {
@@ -127,7 +127,7 @@ router.route('/profile').put(async (req, res) => {
   }
 });
 
-router.route('/profile').delete(async (req, res) => {
+router.route('/profile').delete(async (req:Request, res:Response) => {
   try {
     const { id } = req.body;
     await User.findByIdAndDelete(id);
@@ -138,7 +138,7 @@ router.route('/profile').delete(async (req, res) => {
   }
 });
 
-router.route('/logout').delete(async (req, res) => {
+router.route('/logout').delete(async (req:Request, res:Response) => {
   try {
     req.logout();
     res.end();
@@ -147,7 +147,7 @@ router.route('/logout').delete(async (req, res) => {
   }
 });
 
-router.route('/login').get((req, res) => {
+router.route('/login').get((req:Request, res:Response) => {
   try {
     res.json({ user: sessionizeUser(req.user) });
   } catch (err) {

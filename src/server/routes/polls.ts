@@ -1,9 +1,10 @@
+import { Request, Response } from 'express';
 const router = require('express').Router();
 const Poll = require('../models/poll.model');
 
 // GET all polls, GET one poll by id, DELETE one poll by id, PUT vote in poll by id
 
-router.route('/').get(async (req, res) => {
+router.route('/').get(async (req:Request, res:Response) => {
   try {
     const polls = await Poll.aggregate([
       { $match: {} },
@@ -23,7 +24,7 @@ router.route('/').get(async (req, res) => {
   }
 });
 
-router.route('/:id').get(async (req, res) => {
+router.route('/:id').get(async (req:Request, res:Response) => {
   try {
     const poll = await Poll.findById(req.params.id);
     res.json({ poll });
@@ -32,7 +33,7 @@ router.route('/:id').get(async (req, res) => {
   }
 });
 
-router.route('/:id').delete(async (req, res) => {
+router.route('/:id').delete(async (req:Request, res:Response) => {
   try {
     await Poll.findByIdAndDelete(req.params.id);
     res.send('The poll has been successfully deleted!');
@@ -41,7 +42,7 @@ router.route('/:id').delete(async (req, res) => {
   }
 });
 
-router.route('/:id').put(async (req, res) => {
+router.route('/:id').put(async (req:Request, res:Response) => {
   try {
     const { option, options, votes } = req.body;
     const updatedOptions = { ...options };

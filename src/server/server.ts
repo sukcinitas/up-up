@@ -1,5 +1,5 @@
 require('dotenv').config(); // .env file must be at root
-const express = require('express');
+import * as express from 'express';
 const cors = require('cors');
 const mongoose = require('mongoose');
 const session = require('express-session');
@@ -13,7 +13,7 @@ const pollsRouter = require('./routes/polls');
 
 (async () => {
   try {
-    passport.use(new LocalStrategy(async (username, password, done) => {
+    passport.use(new LocalStrategy(async (username:string, password:string, done:any) => {
       try {
         const user = await User.findOne({ username });
         if (!user) {
@@ -28,12 +28,12 @@ const pollsRouter = require('./routes/polls');
       }
     }));
 
-    passport.serializeUser((user, done) => {
+    passport.serializeUser((user:any, done:any) => {
       done(null, user.id);
     });
 
-    passport.deserializeUser((_id, done) => {
-      User.findById(_id, (err, user) => {
+    passport.deserializeUser((_id:string, done:any) => {
+      User.findById(_id, (err:ErrorConstructor, user:{_id:string, username:string, email:string, createdBy:string, updatedAt:string}) => {
         done(err, user);
       });
     });
@@ -43,7 +43,7 @@ const pollsRouter = require('./routes/polls');
 
     const whitelist = ['http://localhost:3000', 'http://localhost:8080'];
     const corsOptions = {
-      origin(origin, callback) {
+      origin(origin:any, callback:any) {
         if (whitelist.indexOf(origin) !== -1) {
           callback(null, true);
         } else {

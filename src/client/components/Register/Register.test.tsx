@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Route, Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { createStore } from 'redux';
@@ -8,6 +8,7 @@ import {
 } from '@testing-library/react';
 // eslint-disable-next-line no-unused-vars
 import reducer, { initialState } from '../../redux/reducers';
+import { AppState } from '../../redux/actions';
 
 import Register from './Register.jsx';
 
@@ -18,8 +19,12 @@ function renderWithRedux(
     store = createStore(reducer, initialState),
     route = '/user/register',
     history = createMemoryHistory({ initialEntries: [route] }),
+  }:{
+    // initialState:AppState,
+    // store:any,
+    // route:any,
+    // history:any,
   } = {},
-
 ) {
   return {
     ...render(
@@ -39,7 +44,7 @@ describe('<Register /> Component', () => {
     const { getByText } = renderWithRedux(
       <Route path="/user/register">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props) => <Register {...props} />}
+        {(props)=> <Register {...props} />}
       </Route>,
       {
         route: '/user/register',
@@ -64,10 +69,10 @@ describe('<Register /> Component', () => {
         route: '/user/register',
       },
     );
-    const username = getByLabelText('Username');
-    const email = getByLabelText('E-mail');
-    const password = getByLabelText('Password');
-    const confirmPassword = getByLabelText('Repeat Password');
+    const username = getByLabelText('Username') as HTMLInputElement;
+    const email = getByLabelText('E-mail') as HTMLInputElement;
+    const password = getByLabelText('Password') as HTMLInputElement;
+    const confirmPassword = getByLabelText('Repeat Password') as HTMLInputElement;
 
     fireEvent.change(username, { target: { value: 'testUser1' } });
     fireEvent.change(email, { target: { value: 'testEmail@test.lt' } });
@@ -90,10 +95,10 @@ describe('<Register /> Component', () => {
         route: '/user/register',
       },
     );
-    const username = getByLabelText('Username');
-    const email = getByLabelText('E-mail');
-    const password = getByLabelText('Password');
-    const confirmPassword = getByLabelText('Repeat Password');
+    const username = getByLabelText('Username') as HTMLInputElement;
+    const email = getByLabelText('E-mail') as HTMLInputElement;
+    const password = getByLabelText('Password') as HTMLInputElement;
+    const confirmPassword = getByLabelText('Repeat Password') as HTMLInputElement;
 
     fireEvent.change(username, { target: { value: 'test' } });
     fireEvent.change(email, { target: { value: 'emaiil' } });

@@ -16,10 +16,10 @@ axios.defaults.withCredentials = true;
 
 interface IProfileProps extends RouteComponentProps {
 };
-interface IDispatchProps {
+interface IProfileDispatchProps {
   logout: () => void,
 };
-type AllProps = IProfileProps & AppState & IDispatchProps;
+type AllProps = IProfileProps & AppState & IProfileDispatchProps;
 
 interface IProfileState {
   message:string,
@@ -51,7 +51,7 @@ class Profile extends React.Component<AllProps, IProfileState> {
           }, 1000);
         });
       })
-      .catch((error) => {
+      .catch((error:any) => {
         this.setState({
           errorMessage: `Error: ${error.response.status}: ${error.response.statusText}`,
         });
@@ -114,4 +114,4 @@ const mapDispatchToProps = (dispatch:Dispatch<ActionTypes>) => ({
   logout: () => dispatch(logoutCurrentUser()),
 });
 
-export default connect<AppState, IDispatchProps, IProfileProps>(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect<AppState, IProfileDispatchProps, IProfileProps>(mapStateToProps, mapDispatchToProps)(Profile);

@@ -5,10 +5,11 @@
               "corejs": { "version": 3 }
             }
         ],
-        "@babel/react",
-        "@babel/typescript"
+        "@babel/preset-react",
+        "@babel/preset-typescript"
     ],
     "plugins": [ 
-        ["@babel/plugin-transform-runtime", { "corejs": 3 }]
+        ["@babel/plugin-transform-runtime", { "corejs": 3 }],
+        "@babel/plugin-transform-typescript"
     ]
 }

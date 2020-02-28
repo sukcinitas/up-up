@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Route, Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { createStore } from 'redux';
@@ -6,11 +6,12 @@ import { Provider } from 'react-redux';
 import {
   render, cleanup, fireEvent, waitForElement,
 } from '@testing-library/react';
-import axiosMock from 'axios';
+// import axiosMock from 'axios';
+import axios from 'axios';
 // eslint-disable-next-line no-unused-vars
 import reducer, { initialState } from '../../redux/reducers';
 
-import Login from './Login.jsx';
+import Login from './Login.js';
 
 function renderWithRedux(
   ui,
@@ -34,7 +35,7 @@ function renderWithRedux(
 }
 afterEach(cleanup);
 jest.mock('axios');
-
+const axiosMock = axios as jest.Mocked<typeof axios>;
 describe('<Login /> Component', () => {
   it('renders login component', async () => {
     const { getByText, getAllByText } = renderWithRedux(

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {
   render, cleanup, fireEvent, waitForElement,
 } from '@testing-library/react';
@@ -26,11 +26,11 @@ describe('<ProfilePassword /> Component', () => {
     fireEvent.click(getByText(/^Change password$/i));
     expect(getByText(/^Change$/).textContent).toBe('Change');
 
-    const oldPassword = getByTestId('oldPassword');
+    const oldPassword = getByTestId('oldPassword') as HTMLInputElement;
     fireEvent.change(oldPassword, { target: { value: 'incorrectOldPassword' } });
     expect(oldPassword.value).toBe('incorrectOldPassword');
 
-    const newPassword = getByTestId('newPassword');
+    const newPassword = getByTestId('newPassword') as HTMLInputElement;
     fireEvent.change(newPassword, { target: { value: 'newPass' } });
     expect(newPassword.value).toBe('newPass');
 

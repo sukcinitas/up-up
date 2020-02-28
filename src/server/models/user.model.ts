@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const { hashSync } = require('bcryptjs');
+import * as mongoose from 'mongoose';
+import { hashSync } from 'bcryptjs';
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -22,6 +22,8 @@ const userSchema = new mongoose.Schema({
   },
 },
 { timestamps: true });
+
+
 // better not use arrow functions, because it would need binding
 userSchema.pre('save', function hashPassword() {
   if (this.isModified('password')) {
@@ -31,4 +33,4 @@ userSchema.pre('save', function hashPassword() {
 
 const User = mongoose.model('User', userSchema);
 
-module.exports = User;
+export default User;

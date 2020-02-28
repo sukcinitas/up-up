@@ -3,13 +3,14 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { receiveCurrentUser } from '../../redux/actions';
+import { receiveCurrentUser, ActionTypes, AppState } from '../../redux/actions';
 
 axios.defaults.withCredentials = true;
 
-interface IRegisterProps {
-
+interface IRegisterDispatchProps {
+  register: (user:string) => void,
 };
 
 interface IRegisterState {
@@ -26,9 +27,9 @@ interface IRegisterState {
     emailTaken:boolean,
 };
 
-class Register extends React.Component<IRegisterProps, IRegisterState> {
+class Register extends React.Component<IRegisterDispatchProps, IRegisterState> {
   static propTypes: { register: PropTypes.Validator<(...args: any[]) => any>; };
-  constructor(props:IRegisterProps) {
+  constructor(props:IRegisterDispatchProps) {
     super(props);
     this.state = {
       username: '',
@@ -49,7 +50,7 @@ class Register extends React.Component<IRegisterProps, IRegisterState> {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(e:React.KeyboardEvent<HTMLInputElement>) {
+  handleChange(e:React.ChangeEvent<HTMLInputElement>) {
     const { errors, password } = this.state;
     switch (e.currentTarget.name) {
       case 'username':
@@ -69,10 +70,32 @@ class Register extends React.Component<IRegisterProps, IRegisterState> {
         break;
       default: return;
     }
-    this.setState({
-      errors,
-      [e.currentTarget.name]: e.currentTarget.value,
-    });
+    switch(e.currentTarget.name){
+        case 'username':
+          this.setState({
+            errors,
+            username: e.currentTarget.value,
+          });
+          break;
+        case 'email':
+          this.setState({
+            errors,
+            email: e.currentTarget.value,
+          });
+          break;
+        case 'password':
+          this.setState({
+            errors,
+            password: e.currentTarget.value,
+          });
+          break;
+        case 'confirmPassword':
+          this.setState({
+            errors,
+            confirmPassword: e.currentTarget.value,
+          });
+          break;
+      }
   }
 
   handleSubmit(e:React.MouseEvent<HTMLButtonElement>) {
@@ -219,8 +242,8 @@ Register.propTypes = {
   register: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  register: (user) => dispatch(receiveCurrentUser(user)),
+const mapDispatchToProps = (dispatch:Dispatch<ActionTypes>) => ({
+  register: (user:AppState) => dispatch(receiveCurrentUser(user)),
 });
 
 export default connect(null, mapDispatchToProps)(Register);

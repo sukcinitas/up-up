@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import * as mongoose from 'mongoose';
 
 const pollSchema = new mongoose.Schema({
   name: {
@@ -18,7 +18,16 @@ const pollSchema = new mongoose.Schema({
 }, {
   timestamps: true,
 });
+// not sure about timestamps
+// export interface IPollSchema extends mongoose.Document {
+//   name:string,
+//   question:string,
+//   options:{},
+//   votes:number,
+//   createBy:string,
+// };
+// export interface IPollModel extends model<IPollSchema>;
 
 const Poll = mongoose.model('Poll', pollSchema);
 
-module.exports = Poll;
+export default Poll;

@@ -61,7 +61,7 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
       });
       return;
     }
-    const optionsList = {};
+    const optionsList:{[index: string]:number} = {};
     options.forEach((option) => {
       if (this.state[`option${option}`] === '') {
         return;
@@ -151,7 +151,7 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
         />
 
         <label className="label--poll" htmlFor="answers">Poll options</label>
-        <div id="options" name="answers">
+        <div id="options">
           {optionsList}
         </div>
 

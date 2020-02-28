@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { render, cleanup, fireEvent } from '@testing-library/react';
 // import axiosMock from 'axios';
 // eslint-disable-next-line no-unused-vars
-import reducer, { initialState } from '../../redux/reducers';
+import reducer, { initialState} from '../../redux/reducers';
 
 import CreatePollForm from './CreatePollForm';
 
@@ -52,8 +52,8 @@ describe('<CreatePollForm /> Component', () => {
     expect(getByText(/Poll options/i).textContent).toBe('Poll options');
     expect(getByText(/\+/i).textContent).toBe(' + ');
     expect(getByText(/Submit/i).textContent).toBe('Submit');
-    expect(getByLabelText('option1').value).toBe('');
-    expect(getByLabelText('option2').value).toBe('');
+    expect((getByLabelText('option1') as HTMLInputElement).value).toBe('');
+    expect((getByLabelText('option2') as HTMLInputElement).value).toBe('');
   });
 
   it('adds options on click', () => {
@@ -67,10 +67,10 @@ describe('<CreatePollForm /> Component', () => {
       },
     );
     fireEvent.click(getByText(/\+/i));
-    expect(getByLabelText('option3').value).toBe('');
+    expect((getByLabelText('option3') as HTMLInputElement).value).toBe('');
 
     fireEvent.click(getByText(/\+/i));
-    expect(getByLabelText('option4').value).toBe('');
+    expect((getByLabelText('option4') as HTMLInputElement).value).toBe('');
   });
 
   it('can input all values', () => {
@@ -84,25 +84,25 @@ describe('<CreatePollForm /> Component', () => {
       },
     );
 
-    const nameInput = getByLabelText('Poll name');
+    const nameInput = getByLabelText('Poll name') as HTMLInputElement;
     fireEvent.change(nameInput, { target: { value: 'Test name' } });
     expect(nameInput.value).toBe('Test name');
 
-    const questionInput = getByLabelText('Poll question/statement');
+    const questionInput = getByLabelText('Poll question/statement') as HTMLInputElement;
     fireEvent.change(questionInput, { target: { value: 'Test question' } });
     expect(questionInput.value).toBe('Test question');
 
-    const option1Input = getByLabelText('option1');
+    const option1Input = getByLabelText('option1') as HTMLInputElement;
     fireEvent.change(option1Input, { target: { value: 'One' } });
     expect(option1Input.value).toBe('One');
 
-    const option2Input = getByLabelText('option2');
+    const option2Input = getByLabelText('option2') as HTMLInputElement;
     fireEvent.change(option2Input, { target: { value: 'Two' } });
     expect(option2Input.value).toBe('Two');
 
     fireEvent.click(getByText(/\+/i));
-    expect(getByLabelText('option3').value).toBe('');
-    const option3Input = getByLabelText('option3');
+    expect((getByLabelText('option3') as HTMLInputElement).value).toBe('');
+    const option3Input = getByLabelText('option3') as HTMLInputElement;
     fireEvent.change(option3Input, { target: { value: 'Three' } });
     expect(option3Input.value).toBe('Three');
   });

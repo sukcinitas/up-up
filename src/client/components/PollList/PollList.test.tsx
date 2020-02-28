@@ -1,12 +1,13 @@
-import React from 'react';
+import * as React from 'react';
 import { Route, Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { render, cleanup, waitForElement } from '@testing-library/react';
-import axiosMock from 'axios';
+// import axiosMock from 'axios';
+import axios from 'axios';
 // eslint-disable-next-line no-unused-vars
-import reducer, { initialState } from '../../redux/reducers';
+import reducer, { initialState, AppState } from '../../redux/reducers';
 
 import PollList from './PollList.js';
 
@@ -32,6 +33,7 @@ function renderWithRedux(
 }
 afterEach(cleanup);
 jest.mock('axios');
+const axiosMock = axios as jest.Mocked<typeof axios>;
 // test polls
 const polls = [{
   _id: '5e26f24f04f39d26e3cde70e',

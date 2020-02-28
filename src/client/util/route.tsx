@@ -1,18 +1,18 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect, Route, withRouter } from 'react-router-dom';
+import { AppState } from '../redux/actions';
 // with Router is needed sot that Auth and Protected children would
 // have certain properties: history, etc.
 
-const mapStateToProps = (state) => ({
-  // isLoggedIn: Boolean(userId) //we get null or id, convert to boolean, is state to login or auth
+const mapStateToProps = (state:AppState) => ({
   isLoggedIn: Boolean(state.userId),
 });
 
-const Auth = ({ isLoggedIn, path, component: Component }) => (
+const Auth = ({ isLoggedIn, path, component: Component }:{isLoggedIn:boolean, path:any, component:any}) => (
   <Route
     path={path}
     render={(props) => (
@@ -21,7 +21,7 @@ const Auth = ({ isLoggedIn, path, component: Component }) => (
   />
 );
 
-const Protected = ({ isLoggedIn, path, component: Component }) => (
+const Protected = ({ isLoggedIn, path, component: Component }:{ isLoggedIn:boolean, path:any, component:any}) => (
   <Route
     path={path}
     render={(props) => (
