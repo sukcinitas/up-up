@@ -10,8 +10,9 @@ import { receiveCurrentUser, ActionTypes, AppState } from '../../redux/actions';
 axios.defaults.withCredentials = true;
 
 interface IRegisterDispatchProps {
-  register: (user:string) => void,
-};
+  register: (user:AppState) => void,
+}
+type AllProps = AppState & IRegisterDispatchProps;
 
 interface IRegisterState {
   username:string,
@@ -24,12 +25,12 @@ interface IRegisterState {
     passwordErr: string,
     passwordsMatch:string,
     usernameTaken:boolean,
-    emailTaken:boolean,
-};
+    emailTaken:boolean
+}
 
-class Register extends React.Component<IRegisterDispatchProps, IRegisterState> {
+class Register extends React.Component<AllProps, IRegisterState>{
   static propTypes: { register: PropTypes.Validator<(...args: any[]) => any>; };
-  constructor(props:IRegisterDispatchProps) {
+  constructor(props:AllProps) {
     super(props);
     this.state = {
       username: '',
@@ -135,7 +136,7 @@ class Register extends React.Component<IRegisterDispatchProps, IRegisterState> {
           }
         });
       });
-  }
+  };
 
   render() {
     const { errors } = this.state;
@@ -236,7 +237,7 @@ class Register extends React.Component<IRegisterDispatchProps, IRegisterState> {
 
     );
   }
-}
+};
 
 Register.propTypes = {
   register: PropTypes.func.isRequired,

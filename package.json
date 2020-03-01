@@ -7,7 +7,7 @@
   "scripts": {
     "start": "webpack-dev-server --open --config webpack.dev.js",
     "dev-client": "webpack-dev-server --config webpack.dev.js --devtool inline-source-map --hot",
-    "dev-server": "nodemon --exec babel-node src/server/server.js",
+    "dev-server": "nodemon --exec babel-node src/server/server.ts",
     "dev": "concurrently \"npm run dev-server\" \"npm run dev-client\"",
     "test": "jest"
   },

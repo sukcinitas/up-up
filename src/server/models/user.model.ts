@@ -1,5 +1,8 @@
-import * as mongoose from 'mongoose';
-import { hashSync } from 'bcryptjs';
+// import * as mongoose from 'mongoose';
+// import { hashSync } from 'bcryptjs';
+
+const mongoose = require('mongoose');
+const { hashSync } = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -33,4 +36,5 @@ userSchema.pre('save', function hashPassword() {
 
 const User = mongoose.model('User', userSchema);
 
-export default User;
+// export default User;
+module.exports = User;

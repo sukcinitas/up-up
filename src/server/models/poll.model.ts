@@ -1,4 +1,6 @@
-import * as mongoose from 'mongoose';
+// import * as mongoose from 'mongoose';
+
+const mongoose = require('mongoose');
 
 const pollSchema = new mongoose.Schema({
   name: {
@@ -30,4 +32,5 @@ const pollSchema = new mongoose.Schema({
 
 const Poll = mongoose.model('Poll', pollSchema);
 
-export default Poll;
+// export default Poll;
+module.exports = Poll;

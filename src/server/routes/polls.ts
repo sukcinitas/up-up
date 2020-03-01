@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+// import { Request, Response } from 'express';
 const router = require('express').Router();
 const Poll = require('../models/poll.model');
 
@@ -24,7 +24,7 @@ router.route('/').get(async (req:Request, res:Response) => {
   }
 });
 
-router.route('/:id').get(async (req:Request, res:Response) => {
+router.route('/:id').get(async (req, res) => {
   try {
     const poll = await Poll.findById(req.params.id);
     res.json({ poll });
@@ -33,7 +33,7 @@ router.route('/:id').get(async (req:Request, res:Response) => {
   }
 });
 
-router.route('/:id').delete(async (req:Request, res:Response) => {
+router.route('/:id').delete(async (req, res) => {
   try {
     await Poll.findByIdAndDelete(req.params.id);
     res.send('The poll has been successfully deleted!');
@@ -42,7 +42,7 @@ router.route('/:id').delete(async (req:Request, res:Response) => {
   }
 });
 
-router.route('/:id').put(async (req:Request, res:Response) => {
+router.route('/:id').put(async (req, res) => {
   try {
     const { option, options, votes } = req.body;
     const updatedOptions = { ...options };

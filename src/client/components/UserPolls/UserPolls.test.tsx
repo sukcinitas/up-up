@@ -4,7 +4,7 @@ import {
 } from '@testing-library/react';
 // import axiosMock from 'axios';
 import axios from 'axios';
-import UserPolls from './UserPolls.js';
+import UserPolls from './UserPolls';
 
 afterEach(cleanup);
 jest.mock('axios');

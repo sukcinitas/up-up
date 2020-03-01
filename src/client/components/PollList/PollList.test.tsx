@@ -6,16 +6,15 @@ import { Provider } from 'react-redux';
 import { render, cleanup, waitForElement } from '@testing-library/react';
 // import axiosMock from 'axios';
 import axios from 'axios';
-// eslint-disable-next-line no-unused-vars
-import reducer, { initialState, AppState } from '../../redux/reducers';
+import reducer, { initialState } from '../../redux/reducers';
 
-import PollList from './PollList.js';
+import PollList from './PollList';
 
 function renderWithRedux(
   ui,
-  { // eslint-disable-next-line no-shadow
-    initialState,
-    store = createStore(reducer, initialState),
+  {
+    state = initialState,
+    store = createStore(reducer, state),
     route = '/',
     history = createMemoryHistory({ initialEntries: [route] }),
   } = {},
@@ -85,7 +84,7 @@ describe('<PollList /> Component', () => {
       </Route>,
       {
         route: '/',
-        initialState: { username: 'testUser1', userId: '1' },
+        state: { username: 'testUser1', userId: '1' },
       },
     );
     expect(getByText('Loading...').textContent).toBe('Loading...');

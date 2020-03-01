@@ -9,10 +9,9 @@ import {
 import axios from 'axios';
 // import axiosMock from 'axios';
 import 'regenerator-runtime/runtime';
-// eslint-disable-next-line no-unused-vars
 import reducer, { initialState } from '../../redux/reducers';
 
-import Header from './Header.js';
+import Header from './Header';
 
 afterEach(cleanup);
 jest.mock('axios');
@@ -20,9 +19,9 @@ const axiosMock = axios as jest.Mocked<typeof axios>;
 
 function renderWithRedux(
   ui,
-  { // eslint-disable-next-line no-shadow
-    initialState,
-    store = createStore(reducer, initialState),
+  {
+    state = initialState,
+    store = createStore(reducer, state),
     route = '/',
     history = createMemoryHistory({ initialEntries: [route] }),
   } = {},
@@ -64,7 +63,7 @@ describe('<Header /> Component', () => {
       </Route>,
       {
         route: '/',
-        initialState: { ...user },
+        state: { ...user },
       },
     );
     expect(getByText(/Voting App/i).textContent).toBe('Voting App');
@@ -82,7 +81,7 @@ describe('<Header /> Component', () => {
       </Route>,
       {
         route: '/',
-        initialState: { ...user },
+        state: { ...user },
       },
     );
     expect(getByText(user.username).textContent).toBe('testUser1');

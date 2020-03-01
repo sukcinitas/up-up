@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { compareSync } = require('bcryptjs');
-import { Request, Response } from 'express';
+// import { Request, Response } from 'express';
 const passport = require('passport');
 const User = require('../models/user.model');
 const Poll = require('../models/poll.model');

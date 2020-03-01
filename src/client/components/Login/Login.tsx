@@ -6,7 +6,7 @@ import './Login.css';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { receiveCurrentUser, AppState, ActionTypes } from '../../redux/actions';
-import ErrorMessage from '../ErrorMessage/ErrorMessage.js';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 axios.defaults.withCredentials = true;
 

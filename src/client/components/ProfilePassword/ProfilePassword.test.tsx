@@ -5,9 +5,7 @@ import {
 import 'regenerator-runtime/runtime';
 // import axiosMock from 'axios';
 import axios from 'axios';
-// eslint-disable-next-line no-unused-vars
-
-import ProfilePassword from './ProfilePassword.jsx';
+import ProfilePassword from './ProfilePassword';
 
 afterEach(cleanup);
 jest.mock('axios');

@@ -8,7 +8,6 @@ import {
 } from '@testing-library/react';
 // import axiosMock from 'axios';
 import axios from 'axios';
-// eslint-disable-next-line no-unused-vars
 import reducer, { initialState } from '../../redux/reducers';
 
 import Profile from './Profile.js';
@@ -16,8 +15,8 @@ import Profile from './Profile.js';
 function renderWithRedux(
   ui,
   { // eslint-disable-next-line no-shadow
-    initialState,
-    store = createStore(reducer, initialState),
+    state = initialState,
+    store = createStore(reducer, state),
     route = '/user/profile/testUser1',
     history = createMemoryHistory({ initialEntries: [route] }),
   } = {},
@@ -48,7 +47,7 @@ describe('<Profile /> Component', () => {
       </Route>,
       {
         route: '/user/profile/testUser1',
-        initialState: { userId: '1', username: 'testUser1' },
+        state: { userId: '1', username: 'testUser1' },
       },
     );
     expect(getByText(/User information/i).textContent).toBe('User information');

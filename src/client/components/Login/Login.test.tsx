@@ -8,16 +8,15 @@ import {
 } from '@testing-library/react';
 // import axiosMock from 'axios';
 import axios from 'axios';
-// eslint-disable-next-line no-unused-vars
 import reducer, { initialState } from '../../redux/reducers';
 
 import Login from './Login.js';
 
 function renderWithRedux(
   ui,
-  { // eslint-disable-next-line no-shadow
-    initialState,
-    store = createStore(reducer, initialState),
+  { 
+    state = initialState,
+    store = createStore(reducer, state),
     route = '/user/login',
     history = createMemoryHistory({ initialEntries: [route] }),
   } = {},
@@ -66,11 +65,11 @@ describe('<Login /> Component', () => {
       },
     );
 
-    const usernameInput = getByLabelText('Username');
+    const usernameInput = getByLabelText('Username') as HTMLInputElement;
     fireEvent.change(usernameInput, { target: { value: 'testUser1' } });
     expect(usernameInput.value).toBe('testUser1');
 
-    const passwordInput = getByLabelText('Password');
+    const passwordInput = getByLabelText('Password') as HTMLInputElement;;
     fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
     expect(passwordInput.value).toBe('testPassword');
   });

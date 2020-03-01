@@ -14,8 +14,7 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 axios.defaults.withCredentials = true;
 
-interface IProfileProps extends RouteComponentProps {
-};
+interface IProfileProps extends RouteComponentProps {};
 interface IProfileDispatchProps {
   logout: () => void,
 };
@@ -25,7 +24,6 @@ interface IProfileState {
   message:string,
   errorMessage:string,
 };
-
 
 class Profile extends React.Component<AllProps, IProfileState> {
   static propTypes: { username: PropTypes.Validator<string>; userId: PropTypes.Validator<string>; history: any; logout: PropTypes.Validator<(...args: any[]) => any>; };

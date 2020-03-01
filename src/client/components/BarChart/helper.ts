@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 
-const drawChart = (datum:{optionsList:Array<{}>, sumVotes:number}) => {
+const drawChart = (datum:{optionsList:Array<{option:string, votes:number}>, sumVotes:number}) => {
   d3.select('svg').remove();
 
   const data = datum.optionsList.sort((a:{option:string, votes:number}, b:{option:string, votes:number}) => b.votes - a.votes);

@@ -6,9 +6,9 @@ import { Provider } from 'react-redux';
 import {
   render, cleanup, waitForElement, fireEvent,
 } from '@testing-library/react';
-import axiosMock from 'axios';
+// import axiosMock from 'axios';
+import axios from 'axios';
 import 'regenerator-runtime/runtime';
-// eslint-disable-next-line no-unused-vars
 import reducer, { initialState } from '../../redux/reducers';
 import formatDate from '../../util/formatDate';
 
@@ -16,9 +16,9 @@ import Poll from './Poll';
 
 function renderWithRedux(
   ui,
-  { // eslint-disable-next-line no-shadow
-    initialState,
-    store = createStore(reducer, initialState),
+  {
+    state = initialState,
+    store = createStore(reducer, state),
     route = '/polls/1',
     history = createMemoryHistory({ initialEntries: [route] }),
   } = {},
@@ -36,6 +36,7 @@ function renderWithRedux(
 }
 afterEach(cleanup);
 jest.mock('axios');
+const axiosMock = axios as jest.Mocked<typeof axios>;
 // test poll
 const poll = {
   _id: '1',
@@ -88,7 +89,7 @@ describe('<Poll /> Component', () => {
       </Route>,
       {
         route: '/polls/1',
-        initialState: { username: 'testUser1', userId: '1' },
+        state: { username: 'testUser1', userId: '1' },
       },
     );
     expect(getByText('Loading...').textContent).toBe('Loading...');
@@ -124,7 +125,7 @@ describe('<Poll /> Component', () => {
       </Route>,
       {
         route: '/polls/1',
-        initialState: { username: 'testUser1', userId: '1' },
+        state: { username: 'testUser1', userId: '1' },
       },
     );
     expect(getByText('Loading...').textContent).toBe('Loading...');

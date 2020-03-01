@@ -20,8 +20,11 @@ module.exports = {
   testEnvironment: 'jsdom',
 
   // The glob patterns Jest uses to detect test files
-  testMatch: ['**/__tests__/**/*.tsx?', '**/?(*.)+(spec|test).tsx?'],
-
+  // testMatch: ['**/__tests__/**/*.tsx?', '**/?(*.)+(spec|test).tsx?'],
+  transform: {
+    '^.+\\.tsx?$': 'ts-jest',
+  },
+  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
   // An array of regexp pattern strings that are matched against
   // all test paths, matched tests are skipped
   testPathIgnorePatterns: ['\\\\node_modules\\\\'],

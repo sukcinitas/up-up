@@ -5,16 +5,15 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { render, cleanup, fireEvent } from '@testing-library/react';
 // import axiosMock from 'axios';
-// eslint-disable-next-line no-unused-vars
-import reducer, { initialState} from '../../redux/reducers';
+import reducer, { initialState } from '../../redux/reducers';
 
 import CreatePollForm from './CreatePollForm';
 
 function renderWithRedux(
   ui,
-  { // eslint-disable-next-line no-shadow
-    initialState,
-    store = createStore(reducer, initialState),
+  {
+    state = initialState,
+    store = createStore(reducer, state),
     route = '/user/create-poll',
     history = createMemoryHistory({ initialEntries: [route] }),
   } = {},
