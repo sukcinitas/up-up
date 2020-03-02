@@ -26,7 +26,8 @@ interface IRegisterState {
     passwordsMatch:string,
     usernameTaken:boolean,
     emailTaken:boolean
-}
+  },
+};
 
 class Register extends React.Component<AllProps, IRegisterState>{
   static propTypes: { register: PropTypes.Validator<(...args: any[]) => any>; };
@@ -36,8 +37,7 @@ class Register extends React.Component<AllProps, IRegisterState>{
       username: '',
       email: '',
       password: '',
-      // eslint-disable-next-line react/no-unused-state
-      confirmPassword: '', // it is used in input
+      confirmPassword: '',
       errors: {
         usernameErr: '',
         emailErr: '',
@@ -72,32 +72,32 @@ class Register extends React.Component<AllProps, IRegisterState>{
       default: return;
     }
     switch(e.currentTarget.name){
-        case 'username':
-          this.setState({
-            errors,
-            username: e.currentTarget.value,
-          });
-          break;
-        case 'email':
-          this.setState({
-            errors,
-            email: e.currentTarget.value,
-          });
-          break;
-        case 'password':
-          this.setState({
-            errors,
-            password: e.currentTarget.value,
-          });
-          break;
-        case 'confirmPassword':
-          this.setState({
-            errors,
-            confirmPassword: e.currentTarget.value,
-          });
-          break;
-      }
-  }
+      case 'username':
+        this.setState({
+          errors,
+          username: e.currentTarget.value,
+        });
+        break;
+      case 'email':
+        this.setState({
+          errors,
+          email: e.currentTarget.value,
+        });
+        break;
+      case 'password':
+        this.setState({
+          errors,
+          password: e.currentTarget.value,
+        });
+        break;
+      case 'confirmPassword':
+        this.setState({
+          errors,
+          confirmPassword: e.currentTarget.value,
+        });
+        break;
+    }
+  };
 
   handleSubmit(e:React.MouseEvent<HTMLButtonElement>) {
     const {
@@ -117,11 +117,7 @@ class Register extends React.Component<AllProps, IRegisterState>{
       password,
     };
 
-    axios('http://localhost:8080/api/user/register',
-      {
-        method: 'post',
-        data: user,
-      })
+    axios.post('http://localhost:8080/api/user/register', { user })
       .then((res) => {
         const newErrors = {
           ...errors,
@@ -247,4 +243,4 @@ const mapDispatchToProps = (dispatch:Dispatch<ActionTypes>) => ({
   register: (user:AppState) => dispatch(receiveCurrentUser(user)),
 });
 
-export default connect(null, mapDispatchToProps)(Register);
+export default connect<{}, IRegisterDispatchProps>(null, mapDispatchToProps)(Register);

@@ -27,7 +27,7 @@ interface IProfileState {
 
 class Profile extends React.Component<AllProps, IProfileState> {
   static propTypes: { username: PropTypes.Validator<string>; userId: PropTypes.Validator<string>; history: any; logout: PropTypes.Validator<(...args: any[]) => any>; };
-  constructor(props:AllProps) {
+    constructor(props:AllProps) {
     super(props);
     this.state = {
       message: '',
@@ -38,7 +38,7 @@ class Profile extends React.Component<AllProps, IProfileState> {
 
   handleDelete() {
     const { history, userId, logout } = this.props;
-    axios.delete('http://localhost:8080/api/user/profile', { id: userId })
+    axios.delete('http://localhost:8080/api/user/profile', {data: { id: userId }})
       .then(() => {
         this.setState({
           message: 'User has been successfully deleted!',
@@ -112,4 +112,4 @@ const mapDispatchToProps = (dispatch:Dispatch<ActionTypes>) => ({
   logout: () => dispatch(logoutCurrentUser()),
 });
 
-export default connect<AppState, IProfileDispatchProps, IProfileProps>(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect<AppState, IProfileDispatchProps>(mapStateToProps, mapDispatchToProps)(Profile);

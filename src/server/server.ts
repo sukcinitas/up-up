@@ -4,10 +4,10 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
-const passport = require('passport');
+import * as passport from 'passport';
 const LocalStrategy = require('passport-local').Strategy;
 const { compareSync } = require('bcryptjs');
-const User = require('./models/user.model.ts');
+import User from './models/user.model';
 const usersRouter = require('./routes/users');
 const pollsRouter = require('./routes/polls');
 
@@ -28,7 +28,7 @@ const pollsRouter = require('./routes/polls');
       }
     }));
 
-    passport.serializeUser((user, done) => {
+    passport.serializeUser((user:{id:string, username?:string}, done) => {
       done(null, user.id);
     });
 

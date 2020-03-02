@@ -1,10 +1,10 @@
-// import * as mongoose from 'mongoose';
-// import { hashSync } from 'bcryptjs';
+import { Schema, model, Document, Model } from 'mongoose';
+import { hashSync } from 'bcryptjs';
 
-const mongoose = require('mongoose');
-const { hashSync } = require('bcryptjs');
+// const mongoose = require('mongoose');
+// const { hashSync } = require('bcryptjs');
 
-const userSchema = new mongoose.Schema({
+const userSchema:Schema = new Schema({
   username: {
     type: String,
     required: true,
@@ -26,15 +26,21 @@ const userSchema = new mongoose.Schema({
 },
 { timestamps: true });
 
-
+export interface IUser extends Document{
+  username:string,
+  email:string,
+  password:string,
+  createdAt?:Date,
+  updatedAt?:Date,
+};
 // better not use arrow functions, because it would need binding
-userSchema.pre('save', function hashPassword() {
+userSchema.pre<IUser>('save', function hashPassword() {
   if (this.isModified('password')) {
     this.password = hashSync(this.password, 10);
   }
 });
+export interface IUserModel extends Model<IUser> {};
+const User = model<IUser>('User', userSchema);
 
-const User = mongoose.model('User', userSchema);
-
-// export default User;
-module.exports = User;
+export default User;
+// module.exports = User;

@@ -9,12 +9,11 @@ import {
 // import axiosMock from 'axios';
 import axios from 'axios';
 import reducer, { initialState } from '../../redux/reducers';
-
-import Profile from './Profile.js';
+import Profile from './Profile';
 
 function renderWithRedux(
   ui,
-  { // eslint-disable-next-line no-shadow
+  {
     state = initialState,
     store = createStore(reducer, state),
     route = '/user/profile/testUser1',

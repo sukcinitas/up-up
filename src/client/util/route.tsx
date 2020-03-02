@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import * as React from 'react';
 // import * as PropTypes from 'prop-types';
-import { connect, ConnectedComponent } from 'react-redux';
+import { connect } from 'react-redux';
 import { Redirect, Route, withRouter } from 'react-router-dom';
 import { AppState } from '../redux/actions';
 import { RouteComponentProps } from 'react-router-dom';
@@ -12,7 +12,9 @@ import { RouteComponentProps } from 'react-router-dom';
 const mapStateToProps = (state:AppState) => ({
   isLoggedIn: Boolean(state.userId),
 });
-interface RouteProps extends RouteComponentProps{};
+interface RouteProps extends RouteComponentProps{
+  path:string,
+};
 interface Props {
   isLoggedIn:boolean,
   component:any,
@@ -38,21 +40,21 @@ const Protected:React.FunctionComponent<AllProps> = ({ isLoggedIn, path, compone
 );
 
 // Auth.propTypes = {
-  // isLoggedIn: PropTypes.bool.isRequired,
-  // path: ReactRouterPropTypes.path.isRequired,
-  // component: PropTypes.elementType.isRequired,
+//   isLoggedIn: PropTypes.bool.isRequired,
+//   path: ReactRouterPropTypes.path.isRequired,
+//   component: PropTypes.elementType.isRequired,
 // };
 
 // Protected.propTypes = {
 //   isLoggedIn: PropTypes.bool.isRequired,
-  // path: ReactRouterPropTypes.path.isRequired,
-  // component: PropTypes.Profile.isRequired,
+//   path: ReactRouterPropTypes.path.isRequired,
+//   component: PropTypes.Profile.isRequired,
 // };
 
 export const AuthRoute = withRouter(
-  connect(mapStateToProps)(Auth) as any
+  connect(mapStateToProps)(Auth)
 );
 
 export const ProtectedRoute = withRouter(
-  connect(mapStateToProps)(Protected) as any
+  connect(mapStateToProps)(Protected)
 );

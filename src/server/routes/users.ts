@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const { compareSync } = require('bcryptjs');
-// import { Request, Response } from 'express';
-const passport = require('passport');
-const User = require('../models/user.model');
-const Poll = require('../models/poll.model');
+import { Request, Response } from 'express';
+import passport = require('passport');
+import User, { IUser } from '../models/user.model';
+import Poll, { IPoll } from '../models/poll.model';
 
 const sessionizeUser = (user) => ({ userId: user.id, username: user.username });
 
@@ -26,7 +26,7 @@ router.route('/register').post(async (req:Request, res:Response) => {
     } else if (email.length > 0) {
       res.json({ email_taken: true });
     } else {
-      const newUser = new User({
+      const newUser:IUser = new User({
         username: req.body.username,
         email: req.body.email,
         password: req.body.password,
@@ -39,12 +39,14 @@ router.route('/register').post(async (req:Request, res:Response) => {
       res.json({ redirect: true, sessionUser });
     }
   } catch (err) {
-    console.log('register', err);
     res.json(`Error: ${err}`);
   }
 });
 
-router.route('/login').post(passport.authenticate('local', { session: true }), (req:Request, res:Response) => {
+interface LoginRequest extends Request {
+  message: any;
+};
+router.route('/login').post(passport.authenticate('local', { session: true }), (req:LoginRequest, res:Response) => {
   try {
     const sessionUser = sessionizeUser(req.user);
     res.json({ isAuthenticated: true, sessionUser });
@@ -58,18 +60,18 @@ router.route('/create-poll').post(async (req:Request, res:Response) => {
     const {
       name, question, options, createdBy,
     } = req.body;
-    const newPoll = new Poll({
+    const newPoll:IPoll = new Poll({
       name,
       question,
       votes: 0,
       options,
       createdBy,
     });
+    console.log(newPoll);
     await newPoll.save();
-    // eslint-disable-next-line no-underscore-dangle
+    // eslint-disable-next-line no-underscore-dangle~
     res.json({ redirect: true, id: newPoll._id });
   } catch (err) {
-    console.log('create err', err);
     res.json(`Error: ${err}`);
   }
 });
