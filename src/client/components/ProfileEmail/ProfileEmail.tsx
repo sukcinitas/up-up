@@ -89,13 +89,12 @@ class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailStat
     } = this.state;
     return (
       <div>
-        {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         <p>
           Email:
           {isLoading ? 'Loading...' : email}
         </p>
         <button type="button" data-testid="showEmailChange" onClick={this.showEmailChange}>Change email</button>
-        {errorMessage ? <span>{errorMessage}</span> : ''}
+        {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         {isChangingEmail
           ? (
             <div>
@@ -108,10 +107,5 @@ class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailStat
     );
   }
 }
-
-ProfileEmail.propTypes = {
-  username: PropTypes.string.isRequired,
-  userId: PropTypes.string.isRequired,
-};
 
 export default ProfileEmail;

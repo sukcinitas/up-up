@@ -1,10 +1,10 @@
 import * as d3 from 'd3';
 
-const drawChart = (datum:{optionsList:Array<{option:string, votes:number}>, sumVotes:number}) => {
+const drawChart = (datum:{optionsList:{option:string, votes:number}[], sumVotes:number}) => {
   d3.select('svg').remove();
 
   const data = datum.optionsList.sort((a:{option:string, votes:number}, b:{option:string, votes:number}) => b.votes - a.votes);
-  const { sumVotes } = datum;
+  const sumVotes:number = datum.sumVotes;
   const margin = {
     top: 10, right: 40, bottom: 30, left: 400,
   };
@@ -12,16 +12,16 @@ const drawChart = (datum:{optionsList:Array<{option:string, votes:number}>, sumV
   const height = 300 - margin.top - margin.bottom;
 
   const color = d3.scaleSequential(d3.interpolateViridis)
-    .domain([0, d3.max(data, (d:{option:string, votes:number}) => d.votes)]);
+    .domain([0, d3.max(data, (d:{option:string, votes:any}) => d.votes)]);
 
   const y = d3.scaleBand()
     .range([height, 0])
-    .domain(data.map((d:{option:string, votes:number}) => d.option))
+    .domain(data.map((d:{option:string, votes:number}):any => d.option))
     .padding(0.05);
 
   const x = d3.scaleLinear()
     .range([0, width])
-    .domain([0, d3.max(data, (d:{option:string, votes:number}) => (d.votes) / sumVotes) * 100]); // max percentage
+    .domain([0, d3.max(data, (d:{option:string, votes:number}):any => (d.votes) / sumVotes) * 100]); // max percentage
 
   const svg = d3.select('#chart').append('svg')
     .attr('width', width + margin.left + margin.right)
@@ -34,7 +34,7 @@ const drawChart = (datum:{optionsList:Array<{option:string, votes:number}>, sumV
     .enter().append('rect')
     .attr('class', 'bar')
     .attr('width', (d:{option:string, votes:number}) => x(((d.votes / sumVotes) * 100))) // percentage
-    .attr('y', (d:{option:string, votes:number}) => y(d.option))
+    .attr('y', (d:{option:string, votes:number}):any => y(d.option))
     .attr('height', y.bandwidth())
     .style('fill', (d:{option:string, votes:number}) => color(d.votes));
 
@@ -70,7 +70,7 @@ const drawChart = (datum:{optionsList:Array<{option:string, votes:number}>, sumV
       .attr('x2', 0)
       .attr('y2', 0);
   });
-  bars.on('mouseover', function handleMouseOver(d:{option:string, votes:number}) {
+  bars.on('mouseover', function handleMouseOver(this:any, d:{option:string, votes:number}) {
     d3.select(this)
       .style('opacity', '0.75');
     line

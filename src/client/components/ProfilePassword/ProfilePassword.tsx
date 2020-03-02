@@ -87,9 +87,4 @@ class ProfilePassword extends React.Component<IProfilePasswordProps, IProfilePas
   }
 }
 
-ProfilePassword.propTypes = {
-  username: PropTypes.string.isRequired,
-  userId: PropTypes.string.isRequired,
-};
-
 export default ProfilePassword;

@@ -11,8 +11,11 @@ import { RouteComponentProps } from 'react-router-dom';
 
 axios.defaults.withCredentials = true;
 
+interface IPollStateProps {
+  username:string,
+};
 interface RouteProps extends RouteComponentProps<{id:string}> {};
-type AllProps = RouteProps & AppState;
+type AllProps = RouteProps & IPollStateProps;
 
 interface IPollState {
   poll: {
@@ -113,7 +116,10 @@ class Poll extends React.Component<AllProps, IPollState> {
     const {
       name, question, options, votes, createdBy, createdAt,
     } = poll;
-    const data = {
+    const data:{
+      optionsList: {option:string, votes:number}[],
+      sumVotes:number,
+    } = {
       optionsList: Object.keys(options).map((option) => ({ option, votes: options[option] })),
       sumVotes: votes,
     };
@@ -148,14 +154,8 @@ class Poll extends React.Component<AllProps, IPollState> {
   }
 }
 
-Poll.propTypes = {
-  match: ReactRouterPropTypes.match.isRequired,
-  history: ReactRouterPropTypes.history.isRequired,
-  username: PropTypes.string.isRequired,
-};
-
 const mapStateToProps = (state:AppState) => ({
   username: state.username,
 });
 
-export default connect(mapStateToProps)(Poll);
+export default connect<IPollStateProps, {}, AllProps, AppState>(mapStateToProps)(Poll);

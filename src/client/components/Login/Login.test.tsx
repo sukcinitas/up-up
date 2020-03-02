@@ -10,7 +10,7 @@ import {
 import axios from 'axios';
 import reducer, { initialState } from '../../redux/reducers';
 
-import Login from './Login.js';
+import Login from './Login';
 
 function renderWithRedux(
   ui,

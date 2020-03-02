@@ -10,7 +10,7 @@ import Login from '../Login/Login';
 import Profile from '../Profile/Profile';
 import CreatePollForm from '../CreatePollForm/CreatePollForm';
 
-const App = () => (
+const App:React.FunctionComponent<{}> = () => (
   <Router>
     <Route component={Header} />
     <Switch>

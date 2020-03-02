@@ -7,7 +7,11 @@ import Poll, { IPoll } from '../models/poll.model';
 
 const sessionizeUser = (user) => ({ userId: user.id, username: user.username });
 
-router.route('/register').post(async (req:Request, res:Response) => {
+type SessionRequest = Request & {
+  session: Express.Session;
+  sessionID: string;
+}
+router.route('/register').post(async (req:SessionRequest, res:Response) => {
   // process.on('unhandledRejection', function(err) {
   //     console.log(err);
   // });
@@ -67,7 +71,6 @@ router.route('/create-poll').post(async (req:Request, res:Response) => {
       options,
       createdBy,
     });
-    console.log(newPoll);
     await newPoll.save();
     // eslint-disable-next-line no-underscore-dangle~
     res.json({ redirect: true, id: newPoll._id });
@@ -85,6 +88,7 @@ router.route('/polls/:username').get(async (req:Request, res:Response) => {
           id: '$_id',
           name: 1,
           votes: 1,
+          _id: 0,
         },
       },
     ]);

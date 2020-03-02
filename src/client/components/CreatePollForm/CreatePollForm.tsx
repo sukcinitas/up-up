@@ -11,6 +11,9 @@ import { AppState } from '../../redux/actions';
 
 axios.defaults.withCredentials = true;
 
+interface ICreatePollFormStateProps {
+  username:string,
+}
 interface CreatePollFormRouteProps extends RouteComponentProps {};
 type AllProps = CreatePollFormRouteProps & AppState;
 
@@ -164,13 +167,8 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
   }
 }
 
-CreatePollForm.propTypes = {
-  history: ReactRouterPropTypes.history.isRequired,
-  username: PropTypes.string.isRequired,
-};
-
 const mapStateToProps = (state:AppState) => ({
   username: state.username,
 });
 
-export default connect(mapStateToProps)(CreatePollForm);
+export default connect<ICreatePollFormStateProps, {}, AllProps, AppState>(mapStateToProps)(CreatePollForm);

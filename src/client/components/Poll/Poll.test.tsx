@@ -42,7 +42,7 @@ const poll = {
   _id: '1',
   question: 'Test question',
   name: 'Test one',
-  options: { one: 1, two: 2 },
+  options: { 'one': 1, 'two': 2 },
   votes: 69,
   createdBy: 'testUser1',
   createdAt: '2020-01-21T12:45:03.180Z',
@@ -116,7 +116,7 @@ describe('<Poll /> Component', () => {
   it('let\'s vote and rerenders component after that', async () => {
     axiosMock.get.mockResolvedValueOnce({ data: { poll } });
     axiosMock.put.mockResolvedValueOnce(
-      { data: { poll: { ...poll, options: { one: 1, two: 3 }, votes: 70 } } },
+      { data: { poll: { ...poll, options: { 'one': 1, 'two': 3 }, votes: 70 } } },
     );
     const { getByText, getByTestId } = renderWithRedux(
       <Route path="/polls/1">

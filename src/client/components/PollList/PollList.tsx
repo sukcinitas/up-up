@@ -10,7 +10,10 @@ import formatDate from '../../util/formatDate';
 
 axios.defaults.withCredentials = true;
 
-type AllProps = AppState;
+interface IPollListStateProps {
+  username:string,
+};
+type AllProps = IPollListStateProps;
 
 interface IPollListState {
   polls:Array<any>,
@@ -69,12 +72,8 @@ class PollList extends React.Component<AllProps, IPollListState> {
   }
 }
 
-PollList.propTypes = {
-  username: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = (state:AppState) => ({
+const mapStateToProps = (state:AppState):IPollListStateProps => ({
   username: state.username,
 });
 
-export default connect(mapStateToProps)(PollList);
+export default connect<IPollListStateProps, {}, AllProps, AppState>(mapStateToProps)(PollList);

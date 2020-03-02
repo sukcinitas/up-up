@@ -1,12 +1,12 @@
 import * as React from 'react';
-// import * as PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import drawChart from './helper';
 
 interface Props {
   data:{
-    optionsList: Array<{option:string, votes:number}>,
+    optionsList: {option:string, votes:number}[],
     sumVotes:number,
-  }
+  } 
 };
 
 const BarChart:React.FunctionComponent<Props> = ({ data }) => {

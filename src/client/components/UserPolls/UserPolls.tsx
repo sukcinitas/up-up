@@ -10,7 +10,11 @@ interface IUserPollsProps {
 };
 
 interface IUserPollsState {
-  userPolls: {}[],
+  userPolls: {
+    id:string,
+    name:string,
+    votes:number
+  }[],
   errorMessage: string,
 }
 
@@ -85,9 +89,5 @@ class UserPolls extends React.Component<IUserPollsProps, IUserPollsState> {
     );
   }
 }
-
-UserPolls.propTypes = {
-  username: PropTypes.string.isRequired,
-};
 
 export default UserPolls;

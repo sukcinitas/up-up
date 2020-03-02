@@ -235,12 +235,8 @@ class Register extends React.Component<AllProps, IRegisterState>{
   }
 };
 
-Register.propTypes = {
-  register: PropTypes.func.isRequired,
-};
-
-const mapDispatchToProps = (dispatch:Dispatch<ActionTypes>) => ({
+const mapDispatchToProps = (dispatch:Dispatch<ActionTypes>):IRegisterDispatchProps => ({
   register: (user:AppState) => dispatch(receiveCurrentUser(user)),
 });
 
-export default connect<{}, IRegisterDispatchProps>(null, mapDispatchToProps)(Register);
+export default connect<{}, IRegisterDispatchProps, AllProps, AppState>(null, mapDispatchToProps)(Register);

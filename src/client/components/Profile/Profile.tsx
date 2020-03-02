@@ -14,11 +14,15 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 axios.defaults.withCredentials = true;
 
-interface IProfileProps extends RouteComponentProps {};
+interface IProfileStateProps {
+  username:string,
+  userId:string,
+};
+interface IProfileRouteProps extends RouteComponentProps {};
 interface IProfileDispatchProps {
   logout: () => void,
 };
-type AllProps = IProfileProps & AppState & IProfileDispatchProps;
+type AllProps = IProfileRouteProps & IProfileStateProps & IProfileDispatchProps;
 
 interface IProfileState {
   message:string,
@@ -112,4 +116,4 @@ const mapDispatchToProps = (dispatch:Dispatch<ActionTypes>) => ({
   logout: () => dispatch(logoutCurrentUser()),
 });
 
-export default connect<AppState, IProfileDispatchProps>(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect<IProfileStateProps, IProfileDispatchProps, AllProps, AppState>(mapStateToProps, mapDispatchToProps)(Profile);
