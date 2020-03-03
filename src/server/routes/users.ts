@@ -18,22 +18,22 @@ router.route('/register').post(async (req:SessionRequest, res:Response) => {
 
   try {
     // will need validation
-    const user = await User.find({ username: req.body.username });
-    const email = await User.find({ email: req.body.email });
-    if (user.length > 0 && email.length > 0) {
+    const user = await User.findOne({ username: req.body.user.username });
+    const email = await User.findOne({ email: req.body.user.email });
+    if (user && email) {
       res.json({
         username_taken: true,
         email_taken: true,
       });
-    } else if (user.length > 0) {
+    } else if (user) {
       res.json({ username_taken: true });
-    } else if (email.length > 0) {
+    } else if (email) {
       res.json({ email_taken: true });
     } else {
       const newUser:IUser = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password,
+        username: req.body.user.username,
+        email: req.body.user.email,
+        password: req.body.user.password,
       });
 
       await newUser.save();

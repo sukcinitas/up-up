@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import Poll from '../models/poll.model';
 const router = require('express').Router();
-// const Poll = require('../models/poll.model');
 
 // GET all polls, GET one poll by id, DELETE one poll by id, PUT vote in poll by id
 

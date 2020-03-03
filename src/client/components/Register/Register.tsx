@@ -239,4 +239,4 @@ const mapDispatchToProps = (dispatch:Dispatch<ActionTypes>):IRegisterDispatchPro
   register: (user:AppState) => dispatch(receiveCurrentUser(user)),
 });
 
-export default connect<{}, IRegisterDispatchProps, AllProps, AppState>(null, mapDispatchToProps)(Register);
+export default connect(null, mapDispatchToProps)(Register);

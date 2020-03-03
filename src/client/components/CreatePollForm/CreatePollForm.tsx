@@ -171,4 +171,4 @@ const mapStateToProps = (state:AppState) => ({
   username: state.username,
 });
 
-export default connect<ICreatePollFormStateProps, {}, AllProps, AppState>(mapStateToProps)(CreatePollForm);
+export default connect(mapStateToProps)(CreatePollForm);

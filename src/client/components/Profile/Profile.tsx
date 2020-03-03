@@ -101,13 +101,6 @@ class Profile extends React.Component<AllProps, IProfileState> {
   }
 }
 
-Profile.propTypes = {
-  username: PropTypes.string.isRequired,
-  userId: PropTypes.string.isRequired,
-  history: ReactRouterPropTypes.history.isRequired,
-  logout: PropTypes.func.isRequired,
-};
-
 const mapStateToProps = (state:AppState) => ({
   username: state.username,
   userId: state.userId,
@@ -116,4 +109,4 @@ const mapDispatchToProps = (dispatch:Dispatch<ActionTypes>) => ({
   logout: () => dispatch(logoutCurrentUser()),
 });
 
-export default connect<IProfileStateProps, IProfileDispatchProps, AllProps, AppState>(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

@@ -158,4 +158,4 @@ const mapStateToProps = (state:AppState) => ({
   username: state.username,
 });
 
-export default connect<IPollStateProps, {}, AllProps, AppState>(mapStateToProps)(Poll);
+export default connect(mapStateToProps)(Poll);

@@ -11,7 +11,7 @@
         "strictNullChecks": false,
     },
     "include": [
-        "src"
+        "src/**/*"
     ],
     "compileOnSave": false
 }

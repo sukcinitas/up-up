@@ -76,4 +76,4 @@ const mapStateToProps = (state:AppState):IPollListStateProps => ({
   username: state.username,
 });
 
-export default connect<IPollListStateProps, {}, AllProps, AppState>(mapStateToProps)(PollList);
+export default connect(mapStateToProps)(PollList);

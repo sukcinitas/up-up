@@ -71,4 +71,4 @@ const mapStateToProps = (state:AppState) => ({
   username: state.username,
 });
 
-export default connect<IHeaderStateProps, IHeaderDispatchProps, AllProps, AppState>(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
