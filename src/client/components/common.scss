@@ -1,0 +1,116 @@
+$light-blue: rgb(86, 34, 143);
+$white: rgba(255, 255, 255, 0.979);
+$blue: rgba(45, 45, 97, 0.932);
+$yellow: rgb(255, 212, 22);
+$orange: rgb(255, 137, 68);
+
+/*BUTTONS*/
+/*FORMS*/
+
+/*BUTTONS*//////////////////////////////////////////////////////////////////////////////////////////////////////
+.btn {
+    padding: 6px;
+    background-color: $light-blue;
+    border: 1px solid $blue;
+    border-radius: 2px;
+    color: $white;
+
+    &--primary {
+        color: $blue;
+        background-color: $white;
+    }
+
+    &--user {
+        border: none;
+        color: $blue;
+        background-color: $white;
+    }
+
+    &--form {
+        font-size: 14px;
+        width: 100px;
+        background-color: $white;
+        color: $blue;
+        align-self: center;
+        margin: 20px;
+        margin-top: 30px;
+        padding: 7px 5px;
+    }
+
+    &--delete {
+        background-color: $orange;
+        color: $blue;
+    }
+}
+
+/*FORMS*///////////////////////////////////////////////////////////////////////////////////////////////////////
+.form__heading {
+    text-align: center;
+    color: black;
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.form {
+    background-color: $light-blue;
+    border-radius: 4px;
+    padding: 30px;
+    padding-bottom: 50px;
+    max-width: 400px;
+    margin: 40px auto;
+    margin-bottom: 120px;
+    display: flex;
+    flex-direction: column;
+
+    &__label {
+        padding: 0px 70px;
+        font-size: 14px;
+        color: $white;
+        margin-top: 30px;  
+    }
+
+    &__input {
+        font-size: 15px;
+        margin: 8px 70px;
+        border: $light-blue;
+        border-bottom: 1px solid $white;  
+        background-color: $light-blue; 
+        color: $yellow;
+    }
+
+    &__input:focus {
+        padding-top: 5px;
+        border-bottom: 2px solid $yellow;
+        outline: none;
+    }
+
+    &__notes {
+        padding: 0px 70px;
+        font-size: 14px;
+        color: $orange;
+
+        &--additional {
+            margin: 0 auto;
+            color: $white;
+            font-size: 15px;
+        }
+    }
+
+    &__link {
+        color: $yellow;
+
+        &:active, &:visited {
+            color: $yellow;
+        }
+    }
+}
+
+/*PROFILE*///////////////////////////////////////////////////////////////
+.profile {
+    display: flex;
+    flex-direction: row;
+
+    section {
+        width: 50%;
+    }
+}

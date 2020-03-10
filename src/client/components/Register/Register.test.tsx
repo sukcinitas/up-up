@@ -49,7 +49,7 @@ describe('<Register /> Component', () => {
     expect(getByText(/^Password$/i).textContent).toBe('Password');
     expect(getByText(/Repeat Password/i).textContent).toBe('Repeat Password');
     expect(getByText(/E-mail/i).textContent).toBe('E-mail');
-    expect(getByText(/Already have an account?/i).textContent).toBe('Already have an account?Login');
+    expect(getByText(/Already have an account?/i).textContent).toBe('Already have an account? Login');
     expect(getByText(/^Login$/i).textContent).toBe('Login');
   });
 

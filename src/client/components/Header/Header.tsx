@@ -35,19 +35,19 @@ const Header:React.FunctionComponent<AllProps> = ({
   };
   return (
     <header className="header">
-      <h1 className="header__heading"><Link to="/">Voting App</Link></h1>
+      <h1><Link to="/" className="header__heading">V.</Link></h1>
       <div className="header__links">
         {isLoggedIn
           ? (
             <>
-              <Link to="/user/profile" className="header__profile">{username}</Link>
-              <button type="button" onClick={handleLogout} className="header__signout">Sign out</button>
+              <Link to="/user/profile" className="header__link btn btn--user">{username}</Link>
+              <button type="button" onClick={handleLogout} className="header__link btn">Sign out</button>
             </>
           )
           : (
             <>
-              <Link to="/user/login" className="header__login">Login</Link>
-              <Link to="/user/register" className="header__register">Register</Link>
+              <Link to="/user/login" className="header__link btn btn--primary">Login</Link>
+              <Link to="/user/register" className="header__link btn">Register</Link>
             </>
           )}
       </div>

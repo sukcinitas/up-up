@@ -49,7 +49,7 @@ describe('<Header /> Component', () => {
         route: '/',
       },
     );
-    expect(getByText(/Voting App/i).textContent).toBe('Voting App');
+    expect(getByText(/V\./i).textContent).toBe('V.');
     expect(getByText(/Login/i).textContent).toBe('Login');
     expect(getByText(/Register/i).textContent).toBe('Register');
   });
@@ -66,7 +66,7 @@ describe('<Header /> Component', () => {
         state: { ...user },
       },
     );
-    expect(getByText(/Voting App/i).textContent).toBe('Voting App');
+    expect(getByText(/V\./i).textContent).toBe('V.');
     expect(getByText(user.username).textContent).toBe('testUser1');
     expect(getByText(/Sign out/i).textContent).toBe('Sign out');
   });
@@ -90,10 +90,10 @@ describe('<Header /> Component', () => {
 
     const loginButton = await waitForElement(() => getByText(/Login/i));
     const registerButton = await waitForElement(() => getByText(/Register/i));
-    const votingBanner = await waitForElement(() => getByText(/Voting App/i));
+    const votingBanner = await waitForElement(() => getByText(/V\./i));
     expect(loginButton.textContent).toBe('Login');
     expect(registerButton.textContent).toBe('Register');
-    expect(votingBanner.textContent).toBe('Voting App');
+    expect(votingBanner.textContent).toBe('V.');
   });
 });
 

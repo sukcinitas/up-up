@@ -51,7 +51,7 @@ describe('<Login /> Component', () => {
     expect(getByText(/Password/i).textContent).toBe('Password');
     expect(getAllByText(/Login/i));
     expect(getByText(/Register/i).textContent).toBe('Register');
-    expect(getByText(/^Do not have an account?/i).textContent).toBe('Do not have an account?Register');
+    expect(getByText(/^Do not have an account?/i).textContent).toBe('Do not have an account? Register');
   });
 
   it('can input all values', () => {

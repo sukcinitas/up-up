@@ -5,7 +5,7 @@ interface IErrorMessageProps {
   errorMessage:string,
 };
 
-const ErrorMessage: React.FunctionComponent<IErrorMessageProps> = ({ errorMessage }) => <div><p>{errorMessage}</p></div>;
+const ErrorMessage: React.FunctionComponent<IErrorMessageProps> = ({ errorMessage }) => <div><span className="form__notes">{errorMessage}</span></div>;
 
 ErrorMessage.propTypes = {
   errorMessage: PropTypes.string.isRequired,

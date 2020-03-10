@@ -140,97 +140,99 @@ class Register extends React.Component<AllProps, IRegisterState>{
       usernameErr, emailErr, passwordErr, passwordsMatch, usernameTaken, emailTaken,
     } = errors;
     return (
-      <form className="form">
-        <h1>Register</h1>
+      <div>
+        <h1 className="form__heading">Register</h1>
+        <form className="form">
 
-        <label
-          htmlFor="username"
-          className="label"
-        >
-          Username
-        </label>
-        <input
-          type="text"
-          name="username"
-          id="username"
-          onChange={this.handleChange}
-          className="input"
-          required
-        />
-        <span className="notes">{` ${usernameErr}`}</span>
 
-        <label
-          htmlFor="email"
-          className="label"
-        >
-          E-mail
-        </label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          onChange={this.handleChange}
-          className="input"
-          required
-        />
-        <span className="notes">
-          {' '}
-          {emailErr}
-        </span>
+          <label
+            htmlFor="username"
+            className="form__label"
+          >
+            Username
+          </label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            onChange={this.handleChange}
+            className="form__input"
+            required
+          />
+          <span className="form__notes">{` ${usernameErr}`}</span>
 
-        <label
-          htmlFor="password"
-          className="label"
-        >
-          Password
-        </label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          onChange={this.handleChange}
-          className="input"
-          required
-        />
-        <span className="notes">
-          {' '}
-          {passwordErr}
-        </span>
-
-        <label
-          htmlFor="confirmPassword"
-          className="label"
-        >
-          Repeat Password
-        </label>
-        <input
-          type="password"
-          name="confirmPassword"
-          id="confirmPassword"
-          onChange={this.handleChange}
-          className="input"
-          required
-        />
-        {' '}
-        <span className="notes">
-          {' '}
-          {passwordsMatch}
-        </span>
-
-        <div>
-          <span className="notes">
-            {usernameTaken ? ' username is already in use' : ''}
+          <label
+            htmlFor="email"
+            className="form__label"
+          >
+            E-mail
+          </label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            onChange={this.handleChange}
+            className="form__input"
+            required
+          />
+          <span className="form__notes">
+            {' '}
+            {emailErr}
           </span>
-          <span className="notes">{emailTaken ? ' email is already in use' : ''}</span>
-        </div>
 
-        <button type="button" onClick={this.handleSubmit} className="label">Register</button>
-        <span>
-          Already have an account?
-          <Link to="/user/login">Login</Link>
-        </span>
-      </form>
+          <label
+            htmlFor="password"
+            className="form__label"
+          >
+            Password
+          </label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            onChange={this.handleChange}
+            className="form__input"
+            required
+          />
+          <span className="form__notes">
+            {' '}
+            {passwordErr}
+          </span>
 
+          <label
+            htmlFor="confirmPassword"
+            className="form__label"
+          >
+            Repeat Password
+          </label>
+          <input
+            type="password"
+            name="confirmPassword"
+            id="confirmPassword"
+            onChange={this.handleChange}
+            className="form__input"
+            required
+          />
+          {' '}
+          <span className="form__notes">
+            {' '}
+            {passwordsMatch}
+          </span>
+
+          <div>
+            <span className="form__notes">
+              {usernameTaken ? ' username is already in use' : ''}
+            </span>
+            <span className="form__notes">{emailTaken ? ' email is already in use' : ''}</span>
+          </div>
+
+          <button type="button" onClick={this.handleSubmit} className="btn btn--form">Register</button>
+          <span className="form__notes--additional">
+            Already have an account?{' '}
+            <Link to="/user/login" className="form__link">Login</Link>
+          </span>
+        </form>
+      </div>
     );
   }
 };

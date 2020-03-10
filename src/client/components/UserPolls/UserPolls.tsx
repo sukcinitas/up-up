@@ -67,10 +67,11 @@ class UserPolls extends React.Component<IUserPollsProps, IUserPollsState> {
     const { userPolls, errorMessage } = this.state;
     return (
       <div>
+        <h2 className="form__heading">Polls</h2>
         {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         {
           userPolls.length === 0
-            ? <p>You have not created any polls yet!</p>
+            ? <p className="form__notes">You have not created any polls yet!</p>
             : userPolls.map((poll:{
               id:string,
               name:string,
@@ -81,7 +82,7 @@ class UserPolls extends React.Component<IUserPollsProps, IUserPollsState> {
                 <p>
                   { poll.votes === 1 ? `${poll.votes} vote` : `${poll.votes} votes`}
                 </p>
-                <button data-testid={poll.id} type="button" id={poll.id} onClick={this.handlePollDeletion}>Delete</button>
+                <button data-testid={poll.id} type="button" id={poll.id} onClick={this.handlePollDeletion} className="btn btn--delete">Delete</button>
               </div>
             ))
       }

@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import './Login.css';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { receiveCurrentUser, AppState, ActionTypes } from '../../redux/actions';
@@ -65,36 +64,36 @@ class Login extends React.Component<AllProps, ILoginState> {
   render() {
     const { errorMessage } = this.state;
     return (
-      <form className="form">
+      <div>
+        <h1 className="form__heading">Login</h1>
+        <form className="form">
+          <label
+            htmlFor="username"
+            className="form__label"
+          >
+            Username
+          </label>
+          <input type="text" name="username" id="username" onChange={this.handleChange} className="form__input" />
 
-        <h1>Login</h1>
+          <label
+            htmlFor="password"
+            className="form__label"
+          >
+            Password
+          </label>
+          <input type="password" name="password" id="password" onChange={this.handleChange} className="form__input" />
 
-        <label
-          htmlFor="username"
-          className="label"
-        >
-          Username
-        </label>
-        <input type="text" name="username" id="username" onChange={this.handleChange} className="input" />
+          <button data-testid="login-btn" type="button" onClick={this.handleSubmit} className="btn btn--form">Login</button>
 
-        <label
-          htmlFor="password"
-          className="label"
-        >
-          Password
-        </label>
-        <input type="password" name="password" id="password" onChange={this.handleChange} className="input" />
+          <ErrorMessage errorMessage={errorMessage} />
 
-        <button data-testid="login-btn" type="button" onClick={this.handleSubmit} className="label">Login</button>
+          <span className="form__notes--additional">
+            Do not have an account?{' '}
+            <Link to="/user/register" className="form__link">Register</Link>
+          </span>
 
-        <ErrorMessage errorMessage={errorMessage} />
-
-        <span>
-          Do not have an account?
-          <Link to="/user/register">Register</Link>
-        </span>
-
-      </form>
+        </form>
+      </div>
     );
   }
 }

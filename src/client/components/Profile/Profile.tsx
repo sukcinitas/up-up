@@ -67,10 +67,10 @@ class Profile extends React.Component<AllProps, IProfileState> {
       return <p>{message}</p>;
     }
     return (
-      <div>
+      <div className="profile">
         {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         <section>
-          <h2>User information</h2>
+          <h2 className="form__heading">User information</h2>
           <div>
             <div>
               <p>
@@ -87,12 +87,11 @@ class Profile extends React.Component<AllProps, IProfileState> {
               userId={userId}
             />
             <div>
-              <button type="button" onClick={this.handleDelete}>Delete account</button>
+              <button type="button" onClick={this.handleDelete} className="btn btn--delete">Delete account</button>
             </div>
           </div>
         </section>
         <section>
-          <h2>Polls</h2>
           <UserPolls username={username} />
           <Link to="/user/create-poll">Create a poll</Link>
         </section>
