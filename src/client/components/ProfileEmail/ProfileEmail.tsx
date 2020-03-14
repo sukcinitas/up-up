@@ -93,13 +93,13 @@ class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailStat
           Email:
           {isLoading ? 'Loading...' : email}
         </p>
-        <button type="button" data-testid="showEmailChange" onClick={this.showEmailChange}>Change email</button>
+        <button type="button" data-testid="showEmailChange" onClick={this.showEmailChange} className="btn">Change email</button>
         {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         {isChangingEmail
           ? (
             <div>
               <input value={newEmail} data-testid="newEmail" name="newEmail" onChange={this.handleChange} />
-              <button type="button" onClick={this.changeEmail}>Change</button>
+              <button type="button" onClick={this.changeEmail} className="btn btn--submit">Change</button>
             </div>
           )
           : ''}

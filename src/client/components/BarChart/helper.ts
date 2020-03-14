@@ -1,12 +1,24 @@
 import * as d3 from 'd3';
 
+function hexToRgbA(hex, opacity){
+  var c;
+  if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+      c = hex.substring(1).split('');
+      if(c.length== 3){
+          c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+      }
+      c= '0x'+c.join('');
+      return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+', ' + opacity + ')';
+  }
+  throw new Error('Bad Hex');
+}
 const drawChart = (datum:{optionsList:{option:string, votes:number}[], sumVotes:number}) => {
   d3.select('svg').remove();
 
   const data = datum.optionsList.sort((a:{option:string, votes:number}, b:{option:string, votes:number}) => b.votes - a.votes);
   const sumVotes:number = datum.sumVotes;
   const margin = {
-    top: 10, right: 40, bottom: 30, left: 400,
+    top: 10, right: 40, bottom: 30, left: 0,
   };
   const width = 960 - margin.left - margin.right;
   const height = 300 - margin.top - margin.bottom;
@@ -17,7 +29,7 @@ const drawChart = (datum:{optionsList:{option:string, votes:number}[], sumVotes:
   const y = d3.scaleBand()
     .range([height, 0])
     .domain(data.map((d:{option:string, votes:number}):any => d.option))
-    .padding(0.05);
+    .padding(0.2);
 
   const x = d3.scaleLinear()
     .range([0, width])
@@ -29,6 +41,7 @@ const drawChart = (datum:{optionsList:{option:string, votes:number}[], sumVotes:
     .append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`);
 
+
   const bars = svg.selectAll('.bar')
     .data(data)
     .enter().append('rect')
@@ -36,7 +49,8 @@ const drawChart = (datum:{optionsList:{option:string, votes:number}[], sumVotes:
     .attr('width', (d:{option:string, votes:number}) => x(((d.votes / sumVotes) * 100))) // percentage
     .attr('y', (d:{option:string, votes:number}):any => y(d.option))
     .attr('height', y.bandwidth())
-    .style('fill', (d:{option:string, votes:number}) => color(d.votes));
+    .style('fill', (d:{option:string, votes:number}) => hexToRgbA(color(d.votes), 0.6))
+    .style('stroke', (d) => color(d.votes));
 
   svg.selectAll('.text')
     .data(data)
@@ -58,9 +72,16 @@ const drawChart = (datum:{optionsList:{option:string, votes:number}[], sumVotes:
     .attr('x2', 0)
     .attr('y2', 0);
 
-  bars.on('mouseout', function handleMouseOut() {
-    d3.select(this)
-      .style('opacity', '1');
+  const tooltip = d3.select('#chart')
+    .style('position', 'relative')
+    .append('div')
+    .attr('id', 'tooltip');
+
+  bars.on('mouseout', function handleMouseOut(this:any, d:{option:string, votes:number}) {
+    // d3.select(this)
+      // .style('fill', hexToRgbA(color(d.votes), 0.6))
+    tooltip
+      .style('display', 'none')
     line
       .style('stroke', 'gray')
       .style('stroke-width', '0')
@@ -71,9 +92,20 @@ const drawChart = (datum:{optionsList:{option:string, votes:number}[], sumVotes:
       .attr('y2', 0);
   });
   bars.on('mouseover', function handleMouseOver(this:any, d:{option:string, votes:number}) {
-    d3.select(this)
-      .style('opacity', '0.75');
-    line
+    // d3.select(this)
+      // .style('fill', hexToRgbA(color(d.votes), 0.6))
+      tooltip
+      .style('display', 'inline-block')
+      .style('position', 'absolute')
+      .style('background-color', 'white')
+      .style('padding', '10px')
+      .style('border', '2px solid ' + color(d.votes))
+      .style('right', 0 + 'px')
+      .style('top', 20 + 'px')
+      .style('z-index', 100)
+      .html(d.option + ' - ' + Math.round((d.votes / sumVotes) * 100) + '%');
+
+      line
       .style('stroke', 'gray')
       .style('stroke-width', '2')
       .style('stroke-dasharray', ('3, 3'))
@@ -82,6 +114,7 @@ const drawChart = (datum:{optionsList:{option:string, votes:number}[], sumVotes:
       .attr('x2', x(((d.votes / sumVotes) * 100)))
       .attr('y2', height);
   });
+
   // bar.transition()
   // .duration(1000)
   // .attr('width', (d) => x(((d.votes / sumVotes) * 100)));
@@ -94,9 +127,10 @@ const drawChart = (datum:{optionsList:{option:string, votes:number}[], sumVotes:
     .style('color', 'grey');
 
   // add the y Axis
-  svg.append('g')
-    .call(d3.axisLeft(y).tickSize(0))
-    .style('color', 'grey')
-    .style('font-size', '24px');
+  // svg.append('g')
+  //   .call(d3.axisLeft(y).tickSize(0))
+  //   .style('color', 'grey')
+    // .style('font-size', '24px');
+
 };
 export default drawChart;

@@ -158,8 +158,8 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
           {optionsList}
         </div>
 
-        <button type="button" onClick={this.addOption}> + </button>
-        <button type="submit" onClick={this.handleSubmit}>Submit</button>
+        <button type="button" onClick={this.addOption} className="btn"> + </button>
+        <button type="submit" onClick={this.handleSubmit} className="btn btn--submit">Submit</button>
 
         {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
       </form>

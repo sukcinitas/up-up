@@ -68,7 +68,7 @@ class ProfilePassword extends React.Component<IProfilePasswordProps, IProfilePas
     } = this.state;
     return (
       <div>
-        <button type="button" onClick={this.showPasswordChange} className="btn btn--user">Change password</button>
+        <button type="button" onClick={this.showPasswordChange} className="btn btn--user" className="btn">Change password</button>
         {message ? <span>{message}</span> : ''}
         {isChangingPassword
           ? (
@@ -78,7 +78,7 @@ class ProfilePassword extends React.Component<IProfilePasswordProps, IProfilePas
               <input data-testid="oldPassword" value={oldPassword} name="oldPassword" onChange={this.handleChange} className="form__input"/>
               New password:
               <input data-testid="newPassword" value={newPassword} name="newPassword" onChange={this.handleChange} className="form__input"/>
-              <button type="button" onClick={this.changePassword} className="btn btn--user">Change</button>
+              <button type="button" onClick={this.changePassword} className="btn btn--user" className="btn btn--submit">Change</button>
             </div>
           )
           : ''}

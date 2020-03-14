@@ -129,26 +129,26 @@ class Poll extends React.Component<AllProps, IPollState> {
       return <p>Loading...</p>;
     }
     return (
-      <div>
+      <div className="poll">
         <div style={{ height: '30px' }}>
           {message && <span>{message}</span>}
           {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         </div>
-        <h2>{name}</h2>
-        <div>
-          <h3>{question}</h3>
+        <h2 className="headind poll__heading">{name}</h2>
+        <h3 className="subheading poll__subheading">{question}</h3>
           <BarChart data={data} />
+          <div>
           {Object.keys(options).map((option) => (
             <div key={option}>
-              <button type="button" data-testid={option} data-option={option} onClick={this.handleVote}>{option}</button>
+              <button type="button" data-testid={option} data-option={option} onClick={this.handleVote} className="btn btn--vote">{option}</button>
               <small>{options[option]}</small>
             </div>
           ))}
           <p>{votes}</p>
           <p>{createdBy}</p>
           <p>{formatDate(createdAt)}</p>
+        {username === createdBy ? <button type="button" onClick={this.handlePollDeletion} className="btn btn--delete">Delete</button> : ''}
         </div>
-        {username === createdBy ? <button type="button" onClick={this.handlePollDeletion}>Delete</button> : ''}
       </div>
     );
   }

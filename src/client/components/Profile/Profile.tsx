@@ -93,7 +93,7 @@ class Profile extends React.Component<AllProps, IProfileState> {
         </section>
         <section>
           <UserPolls username={username} />
-          <Link to="/user/create-poll">Create a poll</Link>
+          <Link to="/user/create-poll" className="btn">Create a poll</Link>
         </section>
       </div>
     );

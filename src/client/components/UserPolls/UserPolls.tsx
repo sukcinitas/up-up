@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import * as PropTypes from 'prop-types';
 import axios from 'axios';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
@@ -66,19 +67,19 @@ class UserPolls extends React.Component<IUserPollsProps, IUserPollsState> {
   render() {
     const { userPolls, errorMessage } = this.state;
     return (
-      <div>
-        <h2 className="form__heading">Polls</h2>
+      <div className="user-polls">
+        <h2 className="user-polls__heading">Polls</h2>
         {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         {
           userPolls.length === 0
-            ? <p className="form__notes">You have not created any polls yet!</p>
+            ? <p className="user-polls__notes">You have not created any polls yet!</p>
             : userPolls.map((poll:{
               id:string,
               name:string,
               votes:number,
             }) => (
-              <div key={poll.id} data-testid={`div${poll.id}`}>
-                <h3>{poll.name}</h3>
+              <div key={poll.id} data-testid={`div${poll.id}`} className="user-polls__poll">
+                <Link to={`/polls/${poll.id}`}><h3>{poll.name}</h3></Link>
                 <p>
                   { poll.votes === 1 ? `${poll.votes} vote` : `${poll.votes} votes`}
                 </p>

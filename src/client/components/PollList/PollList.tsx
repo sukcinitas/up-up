@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import axios from 'axios';
-import './PollList.css';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppState } from '../../redux/actions';

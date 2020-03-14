@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import './PollListElem.scss';
 
 interface IPollListElemProps {
   id:string,

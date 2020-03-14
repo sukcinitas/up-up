@@ -56,6 +56,7 @@ class Login extends React.Component<AllProps, ILoginState> {
         if (res.data.isAuthenticated) {
           login(res.data.sessionUser);
         } else {
+          console.log(res.data)
           this.setState({ errorMessage: res.data.error });
         }
       });
@@ -65,31 +66,31 @@ class Login extends React.Component<AllProps, ILoginState> {
     const { errorMessage } = this.state;
     return (
       <div>
-        <h1 className="form__heading">Login</h1>
+        <h1 className="heading form__heading">Login</h1>
         <form className="form">
           <label
             htmlFor="username"
-            className="form__label"
+            className="label form__label"
           >
             Username
           </label>
-          <input type="text" name="username" id="username" onChange={this.handleChange} className="form__input" />
+          <input type="text" name="username" id="username" onChange={this.handleChange} className="input form__input" />
 
           <label
             htmlFor="password"
-            className="form__label"
+            className="label form__label"
           >
             Password
           </label>
-          <input type="password" name="password" id="password" onChange={this.handleChange} className="form__input" />
+          <input type="password" name="password" id="password" onChange={this.handleChange} className="input form__input" />
 
-          <button data-testid="login-btn" type="button" onClick={this.handleSubmit} className="btn btn--form">Login</button>
+          <button data-testid="login-btn" type="button" onClick={this.handleSubmit} className="btn btn--submit">Login</button>
 
           <ErrorMessage errorMessage={errorMessage} />
 
-          <span className="form__notes--additional">
+          <span className="notes form__notes--additional">
             Do not have an account?{' '}
-            <Link to="/user/register" className="form__link">Register</Link>
+            <Link to="/user/register" className="link form__link">Register</Link>
           </span>
 
         </form>
