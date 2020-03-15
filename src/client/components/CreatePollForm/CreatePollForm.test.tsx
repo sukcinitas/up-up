@@ -4,7 +4,6 @@ import { createMemoryHistory } from 'history';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { render, cleanup, fireEvent } from '@testing-library/react';
-// import axiosMock from 'axios';
 import reducer, { initialState } from '../../redux/reducers';
 
 import CreatePollForm from './CreatePollForm';
@@ -44,8 +43,7 @@ describe('<CreatePollForm /> Component', () => {
       },
     );
 
-    expect(getByText(/Create/i).textContent).toBe('Create');
-    expect(getByText(/^Poll$/i).textContent).toBe('Poll');
+    expect(getByText(/Create a Poll/i).textContent).toBe('Create a Poll');
     expect(getByText(/Poll name/i).textContent).toBe('Poll name');
     expect(getByText(/Poll question\/statement/i).textContent).toBe('Poll question/statement');
     expect(getByText(/Poll options/i).textContent).toBe('Poll options');

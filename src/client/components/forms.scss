@@ -1,0 +1,62 @@
+.form {
+  font-family: $font-notes;
+  background-color: white;
+  border: 3px double black;
+  border-radius: 2px;
+  padding: 30px;
+  padding-bottom: 50px;
+  max-width: 400px;
+  margin: 40px auto;
+  margin-bottom: 120px;
+  display: flex;
+  flex-direction: column;
+
+  &--profile {
+      border: none;
+      margin: 10px;
+      display: flex;
+      flex-direction: row;
+  }
+
+  &__label {
+      padding: 0px 70px;
+      font-size: 14px;
+      color: $white;
+      margin-top: 30px;  
+  }
+
+  &__input {
+      font-size: 15px;
+      margin: 8px 70px;
+      border: $light-blue;
+      border-bottom: 1px solid $white;  
+      background-color: transparent; 
+      color: black;
+  }
+
+  &__input:focus {
+      padding-top: 5px;
+      border-bottom: 2px solid blue;
+      outline: none;
+  }
+
+  &__notes {
+      padding: 0px 70px;
+      font-size: 14px;
+      color: $orange;
+
+      &--additional {
+          margin: 0 auto;
+          color: $white;
+          font-size: 15px;
+      }
+  }
+
+  &__link {
+      color: darkorange;
+
+      &:active, &:visited {
+          color: darkorange;
+      }
+  }
+}

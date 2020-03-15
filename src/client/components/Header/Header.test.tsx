@@ -7,7 +7,6 @@ import {
   render, cleanup, fireEvent, waitForElement,
 } from '@testing-library/react';
 import axios from 'axios';
-// import axiosMock from 'axios';
 import 'regenerator-runtime/runtime';
 import reducer, { initialState } from '../../redux/reducers';
 
@@ -39,7 +38,7 @@ function renderWithRedux(
 }
 
 describe('<Header /> Component', () => {
-  it('renders header component when user not loged in', () => {
+  it('renders header component when user not logged in', () => {
     const { getByText } = renderWithRedux(
       <Route path="/">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}

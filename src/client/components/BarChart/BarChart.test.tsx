@@ -15,8 +15,8 @@ describe('<BarChart /> Component', () => {
 
     const { getByText } = render(<BarChart data={data} />);
     drawChart(data);
-    expect(getByText(/one/i).textContent).toBe('one');
-    expect(getByText(/two/i).textContent).toBe('two');
+    // expect(getByText(/one/i).textContent).toBe('one');
+    // expect(getByText(/two/i).textContent).toBe('two');
     expect(getByText(/^1$/i).textContent).toBe('1');
     expect(getByText(/^2$/i).textContent).toBe('2');
     const svg = document.querySelectorAll('svg'); // make sure after re-render old svg is removed

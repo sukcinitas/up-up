@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { receiveCurrentUser, ActionTypes, AppState } from '../../redux/actions';
+import './Register.scss';
 
 axios.defaults.withCredentials = true;
 
@@ -141,13 +142,13 @@ class Register extends React.Component<AllProps, IRegisterState>{
     } = errors;
     return (
       <div>
-        <h1 className="heading form__heading">Register</h1>
+        
         <form className="form">
 
-
+          <h1 className="heading form__heading">Register</h1>
           <label
             htmlFor="username"
-            className="label form__label"
+            className="form__label"
           >
             Username
           </label>
@@ -156,14 +157,14 @@ class Register extends React.Component<AllProps, IRegisterState>{
             name="username"
             id="username"
             onChange={this.handleChange}
-            className="input form__input"
+            className="form__input"
             required
           />
-          <span className="notes form__notes">{` ${usernameErr}`}</span>
+          <span className="form__notes">{` ${usernameErr}`}</span>
 
           <label
             htmlFor="email"
-            className="label form__label"
+            className="form__label"
           >
             E-mail
           </label>
@@ -172,17 +173,17 @@ class Register extends React.Component<AllProps, IRegisterState>{
             name="email"
             id="email"
             onChange={this.handleChange}
-            className="input form__input"
+            className="form__input"
             required
           />
-          <span className=" notes form__notes">
+          <span className="form__notes">
             {' '}
             {emailErr}
           </span>
 
           <label
             htmlFor="password"
-            className="label form__label"
+            className="form__label"
           >
             Password
           </label>
@@ -191,17 +192,17 @@ class Register extends React.Component<AllProps, IRegisterState>{
             name="password"
             id="password"
             onChange={this.handleChange}
-            className="input form__input"
+            className="form__input"
             required
           />
-          <span className="notes form__notes">
+          <span className="form__notes">
             {' '}
             {passwordErr}
           </span>
 
           <label
             htmlFor="confirmPassword"
-            className="label form__label"
+            className="form__label"
           >
             Repeat Password
           </label>
@@ -210,24 +211,24 @@ class Register extends React.Component<AllProps, IRegisterState>{
             name="confirmPassword"
             id="confirmPassword"
             onChange={this.handleChange}
-            className="input form__input"
+            className="form__input"
             required
           />
           {' '}
-          <span className="notes form__notes">
+          <span className="form__notes">
             {' '}
             {passwordsMatch}
           </span>
 
           <div>
-            <span className="notes form__notes">
+            <span className="form__notes">
               {usernameTaken ? ' username is already in use' : ''}
             </span>
-            <span className="notes form__notes">{emailTaken ? ' email is already in use' : ''}</span>
+            <span className="form__notes">{emailTaken ? ' email is already in use' : ''}</span>
           </div>
 
           <button type="button" onClick={this.handleSubmit} className="btn btn--submit">Register</button>
-          <span className="notes form__notes--additional">
+          <span className="form__notes--additional">
             Already have an account?{' '}
             <Link to="/user/login" className="link form__link">Login</Link>
           </span>

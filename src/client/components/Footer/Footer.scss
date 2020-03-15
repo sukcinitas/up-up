@@ -1,0 +1,25 @@
+@use '../variables.scss';
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgb(33, 38, 44);
+    color: white;
+
+    &__text {
+        margin: 0;
+        padding: 3px;
+        text-align: center; 
+        // font-family: $font-notes;
+        font-family: sans-serif;
+        font-size: 12px;
+    }
+
+    &__link {
+        color: darkorange;
+        text-decoration: none;
+        font-weight: bold;
+    }
+};

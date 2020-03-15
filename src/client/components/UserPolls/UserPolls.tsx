@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import * as PropTypes from 'prop-types';
 import axios from 'axios';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import './UserPolls.scss';
 
 axios.defaults.withCredentials = true;
 
@@ -68,8 +69,9 @@ class UserPolls extends React.Component<IUserPollsProps, IUserPollsState> {
     const { userPolls, errorMessage } = this.state;
     return (
       <div className="user-polls">
-        <h2 className="user-polls__heading">Polls</h2>
+        <h2 className="heading profile__heading">Polls</h2>
         {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
+        <Link to="/user/create-poll" className="btn btn--create">Create a poll</Link>
         {
           userPolls.length === 0
             ? <p className="user-polls__notes">You have not created any polls yet!</p>
@@ -79,11 +81,11 @@ class UserPolls extends React.Component<IUserPollsProps, IUserPollsState> {
               votes:number,
             }) => (
               <div key={poll.id} data-testid={`div${poll.id}`} className="user-polls__poll">
-                <Link to={`/polls/${poll.id}`}><h3>{poll.name}</h3></Link>
-                <p>
+                <Link to={`/polls/${poll.id}`} className="user-polls__title">{poll.name}</Link>
+                <p className="user-polls__votes">
                   { poll.votes === 1 ? `${poll.votes} vote` : `${poll.votes} votes`}
                 </p>
-                <button data-testid={poll.id} type="button" id={poll.id} onClick={this.handlePollDeletion} className="btn btn--delete">Delete</button>
+                <button data-testid={poll.id} type="button" id={poll.id} onClick={this.handlePollDeletion} className="btn btn--delete user-polls__btn">Delete</button>
               </div>
             ))
       }

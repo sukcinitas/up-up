@@ -15,10 +15,11 @@ function hexToRgbA(hex, opacity){
 const drawChart = (datum:{optionsList:{option:string, votes:number}[], sumVotes:number}) => {
   d3.select('svg').remove();
 
-  const data = datum.optionsList.sort((a:{option:string, votes:number}, b:{option:string, votes:number}) => b.votes - a.votes);
+  // const data = datum.optionsList.sort((a:{option:string, votes:number}, b:{option:string, votes:number}) => b.votes - a.votes);
+  const data = datum.optionsList;
   const sumVotes:number = datum.sumVotes;
   const margin = {
-    top: 10, right: 40, bottom: 30, left: 0,
+    top: 10, right: 40, bottom: 30, left: 140,
   };
   const width = 960 - margin.left - margin.right;
   const height = 300 - margin.top - margin.bottom;

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import './PollListElem.scss';
 
 interface IPollListElemProps {
   id:string,
@@ -18,15 +19,17 @@ const PollListElem:React.FunctionComponent<IPollListElemProps> = ({
       <h2>{name}</h2>
     </Link>
     <div className="poll-list-elem__details">
-      <p className="poll-list-elem__votes">
-        <span>{votes}</span>
-      </p>
       <p className="poll-list-elem__created-by">
         created by
         <span>
           {` ${createdBy}`}
         </span>
       </p>
+      <span className="transparent"></span>
+      <p className="poll-list-elem__votes">
+        <span>{votes}</span>{votes === 1 ? ' vote' : ' votes'}
+      </p>
+      <span className="transparent"></span>
       <p className="poll-list-elem__updated-at">
         updated on
         {` ${updatedAt}`}

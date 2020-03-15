@@ -1,18 +1,17 @@
 /* eslint-disable react/destructuring-assignment */
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
 import { RouteComponentProps } from 'react-router-dom';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
-import './CreatePollForm.css';
 import { AppState } from '../../redux/actions';
+import './CreatePollForm.scss';
 
 axios.defaults.withCredentials = true;
 
 interface ICreatePollFormStateProps {
-  username:string,
+  username: string,
 }
 interface CreatePollFormRouteProps extends RouteComponentProps {};
 type AllProps = CreatePollFormRouteProps & AppState;
@@ -109,7 +108,7 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
       <input
         key={`option${item}`}
         aria-label={`option${item}`}
-        className="input--poll"
+        className="form__input"
         type="text"
         name={`option${item}`}
         onChange={this.handleChange}
@@ -117,19 +116,18 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
       />
     ));
     return (
-      <form className="form--poll">
+      <form className="form create-poll-form">
 
-        <h1 className="header1">Create</h1>
-        <h1 className="header2">Poll</h1>
+        <h1 className="heading">Create a Poll</h1>
 
         <label
-          className="label--poll"
+          className="form__label"
           htmlFor="name"
         >
           Poll name
         </label>
         <input
-          className="input--poll"
+          className="form__input"
           type="text"
           id="name"
           name="name"
@@ -137,15 +135,14 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
           value={name}
         />
 
-
         <label
-          className="label--poll"
+          className="form__label"
           htmlFor="question"
         >
           Poll question/statement
         </label>
         <input
-          className="input--poll"
+          className="form__input"
           type="text"
           id="question"
           name="question"
@@ -153,12 +150,12 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
           value={question}
         />
 
-        <label className="label--poll" htmlFor="answers">Poll options</label>
+        <label className="form__label" htmlFor="answers">Poll options</label>
         <div id="options">
           {optionsList}
         </div>
 
-        <button type="button" onClick={this.addOption} className="btn"> + </button>
+        <button type="button" onClick={this.addOption} className="btn btn--plus"> + </button>
         <button type="submit" onClick={this.handleSubmit} className="btn btn--submit">Submit</button>
 
         {errorMessage && <ErrorMessage errorMessage={errorMessage} />}

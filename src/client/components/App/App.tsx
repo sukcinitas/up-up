@@ -9,7 +9,6 @@ import Register from '../Register/Register';
 import Login from '../Login/Login';
 import Profile from '../Profile/Profile';
 import CreatePollForm from '../CreatePollForm/CreatePollForm';
-import '../common.scss';
 
 const App:React.FunctionComponent<{}> = () => (
   <Router>

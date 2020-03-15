@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { ActionTypes } from '../../redux/actions';
 import { connect } from 'react-redux';
@@ -11,6 +11,7 @@ import UserPolls from '../UserPolls/UserPolls';
 import ProfileEmail from '../ProfileEmail/ProfileEmail';
 import ProfilePassword from '../ProfilePassword/ProfilePassword';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import './Profile.scss';
 
 axios.defaults.withCredentials = true;
 
@@ -70,12 +71,10 @@ class Profile extends React.Component<AllProps, IProfileState> {
       <div className="profile">
         {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         <section>
-          <h2 className="form__heading">User information</h2>
-          <div>
-            <div>
+            <h2 className="heading profile__heading">User information</h2>
+            <div className="profile__elem">
               <p>
-                Username:
-                {username}
+                Username:{}{username}
               </p>
             </div>
             <ProfileEmail
@@ -86,14 +85,12 @@ class Profile extends React.Component<AllProps, IProfileState> {
               username={username}
               userId={userId}
             />
-            <div>
+            <div className="profile__elem">
               <button type="button" onClick={this.handleDelete} className="btn btn--delete">Delete account</button>
             </div>
-          </div>
         </section>
         <section>
           <UserPolls username={username} />
-          <Link to="/user/create-poll" className="btn">Create a poll</Link>
         </section>
       </div>
     );

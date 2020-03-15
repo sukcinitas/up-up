@@ -6,6 +6,7 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { logoutCurrentUser, ActionTypes, AppState } from '../../redux/actions';
+import './Header.scss';
 
 axios.defaults.withCredentials = true;
 
@@ -35,18 +36,18 @@ const Header:React.FunctionComponent<AllProps> = ({
   return (
     <header className="header">
       <h1><Link to="/" className="header__heading">V.</Link></h1>
-      <div className="header__links">
+      <div>
         {isLoggedIn
           ? (
             <>
-              <Link to="/user/profile" className="header__link btn btn--username">{username}</Link>
-              <button type="button" onClick={handleLogout} className="header__link btn">Sign out</button>
+              <Link to="/user/profile" className="btn btn--username">{username}</Link>
+              <button type="button" onClick={handleLogout} className="btn">Sign out</button>
             </>
           )
           : (
             <>
-              <Link to="/user/login" className="header__link btn btn--bold">Login</Link>
-              <Link to="/user/register" className="header__link btn">Register</Link>
+              <Link to="/user/login" className="btn btn--bold">Login</Link>
+              <Link to="/user/register" className="btn">Register</Link>
             </>
           )}
       </div>

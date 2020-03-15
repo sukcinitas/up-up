@@ -4,7 +4,6 @@ import { createMemoryHistory } from 'history';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { render, cleanup, waitForElement } from '@testing-library/react';
-// import axiosMock from 'axios';
 import axios from 'axios';
 import reducer, { initialState } from '../../redux/reducers';
 

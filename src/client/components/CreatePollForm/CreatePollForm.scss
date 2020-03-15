@@ -1,0 +1,12 @@
+@use '../variables.scss';
+@use '../buttons.scss';
+@use '../headings.scss';
+@use '../forms.scss';
+
+.create-poll-form {
+  max-width: 600px;
+
+  .form__notes {
+      padding: 0px;
+  }
+}

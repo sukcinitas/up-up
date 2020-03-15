@@ -1,0 +1,29 @@
+@use '../variables.scss';
+@use '../buttons.scss';
+@use '../headings.scss';
+
+.poll__section {
+  display: flex;
+  flex-direction: row;
+}
+
+.poll {
+  margin-bottom: 150px;
+}
+
+.additional {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  color: rgb(82, 82, 82);
+  margin: 0;
+  margin-bottom: 150px;
+  font-style: italic;
+  // font-family: $font-notes;
+  font-family: sans-serif;
+  font-size: 11px;
+  
+  p {
+      margin: 10px 10px;
+  }
+}
