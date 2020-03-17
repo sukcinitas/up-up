@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import passport = require('passport');
 import User, { IUser } from '../models/user.model';
 import Poll, { IPoll } from '../models/poll.model';
+const LocalStrategy = require('passport-local').Strategy;
 
 const sessionizeUser = (user) => ({ userId: user.id, username: user.username });
 
@@ -11,6 +12,33 @@ type SessionRequest = Request & {
   session: Express.Session;
   sessionID: string;
 }
+
+passport.use(new LocalStrategy(async (username, password, done) => {
+  try {
+    const user = await User.findOne({ username });
+    if (!user) {
+      return done(null, false, { message: 'Incorrect username.' });
+    }
+    if (!compareSync(password, user.password)) {
+      return done(null, false, { message: 'Incorrect password.' });
+    }
+    return done(null, user);
+  } catch (err) {
+    return done(err);
+  }
+}));
+
+passport.serializeUser((user:{id:string, username?:string}, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser((_id, done) => {
+  User.findOne({_id}, '-password', (err, user) => {
+    done(err, user);
+  });
+});
+
+
 router.route('/register').post(async (req:SessionRequest, res:Response) => {
   // process.on('unhandledRejection', function(err) {
   //     console.log(err);
@@ -52,6 +80,9 @@ interface LoginRequest extends Request {
 };
 router.route('/login').post(passport.authenticate('local', { session: true }), (req:LoginRequest, res:Response) => {
   try {
+    if (!req.user) {
+      res.json({error: 'Username or password is incorrect!'})
+    }
     const sessionUser = sessionizeUser(req.user);
     res.json({ isAuthenticated: true, sessionUser });
   } catch (err) {
@@ -144,10 +175,15 @@ router.route('/profile').delete(async (req:Request, res:Response) => {
   }
 });
 
-router.route('/logout').delete(async (req:Request, res:Response) => {
+router.route('/logout').get(async (req:Request, res:Response) => {
   try {
     req.logout();
     res.end();
+    // req.session.destroy(() => {
+    //   res.clearCookie('connect.sid');
+    //    res.end(); 
+    // });
+  
   } catch (err) {
     res.json(`Error: ${err}`);
   }

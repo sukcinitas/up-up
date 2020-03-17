@@ -10,20 +10,20 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 axios.defaults.withCredentials = true;
 
 interface ILoginDispatchProps {
-  login: (user:AppState) => void,
+  login: (user: AppState) => void,
 };
 
 type AllProps = AppState & ILoginDispatchProps;
 
 interface ILoginState {
-  username:string,
-  password:string,
-  errorMessage:string,
+  username: string,
+  password: string,
+  errorMessage: string,
 };
 
 class Login extends React.Component<AllProps, ILoginState> {
   static propTypes: { login: PropTypes.Validator<(...args: any[]) => any>; };
-  constructor(props:AllProps) {
+  constructor(props: AllProps) {
     super(props);
     this.state = {
       username: '',
@@ -34,20 +34,20 @@ class Login extends React.Component<AllProps, ILoginState> {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(e:React.ChangeEvent<HTMLInputElement>) {
-    if(e.currentTarget.name === 'username') {
+  handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.currentTarget.name === 'username') {
       this.setState({
         username: e.currentTarget.value,
       });
     }
-    if( e.currentTarget.name === 'password') {
-    this.setState({
-      password: e.currentTarget.value,
-    });
+    if (e.currentTarget.name === 'password') {
+      this.setState({
+        password: e.currentTarget.value,
+      });
     }
   }
 
-  handleSubmit(e:React.MouseEvent<HTMLButtonElement>) {
+  handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     const { username, password } = this.state;
     const { login } = this.props;
     e.preventDefault();
@@ -56,7 +56,6 @@ class Login extends React.Component<AllProps, ILoginState> {
         if (res.data.isAuthenticated) {
           login(res.data.sessionUser);
         } else {
-          console.log(res.data)
           this.setState({ errorMessage: res.data.error });
         }
       });
@@ -99,8 +98,8 @@ class Login extends React.Component<AllProps, ILoginState> {
   }
 }
 
-const mapDispathToProps = (dispatch:Dispatch<ActionTypes>) => ({
-  login: (user:AppState) => dispatch(receiveCurrentUser(user)),
+const mapDispathToProps = (dispatch: Dispatch<ActionTypes>) => ({
+  login: (user: AppState) => dispatch(receiveCurrentUser(user)),
 });
 
 export default connect(null, mapDispathToProps)(Login);

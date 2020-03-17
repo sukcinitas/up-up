@@ -6,8 +6,8 @@
         "ecmaFeatures": {
             "jsx": true
           },
-          "ecmaVersion": 2018,
-          "sourceType": "module"
+        "ecmaVersion": 2018,
+        "sourceType": "module"
     },
     "extends": ["airbnb", "airbnb-typescript"],
     "settings": {
@@ -29,6 +29,6 @@
         "jest/globals": true,
         "browser": true, // document will work
         "node": true,
-        "es6":true
+        "es6": true
     }
 }

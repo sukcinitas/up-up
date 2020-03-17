@@ -5,38 +5,38 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 import * as passport from 'passport';
-const LocalStrategy = require('passport-local').Strategy;
-const { compareSync } = require('bcryptjs');
+// const LocalStrategy = require('passport-local').Strategy;
+// const { compareSync } = require('bcryptjs');
 import User from './models/user.model';
 const usersRouter = require('./routes/users');
 const pollsRouter = require('./routes/polls');
 
 (async () => {
   try {
-    passport.use(new LocalStrategy(async (username, password, done) => {
-      try {
-        const user = await User.findOne({ username });
-        if (!user) {
-          return done(null, false, { message: 'Incorrect username.' });
-        }
-        if (!compareSync(password, user.password)) {
-          return done(null, false, { message: 'Incorrect password.' });
-        }
-        return done(null, user);
-      } catch (err) {
-        return done(err);
-      }
-    }));
+    // passport.use(new LocalStrategy(async (username, password, done) => {
+    //   try {
+    //     const user = await User.findOne({ username });
+    //     if (!user) {
+    //       return done(null, false, { message: 'Incorrect username.' });
+    //     }
+    //     if (!compareSync(password, user.password)) {
+    //       return done(null, false, { message: 'Incorrect password.' });
+    //     }
+    //     return done(null, user);
+    //   } catch (err) {
+    //     return done(err);
+    //   }
+    // }));
 
-    passport.serializeUser((user:{id:string, username?:string}, done) => {
-      done(null, user.id);
-    });
+    // passport.serializeUser((user:{id:string, username?:string}, done) => {
+    //   done(null, user.id);
+    // });
 
-    passport.deserializeUser((_id, done) => {
-      User.findById(_id, (err, user) => {
-        done(err, user);
-      });
-    });
+    // passport.deserializeUser((_id, done) => {
+    //   User.findById(_id, (err, user) => {
+    //     done(err, user);
+    //   });
+    // });
 
 
     mongoose.Promise = global.Promise;
