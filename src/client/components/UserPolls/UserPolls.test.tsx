@@ -2,7 +2,8 @@ import * as React from 'react';
 import {
   render, cleanup, waitForElement, fireEvent, wait,
 } from '@testing-library/react';
-// import axiosMock from 'axios';
+import { Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 import axios from 'axios';
 import UserPolls from './UserPolls';
 
@@ -14,7 +15,12 @@ describe('<UserPolls /> Component', () => {
     const polls = [{ id: '1', votes: 1, name: 'test-name-one' }, { id: '2', votes: 2, name: 'test-name-two' }];
     axiosMock.get.mockResolvedValueOnce({ data: { polls } });
 
-    const { getByText } = render(<UserPolls username="testUser1" />);
+    const history = createMemoryHistory();
+    const { getByText } = render(
+      <Router history={history}>
+        <UserPolls username="testUser1" />
+      </Router>
+    );
     // first render
     expect(getByText(/^You have not created any polls yet!/i).textContent).toBe('You have not created any polls yet!');
     // render after time to get has passed
@@ -26,17 +32,22 @@ describe('<UserPolls /> Component', () => {
     expect(resolvedPollNameOne.textContent).toBe('test-name-one');
     expect(resolvedPollNameTwo.textContent).toBe('test-name-two');
     expect(resolvedPollVotesOne.textContent).toBe('1 vote');
-    expect(resolvedPollVotesTwo.textContent).toBe('2 votes');
+    expect(resolvedPollVotesTwo.textContent).toBe('2 votes');;
   });
 
   it('deletes poll and rerenders component', async () => {
     const polls = [{ id: '1', votes: 1, name: 'test-name-one' }, { id: '2', votes: 2, name: 'test-name-two' }];
-    // first we render all polls, delete one and then re-render only one
+    // first it renders all two polls, deletes one and then re-renders only one
     axiosMock.get.mockResolvedValueOnce({ data: { polls } });
     axiosMock.delete.mockResolvedValueOnce({});
     axiosMock.get.mockResolvedValueOnce({ data: { polls: [polls[1]] } });
 
-    const { getByText, getByTestId, queryByText } = render(<UserPolls username="testUser1" />);
+    const history = createMemoryHistory();
+    const { getByText, getByTestId, queryByText } = render(
+      <Router history={history}>
+        <UserPolls username="testUser1" />
+      </Router>
+    );
 
     const resolvedPollNameOne = await waitForElement(() => getByText(/test-name-one/i));
     expect(resolvedPollNameOne.textContent).toBe('test-name-one');

@@ -6,14 +6,13 @@ import { Provider } from 'react-redux';
 import {
   render, cleanup, fireEvent,
 } from '@testing-library/react';
-// eslint-disable-next-line no-unused-vars
 import reducer, { initialState } from '../../redux/reducers';
 
 import Register from './Register';
 
 function renderWithRedux(
   ui,
-  { // eslint-disable-next-line no-shadow
+  { 
     state = initialState,
     store = createStore(reducer, state),
     route = '/user/register',

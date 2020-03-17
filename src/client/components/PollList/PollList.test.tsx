@@ -32,7 +32,7 @@ function renderWithRedux(
 afterEach(cleanup);
 jest.mock('axios');
 const axiosMock = axios as jest.Mocked<typeof axios>;
-// test polls
+
 const polls = [{
   _id: '5e26f24f04f39d26e3cde70e',
   name: 'Test one',
