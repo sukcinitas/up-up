@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import * as PropTypes from 'prop-types';
 import axios from 'axios';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
-import './UserPolls.scss';
+import '../../sass/UserPolls.scss';
 
 axios.defaults.withCredentials = true;
 
@@ -68,8 +68,8 @@ class UserPolls extends React.Component<IUserPollsProps, IUserPollsState> {
   render() {
     const { userPolls, errorMessage } = this.state;
     return (
-      <div className="user-polls">
-        <h2 className="heading profile__heading">Polls</h2>
+      <section className="user-polls">
+        <h2 className="heading user-polls__heading">Polls</h2>
         {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         <Link to="/user/create-poll" className="btn btn--create">Create a poll</Link>
         {
@@ -89,7 +89,7 @@ class UserPolls extends React.Component<IUserPollsProps, IUserPollsState> {
               </div>
             ))
       }
-      </div>
+      </section>
     );
   }
 }

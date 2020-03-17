@@ -1,14 +1,22 @@
-@use '../variables.scss';
-@use '../buttons.scss';
-@use '../headings.scss';
+#chart {
+  margin: 0 auto;
+}
 
 .poll__section {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .poll {
   margin-bottom: 150px;
+
+  &__options {
+    margin: 0 auto;
+  }
+
+  &__option {
+    margin: 5px auto;
+  }
 }
 
 .additional {
@@ -16,8 +24,7 @@
   flex-direction: row;
   justify-content: center;
   color: rgb(82, 82, 82);
-  margin: 0;
-  margin-bottom: 150px;
+  margin: 150px 0;
   font-style: italic;
   // font-family: $font-notes;
   font-family: sans-serif;

@@ -11,7 +11,7 @@ import UserPolls from '../UserPolls/UserPolls';
 import ProfileEmail from '../ProfileEmail/ProfileEmail';
 import ProfilePassword from '../ProfilePassword/ProfilePassword';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
-import './Profile.scss';
+import '../../sass/Profile.scss';
 
 axios.defaults.withCredentials = true;
 
@@ -70,9 +70,9 @@ class Profile extends React.Component<AllProps, IProfileState> {
     return (
       <div className="profile">
         {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
-        <section>
-            <h2 className="heading profile__heading">User information</h2>
-            <div className="profile__elem">
+        <section className="user-information">
+            <h2 className="heading user-information__heading">User information</h2>
+            <div className="user-information__elem">
               <p>
                 Username:{}{username}
               </p>
@@ -85,13 +85,11 @@ class Profile extends React.Component<AllProps, IProfileState> {
               username={username}
               userId={userId}
             />
-            <div className="profile__elem">
+            <div className="user-information__elem">
               <button type="button" onClick={this.handleDelete} className="btn btn--delete">Delete account</button>
             </div>
         </section>
-        <section>
-          <UserPolls username={username} />
-        </section>
+        <UserPolls username={username} />
       </div>
     );
   }

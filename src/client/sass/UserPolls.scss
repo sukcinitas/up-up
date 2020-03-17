@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Bellota+Text&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700&display=swap');
+
+$font-btn: 'Roboto Condensed', sans-serif;
+$font-heading: 'Bellota Text', sans-serif;
+$font-notes: 'Merriweather Sans', sans-serif;
+
+.user-polls {
+  margin-bottom: 150px;
+  &__poll {
+      display: flex;
+      flex-direction: row;
+      padding: 15px;
+      margin: 20px 50px; 
+      border: 1px solid grey;
+      border-radius: 2px;
+      align-items: center;
+      font-size: 14px;
+      font-family: $font-notes;
+  }
+
+  &__title, &__votes, &__btn {
+      margin: 0 10px;
+  }
+
+  &__title {
+      color: black;
+      text-decoration: none;
+      width: 60%;
+  }
+
+  &__btn, &__votes {
+    width: 20%;
+  }
+}

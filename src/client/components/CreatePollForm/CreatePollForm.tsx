@@ -6,7 +6,6 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import { AppState } from '../../redux/actions';
-import './CreatePollForm.scss';
 
 axios.defaults.withCredentials = true;
 

@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { receiveCurrentUser, ActionTypes, AppState } from '../../redux/actions';
-import './Register.scss';
 
 axios.defaults.withCredentials = true;
 

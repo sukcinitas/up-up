@@ -67,12 +67,12 @@ class ProfilePassword extends React.Component<IProfilePasswordProps, IProfilePas
       oldPassword, newPassword, message, isChangingPassword,
     } = this.state;
     return (
-      <div className="profile__elem">
+      <div className="user-information__elem">
         <button type="button" onClick={this.showPasswordChange} className="btn btn--user">Change password</button>
         {message ? <span>{message}</span> : ''}
         {isChangingPassword
           ? (
-            <div className="form form--profile">
+            <div className="form form--user-information">
               <label className="form__label">Old password</label>
               <input data-testid="oldPassword" value={oldPassword} name="oldPassword" onChange={this.handleChange} className="form__input"/>
               <label className="form__label">New password</label>

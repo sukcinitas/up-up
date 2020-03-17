@@ -8,7 +8,7 @@ import { AppState } from '../../redux/actions';
 import BarChart from '../BarChart/BarChart';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import { RouteComponentProps } from 'react-router-dom';
-import './Poll.scss';
+import '../../sass/Poll.scss';
 
 axios.defaults.withCredentials = true;
 
@@ -137,22 +137,22 @@ class Poll extends React.Component<AllProps, IPollState> {
         </div>
         <h2 className="heading poll__heading">{name}</h2>
         <h3 className="subheading poll__subheading">{question}</h3>
-        <div className="additional poll__additional">
-          <p>{`created by ${createdBy}`}</p>
-          <p>{`created on ${formatDate(createdAt)}`}</p>
-        </div>
         <div className="poll__section">
-          <BarChart data={data} />
-          <div>
+          <div className="poll__options">
             {Object.keys(options).map((option) => (
-              <div key={option}>
+              <div className="poll__option" key={option}>
                 <button type="button" data-testid={option} data-option={option} onClick={this.handleVote} className="btn btn--vote">{option}</button>
-                <small>{options[option]}</small>
+                {/* <small>{options[option]}</small> */}
               </div>
             ))}
             <p>{votes}</p>
             {username === createdBy ? <button type="button" onClick={this.handlePollDeletion} className="btn btn--delete">Delete</button> : ''}
           </div>
+          <BarChart data={data} />
+        </div>
+        <div className="additional poll__additional">
+          <p>{`created by ${createdBy}`}</p>
+          <p>{`created on ${formatDate(createdAt)}`}</p>
         </div>
       </div>
     );

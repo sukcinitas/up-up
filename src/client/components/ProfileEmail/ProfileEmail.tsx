@@ -88,7 +88,7 @@ class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailStat
       newEmail, email, isChangingEmail, isLoading, errorMessage,
     } = this.state;
     return (
-      <div className="profile__elem">
+      <div className="user-information__elem">
         <p>
           Email:
           {isLoading ? 'Loading...' : email}
@@ -97,7 +97,7 @@ class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailStat
         {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         {isChangingEmail
           ? (
-            <div className="form form--profile">
+            <div className="form form--user-information">
               <label className="form__label">New e-mail</label>
               <input value={newEmail} data-testid="newEmail" name="newEmail" onChange={this.handleChange} className="form__input"/>
               <button type="button" onClick={this.changeEmail} className="btn btn--submit">Change</button>

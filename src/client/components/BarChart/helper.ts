@@ -19,10 +19,10 @@ const drawChart = (datum:{optionsList:{option:string, votes:number}[], sumVotes:
   const data = datum.optionsList;
   const sumVotes:number = datum.sumVotes;
   const margin = {
-    top: 10, right: 40, bottom: 30, left: 140,
+    top: 10, right: 40, bottom: 30, left: 0,
   };
   const width = 960 - margin.left - margin.right;
-  const height = 300 - margin.top - margin.bottom;
+  const height = 400 - margin.top - margin.bottom;
 
   const color = d3.scaleSequential(d3.interpolateViridis)
     .domain([0, d3.max(data, (d:{option:string, votes:any}) => d.votes)]);
@@ -41,7 +41,6 @@ const drawChart = (datum:{optionsList:{option:string, votes:number}[], sumVotes:
     .attr('height', height + margin.top + margin.bottom)
     .append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`);
-
 
   const bars = svg.selectAll('.bar')
     .data(data)
@@ -130,8 +129,8 @@ const drawChart = (datum:{optionsList:{option:string, votes:number}[], sumVotes:
   // add the y Axis
   // svg.append('g')
   //   .call(d3.axisLeft(y).tickSize(0))
-  //   .style('color', 'grey')
-    // .style('font-size', '24px');
+  //   .style('color', 'black')
+  //   .style('font-size', '12px');
 
 };
 export default drawChart;

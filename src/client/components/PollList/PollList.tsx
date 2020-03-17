@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { AppState } from '../../redux/actions';
 import PollListElem from './PollListElem/PollListElem';
 import formatDate from '../../util/formatDate';
-import './PollList.scss';
+import '../../sass/PollList.scss';
 
 axios.defaults.withCredentials = true;
 

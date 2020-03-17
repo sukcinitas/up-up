@@ -6,7 +6,7 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { logoutCurrentUser, ActionTypes, AppState } from '../../redux/actions';
-import './Header.scss';
+import '../../sass/Header.scss';
 
 axios.defaults.withCredentials = true;
 
