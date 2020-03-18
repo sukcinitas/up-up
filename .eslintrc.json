@@ -22,7 +22,18 @@
         "no-unused-vars": "off",//
         "@typescript-eslint/no-unused-vars": "error",//
         "no-useless-constructor": "off",//
-        "@typescript-eslint/no-useless-constructor": "error"//
+        "@typescript-eslint/no-useless-constructor": "error",//
+        "import/no-unresolved": "off", // unable to resolve path module
+        "import/extensions": [
+          "off",
+          "ignorePackages",
+          {
+            "js": "never",
+            "jsx": "never",
+            "ts": "never",
+            "tsx": "never"
+          }
+       ]
     },
     "plugins": ["jest", "react", "@typescript-eslint"],
     "env": {

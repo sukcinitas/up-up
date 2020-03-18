@@ -13,13 +13,13 @@ axios.defaults.withCredentials = true;
 interface IHeaderStateProps {
   isLoggedIn:boolean,
   username:string,
-};
+}
 
-interface IHeaderRouteProps extends RouteComponentProps {};
+interface IHeaderRouteProps extends RouteComponentProps {}
 
 interface IHeaderDispatchProps {
   logout: () => void,
-};
+}
 
 type AllProps = IHeaderStateProps & IHeaderDispatchProps & IHeaderRouteProps;
 

@@ -12,7 +12,7 @@ axios.defaults.withCredentials = true;
 
 interface IPollListStateProps {
   username:string,
-};
+}
 type AllProps = IPollListStateProps;
 
 interface IPollListState {
@@ -23,6 +23,7 @@ interface IPollListState {
 
 class PollList extends React.Component<AllProps, IPollListState> {
   static propTypes: { username: PropTypes.Validator<string>; };
+
   constructor(props:AllProps) {
     super(props);
     this.state = {

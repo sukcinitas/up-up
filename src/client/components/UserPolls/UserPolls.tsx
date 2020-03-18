@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import * as PropTypes from 'prop-types';
+// import * as PropTypes from 'prop-types';
 import axios from 'axios';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import '../../sass/UserPolls.scss';
@@ -9,7 +9,7 @@ axios.defaults.withCredentials = true;
 
 interface IUserPollsProps {
   username:string,
-};
+}
 
 interface IUserPollsState {
   userPolls: {
@@ -22,6 +22,7 @@ interface IUserPollsState {
 
 class UserPolls extends React.Component<IUserPollsProps, IUserPollsState> {
   static propTypes: { username: PropTypes.Validator<string>; };
+
   constructor(props:IUserPollsProps) {
     super(props);
     this.state = {

@@ -12,7 +12,7 @@ axios.defaults.withCredentials = true;
 interface ICreatePollFormStateProps {
   username: string,
 }
-interface CreatePollFormRouteProps extends RouteComponentProps {};
+interface CreatePollFormRouteProps extends RouteComponentProps {}
 type AllProps = CreatePollFormRouteProps & AppState;
 
 interface ICreatePollFormState {
@@ -23,11 +23,14 @@ interface ICreatePollFormState {
   option1:string,
   option2:string,
   errorMessage:string,
-  [index: string]:any, /// ?
-};
+  [index: string]:any, // / ?
+}
+
+
 
 class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
   static propTypes: { history: any; username: PropTypes.Validator<string>; };
+
   constructor(props:AllProps) {
     super(props);
     this.state = {

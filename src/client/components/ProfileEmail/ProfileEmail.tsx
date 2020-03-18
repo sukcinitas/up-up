@@ -8,7 +8,7 @@ axios.defaults.withCredentials = true;
 interface IProfileEmailProps {
   username:string,
   userId:string,
-};
+}
 
 interface IProfileEmailState {
   newEmail:string,
@@ -16,10 +16,11 @@ interface IProfileEmailState {
   isChangingEmail:boolean,
   isLoading:boolean,
   errorMessage:string,
-};
+}
 
 class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailState> {
   static propTypes: { username: PropTypes.Validator<string>; userId: PropTypes.Validator<string>; };
+
   constructor(props:IProfileEmailProps) {
     super(props);
     this.state = {
@@ -62,8 +63,8 @@ class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailStat
   }
 
   handleChange(e:React.ChangeEvent<HTMLInputElement>) {
-    this.setState({ 
-      newEmail: e.currentTarget.value, 
+    this.setState({
+      newEmail: e.currentTarget.value,
     });
   }
 
@@ -99,7 +100,7 @@ class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailStat
           ? (
             <div className="form form--user-information">
               <label className="form__label">New e-mail</label>
-              <input value={newEmail} data-testid="newEmail" name="newEmail" onChange={this.handleChange} className="form__input"/>
+              <input value={newEmail} data-testid="newEmail" name="newEmail" onChange={this.handleChange} className="form__input" />
               <button type="button" onClick={this.changeEmail} className="btn btn--submit">Change</button>
             </div>
           )

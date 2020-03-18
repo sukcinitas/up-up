@@ -1,9 +1,11 @@
-const router = require('express').Router();
-const { compareSync } = require('bcryptjs');
 import { Request, Response } from 'express';
-import passport = require('passport');
 import User, { IUser } from '../models/user.model';
 import Poll, { IPoll } from '../models/poll.model';
+
+const router = require('express').Router();
+const { compareSync } = require('bcryptjs');
+
+import passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 const sessionizeUser = (user) => ({ userId: user.id, username: user.username });
@@ -11,7 +13,7 @@ const sessionizeUser = (user) => ({ userId: user.id, username: user.username });
 type SessionRequest = Request & {
   session: Express.Session;
   sessionID: string;
-}
+};
 
 passport.use(new LocalStrategy(async (username, password, done) => {
   try {
@@ -33,7 +35,7 @@ passport.serializeUser((user:{id:string, username?:string}, done) => {
 });
 
 passport.deserializeUser((_id, done) => {
-  User.findOne({_id}, '-password', (err, user) => {
+  User.findOne({ _id }, '-password', (err, user) => {
     done(err, user);
   });
 });
@@ -77,11 +79,11 @@ router.route('/register').post(async (req:SessionRequest, res:Response) => {
 
 interface LoginRequest extends Request {
   message: any;
-};
+}
 router.route('/login').post(passport.authenticate('local', { session: true }), (req:LoginRequest, res:Response) => {
   try {
     if (!req.user) {
-      res.json({error: 'Username or password is incorrect!'})
+      res.json({ error: 'Username or password is incorrect!' });
     }
     const sessionUser = sessionizeUser(req.user);
     res.json({ isAuthenticated: true, sessionUser });
@@ -103,7 +105,7 @@ router.route('/create-poll').post(async (req:Request, res:Response) => {
       createdBy,
     });
     await newPoll.save();
-    // eslint-disable-next-line no-underscore-dangle~
+    // eslint-disable-next-line no-underscore-dangle
     res.json({ redirect: true, id: newPoll._id });
   } catch (err) {
     res.json(`Error: ${err}`);
@@ -181,9 +183,8 @@ router.route('/logout').get(async (req:Request, res:Response) => {
     res.end();
     // req.session.destroy(() => {
     //   res.clearCookie('connect.sid');
-    //    res.end(); 
+    //    res.end();
     // });
-  
   } catch (err) {
     res.json(`Error: ${err}`);
   }

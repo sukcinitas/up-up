@@ -1,4 +1,6 @@
-import { Schema, model, Document, Model } from 'mongoose';
+import {
+  Schema, model, Document, Model,
+} from 'mongoose';
 import { hashSync } from 'bcryptjs';
 
 // const mongoose = require('mongoose');
@@ -32,14 +34,14 @@ export interface IUser extends Document{
   password:string,
   createdAt?:Date,
   updatedAt?:Date,
-};
+}
 // better not use arrow functions, because it would need binding
 userSchema.pre<IUser>('save', function hashPassword() {
   if (this.isModified('password')) {
     this.password = hashSync(this.password, 10);
   }
 });
-export interface IUserModel extends Model<IUser> {};
+export interface IUserModel extends Model<IUser> {}
 const User = model<IUser>('User', userSchema);
 
 export default User;

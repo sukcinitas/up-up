@@ -1,21 +1,21 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
+// import ReactRouterPropTypes from 'react-router-prop-types';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { RouteComponentProps } from 'react-router-dom';
 import formatDate from '../../util/formatDate';
 import { AppState } from '../../redux/actions';
 import BarChart from '../BarChart/BarChart';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
-import { RouteComponentProps } from 'react-router-dom';
 import '../../sass/Poll.scss';
 
 axios.defaults.withCredentials = true;
 
 interface IPollStateProps {
   username:string,
-};
-interface RouteProps extends RouteComponentProps<{id:string}> {};
+}
+interface RouteProps extends RouteComponentProps<{id:string}> {}
 type AllProps = RouteProps & IPollStateProps;
 
 interface IPollState {
@@ -31,10 +31,11 @@ interface IPollState {
   message:string,
   isLoading:boolean,
   errorMessage:string,
-};
+}
 
 class Poll extends React.Component<AllProps, IPollState> {
   static propTypes: { match: any; history: any; username: PropTypes.Validator<string>; };
+
   constructor(props:AllProps) {
     super(props);
     this.state = {

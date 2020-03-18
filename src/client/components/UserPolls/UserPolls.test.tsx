@@ -9,7 +9,7 @@ import UserPolls from './UserPolls';
 
 afterEach(cleanup);
 jest.mock('axios');
-const axiosMock = axios as jest.Mocked<typeof axios>
+const axiosMock = axios as jest.Mocked<typeof axios>;
 describe('<UserPolls /> Component', () => {
   it('renders userPolls component', async () => {
     const polls = [{ id: '1', votes: 1, name: 'test-name-one' }, { id: '2', votes: 2, name: 'test-name-two' }];
@@ -19,7 +19,7 @@ describe('<UserPolls /> Component', () => {
     const { getByText } = render(
       <Router history={history}>
         <UserPolls username="testUser1" />
-      </Router>
+      </Router>,
     );
     // first render
     expect(getByText(/^You have not created any polls yet!/i).textContent).toBe('You have not created any polls yet!');
@@ -32,7 +32,7 @@ describe('<UserPolls /> Component', () => {
     expect(resolvedPollNameOne.textContent).toBe('test-name-one');
     expect(resolvedPollNameTwo.textContent).toBe('test-name-two');
     expect(resolvedPollVotesOne.textContent).toBe('1 vote');
-    expect(resolvedPollVotesTwo.textContent).toBe('2 votes');;
+    expect(resolvedPollVotesTwo.textContent).toBe('2 votes');
   });
 
   it('deletes poll and rerenders component', async () => {
@@ -46,7 +46,7 @@ describe('<UserPolls /> Component', () => {
     const { getByText, getByTestId, queryByText } = render(
       <Router history={history}>
         <UserPolls username="testUser1" />
-      </Router>
+      </Router>,
     );
 
     const resolvedPollNameOne = await waitForElement(() => getByText(/test-name-one/i));

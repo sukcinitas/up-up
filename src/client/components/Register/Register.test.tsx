@@ -12,7 +12,7 @@ import Register from './Register';
 
 function renderWithRedux(
   ui,
-  { 
+  {
     state = initialState,
     store = createStore(reducer, state),
     route = '/user/register',
@@ -37,7 +37,7 @@ describe('<Register /> Component', () => {
     const { getByText } = renderWithRedux(
       <Route path="/user/register">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props)=> <Register {...props} />}
+        {(props) => <Register {...props} />}
       </Route>,
       {
         route: '/user/register',

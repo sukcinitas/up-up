@@ -14,7 +14,7 @@ import Login from './Login';
 
 function renderWithRedux(
   ui,
-  { 
+  {
     state = initialState,
     store = createStore(reducer, state),
     route = '/user/login',
@@ -69,7 +69,7 @@ describe('<Login /> Component', () => {
     fireEvent.change(usernameInput, { target: { value: 'testUser1' } });
     expect(usernameInput.value).toBe('testUser1');
 
-    const passwordInput = getByLabelText('Password') as HTMLInputElement;;
+    const passwordInput = getByLabelText('Password') as HTMLInputElement;
     fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
     expect(passwordInput.value).toBe('testPassword');
   });

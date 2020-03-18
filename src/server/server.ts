@@ -1,15 +1,17 @@
+import * as passport from 'passport';
+// const LocalStrategy = require('passport-local').Strategy;
+// const { compareSync } = require('bcryptjs');
+// import User from './models/user.model';
+
 require('dotenv').config(); // .env file must be at root
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
-import * as passport from 'passport';
-// const LocalStrategy = require('passport-local').Strategy;
-// const { compareSync } = require('bcryptjs');
-import User from './models/user.model';
-const usersRouter = require('./routes/users');
-const pollsRouter = require('./routes/polls');
+
+import usersRouter = require('./routes/users');
+import pollsRouter = require('./routes/polls');
 
 (async () => {
   try {

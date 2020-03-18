@@ -1,8 +1,8 @@
-import { 
-  RECEIVE_CURRENT_USER, 
+import {
+  RECEIVE_CURRENT_USER,
   LOGOUT_CURRENT_USER,
   AppState,
-  ActionTypes, 
+  ActionTypes,
 } from './actions';
 
 export const initialState:AppState = { userId: '', username: '' };

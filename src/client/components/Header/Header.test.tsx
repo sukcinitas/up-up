@@ -7,7 +7,6 @@ import {
   render, cleanup, fireEvent, waitForElement,
 } from '@testing-library/react';
 import axios from 'axios';
-import 'regenerator-runtime/runtime';
 import reducer, { initialState } from '../../redux/reducers';
 
 import Header from './Header';

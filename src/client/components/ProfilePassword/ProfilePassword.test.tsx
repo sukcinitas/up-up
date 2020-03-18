@@ -2,7 +2,6 @@ import * as React from 'react';
 import {
   render, cleanup, fireEvent, waitForElement,
 } from '@testing-library/react';
-import 'regenerator-runtime/runtime';
 // import axiosMock from 'axios';
 import axios from 'axios';
 import ProfilePassword from './ProfilePassword';

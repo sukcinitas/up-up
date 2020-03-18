@@ -7,10 +7,9 @@ afterEach(cleanup);
 
 describe('<BarChart /> Component', () => {
   it('renders barChart component with svg within', () => {
-    const data:{optionsList:{option:string, votes:number}[], sumVotes:number} =
-    { 
-    optionsList: [{ option: 'one', votes: 1 }, { option: 'two', votes: 2 }], 
-    sumVotes: 3 
+    const data:{optionsList:{option:string, votes:number}[], sumVotes:number} = {
+      optionsList: [{ option: 'one', votes: 1 }, { option: 'two', votes: 2 }],
+      sumVotes: 3,
     };
 
     const { getByText } = render(<BarChart data={data} />);

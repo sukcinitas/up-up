@@ -8,7 +8,6 @@ import {
 } from '@testing-library/react';
 // import axiosMock from 'axios';
 import axios from 'axios';
-import 'regenerator-runtime/runtime';
 import reducer, { initialState } from '../../redux/reducers';
 import formatDate from '../../util/formatDate';
 
@@ -42,7 +41,7 @@ const poll = {
   _id: '1',
   question: 'Test question',
   name: 'Test one',
-  options: { 'one': 1, 'two': 2 },
+  options: { one: 1, two: 2 },
   votes: 69,
   createdBy: 'testUser1',
   createdAt: '2020-01-21T12:45:03.180Z',
@@ -53,7 +52,7 @@ const poll = {
 describe('<Poll /> Component', () => {
   it('renders Poll component when default redux state - user not loged in', async () => {
     axiosMock.get.mockResolvedValueOnce({ data: { poll } });
-    const { getByText, getByTestId } = renderWithRedux(
+    const { getByText } = renderWithRedux(
       <Route path="/polls/1">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         {(props) => <Poll {...props} />}
@@ -85,7 +84,7 @@ describe('<Poll /> Component', () => {
 
   it('renders Poll component when redux state - user loged in', async () => {
     axiosMock.get.mockResolvedValueOnce({ data: { poll } });
-    const { getByText, getByTestId } = renderWithRedux(
+    const { getByText } = renderWithRedux(
       <Route path="/polls/1">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         {(props) => <Poll {...props} />}
@@ -119,7 +118,7 @@ describe('<Poll /> Component', () => {
   it('let\'s vote and rerenders component after that', async () => {
     axiosMock.get.mockResolvedValueOnce({ data: { poll } });
     axiosMock.put.mockResolvedValueOnce(
-      { data: { poll: { ...poll, options: { 'one': 1, 'two': 3 }, votes: 70 } } },
+      { data: { poll: { ...poll, options: { one: 1, two: 3 }, votes: 70 } } },
     );
     const { getByText, getByTestId } = renderWithRedux(
       <Route path="/polls/1">

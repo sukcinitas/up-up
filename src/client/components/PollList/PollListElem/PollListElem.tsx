@@ -7,9 +7,9 @@ interface IPollListElemProps {
   id:string,
   name:string,
   votes:number,
-  createdBy:string, 
+  createdBy:string,
   updatedAt:string,
-};
+}
 
 const PollListElem:React.FunctionComponent<IPollListElemProps> = ({
   id, name, votes, createdBy, updatedAt,
@@ -25,11 +25,12 @@ const PollListElem:React.FunctionComponent<IPollListElemProps> = ({
           {` ${createdBy}`}
         </span>
       </p>
-      <span className="transparent"></span>
+      <span className="transparent" />
       <p className="poll-list-elem__votes">
-        <span>{votes}</span>{votes === 1 ? ' vote' : ' votes'}
+        <span>{votes}</span>
+        {votes === 1 ? ' vote' : ' votes'}
       </p>
-      <span className="transparent"></span>
+      <span className="transparent" />
       <p className="poll-list-elem__updated-at">
         updated on
         {` ${updatedAt}`}

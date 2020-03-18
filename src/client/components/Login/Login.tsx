@@ -11,7 +11,7 @@ axios.defaults.withCredentials = true;
 
 interface ILoginDispatchProps {
   login: (user: AppState) => void,
-};
+}
 
 type AllProps = AppState & ILoginDispatchProps;
 
@@ -19,10 +19,11 @@ interface ILoginState {
   username: string,
   password: string,
   errorMessage: string,
-};
+}
 
 class Login extends React.Component<AllProps, ILoginState> {
   static propTypes: { login: PropTypes.Validator<(...args: any[]) => any>; };
+
   constructor(props: AllProps) {
     super(props);
     this.state = {
@@ -88,7 +89,8 @@ class Login extends React.Component<AllProps, ILoginState> {
           <ErrorMessage errorMessage={errorMessage} />
 
           <span className="form__notes form__notes--additional">
-            Do not have an account?{' '}
+            Do not have an account?
+            {' '}
             <Link to="/user/register" className="link form__link">Register</Link>
           </span>
 

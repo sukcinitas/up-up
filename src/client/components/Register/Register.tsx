@@ -18,7 +18,7 @@ interface IRegisterState {
   username:string,
   email:string,
   password:string,
-  confirmPassword:string, 
+  confirmPassword:string,
   errors:{
     usernameErr:string,
     emailErr:string,
@@ -27,10 +27,11 @@ interface IRegisterState {
     usernameTaken:boolean,
     emailTaken:boolean
   },
-};
+}
 
-class Register extends React.Component<AllProps, IRegisterState>{
+class Register extends React.Component<AllProps, IRegisterState> {
   static propTypes: { register: PropTypes.Validator<(...args: any[]) => any>; };
+
   constructor(props:AllProps) {
     super(props);
     this.state = {
@@ -71,7 +72,7 @@ class Register extends React.Component<AllProps, IRegisterState>{
         break;
       default: return;
     }
-    switch(e.currentTarget.name){
+    switch (e.currentTarget.name) {
       case 'username':
         this.setState({
           errors,
@@ -96,8 +97,12 @@ class Register extends React.Component<AllProps, IRegisterState>{
           confirmPassword: e.currentTarget.value,
         });
         break;
+      default:
+        this.setState({
+          errors,
+        });
     }
-  };
+  }
 
   handleSubmit(e:React.MouseEvent<HTMLButtonElement>) {
     const {
@@ -132,7 +137,7 @@ class Register extends React.Component<AllProps, IRegisterState>{
           }
         });
       });
-  };
+  }
 
   render() {
     const { errors } = this.state;
@@ -141,7 +146,7 @@ class Register extends React.Component<AllProps, IRegisterState>{
     } = errors;
     return (
       <div>
-        
+
         <form className="form">
 
           <h1 className="heading form__heading">Register</h1>
@@ -228,14 +233,15 @@ class Register extends React.Component<AllProps, IRegisterState>{
 
           <button type="button" onClick={this.handleSubmit} className="btn btn--submit">Register</button>
           <span className="form__notes--additional">
-            Already have an account?{' '}
+            Already have an account?
+            {' '}
             <Link to="/user/login" className="link form__link">Login</Link>
           </span>
         </form>
       </div>
     );
   }
-};
+}
 
 const mapDispatchToProps = (dispatch:Dispatch<ActionTypes>):IRegisterDispatchProps => ({
   register: (user:AppState) => dispatch(receiveCurrentUser(user)),

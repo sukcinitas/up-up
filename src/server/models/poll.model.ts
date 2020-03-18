@@ -1,4 +1,6 @@
-import { Schema, model, Model, Document } from 'mongoose';
+import {
+  Schema, model, Model, Document,
+} from 'mongoose';
 
 // const mongoose = require('mongoose');
 
@@ -29,8 +31,8 @@ export interface IPoll extends Document {
   createBy:string,
   createdAt?:string,
   updatedAt?:string,
-};
-export interface IPollModel extends Model<IPoll> {};
+}
+export interface IPollModel extends Model<IPoll> {}
 
 const Poll = model<IPoll>('Poll', pollSchema);
 
