@@ -57,11 +57,22 @@ $orange: rgb(255, 137, 68);
   }
 
   &--vote {
-      padding: 4px;
+      padding: 8px;
       color: black;
-      border-radius: 0px;
+      border-radius: 2px;
       text-transform: none;
       margin: 0 auto;
+      font-size: 18px;
+      font-family: $font-notes;
+      width: 300px;
+      &:hover {
+          background-color: rgba(37, 132, 142, 0.4);
+          cursor: pointer;
+      }
+  }
+
+  &--selected {
+      background-color: rgba(253, 231, 37, 0.4);
   }
 
   &--plus {

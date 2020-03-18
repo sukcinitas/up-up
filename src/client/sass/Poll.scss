@@ -17,6 +17,14 @@
   &__option {
     margin: 5px auto;
   }
+  &__votes {
+    border-top: 3px solid black;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 24px;
+    margin-top: 20px;
+    // font-family: $font-notes;
+  }
 }
 
 .additional {

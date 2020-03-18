@@ -18,6 +18,9 @@ router.route('/').get(async (req:Request, res:Response) => {
           updatedAt: 1,
         },
       },
+      {
+        $sort: { updatedAt: -1 },
+      },
     ]);
     res.json({ polls });
   } catch (err) {

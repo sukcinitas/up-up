@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-// import * as PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import axios from 'axios';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import '../../sass/UserPolls.scss';

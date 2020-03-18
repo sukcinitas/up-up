@@ -80,11 +80,26 @@ router.route('/register').post(async (req:SessionRequest, res:Response) => {
 interface LoginRequest extends Request {
   message: any;
 }
+
+// router.router('/login').post(async (req, res, next) => {
+//   const user = await User.findOne({ username: req.username });
+//   passport.authenticate('local', { session: true }, (err) => {
+//     try {
+//       if (err) { return next(err); }
+//       if (!user) { return res.json({ error: 'Invalid username' }); }
+//       req.logIn(user, (e) => {
+//         if (err) { return next(e); }
+//         const sessionUser = sessionizeUser(req.user);
+//         return res.json({ isAuthenticated: true, sessionUser });
+//       });
+//     } catch (error) {
+//       res.json({ error: req.message });
+//     }
+//   })(req, res, next);
+// });
+
 router.route('/login').post(passport.authenticate('local', { session: true }), (req:LoginRequest, res:Response) => {
   try {
-    if (!req.user) {
-      res.json({ error: 'Username or password is incorrect!' });
-    }
     const sessionUser = sessionizeUser(req.user);
     res.json({ isAuthenticated: true, sessionUser });
   } catch (err) {

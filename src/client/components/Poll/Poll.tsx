@@ -74,6 +74,7 @@ class Poll extends React.Component<AllProps, IPollState> {
   handleVote(e:React.MouseEvent<HTMLButtonElement>) {
     const { hasVoted, poll } = this.state;
     const { match } = this.props;
+    const selectedOption = e.currentTarget;
     if (hasVoted) {
       return;
     } // initial dealing with only letting one vote per user
@@ -90,6 +91,7 @@ class Poll extends React.Component<AllProps, IPollState> {
           this.setState({
             poll: res.data.poll,
           });
+          selectedOption.classList.add('btn--selected');
         });
       })
       .catch((error) => {
@@ -113,6 +115,7 @@ class Poll extends React.Component<AllProps, IPollState> {
   }
 
   render() {
+    console.log(this.state);
     const { username } = this.props;
     const { poll, errorMessage } = this.state;
     const {
@@ -146,7 +149,7 @@ class Poll extends React.Component<AllProps, IPollState> {
                 {/* <small>{options[option]}</small> */}
               </div>
             ))}
-            <p>{votes}</p>
+            <p className="poll__votes">{votes}</p>
             {username === createdBy ? <button type="button" onClick={this.handlePollDeletion} className="btn btn--delete">Delete</button> : ''}
           </div>
           <BarChart data={data} />
