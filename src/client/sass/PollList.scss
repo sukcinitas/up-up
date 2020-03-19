@@ -1,6 +1,12 @@
-
 .poll-list {
   max-width: 64%;
   margin: 70px auto;
   margin-bottom: 170px;
+    @media only screen and (min-width: 700px) and (max-width: 1024px) {
+      max-width: 84%;
+    }
+    @media only screen and (max-width: 700px) {
+      max-width: 94%;
+    }
 }
+

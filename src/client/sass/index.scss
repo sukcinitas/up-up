@@ -13,7 +13,7 @@ $light-blue-2: rgba(96, 96, 180, 0.822);
 $white: rgba(14, 11, 11, 0.979);
 $blue: rgba(45, 45, 97, 0.932);
 $yellow: rgb(255, 212, 22);
-$orange: rgb(255, 137, 68);
+$orange: rgb(255, 84, 31);
 
 /*BUTTONS*/////////////////////////////////////////////////////////////////////////////////////////
 
@@ -62,7 +62,7 @@ $orange: rgb(255, 137, 68);
       border-radius: 2px;
       text-transform: none;
       margin: 0 auto;
-      font-size: 18px;
+      font-size: 16px;
       font-family: $font-notes;
       width: 300px;
       &:hover {
@@ -86,7 +86,6 @@ $orange: rgb(255, 137, 68);
       color: rgb(25, 24, 31);
       background-color: darkorange;
       width: 200px;
-      margin-left: 50px;
   }
 }
 
@@ -97,7 +96,12 @@ $orange: rgb(255, 137, 68);
   text-align: center;
   color: black;
   font-size: 40px;
-  margin-bottom: 30px;
+  margin-bottom: 35px;
+  padding: 10px;
+
+  @media only screen and (max-width: 700px) {
+    font-size: 30px;
+  } 
 }
 
 .subheading {
@@ -106,7 +110,12 @@ $orange: rgb(255, 137, 68);
   color: black;
   font-size: 25px;
   margin: 0;
-  margin-bottom: 150px;
+  margin-bottom: 100px;
+  padding: 10px;
+
+  @media only screen and (max-width: 700px) {
+    font-size: 20px;
+  } 
 }
 
 .user-information__heading, .user-polls__heading {
@@ -122,7 +131,7 @@ $orange: rgb(255, 137, 68);
   border: 3px double black;
   border-radius: 2px;
   padding: 30px;
-  padding-bottom: 50px;
+  padding-bottom: 120px;
   max-width: 400px;
   margin: 40px auto;
   margin-bottom: 120px;
@@ -162,11 +171,12 @@ $orange: rgb(255, 137, 68);
       padding: 0px 70px;
       font-size: 14px;
       color: $orange;
+      display: inline-block;
 
       &--additional {
           margin: 0 auto;
           color: $white;
-          font-size: 15px;
+          font-size: 13px;
       }
   }
 
@@ -179,10 +189,16 @@ $orange: rgb(255, 137, 68);
   }
 }
 
+@media only screen and (max-width: 700px) {
+    .form {
+      &__label, &__notes {
+          padding: 0px 30px;
+      }
+      &__input {
+          margin: 8px 30px;      }
+    }
+  }
+
 .create-poll-form {
     max-width: 600px;
-  
-    .form__notes {
-        padding: 0px;
-    }
 }

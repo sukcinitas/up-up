@@ -23,8 +23,9 @@ const drawChart = (datum:{optionsList:{option:string, votes:number}[], sumVotes:
   const margin = {
     top: 10, right: 40, bottom: 30, left: 0,
   };
-  const width = 960 - margin.left - margin.right;
-  const height = 400 - margin.top - margin.bottom;
+  const countedHeight = data.length * 60;
+  const width = 860 - margin.left - margin.right;
+  const height = countedHeight - margin.top - margin.bottom;
 
   const color = d3.scaleSequential(d3.interpolateViridis)
     .domain([0, d3.max(data, (d:{option:string, votes:any}) => d.votes)]);

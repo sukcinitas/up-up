@@ -32,7 +32,7 @@ const PollListElem:React.FunctionComponent<IPollListElemProps> = ({
       </p>
       <span className="transparent" />
       <p className="poll-list-elem__updated-at">
-        updated on
+        last updated on
         {` ${updatedAt}`}
       </p>
     </div>

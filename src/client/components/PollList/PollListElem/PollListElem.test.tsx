@@ -29,7 +29,7 @@ describe('<PollListElem /> Component', () => {
     );
     expect(getByText(/name/i).textContent).toBe('name');
     expect(getByText(/panemune/i).textContent).toBe(' panemune');
-    expect(getByText(/updated on 2012-12-12/i).textContent).toBe('updated on 2012-12-12');
+    expect(getByText(/last updated on 2012-12-12/i).textContent).toBe('last updated on 2012-12-12');
     expect(getByText(/3/i).textContent).toBe('3');
   });
 });

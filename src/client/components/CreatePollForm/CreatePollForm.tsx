@@ -27,7 +27,6 @@ interface ICreatePollFormState {
 }
 
 
-
 class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
   static propTypes: { history: any; username: PropTypes.Validator<string>; };
 
@@ -72,6 +71,12 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
       }
       optionsList[this.state[`option${option}`]] = 0;
     });
+    if ((Object.keys(optionsList)).length < 2) {
+      this.setState({
+        errorMessage: 'Options must be different!',
+      });
+      return;
+    }
     const poll = {
       name,
       question,
@@ -153,9 +158,7 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
         />
 
         <label className="form__label" htmlFor="answers">Poll options</label>
-        <div id="options">
-          {optionsList}
-        </div>
+        {optionsList}
 
         <button type="button" onClick={this.addOption} className="btn btn--plus"> + </button>
         <button type="submit" onClick={this.handleSubmit} className="btn btn--submit">Submit</button>
