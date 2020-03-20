@@ -13,7 +13,7 @@ describe('<BarChart /> Component', () => {
     };
 
     const { getByText } = render(<BarChart data={data} />);
-    drawChart(data);
+    drawChart(data, 860);
     // expect(getByText(/one/i).textContent).toBe('one');
     // expect(getByText(/two/i).textContent).toBe('two');
     expect(getByText(/^1$/i).textContent).toBe('1');

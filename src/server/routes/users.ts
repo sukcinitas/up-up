@@ -69,7 +69,7 @@ router.route('/register').post(async (req:SessionRequest, res:Response) => {
       await newUser.save();
 
       const sessionUser = sessionizeUser(newUser);
-      req.session.user = sessionUser;
+      // req.session.user = sessionUser;
       res.json({ redirect: true, sessionUser });
     }
   } catch (err) {
@@ -81,22 +81,23 @@ interface LoginRequest extends Request {
   message: any;
 }
 
-// router.router('/login').post(async (req, res, next) => {
-//   const user = await User.findOne({ username: req.username });
-//   passport.authenticate('local', { session: true }, (err) => {
+// router.route('/login').post((req:LoginRequest, res:Response) => {
+//   passport.authenticate('local', (err, user, info) => {
+//     console.log('hey');
 //     try {
-//       if (err) { return next(err); }
-//       if (!user) { return res.json({ error: 'Invalid username' }); }
-//       req.logIn(user, (e) => {
-//         if (err) { return next(e); }
-//         const sessionUser = sessionizeUser(req.user);
-//         return res.json({ isAuthenticated: true, sessionUser });
-//       });
-//     } catch (error) {
-//       res.json({ error: req.message });
+//       if (!user) {
+//         console.log('bam')
+//         return res.json({ message: info.message });
+//       }
+//       console.log(user);
+//       const sessionUser = sessionizeUser(req.user);
+//       return res.json({ isAuthenticated: true, sessionUser });
+//     } catch (e) {
+//       return res.json({ error: info.message });
 //     }
-//   })(req, res, next);
+//   })(req, res);
 // });
+
 
 router.route('/login').post(passport.authenticate('local', { session: true }), (req:LoginRequest, res:Response) => {
   try {

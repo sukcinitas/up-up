@@ -13,19 +13,18 @@ function hexToRgbA(hex, opacity) {
   }
   throw new Error('Bad Hex');
 }
-const drawChart = (datum:{optionsList:{option:string, votes:number}[], sumVotes:number}) => {
+const drawChart = (datum:{optionsList:
+{option:string, votes:number}[], sumVotes:number}, w:number) => {
   d3.select('svg').remove();
-
   // const data = datum.optionsList.sort((a:{option:string, votes:number},
   // b:{option:string, votes:number}) => b.votes - a.votes);
   const data = datum.optionsList;
   const { sumVotes } = datum;
   const margin = {
-    top: 10, right: 40, bottom: 30, left: 0,
+    top: 10, right: 40, bottom: 30, left: 120,
   };
-  const countedHeight = data.length * 60;
-  const width = 860 - margin.left - margin.right;
-  const height = countedHeight - margin.top - margin.bottom;
+  const width = w - margin.left - margin.right;
+  const height = 500 - margin.top - margin.bottom;
 
   const color = d3.scaleSequential(d3.interpolateViridis)
     .domain([0, d3.max(data, (d:{option:string, votes:any}) => d.votes)]);
@@ -49,7 +48,9 @@ const drawChart = (datum:{optionsList:{option:string, votes:number}[], sumVotes:
     .data(data)
     .enter().append('rect')
     .attr('class', 'bar')
-    .attr('width', (d:{option:string, votes:number}) => x(((d.votes / sumVotes) * 100))) // percentage
+    // .attr('width', (d:{option:string, votes:number})
+    // => x(((d.votes / sumVotes) * 100))) // percentage
+    .attr('width', 10) // percentage
     .attr('y', (d:{option:string, votes:number}):any => y(d.option))
     .attr('height', y.bandwidth())
     .style('fill', (d:{option:string, votes:number}) => hexToRgbA(color(d.votes), 0.6))
@@ -59,8 +60,7 @@ const drawChart = (datum:{optionsList:{option:string, votes:number}[], sumVotes:
     .data(data)
     .enter().append('text')
     .attr('class', 'text')
-    .attr('y', (d:{option:string, votes:number}) => y(d.option) + y.bandwidth() / 2)
-    .attr('alignment-baseline', 'central')
+    .attr('y', (d:{option:string, votes:number}) => y(d.option) + y.bandwidth() / 2 + 9)
     .attr('x', (d:{option:string, votes:number}) => x(((d.votes / sumVotes) * 100)) + 5)
     .text((d:{option:string, votes:number}) => d.votes)
     .attr('font-family', 'sans-serif')
@@ -86,7 +86,7 @@ const drawChart = (datum:{optionsList:{option:string, votes:number}[], sumVotes:
     tooltip
       .style('display', 'none');
     line
-      .style('stroke', 'gray')
+      .style('stroke', 'black')
       .style('stroke-width', '0')
       .style('stroke-dasharray', ('3, 3'))
       .attr('x1', 0)
@@ -106,10 +106,10 @@ const drawChart = (datum:{optionsList:{option:string, votes:number}[], sumVotes:
       .style('right', `${0}px`)
       .style('top', `${20}px`)
       .style('z-index', 100)
-      .html(`${d.option} - ${Math.round((d.votes / sumVotes) * 100)}%`);
+      .html(`${d.option} - <span>${Math.round((d.votes / sumVotes) * 100)}%</span>`);
 
     line
-      .style('stroke', 'gray')
+      .style('stroke', 'black')
       .style('stroke-width', '2')
       .style('stroke-dasharray', ('3, 3'))
       .attr('x1', x(((d.votes / sumVotes) * 100)))
@@ -118,21 +118,24 @@ const drawChart = (datum:{optionsList:{option:string, votes:number}[], sumVotes:
       .attr('y2', height);
   });
 
-  // bar.transition()
-  // .duration(1000)
-  // .attr('width', (d) => x(((d.votes / sumVotes) * 100)));
+  bars.transition()
+    .duration(1000)
+    .attr('width', (d) => x(((d.votes / sumVotes) * 100)));
 
   // add the x Axis
   svg.append('g')
     .attr('transform', `translate(0,${height})`)
     .call(d3.axisBottom(x)
+      .ticks(5)
       .tickFormat((d) => `${d}%`))
-    .style('color', 'grey');
+    .style('color', 'black')
+    .style('stroke-width', '2');
 
   // add the y Axis
-  // svg.append('g')
-  //   .call(d3.axisLeft(y).tickSize(0))
-  //   .style('color', 'black')
-  //   .style('font-size', '12px');
+  svg.append('g')
+    .call(d3.axisLeft(y).tickSize(0))
+    .style('color', 'black')
+    .style('font-size', '12px')
+    .style('stroke-width', '2');
 };
 export default drawChart;

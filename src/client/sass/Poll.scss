@@ -5,13 +5,21 @@
 .poll__section {
   display: flex;
   flex-direction: row;
+
+  @media only screen and (max-width: 1024px) {
+    flex-direction: column;
+  }
 }
 
 .poll {
-  margin-bottom: 150px;
+  margin-bottom: 100px;
 
   &__options {
     margin: 0 auto;
+
+    @media only screen and (max-width: 1024px) {
+      margin-bottom: 100px;
+    }
   }
 
   &__option {
