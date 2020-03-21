@@ -131,7 +131,7 @@ $orange: rgb(255, 84, 31);
   border: 3px double black;
   border-radius: 2px;
   padding: 30px;
-  padding-bottom: 120px;
+  padding-bottom: 90px;
   max-width: 400px;
   margin: 40px auto;
   margin-bottom: 120px;
@@ -173,6 +173,10 @@ $orange: rgb(255, 84, 31);
       color: $orange;
       display: inline-block;
 
+      &--profile {
+          padding: 0px 10px;
+      }
+
       &--additional {
           margin: 0 auto;
           color: $white;
@@ -193,6 +197,9 @@ $orange: rgb(255, 84, 31);
     .form {
       &__label, &__notes {
           padding: 0px 30px;
+      }
+      &__notes--profile {
+          padding: 0px 10px;
       }
       &__input {
           margin: 8px 30px;      }

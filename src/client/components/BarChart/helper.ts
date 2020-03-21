@@ -44,29 +44,6 @@ const drawChart = (datum:{optionsList:
     .append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`);
 
-  const bars = svg.selectAll('.bar')
-    .data(data)
-    .enter().append('rect')
-    .attr('class', 'bar')
-    // .attr('width', (d:{option:string, votes:number})
-    // => x(((d.votes / sumVotes) * 100))) // percentage
-    .attr('width', 10) // percentage
-    .attr('y', (d:{option:string, votes:number}):any => y(d.option))
-    .attr('height', y.bandwidth())
-    .style('fill', (d:{option:string, votes:number}) => hexToRgbA(color(d.votes), 0.6))
-    .style('stroke', (d) => color(d.votes));
-
-  svg.selectAll('.text')
-    .data(data)
-    .enter().append('text')
-    .attr('class', 'text')
-    .attr('y', (d:{option:string, votes:number}) => y(d.option) + y.bandwidth() / 2 + 9)
-    .attr('x', (d:{option:string, votes:number}) => x(((d.votes / sumVotes) * 100)) + 5)
-    .text((d:{option:string, votes:number}) => d.votes)
-    .attr('font-family', 'sans-serif')
-    .attr('font-size', '20px')
-    .attr('fill', (d:{option:string, votes:number}) => color(d.votes));
-
   const line = svg.append('line')
     .style('stroke', 'white')
     .style('stroke-width', '0')
@@ -80,9 +57,7 @@ const drawChart = (datum:{optionsList:
     .append('div')
     .attr('id', 'tooltip');
 
-  bars.on('mouseout', () => {
-    // d3.select(this)
-    // .style('fill', hexToRgbA(color(d.votes), 0.6))
+  const handleOut = () => {
     tooltip
       .style('display', 'none');
     line
@@ -93,10 +68,8 @@ const drawChart = (datum:{optionsList:
       .attr('y1', 0)
       .attr('x2', 0)
       .attr('y2', 0);
-  });
-  bars.on('mouseover', (d:{option:string, votes:number}) => {
-    // d3.select(this)
-    // .style('fill', hexToRgbA(color(d.votes), 0.6))
+  };
+  const handleOver = (d:{option:string, votes:number}) => {
     tooltip
       .style('display', 'inline-block')
       .style('position', 'absolute')
@@ -116,7 +89,34 @@ const drawChart = (datum:{optionsList:
       .attr('y1', y(d.option))
       .attr('x2', x(((d.votes / sumVotes) * 100)))
       .attr('y2', height);
-  });
+  };
+
+  const bars = svg.selectAll('.bar')
+    .data(data)
+    .enter().append('rect')
+    .attr('class', 'bar')
+    // .attr('width', (d:{option:string, votes:number})
+    // => x(((d.votes / sumVotes) * 100))) // percentage
+    .attr('width', 10) // percentage
+    .attr('y', (d:{option:string, votes:number}):any => y(d.option))
+    .attr('height', y.bandwidth())
+    .style('fill', (d:{option:string, votes:number}) => hexToRgbA(color(d.votes), 0.6))
+    .style('stroke', (d) => color(d.votes))
+    .on('mouseover', handleOver)
+    .on('touchstart', handleOver)
+    .on('mouseout', handleOut)
+    .on('touchend', handleOut);
+
+  svg.selectAll('.text')
+    .data(data)
+    .enter().append('text')
+    .attr('class', 'text')
+    .attr('y', (d:{option:string, votes:number}) => y(d.option) + y.bandwidth() / 2 + 9)
+    .attr('x', (d:{option:string, votes:number}) => x(((d.votes / sumVotes) * 100)) + 5)
+    .text((d:{option:string, votes:number}) => d.votes)
+    .attr('font-family', 'sans-serif')
+    .attr('font-size', '20px')
+    .attr('fill', (d:{option:string, votes:number}) => color(d.votes));
 
   bars.transition()
     .duration(1000)

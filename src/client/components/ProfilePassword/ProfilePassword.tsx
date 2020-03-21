@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import axios from 'axios';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 axios.defaults.withCredentials = true;
 
@@ -70,7 +71,7 @@ class ProfilePassword extends React.Component<IProfilePasswordProps, IProfilePas
     return (
       <div className="user-information__elem">
         <button type="button" onClick={this.showPasswordChange} className="btn btn--user">Change password</button>
-        {message ? <span>{message}</span> : ''}
+        {message && <ErrorMessage errorMessage={message} />}
         {isChangingPassword
           ? (
             <div className="form form--user-information">

@@ -115,7 +115,6 @@ class Poll extends React.Component<AllProps, IPollState> {
   }
 
   render() {
-    console.log(this.state);
     const { username } = this.props;
     const { poll, errorMessage } = this.state;
     const {

@@ -44,7 +44,7 @@ describe('<ProfileEmail /> Component', () => {
 
   it('shows message when email update unsuccessful', async () => {
     axiosMock.get.mockResolvedValueOnce({ data: { user: [{ username: 'testUser1', email: 'test@test.lt' }] } });
-    axiosMock.put.mockResolvedValueOnce({ data: { message: 'Email is already in use!' } });
+    axiosMock.put.mockResolvedValueOnce({ data: { message: 'This e-mail is already in use! Try again!' } });
     axiosMock.get.mockResolvedValueOnce({ data: { user: [{ username: 'testUser1', email: 'test@test.lt' }] } });
     const { getByText, getByTestId } = render(
       <ProfileEmail
@@ -67,8 +67,8 @@ describe('<ProfileEmail /> Component', () => {
     expect((input).value).toBe('test@test.lt');
 
     fireEvent.click(changebtn);
-    const message = await waitForElement(() => getByText('Email is already in use!'));
-    expect(message.textContent).toBe('Email is already in use!');
+    const message = await waitForElement(() => getByText('This e-mail is already in use! Try again!'));
+    expect(message.textContent).toBe('This e-mail is already in use! Try again!');
     expect(resolvedEmail.textContent).toBe('Email:test@test.lt');
   });
 });
