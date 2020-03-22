@@ -34,14 +34,17 @@ class PollList extends React.Component<AllProps, IPollListState> {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:8080/api/polls')
+    console.log('hey')
+    axios.get('/api/polls')
       .then((res) => {
+        console.log('hey')
         this.setState({
           polls: [...res.data.polls],
           isLoading: false,
         });
       })
       .catch((error) => {
+        console.log(error);
         this.setState({
           errorMessage: `Error ${error.response.status}: ${error.response.statusText}`,
           isLoading: false,

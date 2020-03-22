@@ -122,7 +122,7 @@ class Register extends React.Component<AllProps, IRegisterState> {
       password,
     };
 
-    axios.post('http://localhost:8080/api/user/register', { user })
+    axios.post('/api/user/register', { user })
       .then((res) => {
         const newErrors = {
           ...errors,

@@ -9,10 +9,10 @@ module.exports = {
         test: /\.html$/,
         use: ['html-loader'],
       },
-      {
-        test: /\.(scss|css)$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
-      },
+      // {
+      //   test: /\.(scss|css)$/,
+      //   use: ['style-loader', 'css-loader', 'sass-loader'],
+      // },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
@@ -33,7 +33,6 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.json', '.jsx', '.ts', '.tsx'],
   },
-  devtool: 'inline-source-map',
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({ template: 'template.html' }),

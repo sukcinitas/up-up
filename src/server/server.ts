@@ -1,5 +1,6 @@
 import * as passport from 'passport';
 
+const path = require('path');
 require('dotenv').config(); // .env file must be at root
 const express = require('express');
 const cors = require('cors');
@@ -7,8 +8,8 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
-import usersRouter = require('./routes/users');
-import pollsRouter = require('./routes/polls');
+const usersRouter = require('./routes/users');
+const pollsRouter = require('./routes/polls');
 
 (async () => {
   try {
@@ -70,9 +71,16 @@ import pollsRouter = require('./routes/polls');
     connection.once('open', () => {
       console.log('Connection with MongoDB database established');
     });
-
     app.use('/api/polls', pollsRouter);
     app.use('/api/user', usersRouter);
+
+    app.all('*', (req, res) => {
+      res.sendFile(path.join(process.cwd(), '/dist/index.html'), (err) => {
+        if (err) {
+          res.status(500).send(err);
+        }
+      });
+    });
 
     app.listen(process.env.PORT || 8080, () => {
       console.log('App is running!');

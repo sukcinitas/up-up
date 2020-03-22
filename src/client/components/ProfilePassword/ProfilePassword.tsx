@@ -50,7 +50,7 @@ class ProfilePassword extends React.Component<IProfilePasswordProps, IProfilePas
   changePassword() {
     const { username, userId } = this.props;
     const { oldPassword, newPassword } = this.state;
-    axios.put('http://localhost:8080/api/user/profile', {
+    axios.put('/api/user/profile', {
       parameter: 'password',
       id: userId,
       username,

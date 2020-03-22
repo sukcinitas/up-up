@@ -44,7 +44,7 @@ class Profile extends React.Component<AllProps, IProfileState> {
 
   handleDelete() {
     const { history, userId, logout } = this.props;
-    axios.delete('http://localhost:8080/api/user/profile', { data: { id: userId } })
+    axios.delete('/api/user/profile', { data: { id: userId } })
       .then(() => {
         this.setState({
           message: 'User has been successfully deleted!',

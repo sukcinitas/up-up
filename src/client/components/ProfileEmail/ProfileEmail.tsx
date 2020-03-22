@@ -42,7 +42,7 @@ class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailStat
 
   getEmail() {
     const { username } = this.props;
-    axios.get(`http://localhost:8080/api/user/profile/${username}`)
+    axios.get(`/api/user/profile/${username}`)
       .then((res) => {
         const { email } = res.data.user[0];
         this.setState({
@@ -71,7 +71,7 @@ class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailStat
   changeEmail() {
     const { userId } = this.props;
     const { isChangingEmail, newEmail } = this.state;
-    axios.put('http://localhost:8080/api/user/profile', {
+    axios.put('/api/user/profile', {
       parameter: 'email',
       id: userId,
       email: newEmail,

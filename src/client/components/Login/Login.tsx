@@ -52,7 +52,7 @@ class Login extends React.Component<AllProps, ILoginState> {
     const { username, password } = this.state;
     const { login } = this.props;
     e.preventDefault();
-    axios.post('http://localhost:8080/api/user/login', { username, password })
+    axios.post('/api/user/login', { username, password })
       .then((res) => {
         if (res.data.isAuthenticated) {
           login(res.data.sessionUser);

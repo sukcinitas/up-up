@@ -58,7 +58,7 @@ class Poll extends React.Component<AllProps, IPollState> {
 
   componentDidMount() {
     const { match } = this.props;
-    axios.get(`http://localhost:8080/api/polls/${match.params.id}`)
+    axios.get(`/api/polls/${match.params.id}`)
       .then((res) => {
         const updatedPoll = res.data.poll;
         this.setState({
@@ -78,7 +78,7 @@ class Poll extends React.Component<AllProps, IPollState> {
     if (hasVoted) {
       return;
     } // initial dealing with only letting one vote per user
-    axios.put(`http://localhost:8080/api/polls/${match.params.id}`, {
+    axios.put(`/api/polls/${match.params.id}`, {
       option: e.currentTarget.dataset.option,
       options: poll.options,
       votes: poll.votes,
@@ -103,7 +103,7 @@ class Poll extends React.Component<AllProps, IPollState> {
 
   handlePollDeletion() {
     const { history, match } = this.props;
-    axios.delete(`http://localhost:8080/api/polls/${match.params.id}`)
+    axios.delete(`/api/polls/${match.params.id}`)
       .then(() => {
         history.push('/');
       })

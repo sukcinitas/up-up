@@ -27,7 +27,7 @@ const Header:React.FunctionComponent<AllProps> = ({
   isLoggedIn, logout, history, username,
 }) => {
   const handleLogout = () => {
-    axios.get('http://localhost:8080/api/user/logout')
+    axios.get('/api/user/logout')
       .then(() => {
         logout();
         history.push('/user/login');

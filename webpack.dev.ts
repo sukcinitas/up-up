@@ -9,6 +9,7 @@ module.exports = merge(common, {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
   },
+  devtool: 'inline-source-map', // as well as eval increases bundle size and reduce the overall performance
   devServer: {
     historyApiFallback: true,
     hot: true,
@@ -22,4 +23,12 @@ module.exports = merge(common, {
       },
     },
   },
+  module: {
+    rules: [
+      {
+        test: /\.(scss|css)$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+    ]
+  }
 });

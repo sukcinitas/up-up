@@ -39,7 +39,7 @@ class UserPolls extends React.Component<IUserPollsProps, IUserPollsState> {
 
   getUserPolls() {
     const { username } = this.props;
-    axios.get(`http://localhost:8080/api/user/polls/${username}`)
+    axios.get(`/api/user/polls/${username}`)
       .then((res) => {
         if (res.data.polls) {
           this.setState({
@@ -55,7 +55,7 @@ class UserPolls extends React.Component<IUserPollsProps, IUserPollsState> {
   }
 
   handlePollDeletion(e:React.MouseEvent<HTMLButtonElement>) {
-    axios.delete(`http://localhost:8080/api/polls/${e.currentTarget.id}`)
+    axios.delete(`/api/polls/${e.currentTarget.id}`)
       .then(() => {
         this.getUserPolls();
       })
@@ -68,6 +68,7 @@ class UserPolls extends React.Component<IUserPollsProps, IUserPollsState> {
 
   render() {
     const { userPolls, errorMessage } = this.state;
+    console.log(userPolls)
     return (
       <section className="user-polls">
         <h2 className="heading user-polls__heading">Polls</h2>
