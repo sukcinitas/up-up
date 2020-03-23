@@ -15,18 +15,6 @@ const pollsRouter = require('./routes/polls');
   try {
     mongoose.Promise = global.Promise;
 
-    const whitelist = ['http://localhost:3000', 'http://localhost:8080'];
-    const corsOptions = {
-      origin(origin, callback) {
-        if (whitelist.indexOf(origin) !== -1) {
-          callback(null, true);
-        } else {
-          callback(new Error('Not allowed by CORS'));
-        }
-      },
-      credentials: true,
-    };
-
     const app = express();
     app.use(session({
       name: process.env.SESS_NAME,
@@ -51,8 +39,23 @@ const pollsRouter = require('./routes/polls');
     app.use(passport.initialize());
     app.use(passport.session());
 
-    // app.use(cors(corsOptions));
-    app.options('*', cors(corsOptions)); // preflight OPTIONS; put before other routes
+    if (process.env.NODE_ENV === 'development') {
+      const whitelist = ['http://localhost:3000', 'http://localhost:8080'];
+      const corsOptions = {
+        origin(origin, callback) {
+          if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true);
+          } else {
+            callback(new Error('Not allowed by CORS'));
+          }
+        },
+        credentials: true,
+      };
+      app.options('*', cors(corsOptions)); // preflight OPTIONS; put before other routes
+    } else {
+      app.use(cors());
+    }
+
     app.use(express.static('dist'));
     app.use((req, res, next) => {
       res.header('Access-Control-Allow-Credentials', true);
@@ -62,7 +65,6 @@ const pollsRouter = require('./routes/polls');
       res.header('Access-Control-Max-Age', 86400);
       next();
     });
-
 
     const uri = process.env.MONGODB_URI;
     mongoose.connect(uri,

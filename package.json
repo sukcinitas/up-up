@@ -5,7 +5,7 @@
   "main": "index.tsx",
   "private": true,
   "scripts": {
-    "start": "node dist/server.js",
+    "start": "ts-node src/server/server.ts",
     "test": "jest",
     "dev-client": "webpack-dev-server --config webpack.dev.js --hot",
     "dev-server": "nodemon src/server/server.ts",
@@ -14,8 +14,7 @@
     "prod-client": "webpack --config webpack.prod.js",
     "prod-server": "ts-node src/server/server.ts",
     "prod": "concurrently \"npm run prod-client\" \"npm run prod-server\"",
-    "heroku-postbuild": "webpack -p",
-    "postinstall": "npm run prod-server"
+    "build": "webpack -p"
   },
   "author": "Gintarė Černiauskaitė",
   "license": "MIT",
