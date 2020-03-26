@@ -10,7 +10,7 @@ import App from './components/App/App';
 axios.defaults.withCredentials = true;
 
 const renderApp = async () => {
-  const state = await axios.get('http://localhost:8080/api/user/login')
+  const state = await axios.get('/api/user/login')
     .then((res) => res.data.user);
   const store = createStore(reducer, state, applyMiddleware(thunk));
   ReactDOM.render(
