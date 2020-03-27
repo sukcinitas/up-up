@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 /* eslint-disable no-useless-escape */
 import * as React from 'react';
 import * as PropTypes from 'prop-types';

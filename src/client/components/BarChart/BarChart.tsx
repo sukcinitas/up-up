@@ -11,7 +11,7 @@ interface Props {
 }
 
 const BarChart:React.FunctionComponent<Props> = ({ data }) => {
-  drawChart(data, barChartWidth()); // <= IE8 does not support innerWidth
+  drawChart(data, barChartWidth().w, barChartWidth().left); // <= IE8 does not support innerWidth
   return <div id="chart" />;
 };
 

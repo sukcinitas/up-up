@@ -68,7 +68,6 @@ class UserPolls extends React.Component<IUserPollsProps, IUserPollsState> {
 
   render() {
     const { userPolls, errorMessage } = this.state;
-    console.log(userPolls)
     return (
       <section className="user-polls">
         <h2 className="heading user-polls__heading">Polls</h2>

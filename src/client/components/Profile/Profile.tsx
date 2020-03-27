@@ -31,7 +31,8 @@ interface IProfileState {
 }
 
 class Profile extends React.Component<AllProps, IProfileState> {
-  static propTypes: { username: PropTypes.Validator<string>; userId: PropTypes.Validator<string>; history: any; logout: PropTypes.Validator<(...args: any[]) => any>; };
+  static propTypes: { username: PropTypes.Validator<string>; userId: PropTypes.Validator<string>;
+    history: any; logout: PropTypes.Validator<(...args: any[]) => any>; };
 
   constructor(props:AllProps) {
     super(props);

@@ -14,14 +14,14 @@ function hexToRgbA(hex, opacity) {
   throw new Error('Bad Hex');
 }
 const drawChart = (datum:{optionsList:
-{option:string, votes:number}[], sumVotes:number}, w:number) => {
+{option:string, votes:number}[], sumVotes:number}, w:number = 860, left:number = 100) => {
   d3.select('svg').remove();
   // const data = datum.optionsList.sort((a:{option:string, votes:number},
   // b:{option:string, votes:number}) => b.votes - a.votes);
   const data = datum.optionsList;
   const { sumVotes } = datum;
   const margin = {
-    top: 10, right: 40, bottom: 30, left: 120,
+    top: 10, right: 40, bottom: 30, left,
   };
   const width = w - margin.left - margin.right;
   const height = 500 - margin.top - margin.bottom;
