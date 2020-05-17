@@ -30,7 +30,7 @@ export interface IPoll extends Document {
   votes:number,
   createBy:string,
   createdAt?:string,
-  updatedAt?:string,
+  // updatedAt?:string,
 }
 export interface IPollModel extends Model<IPoll> {}
 

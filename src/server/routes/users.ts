@@ -161,7 +161,7 @@ router.route('/profile').put(async (req:Request, res:Response) => {
     const { parameter } = req.body;
     if (parameter === 'email') {
       const email = await User.find({ email: req.body.email });
-      if (email !== []) {
+      if (email.length !== 0) {
         res.json({ message: 'This e-mail is already in use! Try again!' });
       } else {
         await User.findByIdAndUpdate({ _id: req.body.id }, { email: req.body.email });

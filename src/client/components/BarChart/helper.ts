@@ -115,7 +115,7 @@ const drawChart = (datum:{optionsList:
     .attr('x', (d:{option:string, votes:number}) => x(((d.votes / sumVotes) * 100)) + 5)
     .text((d:{option:string, votes:number}) => d.votes)
     .attr('font-family', 'sans-serif')
-    .attr('font-size', '20px')
+    .attr('font-size', '18px')
     .attr('fill', (d:{option:string, votes:number}) => color(d.votes));
 
   bars.transition()
