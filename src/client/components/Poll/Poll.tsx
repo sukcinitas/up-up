@@ -10,6 +10,7 @@ import BarChart from '../BarChart/BarChart';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import Loader from '../Loader/Loader';
 import '../../sass/Poll.scss';
+import barChartWidth from '../../util/barChartWidth';
 
 axios.defaults.withCredentials = true;
 
@@ -32,6 +33,8 @@ interface IPollState {
   message:string,
   isLoading:boolean,
   errorMessage:string,
+  width:number,
+  leftMargin: number,
 }
 
 class Poll extends React.Component<AllProps, IPollState> {
@@ -52,12 +55,17 @@ class Poll extends React.Component<AllProps, IPollState> {
       message: '',
       isLoading: true,
       errorMessage: '',
+      width: 544,
+      leftMargin: 100,
     };
     this.handleVote = this.handleVote.bind(this);
     this.handlePollDeletion = this.handlePollDeletion.bind(this);
+    this.setSize = this.setSize.bind(this);
   }
 
   componentDidMount() {
+    window.addEventListener('resize', this.setSize);
+    this.setSize();
     const { match } = this.props;
     axios.get(`/api/polls/${match.params.id}`)
       .then((res) => {
@@ -70,6 +78,13 @@ class Poll extends React.Component<AllProps, IPollState> {
           });
         });
       });
+  }
+
+  setSize() {
+    this.setState({
+      width: barChartWidth().w,
+      leftMargin: barChartWidth().left,
+    });
   }
 
   handleVote(e:React.MouseEvent<HTMLButtonElement>) {
@@ -117,7 +132,10 @@ class Poll extends React.Component<AllProps, IPollState> {
 
   render() {
     const { username } = this.props;
-    const { poll, errorMessage } = this.state;
+    const {
+      poll, errorMessage,
+      width, leftMargin,
+    } = this.state;
     const {
       name, question, options, votes, createdBy, createdAt,
     } = poll;
@@ -152,7 +170,7 @@ class Poll extends React.Component<AllProps, IPollState> {
             <p className="poll__votes">{votes}</p>
             {username === createdBy ? <button type="button" onClick={this.handlePollDeletion} className="btn btn--delete">Delete</button> : ''}
           </div>
-          <BarChart data={data} />
+          <BarChart data={data} width={width} leftMargin={leftMargin} />
         </div>
         <div className="additional poll__additional">
           <p>{`created by ${createdBy}`}</p>

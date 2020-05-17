@@ -1,17 +1,20 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import drawChart from './helper';
-import barChartWidth from '../../util/barChartWidth';
+// import barChartWidth from '../../util/barChartWidth';
 
 interface Props {
   data:{
     optionsList: {option:string, votes:number}[],
     sumVotes:number,
-  }
+  },
+  width: number,
+  leftMargin: number,
 }
 
-const BarChart:React.FunctionComponent<Props> = ({ data }) => {
-  drawChart(data, barChartWidth().w, barChartWidth().left); // <= IE8 does not support innerWidth
+const BarChart:React.FunctionComponent<Props> = ({ data, width, leftMargin }) => {
+  // drawChart(data, barChartWidth().w, barChartWidth().left); // <= IE8 does not support innerWidth
+  drawChart(data, width, leftMargin);
   return <div id="chart" />;
 };
 
@@ -25,6 +28,8 @@ BarChart.propTypes = {
     )).isRequired,
     sumVotes: PropTypes.number.isRequired,
   }).isRequired,
+  width: PropTypes.number.isRequired,
+  leftMargin: PropTypes.number.isRequired,
 };
 
 export default BarChart;
