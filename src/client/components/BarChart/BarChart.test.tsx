@@ -12,7 +12,7 @@ describe('<BarChart /> Component', () => {
       sumVotes: 3,
     };
 
-    const { getByText } = render(<BarChart data={data} />);
+    const { getByText } = render(<BarChart data={data} width={544} leftMargin={100} />);
     drawChart(data, 860);
     // expect(getByText(/one/i).textContent).toBe('one');
     // expect(getByText(/two/i).textContent).toBe('two');

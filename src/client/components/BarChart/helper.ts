@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import barChartWidth from '../../util/barChartWidth';
 
 function hexToRgbA(hex, opacity) {
   let c;
@@ -18,7 +19,20 @@ const drawChart = (datum:{optionsList:
   d3.select('svg').remove();
   // const data = datum.optionsList.sort((a:{option:string, votes:number},
   // b:{option:string, votes:number}) => b.votes - a.votes);
-  const data = datum.optionsList;
+
+  function addDots(option) {
+    if (barChartWidth().windowW > 920 || option.length < 8) {
+      return option;
+    }
+    return `...${option.substr(-5)}`;
+  }
+
+  const dataPrev = datum.optionsList;
+  const data = dataPrev.map((item) => ({
+    option: addDots(item.option),
+    votes: item.votes,
+    optionM: item.option,
+  }));
   const { sumVotes } = datum;
   const margin = {
     top: 10, right: 40, bottom: 30, left,
@@ -69,7 +83,7 @@ const drawChart = (datum:{optionsList:
       .attr('x2', 0)
       .attr('y2', 0);
   };
-  const handleOver = (d:{option:string, votes:number}) => {
+  const handleOver = (d:{option:string, votes:number, optiomM:string}) => {
     tooltip
       .style('display', 'inline-block')
       .style('position', 'absolute')
@@ -79,7 +93,7 @@ const drawChart = (datum:{optionsList:
       .style('right', `${0}px`)
       .style('top', `${20}px`)
       .style('z-index', 100)
-      .html(`${d.option} - <span>${Math.round((d.votes / sumVotes) * 100)}%</span>`);
+      .html(`${d.optionM} - <span>${Math.round((d.votes / sumVotes) * 100)}%</span>`);
 
     line
       .style('stroke', 'black')

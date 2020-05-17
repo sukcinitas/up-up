@@ -103,9 +103,9 @@ describe('<Register /> Component', () => {
     expect(password.value).toBe('testa');
     expect(confirmPassword.value).toBe('testas1');
 
-    expect(getByText('username must be 5-30 characters long').textContent).toBe(' username must be 5-30 characters long');
-    expect(getByText('email is not valid').textContent).toBe(' email is not valid');
-    expect(getByText('password must be at least 6 characters long').textContent).toBe(' password must be at least 6 characters long');
-    expect(getByText('passwords should match').textContent).toBe(' passwords should match');
+    expect(getByText('Username must be 5-30 characters long').textContent).toBe(' Username must be 5-30 characters long');
+    expect(getByText('Email is not valid').textContent).toBe(' Email is not valid');
+    expect(getByText('Password must be at least 6 characters long').textContent).toBe(' Password must be at least 6 characters long');
+    expect(getByText('Passwords should match').textContent).toBe(' Passwords should match');
   });
 });

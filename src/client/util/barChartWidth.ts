@@ -13,5 +13,5 @@ export default () => {
     w = windowW - 40;
     left = 90;
   }
-  return { w, left };
+  return { w, left, windowW };
 };

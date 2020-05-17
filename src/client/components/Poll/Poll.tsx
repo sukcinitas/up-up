@@ -65,7 +65,11 @@ class Poll extends React.Component<AllProps, IPollState> {
 
   componentDidMount() {
     window.addEventListener('resize', this.setSize);
-    this.setSize();
+    window.addEventListener('orientationchange', this.setSize);
+    this.setState({
+      width: barChartWidth().w,
+      leftMargin: barChartWidth().left,
+    });
     const { match } = this.props;
     axios.get(`/api/polls/${match.params.id}`)
       .then((res) => {
@@ -80,10 +84,19 @@ class Poll extends React.Component<AllProps, IPollState> {
       });
   }
 
-  setSize() {
+  setSize(e) {
+    const width = barChartWidth().w;
+    const leftMargin = barChartWidth().left;
+    const { windowW } = barChartWidth();
+    // Apparently on mobile devices window emits resize event when browser navigation is hidden
+    // so if device width is small, I make it to not change dinamically,
+    // and it doesn't need to as it pretty much changes only when orientation does
+    if (e.type !== 'orientationchange' && windowW < 920) {
+      return;
+    }
     this.setState({
-      width: barChartWidth().w,
-      leftMargin: barChartWidth().left,
+      width,
+      leftMargin,
     });
   }
 
