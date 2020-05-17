@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppState } from '../../redux/actions';
 import PollListElem from './PollListElem/PollListElem';
+import Loader from '../Loader/Loader';
 import formatDate from '../../util/formatDate';
 import '../../sass/PollList.scss';
 
@@ -63,10 +64,12 @@ class PollList extends React.Component<AllProps, IPollListState> {
         />
       </div>
     ));
+    if (isLoading) {
+      return <Loader size="default" />;
+    }
     return (
       <div data-testid="test-polls-list" className="poll-list">
         {username && <Link to="/user/create-poll" className="btn btn--create">Create a poll</Link>}
-        {isLoading && <h3>Loading...</h3>}
         {errorMessage ? <h3>{errorMessage}</h3> : list}
       </div>
     );

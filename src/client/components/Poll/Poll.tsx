@@ -8,6 +8,7 @@ import formatDate from '../../util/formatDate';
 import { AppState } from '../../redux/actions';
 import BarChart from '../BarChart/BarChart';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import Loader from '../Loader/Loader';
 import '../../sass/Poll.scss';
 
 axios.defaults.withCredentials = true;
@@ -130,7 +131,7 @@ class Poll extends React.Component<AllProps, IPollState> {
 
     const { message, isLoading } = this.state;
     if (isLoading) {
-      return <p>Loading...</p>;
+      return <Loader size="big" />;
     }
     return (
       <div className="poll">

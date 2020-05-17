@@ -22,7 +22,7 @@ describe('<ProfileEmail /> Component', () => {
         username="testUser1"
       />,
     );
-    expect(getByText(/Email:Loading.../i).textContent).toBe('Email:Loading...');
+    expect(getByText(/Email:.../i).textContent).toBe('Email:...');
     expect(getByText(/^Change email$/i).textContent).toBe('Change email');
 
     const resolvedEmail = await waitForElement(() => getByText(/^Email/));
@@ -52,7 +52,7 @@ describe('<ProfileEmail /> Component', () => {
         username="testUser1"
       />,
     );
-    expect(getByText(/Email:Loading.../i).textContent).toBe('Email:Loading...');
+    expect(getByText(/Email:.../i).textContent).toBe('Email:...');
     expect(getByText(/^Change email$/i).textContent).toBe('Change email');
 
     const resolvedEmail = await waitForElement(() => getByText(/^Email/));

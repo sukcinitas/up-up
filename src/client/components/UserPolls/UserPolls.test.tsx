@@ -16,13 +16,16 @@ describe('<UserPolls /> Component', () => {
     axiosMock.get.mockResolvedValueOnce({ data: { polls } });
 
     const history = createMemoryHistory();
-    const { getByText } = render(
+    const { getByText, getByTestId } = render(
       <Router history={history}>
         <UserPolls username="testUser1" />
       </Router>,
     );
     // first render
-    expect(getByText(/^You have not created any polls yet!/i).textContent).toBe('You have not created any polls yet!');
+    // expect(getByText(/^You have not created any polls yet!/i).textContent)
+    // .toBe('You have not created any polls yet!');
+    const loader = getByTestId('loader');
+    expect(loader.textContent).toBe('');
     // render after time to get has passed
     expect(axiosMock.get).toHaveBeenCalledTimes(1);
     const resolvedPollNameOne = await waitForElement(() => getByText(/test-name-one/i));

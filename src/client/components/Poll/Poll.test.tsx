@@ -52,7 +52,7 @@ const poll = {
 describe('<Poll /> Component', () => {
   it('renders Poll component when default redux state - user not loged in', async () => {
     axiosMock.get.mockResolvedValueOnce({ data: { poll } });
-    const { getByText } = renderWithRedux(
+    const { getByText, getByTestId } = renderWithRedux(
       <Route path="/polls/1">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         {(props) => <Poll {...props} />}
@@ -61,7 +61,9 @@ describe('<Poll /> Component', () => {
         route: '/polls/1',
       },
     );
-    expect(getByText('Loading...').textContent).toBe('Loading...');
+
+    const loader = getByTestId('loader');
+    expect(loader.textContent).toBe('');
 
     const pollQuestion = await waitForElement(() => getByText('Test question'));
     expect(pollQuestion.textContent).toBe('Test question');
@@ -73,18 +75,11 @@ describe('<Poll /> Component', () => {
     expect(pollCreatedBy.textContent).toBe('created by testUser1');
     const pollCreatedAt = await waitForElement(() => getByText(`created on ${formatDate(poll.createdAt)}`));
     expect(pollCreatedAt.textContent).toBe('created on 2020 m. sausio 21 d.');
-
-    // const firstOption = await waitForElement(() => getByTestId('one'));
-    // expect(firstOption.textContent).toBe('one');
-
-
-    // const secondOption = await waitForElement(() => getByTestId('two'));
-    // expect(secondOption.textContent).toBe('two');
   });
 
   it('renders Poll component when redux state - user loged in', async () => {
     axiosMock.get.mockResolvedValueOnce({ data: { poll } });
-    const { getByText } = renderWithRedux(
+    const { getByText, getByTestId } = renderWithRedux(
       <Route path="/polls/1">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         {(props) => <Poll {...props} />}
@@ -94,7 +89,9 @@ describe('<Poll /> Component', () => {
         state: { username: 'testUser1', userId: '1' },
       },
     );
-    expect(getByText('Loading...').textContent).toBe('Loading...');
+
+    const loader = getByTestId('loader');
+    expect(loader.textContent).toBe('');
 
     const pollQuestion = await waitForElement(() => getByText('Test question'));
     expect(pollQuestion.textContent).toBe('Test question');
@@ -106,10 +103,6 @@ describe('<Poll /> Component', () => {
     expect(pollCreatedBy.textContent).toBe('created by testUser1');
     const pollCreatedAt = await waitForElement(() => getByText(`created on ${formatDate(poll.createdAt)}`));
     expect(pollCreatedAt.textContent).toBe('created on 2020 m. sausio 21 d.');
-    // const firstOption = await waitForElement(() => getByTestId('one'));
-    // expect(firstOption.textContent).toBe('one');
-    // const secondOption = await waitForElement(() => getByTestId('two'));
-    // expect(secondOption.textContent).toBe('two');
 
     const btn = await waitForElement(() => getByText(/delete/i));
     expect(btn.textContent).toBe('Delete');
@@ -130,7 +123,8 @@ describe('<Poll /> Component', () => {
         state: { username: 'testUser1', userId: '1' },
       },
     );
-    expect(getByText('Loading...').textContent).toBe('Loading...');
+    const loader = getByTestId('loader');
+    expect(loader.textContent).toBe('');
 
     const btn = await waitForElement(() => getByTestId('two'));
     fireEvent.click(btn);

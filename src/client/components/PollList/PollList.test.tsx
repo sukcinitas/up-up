@@ -64,7 +64,8 @@ describe('<PollList /> Component', () => {
         route: '/',
       },
     );
-    expect(getByText('Loading...').textContent).toBe('Loading...');
+    const loader = getByTestId('loader');
+    expect(loader.textContent).toBe('');
 
     const pollsDiv = await waitForElement(() => getByTestId('test-polls-list'));
     expect(pollsDiv.className).toBe('poll-list');
@@ -86,7 +87,8 @@ describe('<PollList /> Component', () => {
         state: { username: 'testUser1', userId: '1' },
       },
     );
-    expect(getByText('Loading...').textContent).toBe('Loading...');
+    const loader = getByTestId('loader');
+    expect(loader.textContent).toBe('');
 
     const pollsDiv = await waitForElement(() => getByTestId('test-polls-list'));
     expect(pollsDiv.className).toBe('poll-list');
