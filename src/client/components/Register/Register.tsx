@@ -58,18 +58,18 @@ class Register extends React.Component<AllProps, IRegisterState> {
     switch (e.currentTarget.name) {
       case 'username':
         errors.usernameErr = e.currentTarget.value.length < 5 || e.currentTarget.value.length > 30
-          ? 'username must be 5-30 characters long'
+          ? 'Username must be 5-30 characters long'
           : '';
         break;
       case 'email':
         errors.emailErr = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(e.currentTarget.value)
-          ? '' : 'email is not valid';
+          ? '' : 'Email is not valid';
         break;
       case 'password':
-        errors.passwordErr = e.currentTarget.value.length < 6 ? 'password must be at least 6 characters long' : '';
+        errors.passwordErr = e.currentTarget.value.length < 6 ? 'Password must be at least 6 characters long' : '';
         break;
       case 'confirmPassword':
-        errors.passwordsMatch = password === e.currentTarget.value ? '' : 'passwords should match';
+        errors.passwordsMatch = password === e.currentTarget.value ? '' : 'Passwords should match';
         break;
       default: return;
     }
@@ -227,9 +227,9 @@ class Register extends React.Component<AllProps, IRegisterState> {
 
           <div>
             <span className="form__notes">
-              {usernameTaken ? ' username is already in use' : ''}
+              {usernameTaken ? ' Username is already in use' : ''}
             </span>
-            <span className="form__notes">{emailTaken ? ' email is already in use' : ''}</span>
+            <span className="form__notes">{emailTaken ? ' Email is already in use' : ''}</span>
           </div>
 
           <button type="button" onClick={this.handleSubmit} className="btn btn--submit">Register</button>

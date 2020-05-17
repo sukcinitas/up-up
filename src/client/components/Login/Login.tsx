@@ -39,11 +39,13 @@ class Login extends React.Component<AllProps, ILoginState> {
     if (e.currentTarget.name === 'username') {
       this.setState({
         username: e.currentTarget.value,
+        errorMessage: '',
       });
     }
     if (e.currentTarget.name === 'password') {
       this.setState({
         password: e.currentTarget.value,
+        errorMessage: '',
       });
     }
   }
@@ -84,9 +86,8 @@ class Login extends React.Component<AllProps, ILoginState> {
           </label>
           <input type="password" name="password" id="password" onChange={this.handleChange} className="form__input" />
 
-          <button data-testid="login-btn" type="button" onClick={this.handleSubmit} className="btn btn--submit">Login</button>
-
           <ErrorMessage errorMessage={errorMessage} />
+          <button data-testid="login-btn" type="button" onClick={this.handleSubmit} className="btn btn--submit">Login</button>
 
           <span className="form__notes form__notes--additional">
             Do not have an account?

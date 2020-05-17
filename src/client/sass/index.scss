@@ -69,18 +69,21 @@ $orange: rgb(255, 84, 31);
       padding: 7px 5px;
 
     &:hover {
-        background-color: blue;
+        background-color: #ff8f4d;
+        color: black;
         transition: background-color 0.1s;
     }
   }
 
   &--delete {
-      background-color: $orange;
-      color: $blue;
+      background-color: #f33;
+      color: white;
+      border: 1px solid #f33;
 
     &:hover {
-        background-color: $blue;
-        color: $orange;
+        background-color: white;
+        color: #f33;
+        border: 1px solid #f33;
         transition: background-color color 0.1s;
     }
   }
@@ -112,14 +115,14 @@ $orange: rgb(255, 84, 31);
 
   &--create {
       text-decoration: none;
-      border: 1px solid darkorange;
-      color: rgb(25, 24, 31);
-      background-color: darkorange;
+      border: 1px solid #ff8f4d;
+      color: #21262c;
+      background-color: #ff8f4d;
       width: 200px;
 
       &:hover {
-        color: darkorange;
-        background-color: rgb(25, 24, 31);
+        color: #ff8f4d;
+        background-color: #21262c;
         border: 1px solid black;
         transition: background-color color border 0.1s;
       }
@@ -192,26 +195,31 @@ $orange: rgb(255, 84, 31);
   &__input {
       font-size: 15px;
       margin: 8px 70px;
-      border: $light-blue;
+      border: none;
       border-bottom: 1px solid $white;  
       background-color: transparent; 
       color: black;
   }
 
+  &__input:invalid {
+    box-shadow: none;
+    -moz-box-shadow: none;
+}
+
   &__input:focus {
-      padding-top: 5px;
+    //   padding-top: 5px;
       border-bottom: 2px solid blue;
       outline: none;
   }
 
   &__notes {
       padding: 0px 70px;
-      font-size: 14px;
-      color: $orange;
+      font-size: 13px;
+      color: #f33;
       display: inline-block;
 
       &--profile {
-          padding: 0px 10px;
+        //   padding: 0px 10px;
       }
 
       &--additional {
@@ -222,10 +230,10 @@ $orange: rgb(255, 84, 31);
   }
 
   &__link {
-      color: darkorange;
+      color: #ad6236;
 
       &:active, &:visited {
-          color: darkorange;
+          color: #ad6236;
       }
   }
 }

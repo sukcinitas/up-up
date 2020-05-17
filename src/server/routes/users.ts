@@ -81,32 +81,36 @@ interface LoginRequest extends Request {
   message: any;
 }
 
-// router.route('/login').post((req:LoginRequest, res:Response) => {
-//   passport.authenticate('local', (err, user, info) => {
-//     console.log('hey');
-//     try {
-//       if (!user) {
-//         console.log('bam')
-//         return res.json({ message: info.message });
-//       }
-//       console.log(user);
-//       const sessionUser = sessionizeUser(req.user);
-//       return res.json({ isAuthenticated: true, sessionUser });
-//     } catch (e) {
-//       return res.json({ error: info.message });
-//     }
-//   })(req, res);
-// });
-
-
-router.route('/login').post(passport.authenticate('local', { session: true }), (req:LoginRequest, res:Response) => {
-  try {
-    const sessionUser = sessionizeUser(req.user);
-    res.json({ isAuthenticated: true, sessionUser });
-  } catch (err) {
-    res.json({ error: req.message });
-  }
+router.route('/login').post((req:LoginRequest, res:Response, next) => {
+  // eslint-disable-next-line consistent-return
+  passport.authenticate('local', { session: true }, (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.json({ error: 'Username or password is incorrect!' });
+    }
+    req.login(user, (loginErr) => {
+      if (loginErr) {
+        return next(loginErr);
+      }
+      return res.json({ isAuthenticated: true, sessionUser: sessionizeUser(user) });
+    });
+  })(req, res, next);
 });
+
+
+// router.route('/login').post(passport.authenticate('local',
+// { session: true }), (req:LoginRequest, res:Response) => {
+//   try {
+//     // eslint-disable-next-line no-console
+//     // console.log('No user');
+//     const sessionUser = sessionizeUser(req.user);
+//     res.json({ isAuthenticated: true, sessionUser });
+//   } catch (err) {
+//     res.json({ error: req.message });
+//   }
+// });
 
 router.route('/create-poll').post(async (req:Request, res:Response) => {
   try {
