@@ -2,8 +2,6 @@ import {
   Schema, model, Model, Document,
 } from 'mongoose';
 
-// const mongoose = require('mongoose');
-
 const pollSchema:Schema = new Schema({
   name: {
     type: String,
@@ -37,4 +35,3 @@ export interface IPollModel extends Model<IPoll> {}
 const Poll = model<IPoll>('Poll', pollSchema);
 
 export default Poll;
-// module.exports = Poll;

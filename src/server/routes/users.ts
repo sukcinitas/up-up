@@ -99,19 +99,6 @@ router.route('/login').post((req:LoginRequest, res:Response, next) => {
   })(req, res, next);
 });
 
-
-// router.route('/login').post(passport.authenticate('local',
-// { session: true }), (req:LoginRequest, res:Response) => {
-//   try {
-//     // eslint-disable-next-line no-console
-//     // console.log('No user');
-//     const sessionUser = sessionizeUser(req.user);
-//     res.json({ isAuthenticated: true, sessionUser });
-//   } catch (err) {
-//     res.json({ error: req.message });
-//   }
-// });
-
 router.route('/create-poll').post(async (req:Request, res:Response) => {
   try {
     const {

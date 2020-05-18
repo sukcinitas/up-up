@@ -91,7 +91,7 @@ class Poll extends React.Component<AllProps, IPollState> {
     // Apparently on mobile devices window emits resize event when browser navigation is hidden
     // so if device width is small, I make it to not change dinamically,
     // and it doesn't need to as it pretty much changes only when orientation does
-    if (e.type !== 'orientationchange' && windowW < 920) {
+    if (e.type !== 'orientationchange' && windowW < 480) {
       return;
     }
     this.setState({

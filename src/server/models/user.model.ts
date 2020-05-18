@@ -3,9 +3,6 @@ import {
 } from 'mongoose';
 import { hashSync } from 'bcryptjs';
 
-// const mongoose = require('mongoose');
-// const { hashSync } = require('bcryptjs');
-
 const userSchema:Schema = new Schema({
   username: {
     type: String,
@@ -45,4 +42,3 @@ export interface IUserModel extends Model<IUser> {}
 const User = model<IUser>('User', userSchema);
 
 export default User;
-// module.exports = User;
