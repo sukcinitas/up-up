@@ -59,12 +59,16 @@ class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailStat
 
   showEmailChange() {
     const { isChangingEmail } = this.state;
-    this.setState({ isChangingEmail: !isChangingEmail });
+    this.setState({
+      isChangingEmail: !isChangingEmail,
+      errorMessage: '',
+    });
   }
 
   handleChange(e:React.ChangeEvent<HTMLInputElement>) {
     this.setState({
       newEmail: e.currentTarget.value,
+      errorMessage: '',
     });
   }
 

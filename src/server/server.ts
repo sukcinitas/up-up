@@ -8,8 +8,8 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
-const usersRouter = require('./routes/users');
-const pollsRouter = require('./routes/polls');
+const userRouter = require('./routes/user.route');
+const pollRouter = require('./routes/poll.route');
 
 (async () => {
   try {
@@ -73,8 +73,8 @@ const pollsRouter = require('./routes/polls');
     connection.once('open', () => {
       console.log('Connection with MongoDB database established');
     });
-    app.use('/api/polls', pollsRouter);
-    app.use('/api/user', usersRouter);
+    app.use('/api/polls', pollRouter);
+    app.use('/api/user', userRouter);
 
     app.all('*', (req, res) => {
       res.sendFile(path.join(process.cwd(), '/dist/index.html'), (err) => {

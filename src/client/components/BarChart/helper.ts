@@ -41,7 +41,7 @@ const drawChart = (datum:{optionsList:
   const height = 500 - margin.top - margin.bottom;
 
   const color = d3.scaleSequential(d3.interpolateViridis)
-    .domain([0, d3.max(data, (d:{option:string, votes:any}) => d.votes)]);
+    .domain([0, d3.max(dataPrev, (d:{option:string, votes:any}) => d.votes)]); //
 
   const y = d3.scaleBand()
     .range([height, 0])
@@ -50,7 +50,8 @@ const drawChart = (datum:{optionsList:
 
   const x = d3.scaleLinear()
     .range([0, width])
-    .domain([0, d3.max(data, (d:{option:string, votes:number}):any => (d.votes) / sumVotes) * 100]);
+    .domain([0, d3.max(dataPrev,
+      (d:{option:string, votes:number}):any => (d.votes) / sumVotes) * 100]); //
 
   const svg = d3.select('#chart').append('svg')
     .attr('width', width + margin.left + margin.right)
@@ -83,7 +84,7 @@ const drawChart = (datum:{optionsList:
       .attr('x2', 0)
       .attr('y2', 0);
   };
-  const handleOver = (d:{option:string, votes:number, optiomM:string}) => {
+  const handleOver = (d:{option:string, votes:number, optionM:string}) => {
     tooltip
       .style('display', 'inline-block')
       .style('position', 'absolute')

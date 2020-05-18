@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import drawChart from './helper';
-// import barChartWidth from '../../util/barChartWidth';
 
 interface Props {
   data:{
@@ -13,7 +12,6 @@ interface Props {
 }
 
 const BarChart:React.FunctionComponent<Props> = ({ data, width, leftMargin }) => {
-  // drawChart(data, barChartWidth().w, barChartWidth().left); // <= IE8 does not support innerWidth
   drawChart(data, width, leftMargin);
   return <div id="chart" />;
 };

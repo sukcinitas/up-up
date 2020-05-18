@@ -20,6 +20,10 @@ $font-notes: 'Merriweather Sans', sans-serif;
       font-size: 14px;
       font-family: $font-notes;
   }
+  &__notes {
+    font-family: $font-notes;
+    font-size: 14px;
+  }
 
   &__title, &__votes, &__btn {
       margin: 0 10px;

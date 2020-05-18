@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import User, { IUser } from '../models/user.model';
-import Poll, { IPoll } from '../models/poll.model';
+import UserController from '../controllers/user.controller';
 
 const router = require('express').Router();
 const { compareSync } = require('bcryptjs');
@@ -69,7 +69,6 @@ router.route('/register').post(async (req:SessionRequest, res:Response) => {
       await newUser.save();
 
       const sessionUser = sessionizeUser(newUser);
-      // req.session.user = sessionUser;
       res.json({ redirect: true, sessionUser });
     }
   } catch (err) {
@@ -99,90 +98,9 @@ router.route('/login').post((req:LoginRequest, res:Response, next) => {
   })(req, res, next);
 });
 
-router.route('/create-poll').post(async (req:Request, res:Response) => {
-  try {
-    const {
-      name, question, options, createdBy,
-    } = req.body;
-    const newPoll:IPoll = new Poll({
-      name,
-      question,
-      votes: 0,
-      options,
-      createdBy,
-    });
-    await newPoll.save();
-    // eslint-disable-next-line no-underscore-dangle
-    res.json({ redirect: true, id: newPoll._id });
-  } catch (err) {
-    res.json(`Error: ${err}`);
-  }
-});
-
-router.route('/polls/:username').get(async (req:Request, res:Response) => {
-  try {
-    const polls = await Poll.aggregate([
-      { $match: { createdBy: req.params.username } },
-      {
-        $project: {
-          id: '$_id',
-          name: 1,
-          votes: 1,
-          _id: 0,
-        },
-      },
-    ]);
-    res.json({ polls });
-  } catch (err) {
-    res.json(`Error: ${err}`);
-  }
-});
-
-router.route('/profile/:username').get(async (req:Request, res:Response) => {
-  try {
-    const user = await User.find({ username: req.params.username }, '-password -createdAt -updatedAt -v');
-    res.json({ user });
-  } catch (err) {
-    res.json(`Error: ${err}`);
-  }
-});
-
-router.route('/profile').put(async (req:Request, res:Response) => {
-  try {
-    const { parameter } = req.body;
-    if (parameter === 'email') {
-      const email = await User.find({ email: req.body.email });
-      if (email.length !== 0) {
-        res.json({ message: 'This e-mail is already in use! Try again!' });
-      } else {
-        await User.findByIdAndUpdate({ _id: req.body.id }, { email: req.body.email });
-        res.json({ message: 'Your email has been successfully updated!' });
-      }
-    } else if (parameter === 'password') {
-      const user = await User.findOne({ username: req.body.username });
-      if (user && compareSync(req.body.oldpassword, user.password)) {
-        user.password = req.body.newpassword;
-        await user.save(); // to hash password in pre-save
-        res.json({ message: 'Your password has been successfully updated!' });
-      } else {
-        res.json({ message: 'Password is incorrect!' });
-      }
-    }
-  } catch (err) {
-    res.json(`Error: ${err}`);
-  }
-});
-
-router.route('/profile').delete(async (req:Request, res:Response) => {
-  try {
-    const { id } = req.body;
-    await User.findByIdAndDelete(id);
-    req.logout();
-    res.end();
-  } catch (err) {
-    res.json(`Error: ${err}`);
-  }
-});
+router.route('/profile/:username').get(UserController.getUser);
+router.route('/profile').delete(UserController.deleteUser);
+router.route('/profile').put(UserController.updateUser);
 
 router.route('/logout').get(async (req:Request, res:Response) => {
   try {

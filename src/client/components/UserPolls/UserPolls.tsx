@@ -43,7 +43,7 @@ class UserPolls extends React.Component<IUserPollsProps, IUserPollsState> {
 
   getUserPolls() {
     const { username } = this.props;
-    axios.get(`/api/user/polls/${username}`)
+    axios.get(`/api/polls/user/${username}`)
       .then((res) => {
         if (res.data.polls) {
           this.setState({

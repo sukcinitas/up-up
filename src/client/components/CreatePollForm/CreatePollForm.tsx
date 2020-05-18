@@ -83,7 +83,7 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
       options: optionsList,
       createdBy: username,
     };
-    axios.post('/api/user/create-poll', poll)
+    axios.post('/api/polls/create-poll', poll)
       .then((res) => {
         if (res.data.redirect) {
           history.push(`/polls/${res.data.id}`);
