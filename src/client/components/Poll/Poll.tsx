@@ -167,7 +167,7 @@ class Poll extends React.Component<AllProps, IPollState> {
     return (
       <div className="poll">
         <div>
-          {message && <span className="form__notes">{message}</span>}
+          {message && <span className="form__notes--info">{message}</span>}
           {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         </div>
         <h2 className="heading poll__heading">{name}</h2>

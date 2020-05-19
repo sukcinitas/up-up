@@ -219,14 +219,16 @@ $orange: rgb(255, 84, 31);
       color: #f33;
       display: inline-block;
 
-      &--profile {
-        //   padding: 0px 10px;
-      }
-
       &--additional {
           margin: 0 auto;
           color: $white;
           font-size: 13px;
+      }
+
+      &--info {
+        padding: 0px 70px;
+        color: #ad6236;
+        font-size: 14px;
       }
   }
 
@@ -242,7 +244,7 @@ $orange: rgb(255, 84, 31);
 @media only screen and (max-width: 700px) {
     .form {
       &__label, &__notes {
-          padding: 0px 30px;
+          padding: 0px 0px;
       }
       &__notes--profile {
           padding: 0px 10px;

@@ -14,6 +14,7 @@ const pollRouter = require('./routes/poll.route');
 (async () => {
   try {
     mongoose.Promise = global.Promise;
+    mongoose.set('useFindAndModify', false);
 
     const app = express();
     app.use(session({
