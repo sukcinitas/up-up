@@ -3,7 +3,7 @@ import User, { IUser } from '../models/user.model';
 import UserService from '../services/user.service';
 
 import passport = require('passport');
-require('../passportStrategy');
+require('../passport.config');
 
 const { compareSync } = require('bcryptjs');
 
