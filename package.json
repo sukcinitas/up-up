@@ -11,7 +11,7 @@
     "dev": "concurrently \"npm run dev-server\" \"npm run dev-client\"",
     "prod-client": "webpack --config webpack.prod.js",
     "prod-server": "ts-node src/server/server.ts",
-    "prod": "concurrently \"npm run prod-client\" \"npm run prod-server\"",
+    "prod": "npm run prod-client && npm run prod-server",
     "start": "npm run prod-client && npm run prod-server"
   },
   "author": "Gintarė Černiauskaitė",
