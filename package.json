@@ -12,12 +12,14 @@
     "prod-client": "webpack --config webpack.prod.js",
     "prod-server": "ts-node src/server/server.ts",
     "prod": "npm run prod-client && npm run prod-server",
-    "start": "npm run prod-client && npm run prod-server"
+    "start": "npm run prod-server",
+    "heroku-postbuild": "npm run prod-client"
   },
   "author": "Gintarė Černiauskaitė",
   "license": "MIT",
   "engines": {
-    "node": "13.11.x"
+    "node": "12.18.3",
+    "npm": "6.14.6"
   },
   "dependencies": {
     "@babel/plugin-transform-typescript": "^7.11.0",
