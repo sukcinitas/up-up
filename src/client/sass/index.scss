@@ -171,9 +171,9 @@ $orange: rgb(255, 84, 31);
   background-color: white;
   border: 3px double black;
   border-radius: 2px;
-  padding: 30px;
+  padding: 80px;
   padding-bottom: 90px;
-  max-width: 400px;
+  max-width: 300px;
   margin: 40px auto;
   margin-bottom: 120px;
   display: flex;
@@ -187,7 +187,7 @@ $orange: rgb(255, 84, 31);
   }
 
   &__label {
-      padding: 0px 70px;
+      padding: 0px 0px;
       font-size: 14px;
       color: $white;
       margin-top: 30px;  
@@ -195,7 +195,7 @@ $orange: rgb(255, 84, 31);
 
   &__input {
       font-size: 15px;
-      margin: 8px 70px;
+      margin: 8px 0px;
       border: none;
       border-bottom: 1px solid $white;  
       background-color: transparent; 
@@ -214,7 +214,7 @@ $orange: rgb(255, 84, 31);
   }
 
   &__notes {
-      padding: 0px 70px;
+      padding: 0px 0px;
       font-size: 13px;
       color: #f33;
       display: inline-block;
@@ -243,6 +243,8 @@ $orange: rgb(255, 84, 31);
 
 @media only screen and (max-width: 700px) {
     .form {
+      padding: 60px;
+      padding-bottom: 90px;
       &__label, &__notes {
           padding: 0px 0px;
       }
@@ -250,10 +252,10 @@ $orange: rgb(255, 84, 31);
           padding: 0px 10px;
       }
       &__input {
-          margin: 8px 30px;      }
+          margin: 8px 0px;      }
     }
   }
 
 .create-poll-form {
-    max-width: 600px;
+    max-width: 500px;
 }
