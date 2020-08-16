@@ -20,6 +20,7 @@ interface IPollListState {
   polls:Array<any>,
   isLoading:boolean,
   errorMessage:string,
+  sortType:string,
 }
 
 class PollList extends React.Component<AllProps, IPollListState> {
@@ -31,14 +32,18 @@ class PollList extends React.Component<AllProps, IPollListState> {
       polls: [],
       isLoading: true,
       errorMessage: '',
+      sortType: 'newest',
     };
+    this.sort = this.sort.bind(this);
   }
 
   componentDidMount() {
     axios.get('/api/polls')
       .then((res) => {
+        const sortedPolls = res.data.polls.sort((a, b) => new Date(b.createdAt).valueOf()
+        - new Date(a.createdAt).valueOf());
         this.setState({
-          polls: [...res.data.polls],
+          polls: [...sortedPolls],
           isLoading: false,
         });
       })
@@ -50,9 +55,29 @@ class PollList extends React.Component<AllProps, IPollListState> {
       });
   }
 
+  sort(type) {
+    const { polls } = this.state;
+    if (type === 'newest') {
+      const sortedPolls = polls.sort((a, b) => new Date(b.createdAt).valueOf()
+      - new Date(a.createdAt).valueOf());
+      this.setState({
+        sortType: 'newest',
+        polls: sortedPolls,
+      });
+    } else if (type === 'most-popular') {
+      const sortedPolls = polls.sort((a, b) => b.votes - a.votes);
+      this.setState({
+        sortType: 'most-popular',
+        polls: sortedPolls,
+      });
+    }
+  }
+
   render() {
     const { username } = this.props;
-    const { polls, isLoading, errorMessage } = this.state;
+    const {
+      polls, isLoading, errorMessage, sortType,
+    } = this.state;
     const list = polls.map((poll) => (
       <div key={poll.id}>
         <PollListElem
@@ -69,7 +94,26 @@ class PollList extends React.Component<AllProps, IPollListState> {
     }
     return (
       <div data-testid="test-polls-list" className="poll-list">
-        {username && <Link to="/user/create-poll" className="btn btn--create">Create a poll</Link>}
+        <div className="poll-list__supp">
+          {username ? <Link to="/user/create-poll" className="btn btn--create">Create a poll</Link>
+            : <Link to="/user/create-poll" className="btn btn--create btn--hidden">Create a poll</Link>}
+          <div className="poll-list__sort">
+            <button
+              type="button"
+              className={`btn btn--supp ${sortType === 'newest' ? 'btn--supp--selected' : ''}`}
+              onClick={() => this.sort('newest')}
+            >
+              newest
+            </button>
+            <button
+              type="button"
+              className={`btn btn--supp ${sortType === 'most-popular' ? 'btn--supp--selected' : ''}`}
+              onClick={() => this.sort('most-popular')}
+            >
+              most popular
+            </button>
+          </div>
+        </div>
         {errorMessage ? <h3>{errorMessage}</h3> : list}
       </div>
     );

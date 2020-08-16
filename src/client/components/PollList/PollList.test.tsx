@@ -3,7 +3,9 @@ import { Route, Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { render, cleanup, waitForElement } from '@testing-library/react';
+import {
+  render, cleanup, waitForElement, fireEvent,
+} from '@testing-library/react';
 import axios from 'axios';
 import reducer, { initialState } from '../../redux/reducers';
 
@@ -53,7 +55,7 @@ const polls = [{
 }];
 
 describe('<PollList /> Component', () => {
-  it('renders PollList component when default redux state - user not loged in', async () => {
+  it('renders PollList component when default redux state - user not logged in', async () => {
     axiosMock.get.mockResolvedValueOnce({ data: { polls } });
     const { getByText, getByTestId } = renderWithRedux(
       <Route path="/">
@@ -68,14 +70,19 @@ describe('<PollList /> Component', () => {
     expect(loader.textContent).toBe('');
 
     const pollsDiv = await waitForElement(() => getByTestId('test-polls-list'));
+    // firsty I sort by newest, last child is the least recently created one
+    expect(pollsDiv.lastChild.firstChild.textContent).toBe('Test onecreated by testUser169 voteslast updated on February 14, 2020');
     expect(pollsDiv.className).toBe('poll-list');
     const pollNameOne = await waitForElement(() => getByText('Test one'));
     expect(pollNameOne.textContent).toBe('Test one');
     const pollNameTwo = await waitForElement(() => getByText('Test two'));
     expect(pollNameTwo.textContent).toBe('Test two');
+
+    fireEvent.click(getByText(/^most popular$/)); // I sort by most popular
+    expect(pollsDiv.lastChild.firstChild.textContent).toBe('Test twocreated by testUser218 voteslast updated on February 12, 2020');
   });
 
-  it('renders PollList component when redux state - user loged in', async () => {
+  it('renders PollList component when redux state - user logged in', async () => {
     axiosMock.get.mockResolvedValueOnce({ data: { polls } });
     const { getByText, getByTestId } = renderWithRedux(
       <Route path="/">

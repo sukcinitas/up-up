@@ -83,7 +83,17 @@ $orange: rgb(255, 84, 31);
       border: 1px solid #ff8f4d;
       color: #21262c;
       background-color: #ff8f4d;
-      margin: 0;
+  }
+  &--supp {
+    border: none;
+    font-size: 13px;
+    padding: 0;
+    &--selected {
+      text-decoration: underline;
+    }
+  }
+  &--hidden {
+    visibility: hidden;
   }
 }
 

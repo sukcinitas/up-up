@@ -8,5 +8,12 @@
     @media only screen and (max-width: 700px) {
       max-width: 94%;
     }
+    &__supp {
+      display: flex;
+      justify-content: space-between;
+    }
+    &__sort {
+      align-self: end;
+    }
 }
 
