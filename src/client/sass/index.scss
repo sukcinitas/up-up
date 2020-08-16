@@ -20,7 +20,7 @@ $orange: rgb(255, 84, 31);
 .btn {
   font-family: $font-btn;
   font-size: 14px;
-  padding: 8px 16px;
+  padding: 7px 16px;
   background-color: white;
   border: 1px solid #21262c;
   border-radius: 2px;
@@ -39,7 +39,7 @@ $orange: rgb(255, 84, 31);
   &--username {
       border: none;
       text-transform: none;
-      padding: 8px;
+      padding: 7px;
       font-weight: bold;
       color: #ad6236;
   }

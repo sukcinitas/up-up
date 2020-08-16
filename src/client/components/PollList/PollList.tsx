@@ -32,7 +32,7 @@ class PollList extends React.Component<AllProps, IPollListState> {
       polls: [],
       isLoading: true,
       errorMessage: '',
-      sortType: 'newest',
+      sortType: 'newest', // I sort in server
     };
     this.sort = this.sort.bind(this);
   }
@@ -40,10 +40,8 @@ class PollList extends React.Component<AllProps, IPollListState> {
   componentDidMount() {
     axios.get('/api/polls')
       .then((res) => {
-        const sortedPolls = res.data.polls.sort((a, b) => new Date(b.createdAt).valueOf()
-        - new Date(a.createdAt).valueOf());
         this.setState({
-          polls: [...sortedPolls],
+          polls: [...res.data.polls],
           isLoading: false,
         });
       })
@@ -58,8 +56,8 @@ class PollList extends React.Component<AllProps, IPollListState> {
   sort(type) {
     const { polls } = this.state;
     if (type === 'newest') {
-      const sortedPolls = polls.sort((a, b) => new Date(b.createdAt).valueOf()
-      - new Date(a.createdAt).valueOf());
+      const sortedPolls = polls.sort((a, b) => new Date(b.updatedAt).valueOf()
+      - new Date(a.updatedAt).valueOf());
       this.setState({
         sortType: 'newest',
         polls: sortedPolls,

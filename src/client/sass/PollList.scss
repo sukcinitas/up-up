@@ -11,9 +11,7 @@
     &__supp {
       display: flex;
       justify-content: space-between;
-    }
-    &__sort {
-      align-self: end;
+      align-items: flex-end;
     }
 }
 
