@@ -20,89 +20,53 @@ $orange: rgb(255, 84, 31);
 .btn {
   font-family: $font-btn;
   font-size: 14px;
-  padding: 6px 8px;
+  padding: 8px 16px;
   background-color: white;
-  border: 1px solid black;
+  border: 1px solid #21262c;
   border-radius: 2px;
-  color: black;
+  color: #21262c;
   text-transform: uppercase;
   text-decoration: none;
-  margin: 2px;
+  margin: 3px;
   cursor: pointer;
-
-  &:hover {
-      background-color: black;
-      color: white;
-      transition: background-color color 0.1s;
-  }
-
+  transition: background-color 0.1s,
+              color 0.1s;
   &--bold {
       color: white;
-      background-color: black;
-
-    &:hover {
-        background-color: white;
-        color: black;
-        transition: background-color color 0.1s;
-    }
+      background-color: #21262c;
   }
 
   &--username {
       border: none;
-      color: black;
       text-transform: none;
-
-      &:hover {
-        background-color: white;
-        color: black;
-    }
+      padding: 8px;
+      font-weight: bold;
+      color: #ad6236;
   }
 
   &--submit {
       font-size: 14px;
       width: 100px;
-      background-color: black;
+      background-color: #21262c;
       color: white;
-      align-self: center;
-      margin: 20px;
-      margin-top: 30px;
-      padding: 7px 5px;
-
-    &:hover {
-        background-color: #ff8f4d;
-        color: black;
-        transition: background-color 0.1s;
-    }
+      margin: 70px auto 20px;
   }
 
   &--delete {
       background-color: #f33;
       color: white;
       border: 1px solid #f33;
-
-    &:hover {
-        background-color: white;
-        color: #f33;
-        border: 1px solid #f33;
-        transition: background-color color 0.1s;
-    }
   }
 
   &--vote {
       padding: 8px;
-      color: black;
+      color: #21262c;
       border-radius: 2px;
       text-transform: none;
       margin: 0 auto;
       font-size: 16px;
       font-family: $font-notes;
       width: 300px;
-      
-      &:hover {
-          background-color: rgba(37, 132, 142, 0.4);
-          color: black;
-          cursor: pointer;
-      }
   }
 
   &--selected {
@@ -119,14 +83,7 @@ $orange: rgb(255, 84, 31);
       border: 1px solid #ff8f4d;
       color: #21262c;
       background-color: #ff8f4d;
-      width: 200px;
-
-      &:hover {
-        color: #ff8f4d;
-        background-color: #21262c;
-        border: 1px solid black;
-        transition: background-color color border 0.1s;
-      }
+      margin: 0;
   }
 }
 
@@ -135,7 +92,7 @@ $orange: rgb(255, 84, 31);
 .heading {
   font-family: $font-heading;
   text-align: center;
-  color: black;
+  color: #21262c;
   font-size: 40px;
   margin-bottom: 35px;
   padding: 10px;
@@ -148,7 +105,7 @@ $orange: rgb(255, 84, 31);
 .subheading {
   font-family: $font-heading;
   text-align: center;
-  color: black;
+  color: #21262c;
   font-size: 25px;
   margin: 0;
   margin-bottom: 100px;
@@ -169,10 +126,9 @@ $orange: rgb(255, 84, 31);
 .form {
   font-family: $font-notes;
   background-color: white;
-  border: 3px double black;
+  border: 3px double #21262c;
   border-radius: 2px;
-  padding: 80px;
-  padding-bottom: 90px;
+  padding: 30px 80px 90px;
   max-width: 300px;
   margin: 40px auto;
   margin-bottom: 120px;
@@ -188,18 +144,21 @@ $orange: rgb(255, 84, 31);
 
   &__label {
       padding: 0px 0px;
-      font-size: 14px;
-      color: $white;
+      font-size: 11px;
+      color: #21262c;
       margin-top: 30px;  
+      font-weight: 600;
+      text-transform: uppercase;
   }
 
   &__input {
       font-size: 15px;
       margin: 8px 0px;
       border: none;
-      border-bottom: 1px solid $white;  
+      border-bottom: 1.5px solid #21262c;  
       background-color: transparent; 
-      color: black;
+      color: #ad6236;
+      padding: 4px 0;
   }
 
   &__input:invalid {
@@ -209,7 +168,7 @@ $orange: rgb(255, 84, 31);
 
   &__input:focus {
     //   padding-top: 5px;
-      border-bottom: 2px solid blue;
+      border-bottom: 1.5px solid #ad6236;
       outline: none;
   }
 
@@ -221,7 +180,7 @@ $orange: rgb(255, 84, 31);
 
       &--additional {
           margin: 0 auto;
-          color: $white;
+          color: #21262c;
           font-size: 13px;
       }
 

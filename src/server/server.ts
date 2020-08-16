@@ -31,6 +31,7 @@ const pollRouter = require('./routes/poll.route');
         sameSite: false,
         secure: process.env.NODE_ENV === 'prod',
         maxAge: 86400000,
+        expires: false, // after closing the browser, session ends
       },
     }));
 

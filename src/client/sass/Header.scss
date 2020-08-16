@@ -15,21 +15,22 @@
         margin: 0;
         padding: 0;
         text-decoration: none;
-        color: white;
+        // color: white;
+        color: #21262c;
         font-family: "Merriweather Sans", sans-serif;
         font-size: 40px;
         font-weight: 700;
         position: relative;
 
-        &::before {
-            position: absolute;
-            content: '';
-            padding: 9px;
-            border: 6px solid black;
-            background-color: black;
-            left: 5px;
-            top: 9px;
-            z-index: -5;
-        }
+        // &::before {
+        //     position: absolute;
+        //     content: '';
+        //     padding: 9px;
+        //     border: 6px solid black;
+        //     background-color: black;
+        //     left: 5px;
+        //     top: 9px;
+        //     z-index: -5;
+        // }
     }
 }
