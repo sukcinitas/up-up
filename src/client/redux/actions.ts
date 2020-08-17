@@ -46,15 +46,9 @@ export const getStarredPolls = (starredPolls:Array<string>):ActionTypes => ({
 export const getStarredPollsAsync = (username:string):any => (dispatch) => {
   axios.get(`/api/user/profile/${username}`)
     .then((res) => {
-      // eslint-disable-next-line no-console
-      console.log(res.data.user[0].starredPolls);
       dispatch({
         type: GET_STARRED_POLLS,
         starredPolls: [...res.data.user[0].starredPolls],
       });
     });
-  dispatch({
-    type: GET_STARRED_POLLS,
-    starredPolls: [],
-  });
 };

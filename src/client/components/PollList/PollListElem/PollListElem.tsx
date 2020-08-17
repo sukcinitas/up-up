@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { AppState, getStarredPollsAsync } from '../../../redux/actions';
@@ -28,7 +29,6 @@ type AllProps = IPollListElemStateProps & IPollListElemProps & IPollListElemDisp
 
 interface IPollElemState {
   errorMessage:string,
-  isStarred:boolean,
 }
 class PollListElem extends React.Component<AllProps, IPollElemState> {
   static propTypes: { id: PropTypes.Validator<string>;
@@ -41,23 +41,30 @@ class PollListElem extends React.Component<AllProps, IPollElemState> {
     super(props);
     this.state = {
       errorMessage: '',
-      isStarred: props.starred,
     };
     this.starAPoll = this.starAPoll.bind(this);
     this.unStarAPoll = this.unStarAPoll.bind(this);
   }
 
+  componentDidUpdate(prevProps) {
+    const { starred } = this.props;
+    // Typical usage (don't forget to compare props):
+    if (starred !== prevProps.starred) {
+      // eslint-disable-next-line no-console
+      console.log(starred, prevProps.starred);
+    }
+  }
+
   starAPoll(pollId) {
-    const { userId } = this.props;
+    // eslint-disable-next-line no-shadow
+    const { userId, username, getStarredPollsAsync } = this.props;
     axios.put('/api/user/star-poll', {
       id: userId,
       pollId,
     })
       .then((res) => {
         if (res.data.success) {
-          this.setState({
-            isStarred: true,
-          });
+          getStarredPollsAsync(username);
         }
       })
       .catch((error) => {
@@ -68,16 +75,15 @@ class PollListElem extends React.Component<AllProps, IPollElemState> {
   }
 
   unStarAPoll(pollId) {
-    const { userId } = this.props;
+    // eslint-disable-next-line no-shadow
+    const { userId, username, getStarredPollsAsync } = this.props;
     axios.put('/api/user/unstar-poll', {
       id: userId,
       pollId,
     })
       .then((res) => {
         if (res.data.success) {
-          this.setState({
-            isStarred: false,
-          });
+          getStarredPollsAsync(username);
         }
       })
       .catch((error) => {
@@ -89,11 +95,11 @@ class PollListElem extends React.Component<AllProps, IPollElemState> {
 
   render() {
     const {
-      id, name, votes, createdBy, updatedAt, userId,
+      id, name, votes, createdBy, updatedAt, userId, starred,
     } = this.props;
-    const { errorMessage, isStarred } = this.state;
+    const { errorMessage } = this.state;
     // eslint-disable-next-line no-console
-    console.log(this.state);
+    console.log('my id', id, starred);
     return (
       <div className="poll-list-elem">
         <Link to={`/polls/${id}`} className="poll-list-elem__heading">
@@ -120,10 +126,10 @@ class PollListElem extends React.Component<AllProps, IPollElemState> {
         { userId && (
         <button
           type="button"
-          className={`poll-list-elem__star ${isStarred ? 'poll-list-elem__star--starred' : ''}`}
-          onClick={isStarred ? () => this.unStarAPoll(id) : () => this.starAPoll(id)}
+          className={`poll-list-elem__star ${starred ? 'poll-list-elem__star--starred' : ''}`}
+          onClick={starred ? () => this.unStarAPoll(id) : () => this.starAPoll(id)}
         >
-          *
+          {starred ? <FontAwesomeIcon icon={['fas', 'star']} /> : <FontAwesomeIcon icon={['far', 'star']} />}
         </button>
         )}
         <span>{errorMessage}</span>

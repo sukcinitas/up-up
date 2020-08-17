@@ -83,6 +83,8 @@ class PollList extends React.Component<AllProps, IPollListState> {
 
   render() {
     const { username, starredPolls } = this.props;
+    // eslint-disable-next-line no-console
+    console.log(starredPolls);
     const {
       polls, isLoading, errorMessage, sortType,
     } = this.state;
@@ -94,7 +96,7 @@ class PollList extends React.Component<AllProps, IPollListState> {
           createdBy={username === poll.createdBy ? 'you' : poll.createdBy}
           updatedAt={formatDate(poll.updatedAt)}
           id={poll.id}
-          starred={starredPolls && starredPolls.indexOf(poll.id) > -1}
+          starred={starredPolls.indexOf(poll.id) > -1}
         />
       </div>
     ));
