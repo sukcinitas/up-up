@@ -41,6 +41,22 @@ const UserService = {
       return err;
     }
   },
+  async addUserStarredPoll(id, pollId) {
+    try {
+      await User.findByIdAndUpdate({ _id: id }, { $push: { starredPolls: pollId } });
+      return 'User has been successfully updated!';
+    } catch (err) {
+      return err;
+    }
+  },
+  async removeUserStarredPoll(id, pollId) {
+    try {
+      await User.findByIdAndUpdate({ _id: id }, { $pull: { starredPolls: pollId } });
+      return 'User has been successfully updated!';
+    } catch (err) {
+      return err;
+    }
+  },
 };
 
 export default UserService;

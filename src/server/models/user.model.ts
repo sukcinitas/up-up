@@ -22,6 +22,9 @@ const userSchema:Schema = new Schema({
     type: String,
     required: true,
   },
+  starredPolls: {
+    type: Array,
+  },
 },
 { timestamps: true });
 
@@ -29,6 +32,7 @@ export interface IUser extends Document{
   username:string,
   email:string,
   password:string,
+  starredPolls:Array<string>
   createdAt?:Date,
   updatedAt?:Date,
 }

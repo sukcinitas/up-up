@@ -3,7 +3,8 @@ import * as PropTypes from 'prop-types';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AppState } from '../../redux/actions';
+import { Dispatch } from 'redux';
+import { AppState, getStarredPollsAsync } from '../../redux/actions';
 import PollListElem from './PollListElem/PollListElem';
 import Loader from '../Loader/Loader';
 import formatDate from '../../util/formatDate';
@@ -13,8 +14,12 @@ axios.defaults.withCredentials = true;
 
 interface IPollListStateProps {
   username:string,
+  starredPolls:Array<string>,
 }
-type AllProps = IPollListStateProps;
+interface IPollListDispatchProps {
+  getStarredPollsAsync: (username:string) => any,
+}
+type AllProps = IPollListStateProps & IPollListDispatchProps;
 
 interface IPollListState {
   polls:Array<any>,
@@ -38,6 +43,8 @@ class PollList extends React.Component<AllProps, IPollListState> {
   }
 
   componentDidMount() {
+    // eslint-disable-next-line no-shadow
+    const { username, getStarredPollsAsync } = this.props;
     axios.get('/api/polls')
       .then((res) => {
         this.setState({
@@ -51,6 +58,9 @@ class PollList extends React.Component<AllProps, IPollListState> {
           isLoading: false,
         });
       });
+    if (username) {
+      getStarredPollsAsync(username);
+    }
   }
 
   sort(type) {
@@ -72,7 +82,7 @@ class PollList extends React.Component<AllProps, IPollListState> {
   }
 
   render() {
-    const { username } = this.props;
+    const { username, starredPolls } = this.props;
     const {
       polls, isLoading, errorMessage, sortType,
     } = this.state;
@@ -84,6 +94,7 @@ class PollList extends React.Component<AllProps, IPollListState> {
           createdBy={username === poll.createdBy ? 'you' : poll.createdBy}
           updatedAt={formatDate(poll.updatedAt)}
           id={poll.id}
+          starred={starredPolls && starredPolls.indexOf(poll.id) > -1}
         />
       </div>
     ));
@@ -120,6 +131,9 @@ class PollList extends React.Component<AllProps, IPollListState> {
 
 const mapStateToProps = (state:AppState):IPollListStateProps => ({
   username: state.username,
+  starredPolls: state.starredPolls,
 });
-
-export default connect(mapStateToProps)(PollList);
+const mapDispatchToProps = (dispatch:Dispatch) => ({
+  getStarredPollsAsync: (username:string) => dispatch(getStarredPollsAsync(username)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(PollList);

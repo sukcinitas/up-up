@@ -11,7 +11,7 @@ axios.defaults.withCredentials = true;
 
 const renderApp = async () => {
   const state = await axios.get('/api/user/login')
-    .then((res) => res.data.user);
+    .then((res) => ({ ...res.data.user, starredPolls: [] }));
   const store = createStore(reducer, state, applyMiddleware(thunk));
   ReactDOM.render(
     <Provider store={store}>

@@ -1,13 +1,16 @@
 import { Request, Response } from 'express';
 import User, { IUser } from '../models/user.model';
 import UserService from '../services/user.service';
-
 import passport = require('passport');
+
 require('../passport.config');
 
 const { compareSync } = require('bcryptjs');
 
-const sessionizeUser = (user) => ({ userId: user.id, username: user.username });
+const sessionizeUser = (user) => ({
+  userId: user.id,
+  username: user.username,
+});
 
 interface LoginRequest extends Request {
   message: any;
@@ -108,6 +111,7 @@ const UserController = {
         username: req.body.user.username,
         email: req.body.user.email,
         password: req.body.user.password,
+        starredPolls: [],
       });
 
       await newUser.save();
@@ -117,6 +121,16 @@ const UserController = {
     } catch (err) {
       return err;
     }
+  },
+  async addUserStarredPoll(req, res) {
+    const { id, pollId } = req.body;
+    await UserService.addUserStarredPoll(id, pollId);
+    return res.json({ success: true });
+  },
+  async removeUserStarredPoll(req, res) {
+    const { id, pollId } = req.body;
+    await UserService.removeUserStarredPoll(id, pollId);
+    return res.json({ success: true });
   },
 };
 

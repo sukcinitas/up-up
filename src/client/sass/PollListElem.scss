@@ -16,6 +16,22 @@
       transition: left 0.4s;
   }
 
+  &__star {
+    position: absolute;
+    top: calc(50% - 5px);
+    right: 30px;
+    color: transparent;
+    font-size: 20px;
+    border: none;
+    background: transparent;
+    &--starred {
+      color: #ff8f4d;
+    }
+    &:hover {
+      color: #ff8f4d;
+    }
+  }
+
   &__heading {
       display: block;
       text-decoration: none;
