@@ -32,6 +32,10 @@ const PollController = {
     updatedOptions[option] = options[option] + 1;
     return res.json({ poll: await PollService.update(id, updatedOptions, votes) });
   },
+  async getStarred(req:Request, res:Response) {
+    const { listOfIds } = req.body;
+    return res.json({ polls: await PollService.getStarred(listOfIds) });
+  },
 };
 
 export default PollController;

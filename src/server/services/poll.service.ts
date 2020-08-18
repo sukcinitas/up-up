@@ -82,6 +82,16 @@ const PollService = {
       return err;
     }
   },
+  async getStarred(listOfIds) {
+    try {
+      const polls = await Poll.find({ _id: { $in: listOfIds } });
+      // eslint-disable-next-line no-console
+      console.log(polls);
+      return polls;
+    } catch (err) {
+      return err;
+    }
+  },
 };
 
 export default PollService;

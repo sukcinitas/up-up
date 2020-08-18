@@ -8,6 +8,7 @@ import axios from 'axios';
 import { ActionTypes, logoutCurrentUser, AppState } from '../../redux/actions';
 
 import UserPolls from '../UserPolls/UserPolls';
+import StarredPolls from '../StarredPolls/StarredPolls';
 import ProfileEmail from '../ProfileEmail/ProfileEmail';
 import ProfilePassword from '../ProfilePassword/ProfilePassword';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
@@ -94,6 +95,7 @@ class Profile extends React.Component<AllProps, IProfileState> {
           </div>
         </section>
         <UserPolls username={username} />
+        <StarredPolls />
       </div>
     );
   }
