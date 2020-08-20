@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { AppState, getStarredPollsAsync } from '../../redux/actions';
@@ -15,6 +16,7 @@ axios.defaults.withCredentials = true;
 interface IStarredPollsStateProps {
   starredPolls:Array<string>,
   username:string,
+  userId: string,
 }
 interface IStarredPollsDispatchProps {
   getStarredPollsAsync: (username:string) => any,
@@ -39,6 +41,7 @@ class StarredPolls extends React.Component<AllProps, IStarredPollsState> {
       isLoading: true,
     };
     this.getStarredPolls = this.getStarredPolls.bind(this);
+    this.unStarAPoll = this.unStarAPoll.bind(this);
   }
 
   componentDidMount() {
@@ -50,9 +53,36 @@ class StarredPolls extends React.Component<AllProps, IStarredPollsState> {
     axios.post('/api/polls/starred', { listOfIds: starredPolls })
       .then((res) => {
         if (res.data.polls) {
+          // eslint-disable-next-line no-console
+          console.log(res.data.polls);
           this.setState({
             starredPolls: [...res.data.polls],
             isLoading: false,
+          });
+        }
+      })
+      .catch((error) => {
+        this.setState({
+          errorMessage: `Error: ${error.response.status}: ${error.response.statusText}`,
+        });
+      });
+  }
+
+  unStarAPoll(pollId) {
+    const {
+      // eslint-disable-next-line no-shadow
+      userId, username, getStarredPollsAsync,
+    } = this.props;
+    const { starredPolls } = this.state;
+    axios.put('/api/user/unstar-poll', {
+      id: userId,
+      pollId,
+    })
+      .then((res) => {
+        if (res.data.success) {
+          getStarredPollsAsync(username);
+          this.setState({
+            starredPolls: starredPolls.filter((poll) => poll._id !== pollId),
           });
         }
       })
@@ -72,14 +102,18 @@ class StarredPolls extends React.Component<AllProps, IStarredPollsState> {
     }) => (
       <div key={`${poll._id}-starred`} data-testid={`div${poll._id}`} className="user-polls__poll">
         <Link to={`/polls/${poll._id}`} className="user-polls__title">{poll.name}</Link>
-        <p className="user-polls__votes">
-          { poll.votes === 1 ? `${poll.votes} vote` : `${poll.votes} votes`}
-        </p>
+        <button
+          type="button"
+          className="user-polls__star--starred"
+          onClick={() => this.unStarAPoll(poll._id)}
+        >
+          <FontAwesomeIcon icon={['fas', 'star']} />
+        </button>
       </div>
     ));
     return (
       <section className="user-polls">
-        <h2 className="heading user-polls__heading">Saved Polls</h2>
+        <h2 className="heading user-polls__heading">Saved polls</h2>
         {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         { isLoading ? <Loader size="big" /> : starredPolls.length === 0
           ? <p className="user-polls__notes">You have not saved any polls yet!</p>
@@ -92,6 +126,7 @@ class StarredPolls extends React.Component<AllProps, IStarredPollsState> {
 const mapStateToProps = (state:AppState) => ({
   starredPolls: state.starredPolls,
   username: state.username,
+  userId: state.userId,
 });
 const mapDispatchToProps = (dispatch:Dispatch) => ({
   getStarredPollsAsync: (username:string) => dispatch(getStarredPollsAsync(username)),

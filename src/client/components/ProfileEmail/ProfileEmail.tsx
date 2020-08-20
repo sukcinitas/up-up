@@ -95,7 +95,8 @@ class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailStat
     return (
       <div className="user-information__elem">
         <p>
-          Email:
+          EMAIL:
+          {'  '}
           {isLoading ? '...' : email}
         </p>
         <button type="button" data-testid="showEmailChange" onClick={this.showEmailChange} className="btn">Change email</button>

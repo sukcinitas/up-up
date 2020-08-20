@@ -10,19 +10,24 @@
   border: 1px solid #DDD;
   border-radius: 10px;
 
+  @media only screen and (min-width: 700px) and (max-width: 1024px) {
+    transition: none;
+
+  }
+  @media only screen and (max-width: 700px) {
+    transition: none;
+  }
   &:hover {
       position: relative;
       left: 50px;
       transition: left 0.4s;
 
       @media only screen and (min-width: 700px) and (max-width: 1024px) {
-        position: static;
         transition: none;
         left: 0;
 
       }
       @media only screen and (max-width: 700px) {
-        position: static;
         transition: none;
         left: 0;
       }
@@ -32,32 +37,46 @@
   &__star {
     position: absolute;
     top: calc(50% - 7.5px);
-    right: 30px;
+    right: 10px;
     color: transparent;
     font-size: 12px;
     border: none;
     background: transparent;
     z-index: 10;
     cursor: pointer;
+    transition: color 0.1s;
+    &:hover {
+      color: #ff8f4d;
+      transition: color 0.1s;
+      @media only screen and (min-width: 700px) and (max-width: 1024px) {
+        color: #ff8f4d;
+      }
+      @media only screen and (max-width: 500px) {
+        color: #ff8f4d;
+      }
+    }
     &--starred {
       color: #ff8f4d;
     } 
-    @media only screen and (min-width: 700px) and (max-width: 1024px) {
+    @media only screen and (min-width: 768px) and (max-width: 1024px) {
       font-size: 11px;
+    }
+    @media only screen and (min-width: 500px) and (max-width: 768px) {
+      font-size: 10px;
+      color: #ff8f4d;
     }
     @media only screen and (max-width: 500px) {
       font-size: 10px;
-      top: 7px;
-      right: 0;
-      left: 0;
-      margin: 0 auto;
+      top: -5px;
+      right: -10px;
+      color: #ff8f4d;
     }
   }
 
   &__heading {
       display: block;
       text-decoration: none;
-      padding: 20px;
+      padding: 20px 40px;
       margin: 0 auto;
 
       h2 {

@@ -114,7 +114,7 @@ class PollList extends React.Component<AllProps, IPollListState> {
               className={`btn btn--supp ${sortType === 'newest' ? 'btn--supp--selected' : ''}`}
               onClick={() => this.sort('newest')}
             >
-              newest
+              lastly updated
             </button>
             <button
               type="button"

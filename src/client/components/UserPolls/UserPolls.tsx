@@ -83,14 +83,22 @@ class UserPolls extends React.Component<IUserPollsProps, IUserPollsState> {
         <p className="user-polls__votes">
           { poll.votes === 1 ? `${poll.votes} vote` : `${poll.votes} votes`}
         </p>
-        <button data-testid={poll.id} type="button" id={poll.id} onClick={this.handlePollDeletion} className="btn btn--delete user-polls__btn">Delete</button>
+        <button
+          data-testid={poll.id}
+          type="button"
+          id={poll.id}
+          onClick={this.handlePollDeletion}
+          className="btn btn--delete user-polls__btn"
+        >
+          Delete
+        </button>
       </div>
     ));
     return (
       <section className="user-polls">
         <h2 className="heading user-polls__heading">Polls</h2>
         {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
-        <Link to="/user/create-poll" className="btn btn--create">Create a poll</Link>
+        <Link to="/user/create-poll" className="user-polls__btn--create">Create a poll</Link>
         { isLoading ? <Loader size="big" /> : userPolls.length === 0
           ? <p className="user-polls__notes">You have not created any polls yet!</p>
           : polls}

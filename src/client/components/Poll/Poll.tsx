@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-// import ReactRouterPropTypes from 'react-router-prop-types';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
@@ -171,7 +170,13 @@ class Poll extends React.Component<AllProps, IPollState> {
           {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         </div>
         <h2 className="heading poll__heading">{name}</h2>
+        {username === createdBy ? <button type="button" onClick={this.handlePollDeletion} className="btn btn--delete">Delete</button> : ''}
         <h3 className="subheading poll__subheading">{question}</h3>
+        <div className="additional poll__additional">
+          <p>{`created by ${createdBy}`}</p>
+          <p> | </p>
+          <p>{`created on ${formatDate(createdAt)}`}</p>
+        </div>
         <div className="poll__section">
           <div className="poll__options">
             {Object.keys(options).map((option) => (
@@ -180,14 +185,9 @@ class Poll extends React.Component<AllProps, IPollState> {
                 {/* <small>{options[option]}</small> */}
               </div>
             ))}
-            <p className="poll__votes">{votes}</p>
-            {username === createdBy ? <button type="button" onClick={this.handlePollDeletion} className="btn btn--delete">Delete</button> : ''}
+            <p className="poll__votes">{`Total votes: ${votes}`}</p>
           </div>
           <BarChart data={data} width={width} leftMargin={leftMargin} />
-        </div>
-        <div className="additional poll__additional">
-          <p>{`created by ${createdBy}`}</p>
-          <p>{`created on ${formatDate(createdAt)}`}</p>
         </div>
       </div>
     );

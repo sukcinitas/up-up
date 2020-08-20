@@ -1,20 +1,20 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Bellota+Text&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700&display=swap');
-
 $font-btn: 'Roboto Condensed', sans-serif;
 $font-heading: 'Bellota Text', sans-serif;
 $font-notes: 'Merriweather Sans', sans-serif;
 
 .user-polls {
-  margin-bottom: 150px;
-  // padding-left: 50px;
+  margin-bottom: 100px;
   &__poll {
       display: flex;
       flex-direction: row;
+      justify-content: space-between;
       padding: 15px;
-      margin: 20px 0px;
+      margin: 10px 0px;
       border: 1px solid grey;
+      border-left: 3px solid #3b3b3b;
       border-radius: 2px;
       align-items: center;
       font-size: 14px;
@@ -26,16 +26,38 @@ $font-notes: 'Merriweather Sans', sans-serif;
   }
 
   &__title, &__votes, &__btn {
-      margin: 0 10px;
+      padding: 0 10px;
   }
-
   &__title {
       color: black;
       text-decoration: none;
       width: 60%;
   }
-
-  &__btn, &__votes {
-    width: 20%;
+  &__btn--create {
+    font-family: $font-btn;
+    font-size: 14px;
+    padding: 7px 16px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    margin: 10px 0;
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    border: 1px solid #ff8f4d;
+    color: #21262c;
+    background-color: #ff8f4d;
+      @media only screen and (max-width: 500px) {
+        padding: 7px 10px;
+      } 
+  }
+  &__star--starred {
+    color: transparent;
+    font-size: 12px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #ff8f4d;
+    margin: 0px 20px;
   }
 }

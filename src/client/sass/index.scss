@@ -29,8 +29,6 @@ $orange: rgb(255, 84, 31);
   text-decoration: none;
   margin: 3px;
   cursor: pointer;
-  transition: background-color 0.1s,
-              color 0.1s;
   &--bold {
       color: white;
       background-color: #21262c;
@@ -53,9 +51,10 @@ $orange: rgb(255, 84, 31);
   }
 
   &--delete {
-      background-color: #f33;
-      color: white;
-      border: 1px solid #f33;
+    display: block;
+    background-color: #f33;
+    color: white;
+    border: 1px solid #f33;
   }
 
   &--vote {
@@ -79,10 +78,14 @@ $orange: rgb(255, 84, 31);
   }
 
   &--create {
-      text-decoration: none;
-      border: 1px solid #ff8f4d;
-      color: #21262c;
-      background-color: #ff8f4d;
+    display: inline-block;
+    text-decoration: none;
+    border: 1px solid #ff8f4d;
+    color: #21262c;
+    background-color: #ff8f4d;
+      @media only screen and (max-width: 500px) {
+        padding: 7px 10px;
+      } 
   }
   &--supp {
     border: none;
@@ -104,7 +107,7 @@ $orange: rgb(255, 84, 31);
   text-align: center;
   color: #21262c;
   font-size: 40px;
-  margin-bottom: 35px;
+  margin-bottom: 5px;
   padding: 10px;
 
   @media only screen and (max-width: 700px) {
@@ -118,7 +121,6 @@ $orange: rgb(255, 84, 31);
   color: #21262c;
   font-size: 25px;
   margin: 0;
-  margin-bottom: 100px;
   padding: 10px;
 
   @media only screen and (max-width: 700px) {
@@ -128,7 +130,7 @@ $orange: rgb(255, 84, 31);
 
 .user-information__heading, .user-polls__heading {
     margin-top: 40px;
-    margin-bottom: 130px;
+    margin-bottom: 70px;
 }
 
 /*FORMS*///////////////////////////////////////////////////////////////////////////

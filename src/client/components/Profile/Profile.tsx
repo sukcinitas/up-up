@@ -77,8 +77,8 @@ class Profile extends React.Component<AllProps, IProfileState> {
           <h2 className="heading user-information__heading">User information</h2>
           <div className="user-information__elem">
             <p>
-              Username:
-              {}
+              USERNAME:
+              {'  '}
               {username}
             </p>
           </div>
