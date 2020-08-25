@@ -47,7 +47,7 @@ $orange: rgb(255, 84, 31);
       width: 100px;
       background-color: #21262c;
       color: white;
-      margin: 70px auto 20px;
+      margin: 50px auto 20px;
   }
 
   &--delete {
@@ -91,7 +91,7 @@ $orange: rgb(255, 84, 31);
     border: none;
     font-size: 13px;
     padding: 0;
-    &--selected {
+    &-selected {
       text-decoration: underline;
     }
   }
@@ -107,7 +107,7 @@ $orange: rgb(255, 84, 31);
   text-align: center;
   color: #21262c;
   font-size: 40px;
-  margin-bottom: 5px;
+  margin-bottom: 35px;
   padding: 10px;
 
   @media only screen and (max-width: 700px) {
@@ -212,10 +212,19 @@ $orange: rgb(255, 84, 31);
   }
 }
 
+.create-poll-form {
+  max-width: 500px;
+
+  @media only screen and (max-width: 500px) {
+    max-width: 240px;
+  } 
+}
+
 @media only screen and (max-width: 700px) {
     .form {
       padding: 60px;
       padding-bottom: 90px;
+      max-width: 220px;
       &__label, &__notes {
           padding: 0px 0px;
       }
@@ -225,8 +234,4 @@ $orange: rgb(255, 84, 31);
       &__input {
           margin: 8px 0px;      }
     }
-  }
-
-.create-poll-form {
-    max-width: 500px;
 }

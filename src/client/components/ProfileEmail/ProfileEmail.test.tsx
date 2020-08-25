@@ -22,11 +22,11 @@ describe('<ProfileEmail /> Component', () => {
         username="testUser1"
       />,
     );
-    expect(getByText(/Email:.../i).textContent).toBe('Email:...');
+    expect(getByText(/EMAIL:.../i).textContent).toBe('EMAIL:  ...');
     expect(getByText(/^Change email$/i).textContent).toBe('Change email');
 
-    const resolvedEmail = await waitForElement(() => getByText(/^Email/));
-    expect(resolvedEmail.textContent).toBe('Email:test@test.lt');
+    const resolvedEmail = await waitForElement(() => getByText(/^EMAIL/));
+    expect(resolvedEmail.textContent).toBe('EMAIL:  test@test.lt');
 
     fireEvent.click(getByText(/^Change email$/i));
     const changebtn = await waitForElement(() => getByText(/^Change$/));
@@ -39,7 +39,7 @@ describe('<ProfileEmail /> Component', () => {
     fireEvent.click(changebtn);
     const message = await waitForElement(() => getByText('Your email has been successfully updated!'));
     expect(message.textContent).toBe('Your email has been successfully updated!');
-    expect(resolvedEmail.textContent).toBe('Email:pa@pa.lt');
+    expect(resolvedEmail.textContent).toBe('EMAIL:  pa@pa.lt');
   });
 
   it('shows message when email update unsuccessful', async () => {
@@ -52,11 +52,11 @@ describe('<ProfileEmail /> Component', () => {
         username="testUser1"
       />,
     );
-    expect(getByText(/Email:.../i).textContent).toBe('Email:...');
+    expect(getByText(/EMAIL:.../i).textContent).toBe('EMAIL:  ...');
     expect(getByText(/^Change email$/i).textContent).toBe('Change email');
 
-    const resolvedEmail = await waitForElement(() => getByText(/^Email/));
-    expect(resolvedEmail.textContent).toBe('Email:test@test.lt');
+    const resolvedEmail = await waitForElement(() => getByText(/^EMAIL/));
+    expect(resolvedEmail.textContent).toBe('EMAIL:  test@test.lt');
 
     fireEvent.click(getByText(/^Change email$/i));
     const changebtn = await waitForElement(() => getByText(/^Change$/));
@@ -69,6 +69,6 @@ describe('<ProfileEmail /> Component', () => {
     fireEvent.click(changebtn);
     const message = await waitForElement(() => getByText('This e-mail is already in use! Try again!'));
     expect(message.textContent).toBe('This e-mail is already in use! Try again!');
-    expect(resolvedEmail.textContent).toBe('Email:test@test.lt');
+    expect(resolvedEmail.textContent).toBe('EMAIL:  test@test.lt');
   });
 });

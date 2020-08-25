@@ -47,13 +47,13 @@ describe('<Header /> Component', () => {
         route: '/',
       },
     );
-    expect(getByText(/V\./i).textContent).toBe('V.');
+    expect(getByText(/VA\./i).textContent).toBe('VA.');
     expect(getByText(/Login/i).textContent).toBe('Login');
     expect(getByText(/Register/i).textContent).toBe('Register');
   });
 
   it('renders header component when user is loged in', () => {
-    const user = { username: 'testUser1', userId: '1' };
+    const user = { username: 'testUser1', userId: '1', starredPolls: ['id'] };
     const { getByText } = renderWithRedux(
       <Route path="/">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
@@ -64,13 +64,13 @@ describe('<Header /> Component', () => {
         state: { ...user },
       },
     );
-    expect(getByText(/V\./i).textContent).toBe('V.');
+    expect(getByText(/VA\./i).textContent).toBe('VA.');
     expect(getByText(user.username).textContent).toBe('testUser1');
     expect(getByText(/Sign out/i).textContent).toBe('Sign out');
   });
 
   it('logs user out', async () => {
-    const user = { username: 'testUser1', userId: '1' };
+    const user = { username: 'testUser1', userId: '1', starredPolls: ['id'] };
     axiosMock.delete.mockResolvedValueOnce({});
     const { getByText } = renderWithRedux(
       <Route path="/">
@@ -88,10 +88,10 @@ describe('<Header /> Component', () => {
 
     const loginButton = await waitForElement(() => getByText(/Login/i));
     const registerButton = await waitForElement(() => getByText(/Register/i));
-    const votingBanner = await waitForElement(() => getByText(/V\./i));
+    const votingBanner = await waitForElement(() => getByText(/VA\./i));
     expect(loginButton.textContent).toBe('Login');
     expect(registerButton.textContent).toBe('Register');
-    expect(votingBanner.textContent).toBe('V.');
+    expect(votingBanner.textContent).toBe('VA.');
   });
 });
 

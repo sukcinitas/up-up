@@ -46,15 +46,6 @@ class PollListElem extends React.Component<AllProps, IPollElemState> {
     this.unStarAPoll = this.unStarAPoll.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
-    const { starred } = this.props;
-    // Typical usage (don't forget to compare props):
-    if (starred !== prevProps.starred) {
-      // eslint-disable-next-line no-console
-      console.log(starred, prevProps.starred);
-    }
-  }
-
   starAPoll(pollId) {
     // eslint-disable-next-line no-shadow
     const { userId, username, getStarredPollsAsync } = this.props;
@@ -98,8 +89,6 @@ class PollListElem extends React.Component<AllProps, IPollElemState> {
       id, name, votes, createdBy, updatedAt, userId, starred,
     } = this.props;
     const { errorMessage } = this.state;
-    // eslint-disable-next-line no-console
-    console.log('my id', id, starred);
     return (
       <div className="poll-list-elem">
         <Link to={`/polls/${id}`} className="poll-list-elem__heading">

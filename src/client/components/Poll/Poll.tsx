@@ -182,7 +182,6 @@ class Poll extends React.Component<AllProps, IPollState> {
             {Object.keys(options).map((option) => (
               <div className="poll__option" key={option}>
                 <button type="button" data-testid={option} data-option={option} onClick={this.handleVote} className="btn btn--vote">{option}</button>
-                {/* <small>{options[option]}</small> */}
               </div>
             ))}
             <p className="poll__votes">{`Total votes: ${votes}`}</p>

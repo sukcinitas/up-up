@@ -46,11 +46,11 @@ describe('<Profile /> Component', () => {
       </Route>,
       {
         route: '/user/profile/testUser1',
-        state: { userId: '1', username: 'testUser1' },
+        state: { userId: '1', username: 'testUser1', starredPolls: ['id'] },
       },
     );
     expect(getByText(/User information/i).textContent).toBe('User information');
-    expect(getByText(/Username/i).textContent).toBe('Username:testUser1');
+    expect(getByText(/USERNAME/i).textContent).toBe('USERNAME:  testUser1');
     expect(getByText(/Delete account/i).textContent).toBe('Delete account');
     expect(getByText(/Create a poll/i).textContent).toBe('Create a poll');
     expect(getByText(/^Polls$/i).textContent).toBe('Polls');

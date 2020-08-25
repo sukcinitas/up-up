@@ -13,7 +13,7 @@ interface ICreatePollFormStateProps {
   username: string,
 }
 interface CreatePollFormRouteProps extends RouteComponentProps {}
-type AllProps = CreatePollFormRouteProps & AppState;
+type AllProps = CreatePollFormRouteProps & ICreatePollFormStateProps;
 
 interface ICreatePollFormState {
   name:string,
@@ -25,7 +25,6 @@ interface ICreatePollFormState {
   errorMessage:string,
   [index: string]:any, // / ?
 }
-
 
 class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
   static propTypes: { history: any; username: PropTypes.Validator<string>; };

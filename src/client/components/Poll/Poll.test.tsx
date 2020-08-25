@@ -9,7 +9,6 @@ import {
 // import axiosMock from 'axios';
 import axios from 'axios';
 import reducer, { initialState } from '../../redux/reducers';
-import formatDate from '../../util/formatDate';
 
 import Poll from './Poll';
 
@@ -69,12 +68,12 @@ describe('<Poll /> Component', () => {
     expect(pollQuestion.textContent).toBe('Test question');
     const pollName = await waitForElement(() => getByText('Test one'));
     expect(pollName.textContent).toBe('Test one');
-    const pollVotes = await waitForElement(() => getByText('69'));
-    expect(pollVotes.textContent).toBe('69');
+    const pollVotes = await waitForElement(() => getByText('Total votes: 69'));
+    expect(pollVotes.textContent).toBe('Total votes: 69');
     const pollCreatedBy = await waitForElement(() => getByText('created by testUser1'));
     expect(pollCreatedBy.textContent).toBe('created by testUser1');
-    const pollCreatedAt = await waitForElement(() => getByText(`created on ${formatDate(poll.createdAt)}`));
-    expect(pollCreatedAt.textContent).toBe('created on 2020 m. sausio 21 d.');
+    const pollCreatedAt = await waitForElement(() => getByText('created on January 21, 2020'));
+    expect(pollCreatedAt.textContent).toBe('created on January 21, 2020');
   });
 
   it('renders Poll component when redux state - user loged in', async () => {
@@ -86,7 +85,7 @@ describe('<Poll /> Component', () => {
       </Route>,
       {
         route: '/polls/1',
-        state: { username: 'testUser1', userId: '1' },
+        state: { username: 'testUser1', userId: '1', starredPolls: ['id'] },
       },
     );
 
@@ -97,12 +96,12 @@ describe('<Poll /> Component', () => {
     expect(pollQuestion.textContent).toBe('Test question');
     const pollName = await waitForElement(() => getByText('Test one'));
     expect(pollName.textContent).toBe('Test one');
-    const pollVotes = await waitForElement(() => getByText('69'));
-    expect(pollVotes.textContent).toBe('69');
+    const pollVotes = await waitForElement(() => getByText('Total votes: 69'));
+    expect(pollVotes.textContent).toBe('Total votes: 69');
     const pollCreatedBy = await waitForElement(() => getByText('created by testUser1'));
     expect(pollCreatedBy.textContent).toBe('created by testUser1');
-    const pollCreatedAt = await waitForElement(() => getByText(`created on ${formatDate(poll.createdAt)}`));
-    expect(pollCreatedAt.textContent).toBe('created on 2020 m. sausio 21 d.');
+    const pollCreatedAt = await waitForElement(() => getByText('created on January 21, 2020'));
+    expect(pollCreatedAt.textContent).toBe('created on January 21, 2020');
 
     const btn = await waitForElement(() => getByText(/delete/i));
     expect(btn.textContent).toBe('Delete');
@@ -120,7 +119,7 @@ describe('<Poll /> Component', () => {
       </Route>,
       {
         route: '/polls/1',
-        state: { username: 'testUser1', userId: '1' },
+        state: { username: 'testUser1', userId: '1', starredPolls: ['id'] },
       },
     );
     const loader = getByTestId('loader');
@@ -129,7 +128,7 @@ describe('<Poll /> Component', () => {
     const btn = await waitForElement(() => getByTestId('two'));
     fireEvent.click(btn);
 
-    const pollVotes = await waitForElement(() => getByText('70'));
-    expect(pollVotes.textContent).toBe('70');
+    const pollVotes = await waitForElement(() => getByText('Total votes: 70'));
+    expect(pollVotes.textContent).toBe('Total votes: 70');
   });
 });

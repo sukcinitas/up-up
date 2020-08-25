@@ -1,12 +1,10 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-// import ReactRouterPropTypes from 'react-router-prop-types';
 import { RouteComponentProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { ActionTypes, logoutCurrentUser, AppState } from '../../redux/actions';
-
 import UserPolls from '../UserPolls/UserPolls';
 import StarredPolls from '../StarredPolls/StarredPolls';
 import ProfileEmail from '../ProfileEmail/ProfileEmail';

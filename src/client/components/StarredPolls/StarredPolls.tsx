@@ -53,8 +53,6 @@ class StarredPolls extends React.Component<AllProps, IStarredPollsState> {
     axios.post('/api/polls/starred', { listOfIds: starredPolls })
       .then((res) => {
         if (res.data.polls) {
-          // eslint-disable-next-line no-console
-          console.log(res.data.polls);
           this.setState({
             starredPolls: [...res.data.polls],
             isLoading: false,
@@ -100,12 +98,13 @@ class StarredPolls extends React.Component<AllProps, IStarredPollsState> {
       name:string,
       votes:number,
     }) => (
-      <div key={`${poll._id}-starred`} data-testid={`div${poll._id}`} className="user-polls__poll">
+      <div key={`${poll._id}-starred`} className="user-polls__poll">
         <Link to={`/polls/${poll._id}`} className="user-polls__title">{poll.name}</Link>
         <button
           type="button"
           className="user-polls__star--starred"
           onClick={() => this.unStarAPoll(poll._id)}
+          data-testid={poll._id}
         >
           <FontAwesomeIcon icon={['fas', 'star']} />
         </button>

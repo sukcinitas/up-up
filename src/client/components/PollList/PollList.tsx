@@ -37,7 +37,7 @@ class PollList extends React.Component<AllProps, IPollListState> {
       polls: [],
       isLoading: true,
       errorMessage: '',
-      sortType: 'newest', // I sort in server
+      sortType: 'newest', // initiallly I sort in server
     };
     this.sort = this.sort.bind(this);
   }
@@ -83,8 +83,6 @@ class PollList extends React.Component<AllProps, IPollListState> {
 
   render() {
     const { username, starredPolls } = this.props;
-    // eslint-disable-next-line no-console
-    console.log(starredPolls);
     const {
       polls, isLoading, errorMessage, sortType,
     } = this.state;
@@ -111,14 +109,14 @@ class PollList extends React.Component<AllProps, IPollListState> {
           <div className="poll-list__sort">
             <button
               type="button"
-              className={`btn btn--supp ${sortType === 'newest' ? 'btn--supp--selected' : ''}`}
+              className={`btn btn--supp ${sortType === 'newest' ? 'btn--supp-selected' : ''}`}
               onClick={() => this.sort('newest')}
             >
               lastly updated
             </button>
             <button
               type="button"
-              className={`btn btn--supp ${sortType === 'most-popular' ? 'btn--supp--selected' : ''}`}
+              className={`btn btn--supp ${sortType === 'most-popular' ? 'btn--supp-selected' : ''}`}
               onClick={() => this.sort('most-popular')}
             >
               most popular
