@@ -8,18 +8,39 @@ $font-notes: 'Merriweather Sans', sans-serif;
 
 
 .profile{
-  display: flex;
-  flex-direction: column;
+  // display: flex;
+  // flex-direction: row;
+  // justify-content: space-between;
+  // align-items: center;
   margin: 30px auto;
   margin-bottom: 120px;
-  max-width: 64%;
+  max-width: 84%;
 
   @media only screen and (max-width: 700px) {
     max-width: 94%;
   }
-
+  &__navigation {
+    position: fixed;
+    top: calc(50% - 30px);
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    @media only screen and (max-width: 800px) {
+      position:absolute;
+      right: 0;
+      left: 0;
+      top: 80px;
+    } 
+  }
   .user-information {
     margin-bottom: 150px;
+    margin-left: 200px;
+    padding: 0px 50px;
+    @media only screen and (max-width: 800px) {
+      margin-left: 0px;
+      padding: 0px 10px;
+      margin-top: 130px;
+    } 
   }
   .user-information__elem {
       margin: 0px 0px;

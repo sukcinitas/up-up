@@ -8,6 +8,7 @@ An application to create polls and vote.
 - React, React Router
 - Redux
 - D3
+- Font Awesome
 - Sass (SCSS syntax)
 - BEM naming methodology
 
@@ -26,7 +27,7 @@ An application to create polls and vote.
 
 ----
 ## Setup
-Check the app [here](https://still-bayou-60170.herokuapp.com) (it takes about 10 seconds for sleeping app on Heroku to wakeup) or clone this repository - `git clone https://github.com/sukcinitas/voting-app.git`, install dependencies - 
+Check the app [here](https://still-bayou-60170.herokuapp.com) (it takes ~ 10 seconds for the sleeping app on Heroku to wake up) or clone this repository - `git clone https://github.com/sukcinitas/voting-app.git`, install dependencies - 
 `npm install` (you will need `npm` and `node` installed globally) 
 
 - `npm run dev` - to run the app on [localhost:3000](http://localhost:3000/)
@@ -34,7 +35,12 @@ Check the app [here](https://still-bayou-60170.herokuapp.com) (it takes about 10
 - `npm run prod` - to run minified app on [localhost:8080](http://localhost:8080/) 
 
 ----
-## Functionalities
-- Votings in polls
-- Voting results are displayed in bar charts
-- Registering to receive additional functionality - to create and manage polls
+## User stories
+
+- As a user, I can see a list of polls. I can choose a way in which list is sorted from two options.
+- As a user, I can vote in a poll. My vote is added immediately and reflected in a chart.
+- As a user, I can register by providing an email, a username, and a password. Both, username and email must be unique. Password must be at least 6 characters long. Registered users have access to additional functionalities: creating polls and saving polls they are interested in.
+- As a logged-in user, I can create a poll by providing a poll name, a poll statement/question and at least two options. The number of options can be increased.
+- As a logged-in user, I can delete the posts I have created either in profile page or specific poll page.
+- As a logged-in user, I can save posts I like. A list of saved polls can be accessed in a profile page.
+- As a logged-in user, I have an access to my profile page. In profile page I can change my user information (password, email) or delete user account entirely. I can see list of polls I have created, and a list of polls I have saved.

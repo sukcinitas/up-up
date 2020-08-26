@@ -170,8 +170,8 @@ class Poll extends React.Component<AllProps, IPollState> {
           {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         </div>
         <h2 className="heading poll__heading">{name}</h2>
-        {username === createdBy ? <button type="button" onClick={this.handlePollDeletion} className="btn btn--delete">Delete</button> : ''}
         <h3 className="subheading poll__subheading">{question}</h3>
+        {username === createdBy ? <button type="button" onClick={this.handlePollDeletion} className="btn btn--delete btn--delete--poll">Delete</button> : ''}
         <div className="additional poll__additional">
           <p>{`created by ${createdBy}`}</p>
           <p> | </p>

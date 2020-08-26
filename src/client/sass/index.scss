@@ -49,12 +49,34 @@ $orange: rgb(255, 84, 31);
       color: white;
       margin: 50px auto 20px;
   }
+ 
+  &--nav {
+    border: none;
+    text-transform: none;
+    padding: 7px;
+    font-weight: bold;
+    margin: 2px 0;
+    background-color: transparent;
+    padding: 0px 2px;
+    text-transform: uppercase;
+    font-weight: 400;
+    &--selected {
+      color: #ad6236;
+      font-weight: 500;
+    }
+    &::before, &::after {
+      content: ' — '
+    }
+  }
 
   &--delete {
     display: block;
     background-color: #f33;
     color: white;
     border: 1px solid #f33;
+    &--poll {
+      margin: 2px auto;
+    }
   }
 
   &--vote {
@@ -64,7 +86,7 @@ $orange: rgb(255, 84, 31);
       text-transform: none;
       margin: 0 auto;
       font-size: 16px;
-      font-family: $font-notes;
+      font-family: 'Roboto Condended', sans-serif;
       width: 300px;
   }
 
@@ -75,6 +97,8 @@ $orange: rgb(255, 84, 31);
   &--plus {
       margin: 10px;
       align-self: center;
+      border: none;
+      font-size: 20px;
   }
 
   &--create {
@@ -107,7 +131,7 @@ $orange: rgb(255, 84, 31);
   text-align: center;
   color: #21262c;
   font-size: 40px;
-  margin-bottom: 35px;
+  margin-bottom: 2px;
   padding: 10px;
 
   @media only screen and (max-width: 700px) {

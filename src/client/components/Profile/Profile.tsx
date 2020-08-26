@@ -27,6 +27,7 @@ type AllProps = IProfileRouteProps & IProfileStateProps & IProfileDispatchProps;
 interface IProfileState {
   message:string,
   errorMessage:string,
+  section:string,
 }
 
 class Profile extends React.Component<AllProps, IProfileState> {
@@ -38,8 +39,16 @@ class Profile extends React.Component<AllProps, IProfileState> {
     this.state = {
       message: '',
       errorMessage: '',
+      section: 'info',
     };
     this.handleDelete = this.handleDelete.bind(this);
+    this.setSection = this.setSection.bind(this);
+  }
+
+  setSection(section) {
+    this.setState({
+      section,
+    });
   }
 
   handleDelete() {
@@ -64,36 +73,63 @@ class Profile extends React.Component<AllProps, IProfileState> {
 
   render() {
     const { username, userId } = this.props;
-    const { message, errorMessage } = this.state;
+    const { message, errorMessage, section } = this.state;
     if (message) {
       return <p>{message}</p>;
     }
     return (
       <div className="profile">
-        {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
-        <section className="user-information">
-          <h2 className="heading user-information__heading">User information</h2>
-          <div className="user-information__elem">
-            <p>
-              USERNAME:
-              {'  '}
-              {username}
-            </p>
-          </div>
-          <ProfileEmail
-            username={username}
-            userId={userId}
-          />
-          <ProfilePassword
-            username={username}
-            userId={userId}
-          />
-          <div className="user-information__elem">
-            <button type="button" onClick={this.handleDelete} className="btn btn--delete">Delete account</button>
-          </div>
-        </section>
-        <UserPolls username={username} />
-        <StarredPolls />
+        <nav className="profile__navigation">
+          <button
+            className={`btn--nav ${section === 'info' ? 'btn--nav--selected' : ''}`}
+            type="button"
+            onClick={() => this.setSection('info')}
+          >
+            User information
+          </button>
+          <button
+            className={`btn--nav ${section === 'user-polls' ? 'btn--nav--selected' : ''}`}
+            type="button"
+            onClick={() => this.setSection('user-polls')}
+          >
+            User polls
+          </button>
+          <button
+            className={`btn--nav ${section === 'saved-polls' ? 'btn--nav--selected' : ''}`}
+            type="button"
+            onClick={() => this.setSection('saved-polls')}
+          >
+            Saved polls
+          </button>
+        </nav>
+        { section === 'info'
+          ? (
+            <section className="user-information">
+              {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
+              <h2 className="heading user-information__heading">User information</h2>
+              <div className="user-information__elem">
+                <p>
+                  USERNAME:
+                  {'  '}
+                  {username}
+                </p>
+              </div>
+              <ProfileEmail
+                username={username}
+                userId={userId}
+              />
+              <ProfilePassword
+                username={username}
+                userId={userId}
+              />
+              <div className="user-information__elem">
+                <button type="button" onClick={this.handleDelete} className="btn btn--delete">Delete account</button>
+              </div>
+            </section>
+          )
+          : ''}
+        {section === 'user-polls' ? <UserPolls username={username} /> : ''}
+        {section === 'saved-polls' ? <StarredPolls /> : '' }
       </div>
     );
   }

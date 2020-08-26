@@ -2,6 +2,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { RouteComponentProps } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
@@ -159,7 +160,9 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
         <label className="form__label" htmlFor="answers">Poll options</label>
         {optionsList}
 
-        <button type="button" onClick={this.addOption} className="btn btn--plus"> + </button>
+        <button type="button" onClick={this.addOption} className="btn btn--plus">
+          <FontAwesomeIcon icon={['fas', 'plus']} />
+        </button>
         <button type="submit" onClick={this.handleSubmit} className="btn btn--submit">Submit</button>
 
         {errorMessage && <ErrorMessage errorMessage={errorMessage} />}

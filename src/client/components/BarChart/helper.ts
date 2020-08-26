@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import barChartWidth from '../../util/barChartWidth';
+// import barChartWidth from '../../util/barChartWidth';
 
 function hexToRgbA(hex, opacity) {
   let c;
@@ -21,7 +21,7 @@ const drawChart = (datum:{optionsList:
   // b:{option:string, votes:number}) => b.votes - a.votes);
 
   function addDots(option) {
-    if (barChartWidth().windowW > 920 || option.length < 8) {
+    if (option.length < 12) {
       return option;
     }
     return `...${option.substr(-5)}`;
@@ -129,7 +129,7 @@ const drawChart = (datum:{optionsList:
     .attr('y', (d:{option:string, votes:number}) => y(d.option) + y.bandwidth() / 2 + 9)
     .attr('x', (d:{option:string, votes:number}) => x(((d.votes / sumVotes) * 100)) + 5)
     .text((d:{option:string, votes:number}) => d.votes)
-    .attr('font-family', 'sans-serif')
+    .attr('font-family', 'Roboto Condensed, sans-serif')
     .attr('font-size', '18px')
     .attr('fill', (d:{option:string, votes:number}) => color(d.votes));
 
@@ -151,6 +151,7 @@ const drawChart = (datum:{optionsList:
     .call(d3.axisLeft(y).tickSize(0))
     .style('color', 'black')
     .style('font-size', '12px')
-    .style('stroke-width', '2');
+    .style('stroke-width', '2')
+    .style('font-family', 'Merriweather Sans, sans-serif');
 };
 export default drawChart;
