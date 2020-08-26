@@ -6,7 +6,7 @@ interface ILoaderProps {
   size: string,
 }
 // available size options: default, big, small
-const Loader:React.FunctionComponent<ILoaderProps> = ({ size }) => <div data-testid="loader" className={`loader${size !== 'default' ? `--${size}` : ''}`} />;
+const Loader:React.FunctionComponent<ILoaderProps> = ({ size }) => <div data-testid="loader" className={`loader ${size !== 'default' ? `loader--${size}` : ''}`} />;
 
 Loader.propTypes = {
   size: PropTypes.string.isRequired,

@@ -52,7 +52,7 @@ describe('<Header /> Component', () => {
     expect(getByText(/Register/i).textContent).toBe('Register');
   });
 
-  it('renders header component when user is loged in', () => {
+  it('renders header component when user is logged in', () => {
     const user = { username: 'testUser1', userId: '1', starredPolls: ['id'] };
     const { getByText } = renderWithRedux(
       <Route path="/">
@@ -94,6 +94,3 @@ describe('<Header /> Component', () => {
     expect(votingBanner.textContent).toBe('VA.');
   });
 });
-
-// TODO
-// #test history push on last test

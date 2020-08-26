@@ -6,12 +6,7 @@ $font-btn: 'Roboto Condensed', sans-serif;
 $font-heading: 'Bellota Text', sans-serif;
 $font-notes: 'Merriweather Sans', sans-serif;
 
-
 .profile{
-  // display: flex;
-  // flex-direction: row;
-  // justify-content: space-between;
-  // align-items: center;
   margin: 30px auto;
   margin-bottom: 120px;
   max-width: 84%;
@@ -45,7 +40,7 @@ $font-notes: 'Merriweather Sans', sans-serif;
   .user-information__elem {
       margin: 0px 0px;
       padding: 0px 3px;
-      font-family: $font-notes;
+      font-family: 'Roboto Condensed', sans-serif;
       font-size: 14px;
   }
 }

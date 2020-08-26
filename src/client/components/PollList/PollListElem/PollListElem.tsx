@@ -101,12 +101,10 @@ class PollListElem extends React.Component<AllProps, IPollElemState> {
               {` ${createdBy}`}
             </span>
           </p>
-          <span className="transparent" />
           <p className="poll-list-elem__votes">
             <span>{votes}</span>
             {votes === 1 ? ' vote' : ' votes'}
           </p>
-          <span className="transparent" />
           <p className="poll-list-elem__updated-at">
             last updated on
             {` ${updatedAt}`}

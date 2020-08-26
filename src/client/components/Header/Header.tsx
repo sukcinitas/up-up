@@ -35,7 +35,9 @@ const Header:React.FunctionComponent<AllProps> = ({
   };
   return (
     <header className="header">
-      <h1><Link to="/" className="header__heading">VA.</Link></h1>
+      <h1 className="header__heading">
+        <Link to="/" className="header__link">VA.</Link>
+      </h1>
       <div>
         {isLoggedIn
           ? (

@@ -15,6 +15,7 @@
 
 .poll {
   margin-bottom: 100px;
+  margin-top: 50px;
   &__heading {
     text-decoration: underline;
   }
@@ -51,6 +52,7 @@
   font-size: 11px;
   margin-bottom: 100px;
   text-align: center;
+  font-family: 'Merriweather Sans', sans-serif;
   @media only screen and (max-width: 1024px) {
     margin-bottom: 70px;
   }

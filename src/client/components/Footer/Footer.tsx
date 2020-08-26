@@ -6,7 +6,12 @@ const Footer = () => (
     <p className="footer__text">
       Created by
       {' '}
-      <a className="footer__link" href="https://github.com/sukcinitas">
+      <a
+        className="footer__link"
+        href="https://github.com/sukcinitas"
+        target="_blank"
+        rel="noreferrer noopener"
+      >
         sukcinitas
       </a>
     </p>
