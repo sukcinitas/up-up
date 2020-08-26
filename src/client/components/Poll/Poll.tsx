@@ -114,7 +114,6 @@ class Poll extends React.Component<AllProps, IPollState> {
       .then((res) => {
         this.setState({
           hasVoted: true,
-          message: 'Your vote has been successfully submitted!',
         }, () => {
           this.setState({
             poll: res.data.poll,

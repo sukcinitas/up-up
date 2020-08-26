@@ -1,24 +1,17 @@
 import * as d3 from 'd3';
-// import barChartWidth from '../../util/barChartWidth';
 
-function hexToRgbA(hex, opacity) {
-  let c;
-  if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
-    c = hex.substring(1).split('');
-    if (c.length === 3) {
-      c = [c[0], c[0], c[1], c[1], c[2], c[2]];
-    }
-    c = `0x${c.join('')}`;
-    // eslint-disable-next-line no-bitwise
-    return `rgba(${[(c >> 16) & 255, (c >> 8) & 255, c & 255].join(',')}, ${opacity})`;
-  }
-  throw new Error('Bad Hex');
-}
+// https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+const hexToRgbA = (hex, opacity) => {
+  const arr = hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i,
+    (m, r, g, b) => `#${r}${r}${g}${g}${b}${b}`)
+    .substring(1).match(/.{2}/g)
+    .map((x) => parseInt(x, 16));
+  return `rgba(${arr.join(',')}, ${opacity})`;
+};
+
 const drawChart = (datum:{optionsList:
 {option:string, votes:number}[], sumVotes:number}, w:number = 860, left:number = 100) => {
   d3.select('svg').remove();
-  // const data = datum.optionsList.sort((a:{option:string, votes:number},
-  // b:{option:string, votes:number}) => b.votes - a.votes);
 
   function addDots(option) {
     if (option.length < 12) {
@@ -110,13 +103,12 @@ const drawChart = (datum:{optionsList:
     .data(data)
     .enter().append('rect')
     .attr('class', 'bar')
-    // .attr('width', (d:{option:string, votes:number})
-    // => x(((d.votes / sumVotes) * 100))) // percentage
     .attr('width', 10) // percentage
     .attr('y', (d:{option:string, votes:number}):any => y(d.option))
     .attr('height', y.bandwidth())
     .style('fill', (d:{option:string, votes:number}) => hexToRgbA(color(d.votes), 0.6))
     .style('stroke', (d) => color(d.votes))
+    .style('stroke-width', 2)
     .on('mouseover', handleOver)
     .on('touchstart', handleOver)
     .on('mouseout', handleOut)
