@@ -47,14 +47,13 @@ describe('<CreatePollForm /> Component', () => {
     expect(getByText(/Poll name/i).textContent).toBe('Poll name');
     expect(getByText(/Poll question\/statement/i).textContent).toBe('Poll question/statement');
     expect(getByText(/Poll options/i).textContent).toBe('Poll options');
-    expect(getByText(/\+/i).textContent).toBe(' + ');
     expect(getByText(/Submit/i).textContent).toBe('Submit');
     expect((getByLabelText('option1') as HTMLInputElement).value).toBe('');
     expect((getByLabelText('option2') as HTMLInputElement).value).toBe('');
   });
 
   it('adds options on click', () => {
-    const { getByText, getByLabelText } = renderWithRedux(
+    const { getByLabelText, getByTestId } = renderWithRedux(
       <Route path="/user/create-poll">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         {(props) => <CreatePollForm {...props} />}
@@ -63,15 +62,15 @@ describe('<CreatePollForm /> Component', () => {
         route: '/user/create-poll',
       },
     );
-    fireEvent.click(getByText(/\+/i));
+    fireEvent.click(getByTestId('plus'));
     expect((getByLabelText('option3') as HTMLInputElement).value).toBe('');
 
-    fireEvent.click(getByText(/\+/i));
+    fireEvent.click(getByTestId('plus'));
     expect((getByLabelText('option4') as HTMLInputElement).value).toBe('');
   });
 
   it('can input all values', () => {
-    const { getByText, getByLabelText } = renderWithRedux(
+    const { getByLabelText, getByTestId } = renderWithRedux(
       <Route path="/user/create-poll">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         {(props) => <CreatePollForm {...props} />}
@@ -97,7 +96,7 @@ describe('<CreatePollForm /> Component', () => {
     fireEvent.change(option2Input, { target: { value: 'Two' } });
     expect(option2Input.value).toBe('Two');
 
-    fireEvent.click(getByText(/\+/i));
+    fireEvent.click(getByTestId('plus'));
     expect((getByLabelText('option3') as HTMLInputElement).value).toBe('');
     const option3Input = getByLabelText('option3') as HTMLInputElement;
     fireEvent.change(option3Input, { target: { value: 'Three' } });

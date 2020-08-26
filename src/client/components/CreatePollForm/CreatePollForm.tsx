@@ -160,7 +160,7 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
         <label className="form__label" htmlFor="answers">Poll options</label>
         {optionsList}
 
-        <button type="button" onClick={this.addOption} className="btn btn--plus">
+        <button type="button" onClick={this.addOption} className="btn btn--plus" data-testid="plus">
           <FontAwesomeIcon icon={['fas', 'plus']} />
         </button>
         <button type="submit" onClick={this.handleSubmit} className="btn btn--submit">Submit</button>

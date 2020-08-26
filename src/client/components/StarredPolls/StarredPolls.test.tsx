@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import {
   render, cleanup, waitForElement, fireEvent, wait,
 } from '@testing-library/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import axios from 'axios';
+import thunk from 'redux-thunk';
 import reducer, { initialState } from '../../redux/reducers';
 import StarredPolls from './StarredPolls';
 
@@ -15,7 +15,7 @@ function renderWithRedux(
   ui,
   {
     state = initialState,
-    store = createStore(reducer, state),
+    store = createStore(reducer, state, applyMiddleware(thunk)),
     route = '/user/profile/testUser1',
     history = createMemoryHistory({ initialEntries: [route] }),
   } = {},
@@ -39,7 +39,6 @@ describe('<StarredPolls /> Component', () => {
   it('renders StarredPolls component', async () => {
     const polls = [{ _id: '1', votes: 1, name: 'test-name-one' }, { _id: '2', votes: 2, name: 'test-name-two' }];
     axiosMock.post.mockResolvedValueOnce({ data: { polls } });
-
     const history = createMemoryHistory();
     const { getByText, getByTestId } = renderWithRedux(
       <Router history={history}>

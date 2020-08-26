@@ -39,7 +39,7 @@ describe('<Profile /> Component', () => {
   it('renders Profile component', async () => {
     axiosMock.get.mockResolvedValueOnce({ data: { user: [{ username: 'testUser1', email: 'test@test.lt' }] } });
     axiosMock.delete.mockResolvedValueOnce({ data: {} });
-    const { getByText } = renderWithRedux(
+    const { getByText, getByTestId } = renderWithRedux(
       <Route path="/user/profile/testUser1">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         {(props) => <Profile {...props} />}
@@ -49,16 +49,12 @@ describe('<Profile /> Component', () => {
         state: { userId: '1', username: 'testUser1', starredPolls: ['id'] },
       },
     );
-    expect(getByText(/User information/i).textContent).toBe('User information');
+    expect(getByTestId('info').textContent).toBe('User information');
     expect(getByText(/USERNAME/i).textContent).toBe('USERNAME:  testUser1');
     expect(getByText(/Delete account/i).textContent).toBe('Delete account');
-    expect(getByText(/Create a poll/i).textContent).toBe('Create a poll');
-    expect(getByText(/^Polls$/i).textContent).toBe('Polls');
 
     fireEvent.click(getByText(/Delete account/i));
     const message = await waitForElement(() => getByText(/User has been successfully deleted!/i));
     expect(message.textContent).toBe('User has been successfully deleted!');
   });
 });
-
-// #history.push
