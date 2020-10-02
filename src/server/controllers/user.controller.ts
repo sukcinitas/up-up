@@ -35,10 +35,14 @@ const UserController = {
   async updateUser(req:Request, res:Response) {
     const { parameter } = req.body;
     if (parameter === 'email') {
-      const { email, id } = req.body;
-      const user = await UserService.getOneUserByEmail(email);
-      if (user) {
+      const { email, id, password } = req.body;
+      const userEmail = await UserService.getOneUserByEmail(email);
+      if (userEmail) {
         return res.json({ message: 'This e-mail is already in use! Try again!' });
+      }
+      const user = await UserService.getOneUserById(id);
+      if (user && !compareSync(password, user.password)) {
+        return res.json({ message: 'Password is incorrect! Try again!' });
       }
       await UserService.updateUserEmail(id, email);
       return res.json({ message: 'Your email has been successfully updated!' });

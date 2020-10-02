@@ -101,8 +101,8 @@ class Login extends React.Component<AllProps, ILoginState> {
   }
 }
 
-const mapDispathToProps = (dispatch: Dispatch<ActionTypes>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<ActionTypes>) => ({
   login: (user: AppState) => dispatch(receiveCurrentUser(user)),
 });
 
-export default connect(null, mapDispathToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);

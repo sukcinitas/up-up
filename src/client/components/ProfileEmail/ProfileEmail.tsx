@@ -13,6 +13,7 @@ interface IProfileEmailProps {
 interface IProfileEmailState {
   newEmail:string,
   email:string,
+  password:string,
   isChangingEmail:boolean,
   isLoading:boolean,
   errorMessage:string,
@@ -26,6 +27,7 @@ class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailStat
     this.state = {
       newEmail: '',
       email: '',
+      password: '',
       isChangingEmail: false,
       isLoading: true,
       errorMessage: '',
@@ -66,19 +68,28 @@ class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailStat
   }
 
   handleChange(e:React.ChangeEvent<HTMLInputElement>) {
-    this.setState({
-      newEmail: e.currentTarget.value,
-      errorMessage: '',
-    });
+    if (e.currentTarget.name === 'password') {
+      this.setState({
+        password: e.currentTarget.value,
+        errorMessage: '',
+      });
+    }
+    if (e.currentTarget.name === 'newEmail') {
+      this.setState({
+        newEmail: e.currentTarget.value,
+        errorMessage: '',
+      });
+    }
   }
 
   changeEmail() {
     const { userId } = this.props;
-    const { isChangingEmail, newEmail } = this.state;
+    const { isChangingEmail, newEmail, password } = this.state;
     axios.put('/api/user/profile', {
       parameter: 'email',
       id: userId,
       email: newEmail,
+      password,
     }).then((res) => {
       this.getEmail();
       this.setState({
@@ -90,7 +101,7 @@ class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailStat
 
   render() {
     const {
-      newEmail, email, isChangingEmail, isLoading, errorMessage,
+      newEmail, email, isChangingEmail, isLoading, errorMessage, password,
     } = this.state;
     return (
       <div className="user-information__elem">
@@ -106,6 +117,8 @@ class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailStat
             <div className="form form--user-information">
               <label className="form__label">New e-mail</label>
               <input value={newEmail} data-testid="newEmail" name="newEmail" onChange={this.handleChange} className="form__input" />
+              <label className="form__label">Password</label>
+              <input value={password} type="password" data-testid="password" name="password" onChange={this.handleChange} className="form__input" />
               <button type="button" onClick={this.changeEmail} className="btn btn--submit">Change</button>
             </div>
           )

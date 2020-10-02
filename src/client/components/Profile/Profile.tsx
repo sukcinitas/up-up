@@ -28,6 +28,7 @@ interface IProfileState {
   message:string,
   errorMessage:string,
   section:string,
+  isDeletionConfirmationVisible:boolean,
 }
 
 class Profile extends React.Component<AllProps, IProfileState> {
@@ -40,8 +41,10 @@ class Profile extends React.Component<AllProps, IProfileState> {
       message: '',
       errorMessage: '',
       section: 'info',
+      isDeletionConfirmationVisible: false,
     };
     this.handleDelete = this.handleDelete.bind(this);
+    this.toggleConfirmation = this.toggleConfirmation.bind(this);
     this.setSection = this.setSection.bind(this);
   }
 
@@ -71,9 +74,25 @@ class Profile extends React.Component<AllProps, IProfileState> {
       });
   }
 
+  toggleConfirmation(state) {
+    if (state === 'close') {
+      this.setState({
+        isDeletionConfirmationVisible: false,
+        errorMessage: '',
+      });
+    } else if (state === 'open') {
+      this.setState({
+        isDeletionConfirmationVisible: true,
+        errorMessage: '',
+      });
+    }
+  }
+
   render() {
     const { username, userId } = this.props;
-    const { message, errorMessage, section } = this.state;
+    const {
+      message, errorMessage, section, isDeletionConfirmationVisible,
+    } = this.state;
     if (message) {
       return <p>{message}</p>;
     }
@@ -123,7 +142,18 @@ class Profile extends React.Component<AllProps, IProfileState> {
                 userId={userId}
               />
               <div className="user-information__elem">
-                <button type="button" onClick={this.handleDelete} className="btn btn--delete">Delete account</button>
+                <button type="button" onClick={() => this.toggleConfirmation('open')} className="btn btn--delete">Delete account</button>
+                { isDeletionConfirmationVisible
+                  ? (
+                    <div className="form form--user-information">
+                      <p className="form__subheading"> Are you sure you want to delete your account?</p>
+                      <div className="form__wrapper">
+                        <button type="button" onClick={this.handleDelete} className="btn btn--submit">Yes</button>
+                        <button type="button" onClick={() => this.toggleConfirmation('close')} className="btn btn--submit">Close</button>
+                      </div>
+                    </div>
+                  )
+                  : ''}
               </div>
             </section>
           )

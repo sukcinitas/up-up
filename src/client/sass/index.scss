@@ -200,7 +200,7 @@ $orange: rgb(255, 84, 31);
   &__input:invalid {
     box-shadow: none;
     -moz-box-shadow: none;
-}
+  }
 
   &__input:focus {
       border-bottom: 1.5px solid #ad6236;
@@ -233,6 +233,19 @@ $orange: rgb(255, 84, 31);
           color: #ad6236;
       }
   }
+
+  &__subheading {
+    text-align: center;
+  }
+
+  &__wrapper {
+    display: flex;
+  }
+
+  &--user-information {
+    padding: 30px 80px 40px;
+  }
+
 }
 
 .create-poll-form {

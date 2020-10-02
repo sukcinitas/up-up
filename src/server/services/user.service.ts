@@ -17,6 +17,14 @@ const UserService = {
       return err;
     }
   },
+  async getOneUserById(id) {
+    try {
+      const user = await User.findOne({ _id: id });
+      return user;
+    } catch (err) {
+      return err;
+    }
+  },
   async getOneUserByEmail(email) {
     try {
       const user = await User.findOne({ email });

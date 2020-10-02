@@ -54,6 +54,9 @@ describe('<Profile /> Component', () => {
     expect(getByText(/Delete account/i).textContent).toBe('Delete account');
 
     fireEvent.click(getByText(/Delete account/i));
+    expect(getByText(/Yes/i).textContent).toBe('Yes');
+
+    fireEvent.click(getByText(/Yes/i));
     const message = await waitForElement(() => getByText(/User has been successfully deleted!/i));
     expect(message.textContent).toBe('User has been successfully deleted!');
   });
