@@ -11,10 +11,12 @@
         "strictNullChecks": false,
     },
     "include": [
-        "src/**/*"
+        "src/**/*",
+        "webpack.dev.js",
+        "webpack.prod.js"
     ],
     "exclude": [
-        "node_modules"
+        "node_modules",
     ],
     "compileOnSave": false
 }
