@@ -6,7 +6,6 @@ import {
 import axios from 'axios';
 
 import ProfileEmail from './ProfileEmail';
-import { truncate } from 'fs/promises';
 
 afterEach(cleanup);
 jest.mock('axios');

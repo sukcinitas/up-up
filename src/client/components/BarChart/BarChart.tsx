@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-prop-types */
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import drawChart from './helper';

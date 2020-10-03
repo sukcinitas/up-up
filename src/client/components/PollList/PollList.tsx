@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { AppState, getStarredPollsAsync } from '../../redux/actions';
 import PollListElem from './PollListElem/PollListElem';
@@ -19,7 +19,9 @@ interface IPollListStateProps {
 interface IPollListDispatchProps {
   getStarredPollsAsync: (username:string) => any,
 }
-type AllProps = IPollListStateProps & IPollListDispatchProps;
+interface IPollListRouteProps extends RouteComponentProps {}
+
+type AllProps = IPollListStateProps & IPollListDispatchProps & IPollListRouteProps;
 
 interface IPollListState {
   polls:Array<any>,
@@ -42,6 +44,7 @@ class PollList extends React.Component<AllProps, IPollListState> {
       sortType: 'newest', // initiallly I sort in server
     };
     this.sort = this.sort.bind(this);
+    this.visitPoll = this.visitPoll.bind(this);
   }
 
   componentDidMount() {
@@ -84,6 +87,11 @@ class PollList extends React.Component<AllProps, IPollListState> {
     }
   }
 
+  visitPoll(id) {
+    const { history } = this.props;
+    history.push(`/polls/${id}`);
+  }
+
   render() {
     const { username, starredPolls } = this.props;
     const {
@@ -98,6 +106,7 @@ class PollList extends React.Component<AllProps, IPollListState> {
           updatedAt={formatDate(poll.updatedAt)}
           id={poll.id}
           starred={starredPolls.indexOf(poll.id) > -1}
+          link={(id) => this.visitPoll(id)}
         />
       </div>
     ));

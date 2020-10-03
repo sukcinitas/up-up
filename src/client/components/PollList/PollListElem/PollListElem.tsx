@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -21,6 +22,7 @@ interface IPollListElemProps {
   createdBy:string,
   updatedAt:string,
   starred:boolean,
+  link:Function,
 }
 interface IPollListElemDispatchProps {
   getStarredPollsAsync: (username:string) => any,
@@ -44,9 +46,11 @@ class PollListElem extends React.Component<AllProps, IPollElemState> {
     };
     this.starAPoll = this.starAPoll.bind(this);
     this.unStarAPoll = this.unStarAPoll.bind(this);
+    this.goToPoll = this.goToPoll.bind(this);
   }
 
-  starAPoll(pollId) {
+  starAPoll(pollId, event) {
+    event.stopPropagation();
     // eslint-disable-next-line no-shadow
     const { userId, username, getStarredPollsAsync } = this.props;
     axios.put('/api/user/star-poll', {
@@ -64,7 +68,8 @@ class PollListElem extends React.Component<AllProps, IPollElemState> {
       });
   }
 
-  unStarAPoll(pollId) {
+  unStarAPoll(pollId, event) {
+    event.stopPropagation();
     // eslint-disable-next-line no-shadow
     const { userId, username, getStarredPollsAsync } = this.props;
     axios.put('/api/user/unstar-poll', {
@@ -82,13 +87,19 @@ class PollListElem extends React.Component<AllProps, IPollElemState> {
       });
   }
 
+  goToPoll(id) {
+    const { link } = this.props;
+    link(id);
+  }
+
   render() {
     const {
       id, name, votes, createdBy, updatedAt, userId, starred,
     } = this.props;
     const { errorMessage } = this.state;
     return (
-      <div className="poll-list-elem">
+      // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+      <div className="poll-list-elem" onClick={() => this.goToPoll(id)}>
         <Link to={`/polls/${id}`} className="poll-list-elem__heading">
           <h2>{name}</h2>
         </Link>
@@ -112,7 +123,7 @@ class PollListElem extends React.Component<AllProps, IPollElemState> {
         <button
           type="button"
           className={`poll-list-elem__star ${starred ? 'poll-list-elem__star--starred' : ''}`}
-          onClick={starred ? () => this.unStarAPoll(id) : () => this.starAPoll(id)}
+          onClick={starred ? (e) => this.unStarAPoll(id, e) : (e) => this.starAPoll(id, e)}
         >
           {starred ? <FontAwesomeIcon icon={['fas', 'star']} /> : <FontAwesomeIcon icon={['far', 'star']} />}
         </button>
