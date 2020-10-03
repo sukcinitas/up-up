@@ -4,7 +4,6 @@ import * as PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { AppState, getStarredPollsAsync } from '../../../redux/actions';
 import '../../../sass/PollListElem.scss';
@@ -100,9 +99,9 @@ class PollListElem extends React.Component<AllProps, IPollElemState> {
     return (
       // eslint-disable-next-line jsx-a11y/no-static-element-interactions
       <div className="poll-list-elem" onClick={() => this.goToPoll(id)}>
-        <Link to={`/polls/${id}`} className="poll-list-elem__heading">
+        <div className="poll-list-elem__heading">
           <h2>{name}</h2>
-        </Link>
+        </div>
         <div className="poll-list-elem__details">
           <p className="poll-list-elem__created-by">
             created by
