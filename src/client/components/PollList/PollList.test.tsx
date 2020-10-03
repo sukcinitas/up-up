@@ -59,7 +59,7 @@ const polls = [{
 
 describe('<PollList /> Component', () => {
   it('renders PollList component when default redux state - user not logged in', async () => {
-    axiosMock.get.mockResolvedValueOnce({ data: { polls } });
+    axiosMock.get.mockResolvedValueOnce({ data: { polls, success: true } });
     const { getByText, getByTestId } = renderWithRedux(
       <Route path="/">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
@@ -87,8 +87,8 @@ describe('<PollList /> Component', () => {
   });
 
   it('renders PollList component when redux state - user logged in', async () => {
-    axiosMock.get.mockResolvedValueOnce({ data: { polls } });
-    axiosMock.get.mockResolvedValueOnce({ data: { user: [{ starredPolls: [] }] } });
+    axiosMock.get.mockResolvedValueOnce({ data: { polls, success: true } });
+    axiosMock.get.mockResolvedValueOnce({ data: { user: [{ starredPolls: [] }], success: true } });
     const { getByText, getByTestId } = renderWithRedux(
       <Route path="/">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}

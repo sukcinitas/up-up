@@ -13,7 +13,7 @@ const axiosMock = axios as jest.Mocked<typeof axios>;
 describe('<UserPolls /> Component', () => {
   it('renders userPolls component', async () => {
     const polls = [{ id: '1', votes: 1, name: 'test-name-one' }, { id: '2', votes: 2, name: 'test-name-two' }];
-    axiosMock.get.mockResolvedValueOnce({ data: { polls } });
+    axiosMock.get.mockResolvedValueOnce({ data: { polls, success: true } });
 
     const history = createMemoryHistory();
     const { getByText, getByTestId } = render(
@@ -41,9 +41,9 @@ describe('<UserPolls /> Component', () => {
   it('deletes poll and rerenders component', async () => {
     const polls = [{ id: '1', votes: 1, name: 'test-name-one' }, { id: '2', votes: 2, name: 'test-name-two' }];
     // first it renders all two polls, deletes one and then re-renders only one
-    axiosMock.get.mockResolvedValueOnce({ data: { polls } });
-    axiosMock.delete.mockResolvedValueOnce({});
-    axiosMock.get.mockResolvedValueOnce({ data: { polls: [polls[1]] } });
+    axiosMock.get.mockResolvedValueOnce({ data: { polls, success: true } });
+    axiosMock.delete.mockResolvedValueOnce({ data: { success: true } });
+    axiosMock.get.mockResolvedValueOnce({ data: { polls: [polls[1]], success: true } });
 
     const history = createMemoryHistory();
     const { getByText, getByTestId, queryByText } = render(

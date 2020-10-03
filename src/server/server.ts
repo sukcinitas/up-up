@@ -1,6 +1,7 @@
+/* eslint-disable no-console */
 import * as passport from 'passport';
+import path = require('path');
 
-const path = require('path');
 require('dotenv').config(); // .env file must be at root
 const express = require('express');
 const cors = require('cors');

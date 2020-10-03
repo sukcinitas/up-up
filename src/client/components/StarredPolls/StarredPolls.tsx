@@ -52,17 +52,16 @@ class StarredPolls extends React.Component<AllProps, IStarredPollsState> {
     const { starredPolls } = this.props;
     axios.post('/api/polls/starred', { listOfIds: starredPolls })
       .then((res) => {
-        if (res.data.polls) {
+        if (res.data.success) {
           this.setState({
             starredPolls: [...res.data.polls],
             isLoading: false,
           });
+        } else {
+          this.setState({
+            errorMessage: res.data.message,
+          });
         }
-      })
-      .catch((error) => {
-        this.setState({
-          errorMessage: `Error: ${error.response.status}: ${error.response.statusText}`,
-        });
       });
   }
 
@@ -82,12 +81,11 @@ class StarredPolls extends React.Component<AllProps, IStarredPollsState> {
           this.setState({
             starredPolls: starredPolls.filter((poll) => poll._id !== pollId),
           });
+        } else {
+          this.setState({
+            errorMessage: res.data.message,
+          });
         }
-      })
-      .catch((error) => {
-        this.setState({
-          errorMessage: `Error: ${error.response.status}: ${error.response.statusText}`,
-        });
       });
   }
 

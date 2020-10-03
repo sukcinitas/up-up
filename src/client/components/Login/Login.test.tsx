@@ -75,7 +75,7 @@ describe('<Login /> Component', () => {
   });
 
   it('prints error if login unsuccessful', async () => {
-    axiosMock.post.mockResolvedValueOnce({ data: { error: 'Could not login user!' } });
+    axiosMock.post.mockResolvedValueOnce({ data: { message: 'Could not login user!' } });
     const { getByTestId, getByText } = renderWithRedux(
       <Route path="/user/login">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}

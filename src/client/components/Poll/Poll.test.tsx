@@ -49,8 +49,8 @@ const poll = {
 };
 
 describe('<Poll /> Component', () => {
-  it('renders Poll component when default redux state - user not loged in', async () => {
-    axiosMock.get.mockResolvedValueOnce({ data: { poll } });
+  it('renders Poll component when default redux state - user not logged in', async () => {
+    axiosMock.get.mockResolvedValueOnce({ data: { poll, success: true } });
     const { getByText, getByTestId } = renderWithRedux(
       <Route path="/polls/1">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
@@ -76,8 +76,8 @@ describe('<Poll /> Component', () => {
     expect(pollCreatedAt.textContent).toBe('created on January 21, 2020');
   });
 
-  it('renders Poll component when redux state - user loged in', async () => {
-    axiosMock.get.mockResolvedValueOnce({ data: { poll } });
+  it('renders Poll component when redux state - user logged in', async () => {
+    axiosMock.get.mockResolvedValueOnce({ data: { poll, success: true } });
     const { getByText, getByTestId } = renderWithRedux(
       <Route path="/polls/1">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
@@ -108,9 +108,9 @@ describe('<Poll /> Component', () => {
   });
 
   it('let\'s vote and rerenders component after that', async () => {
-    axiosMock.get.mockResolvedValueOnce({ data: { poll } });
+    axiosMock.get.mockResolvedValueOnce({ data: { poll, success: true } });
     axiosMock.put.mockResolvedValueOnce(
-      { data: { poll: { ...poll, options: { one: 1, two: 3 }, votes: 70 } } },
+      { data: { poll: { ...poll, options: { one: 1, two: 3 }, votes: 70 }, success: true } },
     );
     const { getByText, getByTestId } = renderWithRedux(
       <Route path="/polls/1">

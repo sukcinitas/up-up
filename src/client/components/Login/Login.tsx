@@ -56,10 +56,12 @@ class Login extends React.Component<AllProps, ILoginState> {
     e.preventDefault();
     axios.post('/api/user/login', { username, password })
       .then((res) => {
-        if (res.data.isAuthenticated) {
+        if (res.data.success) {
           login(res.data.sessionUser);
         } else {
-          this.setState({ errorMessage: res.data.error });
+          this.setState({
+            errorMessage: res.data.message,
+          });
         }
       });
   }

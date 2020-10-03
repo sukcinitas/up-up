@@ -45,29 +45,29 @@ class UserPolls extends React.Component<IUserPollsProps, IUserPollsState> {
     const { username } = this.props;
     axios.get(`/api/polls/user/${username}`)
       .then((res) => {
-        if (res.data.polls) {
+        if (res.data.success) {
           this.setState({
             userPolls: [...res.data.polls],
             isLoading: false,
           });
+        } else {
+          this.setState({
+            errorMessage: res.data.message,
+          });
         }
-      })
-      .catch((error) => {
-        this.setState({
-          errorMessage: `Error: ${error.response.status}: ${error.response.statusText}`,
-        });
       });
   }
 
   handlePollDeletion(e:React.MouseEvent<HTMLButtonElement>) {
     axios.delete(`/api/polls/${e.currentTarget.id}`)
-      .then(() => {
-        this.getUserPolls();
-      })
-      .catch((error) => {
-        this.setState({
-          errorMessage: `Error: ${error.response.status}: ${error.response.statusText}`,
-        });
+      .then((res) => {
+        if (res.data.success) {
+          this.getUserPolls();
+        } else {
+          this.setState({
+            errorMessage: res.data.message,
+          });
+        }
       });
   }
 

@@ -46,16 +46,18 @@ class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailStat
     const { username } = this.props;
     axios.get(`/api/user/profile/${username}`)
       .then((res) => {
-        const { email } = res.data.user[0];
-        this.setState({
-          email,
-          isLoading: false,
-        });
-      })
-      .catch((error) => {
-        this.setState({
-          errorMessage: `Error: ${error.response.status}: ${error.response.statusText}`,
-        });
+        if (res.data.success) {
+          const { email } = res.data.user[0];
+          this.setState({
+            email,
+            isLoading: false,
+          });
+        } else {
+          this.setState({
+            errorMessage: res.data.message,
+            isLoading: false,
+          });
+        }
       });
   }
 

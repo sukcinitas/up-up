@@ -37,8 +37,8 @@ const axiosMock = axios as jest.Mocked<typeof axios>;
 
 describe('<Profile /> Component', () => {
   it('renders Profile component', async () => {
-    axiosMock.get.mockResolvedValueOnce({ data: { user: [{ username: 'testUser1', email: 'test@test.lt' }] } });
-    axiosMock.delete.mockResolvedValueOnce({ data: {} });
+    axiosMock.get.mockResolvedValueOnce({ data: { user: [{ username: 'testUser1', email: 'test@test.lt' }], success: true } });
+    axiosMock.delete.mockResolvedValueOnce({ data: { success: true } });
     const { getByText, getByTestId } = renderWithRedux(
       <Route path="/user/profile/testUser1">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}

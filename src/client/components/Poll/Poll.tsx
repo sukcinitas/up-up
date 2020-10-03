@@ -30,6 +30,7 @@ interface IPollState {
   },
   hasVoted:boolean,
   message:string,
+  loadError:string,
   isLoading:boolean,
   errorMessage:string,
   width:number,
@@ -52,6 +53,7 @@ class Poll extends React.Component<AllProps, IPollState> {
       },
       hasVoted: false,
       message: '',
+      loadError: '',
       isLoading: true,
       errorMessage: '',
       width: 544,
@@ -72,14 +74,21 @@ class Poll extends React.Component<AllProps, IPollState> {
     const { match } = this.props;
     axios.get(`/api/polls/${match.params.id}`)
       .then((res) => {
-        const updatedPoll = res.data.poll;
-        this.setState({
-          isLoading: false,
-        }, () => {
+        if (res.data.success) {
+          const updatedPoll = res.data.poll;
           this.setState({
-            poll: { ...updatedPoll },
+            isLoading: false,
+          }, () => {
+            this.setState({
+              poll: { ...updatedPoll },
+            });
           });
-        });
+        } else {
+          this.setState({
+            loadError: res.data.message,
+            isLoading: false,
+          });
+        }
       });
   }
 
@@ -112,32 +121,34 @@ class Poll extends React.Component<AllProps, IPollState> {
       votes: poll.votes,
     })
       .then((res) => {
-        this.setState({
-          hasVoted: true,
-        }, () => {
+        if (res.data.success) {
           this.setState({
-            poll: res.data.poll,
+            hasVoted: true,
+          }, () => {
+            this.setState({
+              poll: res.data.poll,
+            });
+            selectedOption.classList.add('btn--selected');
           });
-          selectedOption.classList.add('btn--selected');
-        });
-      })
-      .catch((error) => {
-        this.setState({
-          errorMessage: `Error: ${error.response.status}: ${error.response.statusText}`,
-        });
+        } else {
+          this.setState({
+            errorMessage: res.data.message,
+          });
+        }
       });
   }
 
   handlePollDeletion() {
     const { history, match } = this.props;
     axios.delete(`/api/polls/${match.params.id}`)
-      .then(() => {
-        history.push('/');
-      })
-      .catch((error) => {
-        this.setState({
-          errorMessage: `Error: ${error.response.status} ${error.response.statusText}`,
-        });
+      .then((res) => {
+        if (res.data.success) {
+          history.push('/');
+        } else {
+          this.setState({
+            errorMessage: res.data.message,
+          });
+        }
       });
   }
 
@@ -145,7 +156,7 @@ class Poll extends React.Component<AllProps, IPollState> {
     const { username } = this.props;
     const {
       poll, errorMessage,
-      width, leftMargin,
+      width, leftMargin, loadError,
     } = this.state;
     const {
       name, question, options, votes, createdBy, createdAt,
@@ -161,6 +172,9 @@ class Poll extends React.Component<AllProps, IPollState> {
     const { message, isLoading } = this.state;
     if (isLoading) {
       return <Loader size="big" />;
+    }
+    if (loadError) {
+      return <p>{loadError}</p>;
     }
     return (
       <div className="poll">

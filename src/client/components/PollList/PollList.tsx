@@ -25,6 +25,7 @@ interface IPollListState {
   polls:Array<any>,
   isLoading:boolean,
   errorMessage:string,
+  loadError:string,
   sortType:string,
 }
 
@@ -37,6 +38,7 @@ class PollList extends React.Component<AllProps, IPollListState> {
       polls: [],
       isLoading: true,
       errorMessage: '',
+      loadError: '',
       sortType: 'newest', // initiallly I sort in server
     };
     this.sort = this.sort.bind(this);
@@ -47,16 +49,17 @@ class PollList extends React.Component<AllProps, IPollListState> {
     const { username, getStarredPollsAsync } = this.props;
     axios.get('/api/polls')
       .then((res) => {
-        this.setState({
-          polls: [...res.data.polls],
-          isLoading: false,
-        });
-      })
-      .catch((error) => {
-        this.setState({
-          errorMessage: `Error ${error.response.status}: ${error.response.statusText}`,
-          isLoading: false,
-        });
+        if (res.data.success) {
+          this.setState({
+            polls: [...res.data.polls],
+            isLoading: false,
+          });
+        } else {
+          this.setState({
+            loadError: res.data.message,
+            isLoading: false,
+          });
+        }
       });
     if (username) {
       getStarredPollsAsync(username);
@@ -84,7 +87,7 @@ class PollList extends React.Component<AllProps, IPollListState> {
   render() {
     const { username, starredPolls } = this.props;
     const {
-      polls, isLoading, errorMessage, sortType,
+      polls, isLoading, errorMessage, sortType, loadError,
     } = this.state;
     const list = polls.map((poll) => (
       <div key={poll.id}>
@@ -100,6 +103,9 @@ class PollList extends React.Component<AllProps, IPollListState> {
     ));
     if (isLoading) {
       return <Loader size="default" />;
+    }
+    if (loadError) {
+      return <p>{loadError}</p>;
     }
     return (
       <div data-testid="test-polls-list" className="poll-list">

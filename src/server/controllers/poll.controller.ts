@@ -3,38 +3,73 @@ import PollService from '../services/poll.service';
 
 const PollController = {
   async getAll(req:Request, res:Response) {
-    return res.json({ polls: await PollService.getAll() });
+    try {
+      const polls = await PollService.getAll();
+      return res.json({ success: true, polls });
+    } catch (err) {
+      return res.json({ success: false, message: 'Could not retrieve polls!', error: err.message });
+    }
   },
   async get(req:Request, res:Response) {
-    const { id } = req.params;
-    return res.json({ poll: await PollService.get(id) });
+    try {
+      const { id } = req.params;
+      const poll = await PollService.get(id);
+      return res.json({ success: true, poll });
+    } catch (err) {
+      return res.json({ success: false, message: 'Could not retrieve poll information!', error: err.message });
+    }
   },
   async getUsers(req:Request, res:Response) {
-    const { username } = req.params;
-    return res.json({ polls: await PollService.getUsers(username) });
+    try {
+      const { username } = req.params;
+      const polls = await PollService.getUsers(username);
+      return res.json({ success: true, polls });
+    } catch (err) {
+      return res.json({ success: false, message: 'Could not retrieve polls!', error: err.message });
+    }
   },
   async insert(req:Request, res:Response) {
-    const {
-      name, question, options, createdBy,
-    } = req.body;
-    return res.json(
-      { redirect: true, id: await PollService.insert(name, question, options, createdBy) },
-    );
+    try {
+      const {
+        name, question, options, createdBy,
+      } = req.body;
+      const id = await PollService.insert(name, question, options, createdBy);
+      return res.json(
+        { success: true, id },
+      );
+    } catch (err) {
+      return res.json({ success: false, message: 'Could not create a poll!', error: err.message });
+    }
   },
   async delete(req:Request, res:Response) {
-    const { id } = req.params;
-    return res.send(await PollService.delete(id));
+    try {
+      const { id } = req.params;
+      await PollService.delete(id);
+      return res.json({ success: true, message: 'The poll has been successfully deleted!' });
+    } catch (err) {
+      return res.json({ success: false, message: 'Could not delete the poll!', error: err.message });
+    }
   },
   async update(req:Request, res:Response) {
-    const { id } = req.params;
-    const { option, options, votes } = req.body;
-    const updatedOptions = { ...options };
-    updatedOptions[option] = options[option] + 1;
-    return res.json({ poll: await PollService.update(id, updatedOptions, votes) });
+    try {
+      const { id } = req.params;
+      const { option, options, votes } = req.body;
+      const updatedOptions = { ...options };
+      updatedOptions[option] = options[option] + 1;
+      const poll = await PollService.update(id, updatedOptions, votes);
+      return res.json({ success: true, poll });
+    } catch (err) {
+      return res.json({ success: false, message: 'Poll could not be updated!', error: err.message });
+    }
   },
   async getStarred(req:Request, res:Response) {
-    const { listOfIds } = req.body;
-    return res.json({ polls: await PollService.getStarred(listOfIds) });
+    try {
+      const { listOfIds } = req.body;
+      const polls = await PollService.getStarred(listOfIds);
+      return res.json({ success: true, polls });
+    } catch (err) {
+      return res.json({ success: false, message: 'Could not retrieve polls!', error: err.message });
+    }
   },
 };
 

@@ -133,7 +133,7 @@ class Register extends React.Component<AllProps, IRegisterState> {
         this.setState({
           errors: newErrors,
         }, () => {
-          if (res.data.redirect) {
+          if (res.data.success) {
             register(res.data.sessionUser);
           }
         });

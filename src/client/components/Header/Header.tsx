@@ -28,9 +28,11 @@ const Header:React.FunctionComponent<AllProps> = ({
 }) => {
   const handleLogout = () => {
     axios.get('/api/user/logout')
-      .then(() => {
-        logout();
-        history.push('/user/login');
+      .then((res) => {
+        if (res.data.success) {
+          logout();
+          history.push('/user/login');
+        }
       });
   };
   return (

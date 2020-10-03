@@ -38,7 +38,7 @@ const axiosMock = axios as jest.Mocked<typeof axios>;
 describe('<StarredPolls /> Component', () => {
   it('renders StarredPolls component', async () => {
     const polls = [{ _id: '1', votes: 1, name: 'test-name-one' }, { _id: '2', votes: 2, name: 'test-name-two' }];
-    axiosMock.post.mockResolvedValueOnce({ data: { polls } });
+    axiosMock.post.mockResolvedValueOnce({ data: { polls, success: true } });
     const history = createMemoryHistory();
     const { getByText, getByTestId } = renderWithRedux(
       <Router history={history}>
@@ -62,10 +62,13 @@ describe('<StarredPolls /> Component', () => {
 
   it('deletes poll and rerenders component', async () => {
     const polls = [{ _id: '1', votes: 1, name: 'test-name-one' }, { _id: '2', votes: 2, name: 'test-name-two' }];
+    const polls2 = [{ _id: '2', votes: 2, name: 'test-name-two' }];
     // first it renders all two polls, deletes one and then re-renders only one
-    axiosMock.post.mockResolvedValueOnce({ data: { polls } });
-    axiosMock.post.mockResolvedValueOnce({ data: {} });
+    axiosMock.post.mockResolvedValueOnce({ data: { polls, success: true } });
     axiosMock.put.mockResolvedValueOnce({ data: { success: true } });
+    axiosMock.get.mockResolvedValueOnce({ data: { user: [{ starredPolls: ['2'] }] } });
+    axiosMock.post.mockResolvedValueOnce({ data: { polls: polls2, success: true } });
+    // axiosMock.put.mockResolvedValueOnce({ data: { success: true } });
 
     const history = createMemoryHistory();
     const { getByText, getByTestId, queryByText } = renderWithRedux(

@@ -56,12 +56,11 @@ class PollListElem extends React.Component<AllProps, IPollElemState> {
       .then((res) => {
         if (res.data.success) {
           getStarredPollsAsync(username);
+        } else {
+          this.setState({
+            errorMessage: res.data.message,
+          });
         }
-      })
-      .catch((error) => {
-        this.setState({
-          errorMessage: `Error: ${error.response.status}: ${error.response.statusText}`,
-        });
       });
   }
 
@@ -75,12 +74,11 @@ class PollListElem extends React.Component<AllProps, IPollElemState> {
       .then((res) => {
         if (res.data.success) {
           getStarredPollsAsync(username);
+        } else {
+          this.setState({
+            errorMessage: res.data.message,
+          });
         }
-      })
-      .catch((error) => {
-        this.setState({
-          errorMessage: `Error: ${error.response.status}: ${error.response.statusText}`,
-        });
       });
   }
 
