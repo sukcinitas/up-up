@@ -12,4 +12,4 @@ router.route('/login').get(UserController.checkIfLoggedIn);
 router.route('/login').post(UserController.authenticate);
 router.route('/register').post(UserController.register);
 
-module.exports = router;
+export default router;

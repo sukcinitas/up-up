@@ -1,9 +1,7 @@
+import * as passport from 'passport';
+import { compareSync } from 'bcryptjs';
+import { Strategy as LocalStrategy } from 'passport-local';
 import User from './models/user.model';
-
-const { compareSync } = require('bcryptjs');
-
-import passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
 
 passport.use(new LocalStrategy(async (username, password, done) => {
   try {

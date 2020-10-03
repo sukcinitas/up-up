@@ -1,20 +1,22 @@
 /* eslint-disable no-console */
-import * as passport from 'passport';
-import path = require('path');
+import * as passport from 'passport'; // .env file must be at root
+import * as express from 'express';
+import * as cors from 'cors';
+import * as mongoose from 'mongoose';
+import * as session from 'express-session';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as path from 'path';
+import * as connectMongo from 'connect-mongo';
+import * as dotenv from 'dotenv';
+import userRouter from './routes/user.route';
+import pollRouter from './routes/poll.route';
 
-require('dotenv').config(); // .env file must be at root
-const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
-const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
-
-const userRouter = require('./routes/user.route');
-const pollRouter = require('./routes/poll.route');
+dotenv.config();
+const MongoStore = connectMongo(session);
 
 (async () => {
   try {
-    mongoose.Promise = global.Promise;
+    // mongoose.Promise = global.Promise;
     mongoose.set('useFindAndModify', false);
 
     const app = express();
@@ -32,7 +34,7 @@ const pollRouter = require('./routes/poll.route');
         sameSite: false,
         secure: process.env.NODE_ENV === 'prod',
         maxAge: 86400000,
-        expires: false, // after closing the browser, session ends
+        // expires: false, // after closing the browser, session ends
       },
     }));
 
@@ -61,11 +63,11 @@ const pollRouter = require('./routes/poll.route');
 
     app.use(express.static('dist'));
     app.use((req, res, next) => {
-      res.header('Access-Control-Allow-Credentials', true);
+      res.header('Access-Control-Allow-Credentials', 'true');
       res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
       res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
       res.header('Access-Control-Allow-Method', 'GET, POST, PUT, PATCH, POST, DELETE, HEAD, OPTIONS');
-      res.header('Access-Control-Max-Age', 86400);
+      res.header('Access-Control-Max-Age', '86400');
       next();
     });
 

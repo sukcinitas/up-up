@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
+import * as passport from 'passport';
 import User, { IUser } from '../models/user.model';
 import UserService from '../services/user.service';
-import passport = require('passport');
 
 require('../passport.config');
 
