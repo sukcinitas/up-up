@@ -48,8 +48,8 @@ describe('<CreatePollForm /> Component', () => {
     expect(getByText(/Poll question\/statement/i).textContent).toBe('Poll question/statement');
     expect(getByText(/Poll options/i).textContent).toBe('Poll options');
     expect(getByText(/Submit/i).textContent).toBe('Submit');
-    expect((getByLabelText('option1') as HTMLInputElement).value).toBe('');
-    expect((getByLabelText('option2') as HTMLInputElement).value).toBe('');
+    expect((getByLabelText('0') as HTMLInputElement).value).toBe('');
+    expect((getByLabelText('1') as HTMLInputElement).value).toBe('');
   });
 
   it('adds options on click', () => {
@@ -63,10 +63,10 @@ describe('<CreatePollForm /> Component', () => {
       },
     );
     fireEvent.click(getByTestId('plus'));
-    expect((getByLabelText('option3') as HTMLInputElement).value).toBe('');
+    expect((getByLabelText('2') as HTMLInputElement).value).toBe('');
 
     fireEvent.click(getByTestId('plus'));
-    expect((getByLabelText('option4') as HTMLInputElement).value).toBe('');
+    expect((getByLabelText('3') as HTMLInputElement).value).toBe('');
   });
 
   it('can input all values', () => {
@@ -88,17 +88,17 @@ describe('<CreatePollForm /> Component', () => {
     fireEvent.change(questionInput, { target: { value: 'Test question' } });
     expect(questionInput.value).toBe('Test question');
 
-    const option1Input = getByLabelText('option1') as HTMLInputElement;
+    const option1Input = getByLabelText('0') as HTMLInputElement;
     fireEvent.change(option1Input, { target: { value: 'One' } });
     expect(option1Input.value).toBe('One');
 
-    const option2Input = getByLabelText('option2') as HTMLInputElement;
+    const option2Input = getByLabelText('1') as HTMLInputElement;
     fireEvent.change(option2Input, { target: { value: 'Two' } });
     expect(option2Input.value).toBe('Two');
 
     fireEvent.click(getByTestId('plus'));
-    expect((getByLabelText('option3') as HTMLInputElement).value).toBe('');
-    const option3Input = getByLabelText('option3') as HTMLInputElement;
+    expect((getByLabelText('2') as HTMLInputElement).value).toBe('');
+    const option3Input = getByLabelText('2') as HTMLInputElement;
     fireEvent.change(option3Input, { target: { value: 'Three' } });
     expect(option3Input.value).toBe('Three');
   });

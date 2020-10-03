@@ -159,6 +159,10 @@ $orange: rgb(255, 84, 31);
 
 /*FORMS*///////////////////////////////////////////////////////////////////////////
 
+.wrapper {
+  position: relative;
+}
+
 .form {
   font-family: $font-notes;
   background-color: white;
@@ -195,6 +199,11 @@ $orange: rgb(255, 84, 31);
       background-color: transparent; 
       color: #ad6236;
       padding: 4px 0;
+
+      &--poll-form {
+        @extend .form__input;
+        width: 100%;
+      }
   }
 
   &__input:invalid {
@@ -244,6 +253,17 @@ $orange: rgb(255, 84, 31);
 
   &--user-information {
     padding: 30px 80px 40px;
+  }
+
+  &__minus {
+    position: absolute;
+    right: -20px;
+    display: inline;
+    background-color: transparent;
+    border: none;
+    &:hover {
+      cursor: pointer;
+    }
   }
 
 }

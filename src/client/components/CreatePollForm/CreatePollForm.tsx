@@ -19,12 +19,9 @@ type AllProps = CreatePollFormRouteProps & ICreatePollFormStateProps;
 interface ICreatePollFormState {
   name:string,
   question:string,
-  optionCount:number,
-  options:Array<number>,
-  option1:string,
-  option2:string,
+  values:Array<string>,
   errorMessage:string,
-  [index: string]:any, // / ?
+  [index: string]:any,
 }
 
 class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
@@ -35,15 +32,14 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
     this.state = {
       name: '',
       question: '',
-      optionCount: 2,
-      options: [1, 2],
-      option1: '',
-      option2: '',
+      values: ['', ''],
       errorMessage: '',
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleOptionsChange = this.handleOptionsChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.addOption = this.addOption.bind(this);
+    this.removeOption = this.removeOption.bind(this);
   }
 
   handleChange(e:React.ChangeEvent<HTMLInputElement>) {
@@ -52,31 +48,39 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
     });
   }
 
+  handleOptionsChange(idx, e:React.ChangeEvent<HTMLInputElement>) {
+    const { values } = this.state;
+    values[idx] = e.target.value;
+    this.setState({
+      values,
+    });
+  }
+
   handleSubmit(e:React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     const { history, username } = this.props;
     const {
-      options, name, question, option1, option2,
+      name, question, values,
     } = this.state;
-    if (!name || !question || !option1 || !option2) {
+    if (!name || !question || values.some((value) => value === '') || values.length < 2) {
       this.setState({
-        errorMessage: 'Poll name, question/statement and at least two options are required for submission!',
+        errorMessage: 'Poll name, question/statement and at least two options are required for submission! All fields must be filled in!',
+      });
+      return;
+    }
+    if ((new Set(values)).size !== values.length) {
+      this.setState({
+        errorMessage: 'Poll options must be unique!',
       });
       return;
     }
     const optionsList:{[index: string]:number} = {};
-    options.forEach((option) => {
-      if (this.state[`option${option}`] === '') {
+    values.forEach((value, i) => {
+      if (this.state.values[i] === '') {
         return;
       }
-      optionsList[this.state[`option${option}`]] = 0;
+      optionsList[value] = 0;
     });
-    if ((Object.keys(optionsList)).length < 2) {
-      this.setState({
-        errorMessage: 'Options must be different!',
-      });
-      return;
-    }
     const poll = {
       name,
       question,
@@ -97,29 +101,41 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
 
   addOption(e:React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    const { optionCount } = this.state;
-    const optionName = `option${optionCount + 1}`;
     this.setState((prevState) => ({
-      optionCount: prevState.optionCount + 1,
-      options: [...prevState.options, prevState.optionCount + 1],
-      [optionName]: '',
+      values: [...prevState.values, ''],
+    }));
+  }
+
+  removeOption(idx) {
+    this.setState((prevState) => ({
+      values: [...prevState.values.slice(0, idx), ...prevState.values.slice(idx + 1)],
     }));
   }
 
   render() {
     const {
-      name, question, options, errorMessage,
+      name, question, values, errorMessage,
     } = this.state;
-    const optionsList = options.map((item) => (
-      <input
-        key={`option${item}`}
-        aria-label={`option${item}`}
-        className="form__input"
-        type="text"
-        name={`option${item}`}
-        onChange={this.handleChange}
-        value={this.state[`option${item}`]}
-      />
+    const optionsList = values.map((item, idx) => (
+      <div className="wrapper">
+        <input
+          // eslint-disable-next-line react/no-array-index-key
+          key={idx}
+          aria-label={`${idx}`}
+          className="form__input form__input--poll-form"
+          type="text"
+          name={`${idx}`}
+          onChange={(e) => this.handleOptionsChange(idx, e)}
+          value={item || ''}
+        />
+        <button
+          type="button"
+          onClick={() => this.removeOption(idx)}
+          className="form__minus"
+        >
+          <FontAwesomeIcon icon={['fas', 'minus']} />
+        </button>
+      </div>
     ));
     return (
       <form className="form create-poll-form">
