@@ -1,7 +1,7 @@
 import {
   Schema, model, Document, Model,
 } from 'mongoose';
-import { hashSync } from 'bcryptjs';
+import { hashPassword } from '../passwordHashing';
 
 const userSchema:Schema = new Schema({
   username: {
@@ -37,9 +37,9 @@ export interface IUser extends Document{
   updatedAt?:Date,
 }
 // better not use arrow functions, because it would need binding
-userSchema.pre<IUser>('save', function hashPassword() {
+userSchema.pre<IUser>('save', function hash() {
   if (this.isModified('password')) {
-    this.password = hashSync(this.password, 10);
+    this.password = hashPassword(this.password);
   }
 });
 export interface IUserModel extends Model<IUser> {}

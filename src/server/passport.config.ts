@@ -1,6 +1,6 @@
 import * as passport from 'passport';
-import { compareSync } from 'bcryptjs';
 import { Strategy as LocalStrategy } from 'passport-local';
+import { comparePassword } from './passwordHashing';
 import User from './models/user.model';
 
 passport.use(new LocalStrategy(async (username, password, done) => {
@@ -9,7 +9,7 @@ passport.use(new LocalStrategy(async (username, password, done) => {
     if (!user) {
       return done(null, false, { message: 'Incorrect username.' });
     }
-    if (!compareSync(password, user.password)) {
+    if (!comparePassword(password, user.password)) {
       return done(null, false, { message: 'Incorrect password.' });
     }
     return done(null, user);

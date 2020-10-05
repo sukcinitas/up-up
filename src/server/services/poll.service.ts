@@ -73,6 +73,14 @@ const PollService = {
       throw Error(err.message);
     }
   },
+  async deleteMany(username) {
+    try {
+      await Poll.deleteMany({ createdBy: username });
+      return;
+    } catch (err) {
+      throw Error(err.message);
+    }
+  },
   async update(id, updatedOptions, votes) {
     try {
       const poll = await Poll.findByIdAndUpdate(id,

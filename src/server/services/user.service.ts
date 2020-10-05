@@ -27,7 +27,7 @@ const UserService = {
   },
   async getOneUserByEmail(email) {
     try {
-      const user = await User.findOne({ email });
+      const user = await User.findOne({ email }, '-password');
       return user;
     } catch (err) {
       throw Error(err.message);

@@ -1,24 +1,15 @@
 import { Request, Response } from 'express';
 import * as passport from 'passport';
 import User, { IUser } from '../models/user.model';
+import PollService from '../services/poll.service';
 import UserService from '../services/user.service';
-
-require('../passport.config');
-
-const { compareSync } = require('bcryptjs');
+import { comparePassword } from '../passwordHashing';
+import '../passport.config';
 
 const sessionizeUser = (user) => ({
   userId: user.id,
   username: user.username,
 });
-
-interface LoginRequest extends Request {
-  message: any;
-}
-type SessionRequest = Request & {
-  session: Express.Session;
-  sessionID: string;
-};
 
 const UserController = {
   async getUser(req:Request, res:Response) {
@@ -32,7 +23,8 @@ const UserController = {
   },
   async deleteUser(req:Request, res:Response) {
     try {
-      const { id } = req.body;
+      const { id, username } = req.body;
+      await PollService.deleteMany(username);
       await UserService.deleteUser(id);
       req.logout();
       return res.json({ success: true, message: 'User has been successfully deleted!' });
@@ -51,7 +43,7 @@ const UserController = {
           return res.json({ success: false, message: 'This e-mail is already in use! Try again!' });
         }
         const user = await UserService.getOneUserById(id);
-        if (user && !compareSync(password, user.password)) {
+        if (user && !comparePassword(password, user.password)) {
           return res.json({ success: false, message: 'Password is incorrect! Try again!' });
         }
         await UserService.updateUserEmail(id, email);
@@ -59,7 +51,7 @@ const UserController = {
       } if (parameter === 'password') {
         const { username, oldpassword, newpassword } = req.body;
         const user = await UserService.getOneUserByUsername(username);
-        if (user && compareSync(oldpassword, user.password)) {
+        if (user && comparePassword(oldpassword, user.password)) {
           user.password = newpassword;
           await user.save(); // to hash password in pre-save
           return res.json({ success: true, message: 'Your password has been successfully updated!' });
@@ -88,7 +80,7 @@ const UserController = {
       return res.json({ success: false, message: 'Could not check if user is logged in!', error: err.message });
     }
   },
-  authenticate(req:LoginRequest, res:Response, next) {
+  authenticate(req:Request, res:Response, next) {
     try {
       // eslint-disable-next-line consistent-return
       return passport.authenticate('local', { session: true }, (err, user) => {
@@ -112,7 +104,7 @@ const UserController = {
       return res.json({ success: false, message: 'User could not be authenticated!' });
     }
   },
-  async register(req:SessionRequest, res:Response) {
+  async register(req:Request, res:Response) {
     try {
       const { username, email } = req.body.user;
       const user = await UserService.getOneUserByUsername(username);

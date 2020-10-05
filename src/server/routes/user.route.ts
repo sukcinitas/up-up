@@ -1,6 +1,7 @@
+import * as express from 'express';
 import UserController from '../controllers/user.controller';
 
-const router = require('express').Router();
+const router = express.Router();
 
 router.route('/profile/:username').get(UserController.getUser);
 router.route('/profile').delete(UserController.deleteUser);

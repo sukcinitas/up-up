@@ -1,6 +1,7 @@
+import * as express from 'express';
 import PollController from '../controllers/poll.controller';
 
-const router = require('express').Router();
+const router = express.Router();
 
 router.route('/').get(PollController.getAll);
 router.route('/:id').get(PollController.get);

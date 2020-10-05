@@ -43,4 +43,4 @@ Check the app [here](https://still-bayou-60170.herokuapp.com) (it takes ~ 10 sec
 - As a logged-in user, I can create a poll by providing a poll name, a poll statement/question and at least two options. The number of options can be increased or reduced.
 - As a logged-in user, I can delete the posts I have created either in profile page or specific poll page.
 - As a logged-in user, I can save posts I like. A list of saved polls can be accessed in a profile page.
-- As a logged-in user, I have an access to my profile page. In profile page I can change my user information (password, email) or delete user account entirely. I can see list of polls I have created, and a list of polls I have saved.
+- As a logged-in user, I have an access to my profile page. In profile page I can change my user information (password, email) or delete user account entirely (user created polls are deleted as well). I can see list of polls I have created, and a list of polls I have saved.
