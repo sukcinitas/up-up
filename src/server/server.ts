@@ -40,7 +40,7 @@ const MongoStore = connectMongo(session);
 
     app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
     app.use(express.json()); // instead of bodyParser, since 4.16 Express; extended
-
+    app.set('trust proxy', 1);
     app.use(passport.initialize());
     app.use(passport.session());
 
