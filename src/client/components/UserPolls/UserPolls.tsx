@@ -52,6 +52,7 @@ class UserPolls extends React.Component<IUserPollsProps, IUserPollsState> {
           });
         } else {
           this.setState({
+            isLoading: false,
             errorMessage: res.data.message,
           });
         }
@@ -99,7 +100,7 @@ class UserPolls extends React.Component<IUserPollsProps, IUserPollsState> {
         <h2 className="heading user-polls__heading">Polls</h2>
         {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         <Link to="/user/create-poll" className="user-polls__btn--create">Create a poll</Link>
-        { isLoading ? <Loader size="big" /> : userPolls.length === 0
+        { isLoading ? <Loader size="big" /> : userPolls.length === 0 && !errorMessage
           ? <p className="user-polls__notes">You have not created any polls yet!</p>
           : polls}
       </section>

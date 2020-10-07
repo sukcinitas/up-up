@@ -20,7 +20,7 @@ const PollService = {
       ]);
       return polls;
     } catch (err) {
-      throw Error(err.message);
+      throw new Error(err.message);
     }
   },
   async get(id) {
@@ -28,7 +28,7 @@ const PollService = {
       const poll = await Poll.findById(id);
       return poll;
     } catch (err) {
-      throw Error(err.message);
+      throw new Error(err.message);
     }
   },
   async getUsers(username) {
@@ -46,7 +46,7 @@ const PollService = {
       ]);
       return polls;
     } catch (err) {
-      throw Error(err.message);
+      throw new Error(err.message);
     }
   },
   async insert(name, question, options, createdBy) {
@@ -62,7 +62,7 @@ const PollService = {
       // eslint-disable-next-line no-underscore-dangle
       return newPoll._id;
     } catch (err) {
-      throw Error(err.message);
+      throw new Error(err.message);
     }
   },
   async delete(id) {
@@ -70,7 +70,7 @@ const PollService = {
       await Poll.findByIdAndDelete(id);
       return;
     } catch (err) {
-      throw Error(err.message);
+      throw new Error(err.message);
     }
   },
   async deleteMany(username) {
@@ -78,7 +78,7 @@ const PollService = {
       await Poll.deleteMany({ createdBy: username });
       return;
     } catch (err) {
-      throw Error(err.message);
+      throw new Error(err.message);
     }
   },
   async update(id, updatedOptions, votes) {
@@ -87,7 +87,7 @@ const PollService = {
         { votes: votes + 1, options: updatedOptions, updatedAt: Date.now() }, { new: true });
       return poll;
     } catch (err) {
-      throw Error(err.message);
+      throw new Error(err.message);
     }
   },
   async getStarred(listOfIds) {
@@ -95,7 +95,7 @@ const PollService = {
       const polls = await Poll.find({ _id: { $in: listOfIds } });
       return polls;
     } catch (err) {
-      throw Error(err.message);
+      throw new Error(err.message);
     }
   },
 };

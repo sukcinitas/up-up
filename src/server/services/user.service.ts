@@ -6,7 +6,7 @@ const UserService = {
       const user = await User.find({ username }, '-password -createdAt -updatedAt -v');
       return user;
     } catch (err) {
-      throw Error(err.message);
+      throw new Error(err.message);
     }
   },
   async getOneUserByUsername(username) {
@@ -14,7 +14,7 @@ const UserService = {
       const user = await User.findOne({ username });
       return user;
     } catch (err) {
-      throw Error(err.message);
+      throw new Error(err.message);
     }
   },
   async getOneUserById(id) {
@@ -22,7 +22,7 @@ const UserService = {
       const user = await User.findOne({ _id: id });
       return user;
     } catch (err) {
-      throw Error(err.message);
+      throw new Error(err.message);
     }
   },
   async getOneUserByEmail(email) {
@@ -30,7 +30,7 @@ const UserService = {
       const user = await User.findOne({ email }, '-password');
       return user;
     } catch (err) {
-      throw Error(err.message);
+      throw new Error(err.message);
     }
   },
   async deleteUser(id) {
@@ -38,7 +38,7 @@ const UserService = {
       await User.findOneAndDelete({ _id: id });
       return 'User has been successfully deleted!';
     } catch (err) {
-      throw Error(err.message);
+      throw new Error(err.message);
     }
   },
   async updateUserEmail(id, email) {
@@ -46,7 +46,7 @@ const UserService = {
       await User.findByIdAndUpdate({ _id: id }, { email });
       return 'User has been successfully updated!';
     } catch (err) {
-      throw Error(err.message);
+      throw new Error(err.message);
     }
   },
   async addUserStarredPoll(id, pollId) {
@@ -54,7 +54,7 @@ const UserService = {
       await User.findByIdAndUpdate({ _id: id }, { $push: { starredPolls: pollId } });
       return 'User has been successfully updated!';
     } catch (err) {
-      throw Error(err.message);
+      throw new Error(err.message);
     }
   },
   async removeUserStarredPoll(id, pollId) {
@@ -62,7 +62,7 @@ const UserService = {
       await User.findByIdAndUpdate({ _id: id }, { $pull: { starredPolls: pollId } });
       return 'User has been successfully updated!';
     } catch (err) {
-      throw Error(err.message);
+      throw new Error(err.message);
     }
   },
 };
