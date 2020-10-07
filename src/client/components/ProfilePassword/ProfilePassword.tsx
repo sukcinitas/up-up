@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import axios from 'axios';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import checkValidity from '../../util/checkValidity';
 
 axios.defaults.withCredentials = true;
 
@@ -15,6 +16,7 @@ interface IProfilePasswordState {
   oldPassword:string,
   isChangingPassword:boolean,
   message:string,
+  changeErr:string,
 }
 
 class ProfilePassword extends React.Component<IProfilePasswordProps, IProfilePasswordState> {
@@ -27,6 +29,7 @@ class ProfilePassword extends React.Component<IProfilePasswordProps, IProfilePas
       oldPassword: '',
       isChangingPassword: false,
       message: '',
+      changeErr: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.showPasswordChange = this.showPasswordChange.bind(this);
@@ -37,7 +40,7 @@ class ProfilePassword extends React.Component<IProfilePasswordProps, IProfilePas
     if (e.currentTarget.name === 'newPassword') {
       this.setState({
         newPassword: e.currentTarget.value,
-        message: '',
+        changeErr: checkValidity.checkPassword(e.currentTarget.value),
       });
     }
     if (e.currentTarget.name === 'oldPassword') {
@@ -53,12 +56,16 @@ class ProfilePassword extends React.Component<IProfilePasswordProps, IProfilePas
     this.setState({
       isChangingPassword: !isChangingPassword,
       message: '',
+      changeErr: '',
     });
   }
 
   changePassword() {
     const { username, userId } = this.props;
-    const { oldPassword, newPassword } = this.state;
+    const { oldPassword, newPassword, changeErr } = this.state;
+    if (changeErr) {
+      return;
+    }
     axios.put('/api/user/profile', {
       parameter: 'password',
       id: userId,
@@ -66,16 +73,27 @@ class ProfilePassword extends React.Component<IProfilePasswordProps, IProfilePas
       oldpassword: oldPassword,
       newpassword: newPassword,
     }).then((res) => {
-      this.setState({
-        message: res.data.message,
-        isChangingPassword: res.data.message === 'Password is incorrect!',
-      });
+      if (res.data.success) {
+        this.setState({
+          message: res.data.message,
+          isChangingPassword: false,
+          changeErr: '',
+          newPassword: '',
+          oldPassword: '',
+        });
+      } else {
+        this.setState({
+          changeErr: res.data.message,
+          newPassword: '',
+          oldPassword: '',
+        });
+      }
     });
   }
 
   render() {
     const {
-      oldPassword, newPassword, message, isChangingPassword,
+      oldPassword, newPassword, message, isChangingPassword, changeErr,
     } = this.state;
     return (
       <div className="user-information__elem">
@@ -89,6 +107,7 @@ class ProfilePassword extends React.Component<IProfilePasswordProps, IProfilePas
               <label className="form__label">New password</label>
               <input type="password" data-testid="newPassword" value={newPassword} name="newPassword" onChange={this.handleChange} className="form__input" />
               <button type="button" onClick={this.changePassword} className="btn btn--submit">Change</button>
+              {changeErr && <ErrorMessage errorMessage={changeErr} />}
             </div>
           )
           : ''}

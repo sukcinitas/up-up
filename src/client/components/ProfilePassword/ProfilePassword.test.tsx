@@ -12,8 +12,8 @@ const axiosMock = axios as jest.Mocked<typeof axios>;
 
 describe('<ProfilePassword /> Component', () => {
   it('renders ProfilePassword component', async () => {
-    axiosMock.put.mockResolvedValueOnce({ data: { message: 'Password is incorrect!' } });
-    axiosMock.put.mockResolvedValueOnce({ data: { message: 'Your password has been successfully updated!' } });
+    axiosMock.put.mockResolvedValueOnce({ data: { success: false, message: 'Password is incorrect!' } });
+    axiosMock.put.mockResolvedValueOnce({ data: { success: true, message: 'Your password has been successfully updated!' } });
     const { getByText, getByTestId } = render(
       <ProfilePassword
         userId="1"
@@ -28,8 +28,8 @@ describe('<ProfilePassword /> Component', () => {
     expect(oldPassword.value).toBe('incorrectOldPassword');
 
     const newPassword = getByTestId('newPassword') as HTMLInputElement;
-    fireEvent.change(newPassword, { target: { value: 'newPass' } });
-    expect(newPassword.value).toBe('newPass');
+    fireEvent.change(newPassword, { target: { value: 'newPass123@' } });
+    expect(newPassword.value).toBe('newPass123@');
 
     fireEvent.click(getByText(/^Change$/));
     const message = await waitForElement(() => getByText('Password is incorrect!'));
@@ -37,6 +37,8 @@ describe('<ProfilePassword /> Component', () => {
 
     fireEvent.change(oldPassword, { target: { value: 'correctOldPassword' } });
     expect(oldPassword.value).toBe('correctOldPassword');
+    fireEvent.change(newPassword, { target: { value: 'newPass123@' } });
+    expect(newPassword.value).toBe('newPass123@');
 
     fireEvent.click(getByText(/^Change$/));
     const message2 = await waitForElement(() => getByText('Your password has been successfully updated!'));

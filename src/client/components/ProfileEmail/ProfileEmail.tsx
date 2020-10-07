@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import axios from 'axios';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import checkValidity from '../../util/checkValidity';
 
 axios.defaults.withCredentials = true;
 
@@ -17,6 +18,7 @@ interface IProfileEmailState {
   isChangingEmail:boolean,
   isLoading:boolean,
   errorMessage:string,
+  changeErr:string,
 }
 
 class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailState> {
@@ -31,6 +33,7 @@ class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailStat
       isChangingEmail: false,
       isLoading: true,
       errorMessage: '',
+      changeErr: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.showEmailChange = this.showEmailChange.bind(this);
@@ -51,6 +54,8 @@ class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailStat
           this.setState({
             email,
             isLoading: false,
+            newEmail: '',
+            password: '',
           });
         } else {
           this.setState({
@@ -66,6 +71,7 @@ class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailStat
     this.setState({
       isChangingEmail: !isChangingEmail,
       errorMessage: '',
+      changeErr: '',
     });
   }
 
@@ -73,37 +79,48 @@ class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailStat
     if (e.currentTarget.name === 'password') {
       this.setState({
         password: e.currentTarget.value,
-        errorMessage: '',
+        changeErr: '',
       });
     }
     if (e.currentTarget.name === 'newEmail') {
       this.setState({
         newEmail: e.currentTarget.value,
-        errorMessage: '',
+        changeErr: checkValidity.checkEmail(e.currentTarget.value),
       });
     }
   }
 
   changeEmail() {
     const { userId } = this.props;
-    const { isChangingEmail, newEmail, password } = this.state;
+    const {
+      isChangingEmail, newEmail, password, changeErr,
+    } = this.state;
+    if (changeErr) {
+      return;
+    }
     axios.put('/api/user/profile', {
       parameter: 'email',
       id: userId,
       email: newEmail,
       password,
     }).then((res) => {
-      this.getEmail();
-      this.setState({
-        errorMessage: res.data.message,
-        isChangingEmail: !isChangingEmail,
-      });
+      if (res.data.success) {
+        this.getEmail();
+        this.setState({
+          errorMessage: res.data.message,
+          isChangingEmail: !isChangingEmail,
+        });
+      } else {
+        this.setState({
+          changeErr: res.data.message,
+        });
+      }
     });
   }
 
   render() {
     const {
-      newEmail, email, isChangingEmail, isLoading, errorMessage, password,
+      newEmail, email, isChangingEmail, isLoading, errorMessage, password, changeErr,
     } = this.state;
     return (
       <div className="user-information__elem">
@@ -122,6 +139,7 @@ class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailStat
               <label className="form__label">Password</label>
               <input value={password} type="password" data-testid="password" name="password" onChange={this.handleChange} className="form__input" />
               <button type="button" onClick={this.changeEmail} className="btn btn--submit">Change</button>
+              {changeErr && <ErrorMessage errorMessage={changeErr} />}
             </div>
           )
           : ''}

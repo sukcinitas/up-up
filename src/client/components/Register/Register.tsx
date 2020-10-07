@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { receiveCurrentUser, ActionTypes, AppState } from '../../redux/actions';
+import checkValidity from '../../util/checkValidity';
 
 axios.defaults.withCredentials = true;
 
@@ -62,11 +63,10 @@ class Register extends React.Component<AllProps, IRegisterState> {
           : '';
         break;
       case 'email':
-        errors.emailErr = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(e.currentTarget.value)
-          ? '' : 'Email is not valid';
+        errors.emailErr = checkValidity.checkEmail(e.currentTarget.value);
         break;
       case 'password':
-        errors.passwordErr = e.currentTarget.value.length < 6 ? 'Password must be at least 6 characters long' : '';
+        errors.passwordErr = checkValidity.checkPassword(e.currentTarget.value);
         break;
       case 'confirmPassword':
         errors.passwordsMatch = password === e.currentTarget.value ? '' : 'Passwords should match';
@@ -189,6 +189,7 @@ class Register extends React.Component<AllProps, IRegisterState> {
           <label
             htmlFor="password"
             className="form__label"
+            title="'Password must be at least 10 characters and contain at least one uppercase letter, one lowercase letter, one number and one special character!'"
           >
             Password
           </label>
