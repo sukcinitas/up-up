@@ -35,7 +35,7 @@ const UserService = {
   },
   async deleteUser(id) {
     try {
-      await User.findByIdAndDelete(id);
+      await User.findOneAndDelete({ _id: id });
       return 'User has been successfully deleted!';
     } catch (err) {
       throw Error(err.message);

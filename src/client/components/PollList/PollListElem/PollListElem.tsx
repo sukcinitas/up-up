@@ -97,8 +97,7 @@ class PollListElem extends React.Component<AllProps, IPollElemState> {
     } = this.props;
     const { errorMessage } = this.state;
     return (
-      // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-      <div className="poll-list-elem" onClick={() => this.goToPoll(id)}>
+      <div role="button" tabIndex={0} className="poll-list-elem" onClick={() => this.goToPoll(id)}>
         <div className="poll-list-elem__heading">
           <h2>{name}</h2>
         </div>

@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import * as passport from 'passport';
 import User, { IUser } from '../models/user.model';
-import PollService from '../services/poll.service';
 import UserService from '../services/user.service';
 import { comparePassword } from '../passwordHashing';
 import '../passport.config';
@@ -23,8 +22,7 @@ const UserController = {
   },
   async deleteUser(req:Request, res:Response) {
     try {
-      const { id, username } = req.body;
-      await PollService.deleteMany(username);
+      const { id } = req.body;
       await UserService.deleteUser(id);
       req.logout();
       return res.json({ success: true, message: 'User has been successfully deleted!' });

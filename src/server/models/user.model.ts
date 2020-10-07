@@ -1,6 +1,9 @@
+/* eslint-disable no-underscore-dangle */
 import {
   Schema, model, Document, Model,
 } from 'mongoose';
+import PollService from '../services/poll.service';
+import UserService from '../services/user.service';
 import { hashPassword } from '../passwordHashing';
 
 const userSchema:Schema = new Schema({
@@ -35,11 +38,20 @@ export interface IUser extends Document{
   starredPolls:Array<string>
   createdAt?:Date,
   updatedAt?:Date,
+  getQuery:any,
 }
-// better not use arrow functions, because it would need binding
+
 userSchema.pre<IUser>('save', function hash() {
   if (this.isModified('password')) {
     this.password = hashPassword(this.password);
+  }
+});
+userSchema.pre<IUser>('findOneAndDelete', async function deleteUserPolls() {
+  try {
+    const user = await UserService.getOneUserById(this.getQuery()._id);
+    await PollService.deleteMany(user.username);
+  } catch (err) {
+    throw Error(err.message);
   }
 });
 export interface IUserModel extends Model<IUser> {}
