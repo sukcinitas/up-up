@@ -48,7 +48,7 @@ class Profile extends React.Component<AllProps, IProfileState> {
     this.setSection = this.setSection.bind(this);
   }
 
-  setSection(section) {
+  setSection(section:string):void {
     this.setState({
       section,
     });
@@ -77,7 +77,7 @@ class Profile extends React.Component<AllProps, IProfileState> {
       });
   }
 
-  toggleConfirmation(state) {
+  toggleConfirmation(state:string):void {
     if (state === 'close') {
       this.setState({
         isDeletionConfirmationVisible: false,

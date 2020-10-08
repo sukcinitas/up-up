@@ -1,23 +1,29 @@
 import * as React from 'react';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, Store } from 'redux';
 import { Provider } from 'react-redux';
 import {
   render, cleanup, waitForElement, fireEvent, wait,
 } from '@testing-library/react';
 import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
+import { createMemoryHistory, MemoryHistory } from 'history';
 import axios from 'axios';
 import thunk from 'redux-thunk';
+import { AppState } from '../../redux/actions';
 import reducer, { initialState } from '../../redux/reducers';
 import StarredPolls from './StarredPolls';
 
 function renderWithRedux(
-  ui,
+  ui:JSX.Element,
   {
     state = initialState,
     store = createStore(reducer, state, applyMiddleware(thunk)),
     route = '/user/profile/testUser1',
     history = createMemoryHistory({ initialEntries: [route] }),
+  }:{
+    state?:AppState,
+    store?:Store,
+    route?:string,
+    history?:MemoryHistory
   } = {},
 
 ) {
@@ -68,7 +74,6 @@ describe('<StarredPolls /> Component', () => {
     axiosMock.put.mockResolvedValueOnce({ data: { success: true } });
     axiosMock.get.mockResolvedValueOnce({ data: { user: [{ starredPolls: ['2'] }] } });
     axiosMock.post.mockResolvedValueOnce({ data: { polls: polls2, success: true } });
-    // axiosMock.put.mockResolvedValueOnce({ data: { success: true } });
 
     const history = createMemoryHistory();
     const { getByText, getByTestId, queryByText } = renderWithRedux(

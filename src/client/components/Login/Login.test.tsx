@@ -1,24 +1,30 @@
 import * as React from 'react';
 import { Route, Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
-import { createStore } from 'redux';
+import { createMemoryHistory, MemoryHistory } from 'history';
+import { createStore, Store } from 'redux';
 import { Provider } from 'react-redux';
 import {
   render, cleanup, fireEvent, waitForElement,
 } from '@testing-library/react';
 // import axiosMock from 'axios';
 import axios from 'axios';
+import { AppState } from '../../redux/actions';
 import reducer, { initialState } from '../../redux/reducers';
 
 import Login from './Login';
 
 function renderWithRedux(
-  ui,
+  ui:JSX.Element,
   {
     state = initialState,
     store = createStore(reducer, state),
     route = '/user/login',
     history = createMemoryHistory({ initialEntries: [route] }),
+  }:{
+    state?:AppState,
+    store?:Store,
+    route?:string,
+    history?:MemoryHistory
   } = {},
 
 ) {
@@ -40,7 +46,7 @@ describe('<Login /> Component', () => {
     const { getByText, getAllByText } = renderWithRedux(
       <Route path="/user/login">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props) => <Login {...props} />}
+        {(props:any) => <Login {...props} />}
       </Route>,
       {
         route: '/user/login',
@@ -58,7 +64,7 @@ describe('<Login /> Component', () => {
     const { getByLabelText } = renderWithRedux(
       <Route path="/user/login">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props) => <Login {...props} />}
+        {(props:any) => <Login {...props} />}
       </Route>,
       {
         route: '/user/login',
@@ -79,7 +85,7 @@ describe('<Login /> Component', () => {
     const { getByTestId, getByText } = renderWithRedux(
       <Route path="/user/login">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props) => <Login {...props} />}
+        {(props:any) => <Login {...props} />}
       </Route>,
       {
         route: '/user/login',

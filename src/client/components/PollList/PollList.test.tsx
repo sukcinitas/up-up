@@ -1,24 +1,30 @@
 import * as React from 'react';
 import { Route, Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
-import { createStore, applyMiddleware } from 'redux';
+import { createMemoryHistory, MemoryHistory } from 'history';
+import { createStore, applyMiddleware, Store } from 'redux';
 import { Provider } from 'react-redux';
 import {
   render, cleanup, waitForElement, fireEvent,
 } from '@testing-library/react';
 import axios from 'axios';
 import thunk from 'redux-thunk';
+import { AppState } from '../../redux/actions';
 import reducer, { initialState } from '../../redux/reducers';
 
 import PollList from './PollList';
 
 function renderWithRedux(
-  ui,
+  ui:JSX.Element,
   {
     state = initialState,
     store = createStore(reducer, state, applyMiddleware(thunk)),
     route = '/',
     history = createMemoryHistory({ initialEntries: [route] }),
+  }:{
+    state?:AppState,
+    store?:Store,
+    route?:string,
+    history?:MemoryHistory
   } = {},
 
 ) {
@@ -44,7 +50,6 @@ const polls = [{
   createdAt: '2020-01-21T12:45:03.180Z',
   updatedAt: '2020-02-14T09:39:26.151Z',
   id: '5e26f24f04f39d26e3cde70e',
-  starredPolls: [],
 },
 {
   _id: '5e31b8061907f3051baafd34',
@@ -54,7 +59,6 @@ const polls = [{
   createdAt: '2020-01-29T16:51:18.874Z',
   updatedAt: '2020-02-12T16:49:15.871Z',
   id: '5e31b8061907f3051baafd34',
-  starredPolls: [],
 }];
 
 describe('<PollList /> Component', () => {
@@ -63,7 +67,7 @@ describe('<PollList /> Component', () => {
     const { getByText, getByTestId } = renderWithRedux(
       <Route path="/">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props) => <PollList {...props} />}
+        {(props:any) => <PollList {...props} />}
       </Route>,
       {
         route: '/',
@@ -92,7 +96,7 @@ describe('<PollList /> Component', () => {
     const { getByText, getByTestId } = renderWithRedux(
       <Route path="/">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props) => <PollList {...props} />}
+        {(props:any) => <PollList {...props} />}
       </Route>,
       {
         route: '/',

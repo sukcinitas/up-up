@@ -21,9 +21,6 @@ describe('<UserPolls /> Component', () => {
         <UserPolls username="testUser1" />
       </Router>,
     );
-    // first render
-    // expect(getByText(/^You have not created any polls yet!/i).textContent)
-    // .toBe('You have not created any polls yet!');
     const loader = getByTestId('loader');
     expect(loader.textContent).toBe('');
     // render after time to get has passed

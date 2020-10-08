@@ -1,25 +1,30 @@
 import * as React from 'react';
 import { Route, Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
-import { createStore } from 'redux';
+import { createMemoryHistory, MemoryHistory } from 'history';
+import { createStore, Store } from 'redux';
 import { Provider } from 'react-redux';
 import {
   render, cleanup, waitForElement, fireEvent,
 } from '@testing-library/react';
 // import axiosMock from 'axios';
 import axios from 'axios';
+import { AppState } from '../../redux/actions';
 import reducer, { initialState } from '../../redux/reducers';
 import Profile from './Profile';
 
 function renderWithRedux(
-  ui,
+  ui:JSX.Element,
   {
     state = initialState,
     store = createStore(reducer, state),
     route = '/user/profile/testUser1',
     history = createMemoryHistory({ initialEntries: [route] }),
+  }:{
+    state?:AppState,
+    store?:Store,
+    route?:string,
+    history?:MemoryHistory
   } = {},
-
 ) {
   return {
     ...render(
@@ -42,7 +47,7 @@ describe('<Profile /> Component', () => {
     const { getByText, getByTestId } = renderWithRedux(
       <Route path="/user/profile/testUser1">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props) => <Profile {...props} />}
+        {(props:any) => <Profile {...props} />}
       </Route>,
       {
         route: '/user/profile/testUser1',

@@ -1,7 +1,14 @@
 import Poll, { IPoll } from '../models/poll.model';
 
 const PollService = {
-  async getAll() {
+  async getAll():Promise<Array<{
+    _id:string,
+    name:string,
+    votes:number,
+    createdBy:string,
+    updatedAt:Date,
+    id:string,
+  }>> {
     try {
       const polls = await Poll.aggregate([
         { $match: {} },
@@ -23,7 +30,16 @@ const PollService = {
       throw new Error(err.message);
     }
   },
-  async get(id) {
+  async get(id:string):Promise<{
+    _id:string,
+    name:string,
+    question:string,
+    votes:number,
+    options:{},
+    createdBy:string,
+    updatedAt:Date,
+    createdAt:Date,
+  }> {
     try {
       const poll = await Poll.findById(id);
       return poll;
@@ -31,7 +47,11 @@ const PollService = {
       throw new Error(err.message);
     }
   },
-  async getUsers(username) {
+  async getUsers(username:string):Promise<Array<{
+    name:string, 
+    votes: number, 
+    id:string,
+  }>> {
     try {
       const polls = await Poll.aggregate([
         { $match: { createdBy: username } },
@@ -49,7 +69,7 @@ const PollService = {
       throw new Error(err.message);
     }
   },
-  async insert(name, question, options, createdBy) {
+  async insert(name:string, question:string, options:{}, createdBy:string):Promise<string> {
     try {
       const newPoll:IPoll = new Poll({
         name,
@@ -59,13 +79,12 @@ const PollService = {
         createdBy,
       });
       await newPoll.save();
-      // eslint-disable-next-line no-underscore-dangle
       return newPoll._id;
     } catch (err) {
       throw new Error(err.message);
     }
   },
-  async delete(id) {
+  async delete(id:string):Promise<void> {
     try {
       await Poll.findByIdAndDelete(id);
       return;
@@ -73,7 +92,7 @@ const PollService = {
       throw new Error(err.message);
     }
   },
-  async deleteMany(username) {
+  async deleteMany(username:string):Promise<void> {
     try {
       await Poll.deleteMany({ createdBy: username });
       return;
@@ -81,16 +100,34 @@ const PollService = {
       throw new Error(err.message);
     }
   },
-  async update(id, updatedOptions, votes) {
+  async update(id:string, updatedOptions:{}, votes:number):Promise<{
+    _id:string,
+    name:string,
+    question:string,
+    votes:number,
+    options:{},
+    createdBy:string,
+    updatedAt:Date,
+    createdAt:Date,
+  }> {
     try {
       const poll = await Poll.findByIdAndUpdate(id,
-        { votes: votes + 1, options: updatedOptions, updatedAt: Date.now() }, { new: true });
+        { votes: votes + 1, options: updatedOptions, updatedAt: new Date(Date.now()) }, { new: true });
       return poll;
     } catch (err) {
       throw new Error(err.message);
     }
   },
-  async getStarred(listOfIds) {
+  async getStarred(listOfIds:[string]):Promise<Array<{
+    _id:string,
+    name:string,
+    question:string,
+    votes:number,
+    options:{},
+    createdBy:string,
+    updatedAt:Date,
+    createdAt:Date,
+  }>> {
     try {
       const polls = await Poll.find({ _id: { $in: listOfIds } });
       return polls;

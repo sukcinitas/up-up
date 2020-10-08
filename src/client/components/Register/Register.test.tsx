@@ -1,22 +1,28 @@
 import * as React from 'react';
 import { Route, Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
-import { createStore } from 'redux';
+import { createMemoryHistory, MemoryHistory } from 'history';
+import { createStore, Store } from 'redux';
 import { Provider } from 'react-redux';
 import {
   render, cleanup, fireEvent,
 } from '@testing-library/react';
+import { AppState } from '../../redux/actions';
 import reducer, { initialState } from '../../redux/reducers';
 
 import Register from './Register';
 
 function renderWithRedux(
-  ui,
+  ui:JSX.Element,
   {
     state = initialState,
     store = createStore(reducer, state),
     route = '/user/register',
     history = createMemoryHistory({ initialEntries: [route] }),
+  }:{
+    state?:AppState,
+    store?:Store,
+    route?:string,
+    history?:MemoryHistory
   } = {},
 ) {
   return {
@@ -37,7 +43,7 @@ describe('<Register /> Component', () => {
     const { getByText } = renderWithRedux(
       <Route path="/user/register">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props) => <Register {...props} />}
+        {(props:any) => <Register {...props} />}
       </Route>,
       {
         route: '/user/register',
@@ -56,7 +62,7 @@ describe('<Register /> Component', () => {
     const { getByLabelText } = renderWithRedux(
       <Route path="/user/register">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props) => <Register {...props} />}
+        {(props:any) => <Register {...props} />}
       </Route>,
       {
         route: '/user/register',
@@ -82,7 +88,7 @@ describe('<Register /> Component', () => {
     const { getByLabelText, getByText } = renderWithRedux(
       <Route path="/user/register">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props) => <Register {...props} />}
+        {(props:any) => <Register {...props} />}
       </Route>,
       {
         route: '/user/register',

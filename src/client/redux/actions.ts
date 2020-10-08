@@ -1,5 +1,6 @@
 // action type constants + action creators
 import axios from 'axios';
+import { Dispatch } from 'redux';
 
 export interface User {
   username:string,
@@ -43,7 +44,7 @@ export const getStarredPolls = (starredPolls:Array<string>):ActionTypes => ({
   type: GET_STARRED_POLLS,
   starredPolls,
 });
-export const getStarredPollsAsync = (username:string):any => (dispatch) => {
+export const getStarredPollsAsync = (username:string):any => (dispatch:Dispatch) => {
   axios.get(`/api/user/profile/${username}`)
     .then((res) => {
       dispatch(getStarredPolls([...res.data.user[0].starredPolls]));

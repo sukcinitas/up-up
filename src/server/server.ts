@@ -47,7 +47,7 @@ const MongoStore = connectMongo(session);
     if (process.env.NODE_ENV === 'development') {
       const whitelist = ['http://localhost:3000', 'http://localhost:8080'];
       const corsOptions = {
-        origin(origin, callback) {
+        origin(origin: string, callback: (arg0: Error, arg1?: boolean) => void) {
           if (whitelist.indexOf(origin) !== -1) {
             callback(null, true);
           } else {

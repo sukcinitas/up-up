@@ -3,7 +3,7 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import { comparePassword } from './passwordHashing';
 import User from './models/user.model';
 
-passport.use(new LocalStrategy(async (username, password, done) => {
+passport.use(new LocalStrategy(async (username:string, password:string, done) => {
   try {
     const user = await User.findOne({ username });
     if (!user) {

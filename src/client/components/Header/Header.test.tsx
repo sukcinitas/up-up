@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { Route, Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
-import { createStore } from 'redux';
+import { createMemoryHistory, MemoryHistory } from 'history';
+import { createStore, Store } from 'redux';
 import { Provider } from 'react-redux';
 import {
   render, cleanup, fireEvent, waitForElement,
 } from '@testing-library/react';
 import axios from 'axios';
+import { AppState } from '../../redux/actions';
 import reducer, { initialState } from '../../redux/reducers';
 
 import Header from './Header';
@@ -16,12 +17,17 @@ jest.mock('axios');
 const axiosMock = axios as jest.Mocked<typeof axios>;
 
 function renderWithRedux(
-  ui,
+  ui:JSX.Element,
   {
     state = initialState,
     store = createStore(reducer, state),
     route = '/',
     history = createMemoryHistory({ initialEntries: [route] }),
+  }:{
+    state?:AppState,
+    store?:Store,
+    route?:string,
+    history?:MemoryHistory
   } = {},
 
 ) {
@@ -41,7 +47,7 @@ describe('<Header /> Component', () => {
     const { getByText } = renderWithRedux(
       <Route path="/">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props) => <Header {...props} />}
+        {(props:any) => <Header {...props} />}
       </Route>,
       {
         route: '/',
@@ -57,7 +63,7 @@ describe('<Header /> Component', () => {
     const { getByText } = renderWithRedux(
       <Route path="/">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props) => <Header {...props} />}
+        {(props:any) => <Header {...props} />}
       </Route>,
       {
         route: '/',
@@ -71,11 +77,11 @@ describe('<Header /> Component', () => {
 
   it('logs user out', async () => {
     const user = { username: 'testUser1', userId: '1', starredPolls: ['id'] };
-    axiosMock.delete.mockResolvedValueOnce({});
+    axiosMock.get.mockResolvedValueOnce({ data: { success: true } });
     const { getByText } = renderWithRedux(
       <Route path="/">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props) => <Header {...props} />}
+        {(props:any) => <Header {...props} />}
       </Route>,
       {
         route: '/',

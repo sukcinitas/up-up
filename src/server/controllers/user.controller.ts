@@ -1,11 +1,17 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import * as passport from 'passport';
 import User, { IUser } from '../models/user.model';
 import UserService from '../services/user.service';
 import { comparePassword } from '../passwordHashing';
 import '../passport.config';
 
-const sessionizeUser = (user) => ({
+const sessionizeUser = (user:{
+  id?:string,
+  username?:string,
+  email?:string,
+  paassword?:string,
+  starredPolls?:Array<{}>
+}):{userId:string, username:string} => ({
   userId: user.id,
   username: user.username,
 });
@@ -78,7 +84,7 @@ const UserController = {
       return res.json({ success: false, message: 'Could not check if user is logged in!', error: err.message });
     }
   },
-  authenticate(req:Request, res:Response, next) {
+  authenticate(req:Request, res:Response, next:NextFunction) {
     try {
       // eslint-disable-next-line consistent-return
       return passport.authenticate('local', { session: true }, (err, user) => {
@@ -134,7 +140,7 @@ const UserController = {
       return res.json({ success: false, message: 'User could not be registered!', error: err.message });
     }
   },
-  async addUserStarredPoll(req, res) {
+  async addUserStarredPoll(req:Request, res:Response) {
     try {
       const { id, pollId } = req.body;
       await UserService.addUserStarredPoll(id, pollId);
@@ -143,7 +149,7 @@ const UserController = {
       return res.json({ success: false, message: 'Could not save the poll!', error: err.message });
     }
   },
-  async removeUserStarredPoll(req, res) {
+  async removeUserStarredPoll(req:Request, res:Response) {
     try {
       const { id, pollId } = req.body;
       await UserService.removeUserStarredPoll(id, pollId);

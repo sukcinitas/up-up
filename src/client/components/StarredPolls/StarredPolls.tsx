@@ -65,7 +65,7 @@ class StarredPolls extends React.Component<AllProps, IStarredPollsState> {
       });
   }
 
-  unStarAPoll(pollId) {
+  unStarAPoll(pollId:string):void {
     const {
       // eslint-disable-next-line no-shadow
       userId, username, getStarredPollsAsync,

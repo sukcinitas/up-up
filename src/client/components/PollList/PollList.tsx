@@ -69,7 +69,7 @@ class PollList extends React.Component<AllProps, IPollListState> {
     }
   }
 
-  sort(type) {
+  sort(type:string):void {
     const { polls } = this.state;
     if (type === 'newest') {
       const sortedPolls = polls.sort((a, b) => new Date(b.updatedAt).valueOf()
@@ -87,7 +87,7 @@ class PollList extends React.Component<AllProps, IPollListState> {
     }
   }
 
-  visitPoll(id) {
+  visitPoll(id:string):void {
     const { history } = this.props;
     history.push(`/polls/${id}`);
   }
@@ -106,7 +106,7 @@ class PollList extends React.Component<AllProps, IPollListState> {
           updatedAt={formatDate(poll.updatedAt)}
           id={poll.id}
           starred={starredPolls.indexOf(poll.id) > -1}
-          link={(id) => this.visitPoll(id)}
+          link={(id:string):void => this.visitPoll(id)}
         />
       </div>
     ));

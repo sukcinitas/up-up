@@ -21,15 +21,15 @@ const pollSchema:Schema = new Schema({
 }, {
   timestamps: true,
 });
-// not sure about timestamps
+
 export interface IPoll extends Document {
   name:string,
   question:string,
   options:{},
   votes:number,
   createdBy:string,
-  createdAt?:string,
-  // updatedAt?:string,
+  createdAt:Date,
+  updatedAt:Date,
 }
 pollSchema.pre<IPoll>('save', async function checkIfUserExists() {
   try {

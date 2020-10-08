@@ -48,7 +48,7 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
     });
   }
 
-  handleOptionsChange(idx, e:React.ChangeEvent<HTMLInputElement>) {
+  handleOptionsChange(idx:number, e:React.ChangeEvent<HTMLInputElement>) {
     const { values } = this.state;
     values[idx] = e.target.value;
     this.setState({
@@ -99,14 +99,14 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
       });
   }
 
-  addOption(e:React.MouseEvent<HTMLButtonElement>) {
+  addOption(e:React.MouseEvent<HTMLButtonElement>):void {
     e.preventDefault();
     this.setState((prevState) => ({
       values: [...prevState.values, ''],
     }));
   }
 
-  removeOption(idx) {
+  removeOption(idx:number):void {
     this.setState((prevState) => ({
       values: [...prevState.values.slice(0, idx), ...prevState.values.slice(idx + 1)],
     }));

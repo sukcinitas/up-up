@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import ReactRouterPropTypes from 'react-router-prop-types';
+// import ReactRouterPropTypes from 'react-router-prop-types';
 import axios from 'axios';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -61,7 +61,8 @@ const Header:React.FunctionComponent<AllProps> = ({
 
 Header.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
-  history: ReactRouterPropTypes.history.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  history: PropTypes.any.isRequired,
   logout: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
 };

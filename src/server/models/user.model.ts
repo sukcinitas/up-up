@@ -36,8 +36,8 @@ export interface IUser extends Document{
   email:string,
   password:string,
   starredPolls:Array<string>
-  createdAt?:Date,
-  updatedAt?:Date,
+  createdAt:Date,
+  updatedAt:Date,
   getQuery:any,
 }
 

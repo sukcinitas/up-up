@@ -1,19 +1,25 @@
 import * as React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
-import { createStore } from 'redux';
+import { createMemoryHistory, MemoryHistory } from 'history';
+import { createStore, Store } from 'redux';
 import { Provider } from 'react-redux';
+import { AppState } from '../../../redux/actions';
 import reducer, { initialState } from '../../../redux/reducers';
 import PollListElem from './PollListElem';
 
 function renderWithRedux(
-  ui,
+  ui:JSX.Element,
   {
     state = initialState,
     store = createStore(reducer, state),
     route = '/user/profile/testUser1',
     history = createMemoryHistory({ initialEntries: [route] }),
+  }:{
+    state?:AppState,
+    store?:Store,
+    route?:string,
+    history?:MemoryHistory
   } = {},
 
 ) {
@@ -49,6 +55,7 @@ describe('<PollListElem /> Component', () => {
           updatedAt={poll.updatedAt}
           id={poll.id}
           starred
+          link={():string => ''}
         />
       </Router>,
       { state: { userId: '1', username: 'testUser1', starredPolls: ['id'] } },

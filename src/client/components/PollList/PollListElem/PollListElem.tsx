@@ -48,7 +48,7 @@ class PollListElem extends React.Component<AllProps, IPollElemState> {
     this.goToPoll = this.goToPoll.bind(this);
   }
 
-  starAPoll(pollId, event) {
+  starAPoll(pollId:string, event:React.MouseEvent<HTMLButtonElement>):void {
     event.stopPropagation();
     // eslint-disable-next-line no-shadow
     const { userId, username, getStarredPollsAsync } = this.props;
@@ -67,7 +67,7 @@ class PollListElem extends React.Component<AllProps, IPollElemState> {
       });
   }
 
-  unStarAPoll(pollId, event) {
+  unStarAPoll(pollId:string, event:React.MouseEvent<HTMLButtonElement>):void {
     event.stopPropagation();
     // eslint-disable-next-line no-shadow
     const { userId, username, getStarredPollsAsync } = this.props;
@@ -86,7 +86,7 @@ class PollListElem extends React.Component<AllProps, IPollElemState> {
       });
   }
 
-  goToPoll(id) {
+  goToPoll(id:string):void {
     const { link } = this.props;
     link(id);
   }

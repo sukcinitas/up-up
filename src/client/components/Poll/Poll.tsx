@@ -92,7 +92,7 @@ class Poll extends React.Component<AllProps, IPollState> {
       });
   }
 
-  setSize(e) {
+  setSize(e:Event) {
     const width = barChartWidth().w;
     const leftMargin = barChartWidth().left;
     const { windowW } = barChartWidth();

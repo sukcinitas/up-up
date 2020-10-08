@@ -1,24 +1,30 @@
 import * as React from 'react';
 import { Route, Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
-import { createStore } from 'redux';
+import { createMemoryHistory, MemoryHistory } from 'history';
+import { createStore, Store } from 'redux';
 import { Provider } from 'react-redux';
 import {
   render, cleanup, waitForElement, fireEvent,
 } from '@testing-library/react';
 // import axiosMock from 'axios';
 import axios from 'axios';
+import { AppState } from '../../redux/actions';
 import reducer, { initialState } from '../../redux/reducers';
 
 import Poll from './Poll';
 
 function renderWithRedux(
-  ui,
+  ui:JSX.Element,
   {
     state = initialState,
     store = createStore(reducer, state),
     route = '/polls/1',
     history = createMemoryHistory({ initialEntries: [route] }),
+  }:{
+    state?:AppState,
+    store?:Store,
+    route?:string,
+    history?:MemoryHistory
   } = {},
 
 ) {
@@ -54,7 +60,7 @@ describe('<Poll /> Component', () => {
     const { getByText, getByTestId } = renderWithRedux(
       <Route path="/polls/1">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props) => <Poll {...props} />}
+        {(props:any) => <Poll {...props} />}
       </Route>,
       {
         route: '/polls/1',
@@ -81,7 +87,7 @@ describe('<Poll /> Component', () => {
     const { getByText, getByTestId } = renderWithRedux(
       <Route path="/polls/1">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props) => <Poll {...props} />}
+        {(props:any) => <Poll {...props} />}
       </Route>,
       {
         route: '/polls/1',
@@ -115,7 +121,7 @@ describe('<Poll /> Component', () => {
     const { getByText, getByTestId } = renderWithRedux(
       <Route path="/polls/1">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props) => <Poll {...props} />}
+        {(props:any) => <Poll {...props} />}
       </Route>,
       {
         route: '/polls/1',
