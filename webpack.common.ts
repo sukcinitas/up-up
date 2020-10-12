@@ -1,8 +1,8 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+import * as HtmlWebpackPlugin from 'html-webpack-plugin';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
-module.exports = {
-  entry: ['./src/client/index.tsx'],
+export default {
+  entry: './src/client/index.tsx',
   module: {
     rules: [
       {
@@ -12,17 +12,12 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loader: ["babel-loader", "eslint-loader"]
+        loader: ['babel-loader', 'eslint-loader'],
       },
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
         use: ['babel-loader'],
-      },
-      {
-        enforce: "pre",
-        test: /\.(js|jsx)$/,
-        loader: "source-map-loader"
       },
     ],
   },

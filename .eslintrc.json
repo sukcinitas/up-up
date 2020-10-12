@@ -34,7 +34,8 @@
             "ts": "never",
             "tsx": "never"
           }
-       ]
+       ],
+       "import/no-extraneous-dependencies": ["error", {"devDependencies": true}]
     },
     "plugins": ["jest", "react", "@typescript-eslint"],
     "env": {

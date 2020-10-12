@@ -1,37 +1,22 @@
-/*VARIABLES*/////////////////////////////////////////////////////////////////////////////////////////
-
-@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Bellota+Text&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700&display=swap');
-
-$font-btn: 'Roboto Condensed', sans-serif;
-$font-heading: 'Bellota Text', sans-serif;
-$font-notes: 'Merriweather Sans', sans-serif;
-
-$light-blue: rgba(255, 193, 196, 0.466);
-$light-blue-2: rgba(96, 96, 180, 0.822);
-$white: rgba(14, 11, 11, 0.979);
-$blue: rgba(45, 45, 97, 0.932);
-$yellow: rgb(255, 212, 22);
-$orange: rgb(255, 84, 31);
+@use 'variables';
 
 /*BUTTONS*/////////////////////////////////////////////////////////////////////////////////////////
 
 .btn {
-  font-family: $font-btn;
+  font-family: variables.$font-btn;
   font-size: 14px;
   padding: 7px 16px;
-  background-color: white;
-  border: 1px solid #21262c;
+  background-color: variables.$primary-light;
+  border: 1px solid variables.$primary-dark;
   border-radius: 2px;
-  color: #21262c;
+  color: variables.$primary-dark;
   text-transform: uppercase;
   text-decoration: none;
   margin: 3px;
   cursor: pointer;
   &--bold {
-      color: white;
-      background-color: #21262c;
+      color: variables.$primary-light;
+      background-color: variables.$primary-dark;
   }
 
   &--username {
@@ -39,14 +24,14 @@ $orange: rgb(255, 84, 31);
       text-transform: none;
       padding: 7px;
       font-weight: bold;
-      color: #ad6236;
+      color: variables.$secondary-bright;
   }
 
   &--submit {
       font-size: 14px;
       width: 100px;
-      background-color: #21262c;
-      color: white;
+      background-color: variables.$primary-dark;
+      color: variables.$primary-light;
       margin: 50px auto 20px;
   }
  
@@ -61,7 +46,7 @@ $orange: rgb(255, 84, 31);
     text-transform: uppercase;
     font-weight: 400;
     &--selected {
-      color: #ad6236;
+      color: variables.$secondary-bright;
       font-weight: 500;
     }
     &::before, &::after {
@@ -71,9 +56,9 @@ $orange: rgb(255, 84, 31);
 
   &--delete {
     display: block;
-    background-color: #f33;
-    color: white;
-    border: 1px solid #f33;
+    background-color: variables.$primary-danger;
+    color: variables.$primary-light;
+    border: 1px solid variables.$primary-danger;
     &--poll {
       margin: 2px auto;
     }
@@ -81,17 +66,17 @@ $orange: rgb(255, 84, 31);
 
   &--vote {
       padding: 8px;
-      color: #21262c;
+      color: variables.$primary-dark;
       border-radius: 2px;
       text-transform: none;
       margin: 0 auto;
       font-size: 16px;
-      font-family: 'Roboto Condensed', sans-serif;
+      font-family: variables.$font-btn;
       width: 300px;
   }
 
   &--selected {
-      background-color: rgba(253, 231, 37, 0.4);
+      background-color: variables.$selected;
   }
 
   &--plus {
@@ -104,9 +89,9 @@ $orange: rgb(255, 84, 31);
   &--create {
     display: inline-block;
     text-decoration: none;
-    border: 1px solid #ff8f4d;
-    color: #21262c;
-    background-color: #ff8f4d;
+    border: 1px solid variables.$primary-bright;
+    color: variables.$primary-dark;
+    background-color: variables.$primary-bright;
       @media only screen and (max-width: 500px) {
         padding: 7px 10px;
       } 
@@ -127,9 +112,9 @@ $orange: rgb(255, 84, 31);
 /*HEADINGS*////////////////////////////////////////////////////////////////////////////////////////
 
 .heading {
-  font-family: $font-heading;
+  font-family: variables.$font-heading;
   text-align: center;
-  color: #21262c;
+  color: variables.$primary-dark;
   font-size: 40px;
   margin-bottom: 2px;
   padding: 10px;
@@ -140,9 +125,9 @@ $orange: rgb(255, 84, 31);
 }
 
 .subheading {
-  font-family: $font-heading;
+  font-family: variables.$font-heading;
   text-align: center;
-  color: #21262c;
+  color: variables.$primary-dark;
   font-size: 25px;
   margin: 0;
   padding: 10px;
@@ -164,9 +149,9 @@ $orange: rgb(255, 84, 31);
 }
 
 .form {
-  font-family: $font-notes;
-  background-color: white;
-  border: 3px double #21262c;
+  font-family: variables.$font-primary;
+  background-color: variables.$primary-light;
+  border: 3px double variables.$primary-dark;
   border-radius: 2px;
   padding: 30px 80px 90px;
   max-width: 300px;
@@ -185,7 +170,7 @@ $orange: rgb(255, 84, 31);
   &__label {
       padding: 0px 0px;
       font-size: 11px;
-      color: #21262c;
+      color: variables.$primary-dark;
       margin-top: 30px;  
       font-weight: 600;
       text-transform: uppercase;
@@ -195,9 +180,9 @@ $orange: rgb(255, 84, 31);
       font-size: 15px;
       margin: 8px 0px;
       border: none;
-      border-bottom: 1.5px solid #21262c;  
+      border-bottom: 1.5px solid variables.$primary-dark;  
       background-color: transparent; 
-      color: #ad6236;
+      color: variables.$secondary-bright;
       padding: 4px 0;
 
       &--poll-form {
@@ -208,38 +193,37 @@ $orange: rgb(255, 84, 31);
 
   &__input:invalid {
     box-shadow: none;
-    -moz-box-shadow: none;
   }
 
   &__input:focus {
-      border-bottom: 1.5px solid #ad6236;
+      border-bottom: 1.5px solid variables.$secondary-bright;
       outline: none;
   }
 
   &__notes {
       padding: 0px 0px;
       font-size: 13px;
-      color: #f33;
+      color: variables.$primary-danger;
       display: inline-block;
 
       &--additional {
           margin: 0 auto;
-          color: #21262c;
+          color: variables.$primary-dark;
           font-size: 13px;
       }
 
       &--info {
         padding: 0px 70px;
-        color: #ad6236;
+        color: variables.$secondary-bright;
         font-size: 14px;
       }
   }
 
   &__link {
-      color: #ad6236;
+      color: variables.$secondary-bright;
 
       &:active, &:visited {
-          color: #ad6236;
+          color: variables.$secondary-bright;
       }
   }
 
@@ -285,7 +269,7 @@ $orange: rgb(255, 84, 31);
           padding: 0px 0px;
       }
       &__notes--profile {
-          padding: 0px 10px;
+          padding: 0px 0px;
       }
       &__input {
           margin: 8px 0px;      }

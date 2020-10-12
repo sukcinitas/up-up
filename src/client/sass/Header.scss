@@ -1,3 +1,4 @@
+@use 'variables';
 
 .header {
   display: flex;
@@ -8,14 +9,11 @@
 
     &__heading {
         margin: 0;
-        padding: 0;
-        text-decoration: none;
-        font-family: "Merriweather Sans", sans-serif;
+        font-family: variables.$font-primary;
         font-size: 40px;
-        font-weight: 700;
     }
     &__link {
         text-decoration: none;
-        color: #21262c;
+        color: variables.$primary-dark;
     }
 }
