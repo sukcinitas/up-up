@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import { receiveCurrentUser, ActionTypes, AppState } from '../../redux/actions';
 import checkValidity from '../../util/checkValidity';
 
@@ -21,6 +22,7 @@ interface IRegisterState {
   email:string,
   password:string,
   confirmPassword:string,
+  errorMessage:string,
   errors:{
     usernameErr:string,
     emailErr:string,
@@ -41,6 +43,7 @@ class Register extends React.Component<AllProps, IRegisterState> {
       email: '',
       password: '',
       confirmPassword: '',
+      errorMessage: '',
       errors: {
         usernameErr: '',
         emailErr: '',
@@ -59,7 +62,7 @@ class Register extends React.Component<AllProps, IRegisterState> {
     switch (e.currentTarget.name) {
       case 'username':
         errors.usernameErr = e.currentTarget.value.length < 5 || e.currentTarget.value.length > 30
-          ? 'Username must be 5-30 characters long'
+          ? 'Username must be 5-30 characters long!'
           : '';
         break;
       case 'email':
@@ -69,7 +72,7 @@ class Register extends React.Component<AllProps, IRegisterState> {
         errors.passwordErr = checkValidity.checkPassword(e.currentTarget.value);
         break;
       case 'confirmPassword':
-        errors.passwordsMatch = password === e.currentTarget.value ? '' : 'Passwords should match';
+        errors.passwordsMatch = password === e.currentTarget.value ? '' : 'Passwords should match!';
         break;
       default: return;
     }
@@ -137,17 +140,22 @@ class Register extends React.Component<AllProps, IRegisterState> {
             register(res.data.sessionUser);
           }
         });
+      })
+      .catch((err) => {
+        this.setState({
+          errorMessage: err.response.data.message || `${err.response.status}: ${err.response.statusText}`,
+        });
       });
   }
 
   render() {
-    const { errors } = this.state;
+    const { errors, errorMessage } = this.state;
     const {
       usernameErr, emailErr, passwordErr, passwordsMatch, usernameTaken, emailTaken,
     } = errors;
     return (
       <div>
-
+        {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         <form className="form">
 
           <h1 className="heading form__heading">Register</h1>

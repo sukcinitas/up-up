@@ -69,11 +69,12 @@ class Profile extends React.Component<AllProps, IProfileState> {
               history.push('/');
             }, 1000);
           });
-        } else {
-          this.setState({
-            errorMessage: res.data.message,
-          });
         }
+      })
+      .catch((err) => {
+        this.setState({
+          errorMessage: err.response.data.message || `${err.response.status}: ${err.response.statusText}`,
+        });
       });
   }
 

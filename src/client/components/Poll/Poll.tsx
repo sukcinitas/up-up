@@ -83,12 +83,13 @@ class Poll extends React.Component<AllProps, IPollState> {
               poll: { ...updatedPoll },
             });
           });
-        } else {
-          this.setState({
-            loadError: res.data.message,
-            isLoading: false,
-          });
         }
+      })
+      .catch((err) => {
+        this.setState({
+          loadError: err.response.data.message || `${err.response.status}: ${err.response.statusText}`,
+          isLoading: false,
+        });
       });
   }
 
@@ -130,11 +131,12 @@ class Poll extends React.Component<AllProps, IPollState> {
             });
             selectedOption.classList.add('btn--selected');
           });
-        } else {
-          this.setState({
-            errorMessage: res.data.message,
-          });
         }
+      })
+      .catch((err) => {
+        this.setState({
+          errorMessage: err.response.data.message || `${err.response.status}: ${err.response.statusText}`,
+        });
       });
   }
 
@@ -144,11 +146,12 @@ class Poll extends React.Component<AllProps, IPollState> {
       .then((res) => {
         if (res.data.success) {
           history.push('/');
-        } else {
-          this.setState({
-            errorMessage: res.data.message,
-          });
         }
+      })
+      .catch((err) => {
+        this.setState({
+          errorMessage: err.response.data.message || `${err.response.status}: ${err.response.statusText}`,
+        });
       });
   }
 

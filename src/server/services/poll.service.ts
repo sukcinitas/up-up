@@ -9,7 +9,6 @@ const PollService = {
     updatedAt:Date,
     id:string,
   }>> {
-    try {
       const polls = await Poll.aggregate([
         { $match: {} },
         {
@@ -26,9 +25,6 @@ const PollService = {
         },
       ]);
       return polls;
-    } catch (err) {
-      throw new Error(err.message);
-    }
   },
   async get(id:string):Promise<{
     _id:string,
@@ -40,19 +36,14 @@ const PollService = {
     updatedAt:Date,
     createdAt:Date,
   }> {
-    try {
-      const poll = await Poll.findById(id);
+      const poll = await Poll.findById(id).exec();
       return poll;
-    } catch (err) {
-      throw new Error(err.message);
-    }
   },
   async getUsers(username:string):Promise<Array<{
     name:string, 
     votes: number, 
     id:string,
   }>> {
-    try {
       const polls = await Poll.aggregate([
         { $match: { createdBy: username } },
         {
@@ -65,12 +56,8 @@ const PollService = {
         },
       ]);
       return polls;
-    } catch (err) {
-      throw new Error(err.message);
-    }
   },
   async insert(name:string, question:string, options:{}, createdBy:string):Promise<string> {
-    try {
       const newPoll:IPoll = new Poll({
         name,
         question,
@@ -80,25 +67,12 @@ const PollService = {
       });
       await newPoll.save();
       return newPoll._id;
-    } catch (err) {
-      throw new Error(err.message);
-    }
   },
   async delete(id:string):Promise<void> {
-    try {
-      await Poll.findByIdAndDelete(id);
-      return;
-    } catch (err) {
-      throw new Error(err.message);
-    }
+      await Poll.findByIdAndDelete(id).exec();
   },
   async deleteMany(username:string):Promise<void> {
-    try {
-      await Poll.deleteMany({ createdBy: username });
-      return;
-    } catch (err) {
-      throw new Error(err.message);
-    }
+      await Poll.deleteMany({ createdBy: username }).exec();
   },
   async update(id:string, updatedOptions:{}, votes:number):Promise<{
     _id:string,
@@ -110,13 +84,9 @@ const PollService = {
     updatedAt:Date,
     createdAt:Date,
   }> {
-    try {
       const poll = await Poll.findByIdAndUpdate(id,
-        { votes: votes + 1, options: updatedOptions, updatedAt: new Date(Date.now()) }, { new: true });
+        { votes: votes + 1, options: updatedOptions, updatedAt: new Date(Date.now()) }, { new: true }).exec();
       return poll;
-    } catch (err) {
-      throw new Error(err.message);
-    }
   },
   async getStarred(listOfIds:[string]):Promise<Array<{
     _id:string,
@@ -128,12 +98,8 @@ const PollService = {
     updatedAt:Date,
     createdAt:Date,
   }>> {
-    try {
-      const polls = await Poll.find({ _id: { $in: listOfIds } });
+      const polls = await Poll.find({ _id: { $in: listOfIds } }).exec();
       return polls;
-    } catch (err) {
-      throw new Error(err.message);
-    }
   },
 };
 

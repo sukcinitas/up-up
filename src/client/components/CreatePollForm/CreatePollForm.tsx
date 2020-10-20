@@ -91,11 +91,12 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
       .then((res) => {
         if (res.data.success) {
           history.push(`/polls/${res.data.id}`);
-        } else {
-          this.setState({
-            errorMessage: res.data.message,
-          });
         }
+      })
+      .catch((err) => {
+        this.setState({
+          errorMessage: err.response.data.message || `${err.response.status}: ${err.response.statusText}`,
+        });
       });
   }
 

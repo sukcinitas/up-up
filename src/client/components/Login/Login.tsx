@@ -63,6 +63,11 @@ class Login extends React.Component<AllProps, ILoginState> {
             errorMessage: res.data.message,
           });
         }
+      })
+      .catch((err) => {
+        this.setState({
+          errorMessage: err.response.data.message || `${err.response.status}: ${err.response.statusText}`,
+        });
       });
   }
 

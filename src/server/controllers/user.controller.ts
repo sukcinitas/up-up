@@ -23,7 +23,7 @@ const UserController = {
       const user = await UserService.getUserByUsername(username);
       return res.json({ success: true, user });
     } catch (err) {
-      return res.json({ success: false, message: 'User retrieval failed!', error: err.message });
+      return res.status(500).json({ success: false, message: 'User retrieval failed!', error: err.message });
     }
   },
   async deleteUser(req:Request, res:Response) {
@@ -33,7 +33,7 @@ const UserController = {
       req.logout();
       return res.json({ success: true, message: 'User has been successfully deleted!' });
     } catch (err) {
-      return res.json({ success: false, message: 'User deletion failed!', error: err.message });
+      return res.status(500).json({ success: false, message: 'User deletion failed!', error: err.message });
     }
   },
   // eslint-disable-next-line consistent-return
@@ -60,10 +60,10 @@ const UserController = {
           await user.save(); // to hash password in pre-save
           return res.json({ success: true, message: 'Your password has been successfully updated!' });
         }
-        return res.json({ success: false, message: 'Password is incorrect!' });
+        return res.status(500).json({ success: false, message: 'Password is incorrect!' });
       }
     } catch (err) {
-      return res.json({ success: false, message: 'User update failed!', error: err.message });
+      return res.status(500).json({ success: false, message: 'User update failed!', error: err.message });
     }
   },
   async logout(req:Request, res:Response) {
@@ -71,7 +71,7 @@ const UserController = {
       await req.logout();
       return res.json({ success: true, message: 'User has successfully loged out!' });
     } catch (err) {
-      return res.json({ success: false, message: 'Logout failed!', error: err.message });
+      return res.status(500).json({ success: false, message: 'Logout failed!', error: err.message });
     }
   },
   checkIfLoggedIn(req:Request, res:Response) {
@@ -81,7 +81,7 @@ const UserController = {
       }
       return res.json({ success: true, user: sessionizeUser(req.user) });
     } catch (err) {
-      return res.json({ success: false, message: 'Could not check if user is logged in!', error: err.message });
+      return res.status(500).json({ success: false, message: 'Could not check if user is logged in!', error: err.message });
     }
   },
   authenticate(req:Request, res:Response, next:NextFunction) {
@@ -105,7 +105,7 @@ const UserController = {
         });
       })(req, res, next);
     } catch (err) {
-      return res.json({ success: false, message: 'User could not be authenticated!' });
+      return res.status(500).json({ success: false, message: 'User could not be authenticated!' });
     }
   },
   async register(req:Request, res:Response) {
@@ -116,7 +116,7 @@ const UserController = {
       if (user && user2) {
         return res.json({
           success: false,
-          message: 'User has successfully registered!',
+          message: 'User and email are both in use! Try again!',
           username_taken: true,
           email_taken: true,
         });
@@ -137,7 +137,7 @@ const UserController = {
       const sessionUser = sessionizeUser(newUser);
       return res.json({ success: true, sessionUser });
     } catch (err) {
-      return res.json({ success: false, message: 'User could not be registered!', error: err.message });
+      return res.status(500).json({ success: false, message: 'User could not be registered!', error: err.message });
     }
   },
   async addUserStarredPoll(req:Request, res:Response) {
@@ -146,7 +146,7 @@ const UserController = {
       await UserService.addUserStarredPoll(id, pollId);
       return res.json({ success: true, message: 'Poll has been successfully saved!' });
     } catch (err) {
-      return res.json({ success: false, message: 'Could not save the poll!', error: err.message });
+      return res.status(500).json({ success: false, message: 'Could not save the poll!', error: err.message });
     }
   },
   async removeUserStarredPoll(req:Request, res:Response) {
@@ -155,7 +155,7 @@ const UserController = {
       await UserService.removeUserStarredPoll(id, pollId);
       return res.json({ success: true, message: 'Poll has been successfully removed!' });
     } catch (err) {
-      return res.json({ success: false, message: 'Could not remove the poll from the saved list!', error: err.message });
+      return res.status(500).json({ success: false, message: 'Could not remove the poll from the saved list!', error: err.message });
     }
   },
 };

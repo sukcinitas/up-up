@@ -57,12 +57,13 @@ class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailStat
             newEmail: '',
             password: '',
           });
-        } else {
-          this.setState({
-            errorMessage: res.data.message,
-            isLoading: false,
-          });
         }
+      })
+      .catch((err) => {
+        this.setState({
+          errorMessage: err.response.data.message || `${err.response.status}: ${err.response.statusText}`,
+          isLoading: false,
+        });
       });
   }
 
@@ -112,10 +113,16 @@ class ProfileEmail extends React.Component<IProfileEmailProps, IProfileEmailStat
         });
       } else {
         this.setState({
-          changeErr: res.data.message,
+          errorMessage: res.data.message,
+          isLoading: false,
         });
       }
-    });
+    })
+      .catch((err) => {
+        this.setState({
+          changeErr: err.response.data.message || `${err.response.status}: ${err.response.statusText}`,
+        });
+      });
   }
 
   render() {

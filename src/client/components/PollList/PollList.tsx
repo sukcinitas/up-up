@@ -57,12 +57,13 @@ class PollList extends React.Component<AllProps, IPollListState> {
             polls: [...res.data.polls],
             isLoading: false,
           });
-        } else {
-          this.setState({
-            loadError: res.data.message,
-            isLoading: false,
-          });
         }
+      })
+      .catch((err) => {
+        this.setState({
+          loadError: err.response.data.message || `${err.response.status}: ${err.response.statusText}`,
+          isLoading: false,
+        });
       });
     if (username) {
       getStarredPollsAsync(username);

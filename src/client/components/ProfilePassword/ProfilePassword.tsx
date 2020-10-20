@@ -88,7 +88,14 @@ class ProfilePassword extends React.Component<IProfilePasswordProps, IProfilePas
           oldPassword: '',
         });
       }
-    });
+    })
+      .catch((err) => {
+        this.setState({
+          changeErr: err.response.data.message || `${err.response.status}: ${err.response.statusText}`,
+          newPassword: '',
+          oldPassword: '',
+        });
+      });
   }
 
   render() {

@@ -50,12 +50,13 @@ class UserPolls extends React.Component<IUserPollsProps, IUserPollsState> {
             userPolls: [...res.data.polls],
             isLoading: false,
           });
-        } else {
-          this.setState({
-            isLoading: false,
-            errorMessage: res.data.message,
-          });
         }
+      })
+      .catch((err) => {
+        this.setState({
+          errorMessage: err.response.data.message || `${err.response.status}: ${err.response.statusText}`,
+          isLoading: false,
+        });
       });
   }
 
@@ -64,11 +65,12 @@ class UserPolls extends React.Component<IUserPollsProps, IUserPollsState> {
       .then((res) => {
         if (res.data.success) {
           this.getUserPolls();
-        } else {
-          this.setState({
-            errorMessage: res.data.message,
-          });
         }
+      })
+      .catch((err) => {
+        this.setState({
+          errorMessage: err.response.data.message || `${err.response.status}: ${err.response.statusText}`,
+        });
       });
   }
 
@@ -98,8 +100,8 @@ class UserPolls extends React.Component<IUserPollsProps, IUserPollsState> {
     return (
       <section className="user-polls">
         <h2 className="heading user-polls__heading">Polls</h2>
-        {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         <Link to="/user/create-poll" className="user-polls__btn--create">Create a poll</Link>
+        {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         { isLoading ? <Loader size="big" /> : userPolls.length === 0 && !errorMessage
           ? <p className="user-polls__notes">You have not created any polls yet!</p>
           : polls}

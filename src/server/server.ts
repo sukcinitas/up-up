@@ -8,6 +8,7 @@ import * as session from 'express-session';
 import * as path from 'path';
 import * as connectMongo from 'connect-mongo';
 import * as dotenv from 'dotenv';
+import { Request, Response } from 'express';
 import userRouter from './routes/user.route';
 import pollRouter from './routes/poll.route';
 
@@ -88,7 +89,10 @@ const MongoStore = connectMongo(session);
         }
       });
     });
-
+    app.use((err:Error, req:Request, res:Response) => {
+      console.error(err.stack);
+      res.status(500).end();
+    });
     app.listen(process.env.PORT || 8080, () => {
       console.log('App is running!');
     });

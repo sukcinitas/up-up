@@ -57,11 +57,13 @@ class StarredPolls extends React.Component<AllProps, IStarredPollsState> {
             starredPolls: [...res.data.polls],
             isLoading: false,
           });
-        } else {
-          this.setState({
-            errorMessage: res.data.message,
-          });
         }
+      })
+      .catch((err) => {
+        this.setState({
+          isLoading: false,
+          errorMessage: err.response.data.message || `${err.response.status}: ${err.response.statusText}`,
+        });
       });
   }
 
@@ -81,11 +83,12 @@ class StarredPolls extends React.Component<AllProps, IStarredPollsState> {
           this.setState({
             starredPolls: starredPolls.filter((poll) => poll._id !== pollId),
           });
-        } else {
-          this.setState({
-            errorMessage: res.data.message,
-          });
         }
+      })
+      .catch((err) => {
+        this.setState({
+          errorMessage: err.response.data.message || `${err.response.status}: ${err.response.statusText}`,
+        });
       });
   }
 
