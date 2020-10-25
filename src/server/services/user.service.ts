@@ -33,7 +33,7 @@ const UserService = {
     await User.findOneAndDelete({ _id: id }).exec();
   },
   async updateUserEmail(id:string, email:string):Promise<void> {
-    await User.findByIdAndUpdate({ _id: 'id' }, { email }).exec();
+    await User.findByIdAndUpdate({ _id: id }, { email }).exec();
   },
   async addUserStarredPoll(id:string, pollId:string):Promise<void> {
     await User.findByIdAndUpdate({ _id: id }, { $push: { starredPolls: pollId } }).exec();

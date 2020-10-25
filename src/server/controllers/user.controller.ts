@@ -116,7 +116,7 @@ const UserController = {
       if (user && user2) {
         return res.json({
           success: false,
-          message: 'User and email are both in use! Try again!',
+          message: 'Username and email are both already in use! Try again!',
           username_taken: true,
           email_taken: true,
         });

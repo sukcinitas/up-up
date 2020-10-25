@@ -81,8 +81,8 @@ describe('<Login /> Component', () => {
   });
 
   it('prints error if login unsuccessful', async () => {
-    axiosMock.post.mockResolvedValueOnce({ data: { message: 'Could not login user!' } });
-    const { getByTestId, getByText } = renderWithRedux(
+    axiosMock.post.mockResolvedValueOnce({ data: { success: false, message: 'Could not login user!' } });
+    const { getByTestId, getByText, getByLabelText } = renderWithRedux(
       <Route path="/user/login">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         {(props:any) => <Login {...props} />}
@@ -91,6 +91,14 @@ describe('<Login /> Component', () => {
         route: '/user/login',
       },
     );
+
+    const usernameInput = getByLabelText('Username') as HTMLInputElement;
+    fireEvent.change(usernameInput, { target: { value: 'testUser1' } });
+    expect(usernameInput.value).toBe('testUser1');
+
+    const passwordInput = getByLabelText('Password') as HTMLInputElement;
+    fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
+    expect(passwordInput.value).toBe('testPassword');
 
     fireEvent.click(getByTestId('login-btn'));
     const errorMessage = await waitForElement(() => getByText('Could not login user!'));

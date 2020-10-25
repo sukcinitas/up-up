@@ -52,7 +52,6 @@ describe('<Register /> Component', () => {
 
     expect(getByText(/Username/i).textContent).toBe('Username');
     expect(getByText(/^Password$/i).textContent).toBe('Password');
-    expect(getByText(/Repeat Password/i).textContent).toBe('Repeat Password');
     expect(getByText(/E-mail/i).textContent).toBe('E-mail');
     expect(getByText(/Already have an account?/i).textContent).toBe('Already have an account? Login');
     expect(getByText(/^Login$/i).textContent).toBe('Login');
@@ -71,17 +70,14 @@ describe('<Register /> Component', () => {
     const username = getByLabelText('Username') as HTMLInputElement;
     const email = getByLabelText('E-mail') as HTMLInputElement;
     const password = getByLabelText('Password') as HTMLInputElement;
-    const confirmPassword = getByLabelText('Repeat Password') as HTMLInputElement;
 
     fireEvent.change(username, { target: { value: 'testUser1' } });
     fireEvent.change(email, { target: { value: 'testEmail@test.lt' } });
     fireEvent.change(password, { target: { value: 'testas1' } });
-    fireEvent.change(confirmPassword, { target: { value: 'testas1' } });
 
     expect(username.value).toBe('testUser1');
     expect(email.value).toBe('testEmail@test.lt');
     expect(password.value).toBe('testas1');
-    expect(confirmPassword.value).toBe('testas1');
   });
 
   it('incorrect inputs + prints error if register unsuccessful', async () => {
@@ -97,21 +93,17 @@ describe('<Register /> Component', () => {
     const username = getByLabelText('Username') as HTMLInputElement;
     const email = getByLabelText('E-mail') as HTMLInputElement;
     const password = getByLabelText('Password') as HTMLInputElement;
-    const confirmPassword = getByLabelText('Repeat Password') as HTMLInputElement;
 
     fireEvent.change(username, { target: { value: 'test' } });
     fireEvent.change(email, { target: { value: 'emaiil' } });
     fireEvent.change(password, { target: { value: 'testa' } });
-    fireEvent.change(confirmPassword, { target: { value: 'testas1' } });
 
     expect(username.value).toBe('test');
     expect(email.value).toBe('emaiil');
     expect(password.value).toBe('testa');
-    expect(confirmPassword.value).toBe('testas1');
 
     expect(getByText('Username must be 5-30 characters long!').textContent).toBe(' Username must be 5-30 characters long!');
     expect(getByText('Email is not valid!').textContent).toBe(' Email is not valid!');
     expect(getByText('Password must be at least 10 characters and contain at least one uppercase letter, one lowercase letter, one number and one special character!').textContent).toBe(' Password must be at least 10 characters and contain at least one uppercase letter, one lowercase letter, one number and one special character!');
-    expect(getByText('Passwords should match!').textContent).toBe(' Passwords should match!');
   });
 });

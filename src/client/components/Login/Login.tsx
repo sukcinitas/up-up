@@ -72,7 +72,7 @@ class Login extends React.Component<AllProps, ILoginState> {
   }
 
   render() {
-    const { errorMessage } = this.state;
+    const { errorMessage, username, password } = this.state;
     return (
       <div>
         <form className="form">
@@ -85,6 +85,10 @@ class Login extends React.Component<AllProps, ILoginState> {
           </label>
           <input type="text" name="username" id="username" onChange={this.handleChange} className="form__input" />
 
+          <span className="form__notes">
+            {' '}
+          </span>
+
           <label
             htmlFor="password"
             className="form__label"
@@ -92,9 +96,16 @@ class Login extends React.Component<AllProps, ILoginState> {
             Password
           </label>
           <input type="password" name="password" id="password" onChange={this.handleChange} className="form__input" />
-
           <ErrorMessage errorMessage={errorMessage} />
-          <button data-testid="login-btn" type="button" onClick={this.handleSubmit} className="btn btn--submit">Login</button>
+          <button
+            data-testid="login-btn"
+            type="button"
+            onClick={this.handleSubmit}
+            className="btn btn--submit"
+            disabled={!username || !password}
+          >
+            Login
+          </button>
 
           <span className="form__notes form__notes--additional">
             Do not have an account?

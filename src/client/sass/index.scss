@@ -32,7 +32,7 @@
       width: 100px;
       background-color: variables.$primary-dark;
       color: variables.$primary-light;
-      margin: 50px auto 20px;
+      margin: 43px auto 20px;
   }
  
   &--nav {
@@ -116,7 +116,7 @@
   text-align: center;
   color: variables.$primary-dark;
   font-size: 40px;
-  margin-bottom: 2px;
+  margin-bottom: 12px;
   padding: 10px;
 
   @media only screen and (max-width: 700px) {
@@ -171,7 +171,7 @@
       padding: 0px 0px;
       font-size: 11px;
       color: variables.$primary-dark;
-      margin-top: 30px;  
+      margin-top: 20px;  
       font-weight: 600;
       text-transform: uppercase;
   }
@@ -183,11 +183,15 @@
       border-bottom: 1.5px solid variables.$primary-dark;  
       background-color: transparent; 
       color: variables.$secondary-bright;
-      padding: 4px 0;
+      padding: 10px 2px;
 
       &--poll-form {
         @extend .form__input;
         width: 100%;
+      }
+
+      &--danger {
+        border-bottom: 2px solid variables.$primary-danger;
       }
   }
 
@@ -199,9 +203,11 @@
       border-bottom: 1.5px solid variables.$secondary-bright;
       outline: none;
   }
-
+  &__input--danger:focus {
+    border-bottom: 2px solid variables.$primary-danger;
+  }
   &__notes {
-      height: 17px;
+      min-height: 17px;
       padding: 0px 0px;
       font-size: 13px;
       color: variables.$primary-danger;
@@ -242,10 +248,10 @@
 
   &__minus {
     position: absolute;
-    right: -20px;
     display: inline;
     background-color: transparent;
     border: none;
+    top: 10%;
     &:hover {
       cursor: pointer;
     }
@@ -259,6 +265,14 @@
   @media only screen and (max-width: 500px) {
     max-width: 240px;
   } 
+}
+
+.eye-icon {
+  padding: 0px 5px;
+  font-size: 14px;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 @media only screen and (max-width: 700px) {

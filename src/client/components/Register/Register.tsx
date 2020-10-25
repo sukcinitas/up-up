@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import { receiveCurrentUser, ActionTypes, AppState } from '../../redux/actions';
 import checkValidity from '../../util/checkValidity';
@@ -21,16 +22,15 @@ interface IRegisterState {
   username:string,
   email:string,
   password:string,
-  confirmPassword:string,
   errorMessage:string,
   errors:{
     usernameErr:string,
     emailErr:string,
     passwordErr: string,
-    passwordsMatch:string,
     usernameTaken:boolean,
     emailTaken:boolean
   },
+  isPasswordVisible: boolean,
 }
 
 class Register extends React.Component<AllProps, IRegisterState> {
@@ -42,23 +42,23 @@ class Register extends React.Component<AllProps, IRegisterState> {
       username: '',
       email: '',
       password: '',
-      confirmPassword: '',
       errorMessage: '',
       errors: {
         usernameErr: '',
         emailErr: '',
         passwordErr: '',
-        passwordsMatch: '',
         usernameTaken: false,
         emailTaken: false,
       },
+      isPasswordVisible: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.togglePasswordVisibility = this.togglePasswordVisibility.bind(this);
   }
 
   handleChange(e:React.ChangeEvent<HTMLInputElement>) {
-    const { errors, password } = this.state;
+    const { errors } = this.state;
     switch (e.currentTarget.name) {
       case 'username':
         errors.usernameErr = e.currentTarget.value.length < 5 || e.currentTarget.value.length > 30
@@ -70,9 +70,6 @@ class Register extends React.Component<AllProps, IRegisterState> {
         break;
       case 'password':
         errors.passwordErr = checkValidity.checkPassword(e.currentTarget.value);
-        break;
-      case 'confirmPassword':
-        errors.passwordsMatch = password === e.currentTarget.value ? '' : 'Passwords should match!';
         break;
       default: return;
     }
@@ -95,12 +92,6 @@ class Register extends React.Component<AllProps, IRegisterState> {
           password: e.currentTarget.value,
         });
         break;
-      case 'confirmPassword':
-        this.setState({
-          errors,
-          confirmPassword: e.currentTarget.value,
-        });
-        break;
       default:
         this.setState({
           errors,
@@ -114,10 +105,10 @@ class Register extends React.Component<AllProps, IRegisterState> {
     } = this.state;
     e.preventDefault();
     const {
-      usernameErr, emailErr, passwordErr, passwordsMatch,
+      usernameErr, emailErr, passwordErr,
     } = errors;
     const { register } = this.props;
-    if (usernameErr !== '' || emailErr !== '' || passwordErr !== '' || passwordsMatch !== '') {
+    if (usernameErr !== '' || emailErr !== '' || passwordErr !== '') {
       return;
     }
     const user = {
@@ -148,14 +139,22 @@ class Register extends React.Component<AllProps, IRegisterState> {
       });
   }
 
+  togglePasswordVisibility() {
+    const { isPasswordVisible } = this.state;
+    this.setState({
+      isPasswordVisible: !isPasswordVisible,
+    });
+  }
+
   render() {
-    const { errors, errorMessage } = this.state;
     const {
-      usernameErr, emailErr, passwordErr, passwordsMatch, usernameTaken, emailTaken,
+      errors, errorMessage, username, email, password, isPasswordVisible,
+    } = this.state;
+    const {
+      usernameErr, emailErr, passwordErr, usernameTaken, emailTaken,
     } = errors;
     return (
       <div>
-        {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         <form className="form">
 
           <h1 className="heading form__heading">Register</h1>
@@ -172,6 +171,7 @@ class Register extends React.Component<AllProps, IRegisterState> {
             onChange={this.handleChange}
             className="form__input"
             required
+            placeholder="Example: Vardenis"
           />
           <span className="form__notes">{` ${usernameErr}`}</span>
 
@@ -188,6 +188,7 @@ class Register extends React.Component<AllProps, IRegisterState> {
             onChange={this.handleChange}
             className="form__input"
             required
+            placeholder="Example: vardenis@email.com"
           />
           <span className="form__notes">
             {' '}
@@ -197,12 +198,18 @@ class Register extends React.Component<AllProps, IRegisterState> {
           <label
             htmlFor="password"
             className="form__label"
-            title="'Password must be at least 10 characters and contain at least one uppercase letter, one lowercase letter, one number and one special character!'"
+            title="Password must be at least 10 characters and contain at least one uppercase letter, one lowercase letter, one number and one special character!"
           >
             Password
+            <FontAwesomeIcon
+              icon={isPasswordVisible ? ['far', 'eye-slash'] : ['far', 'eye']}
+              className="eye-icon"
+              onClick={this.togglePasswordVisibility}
+              title={isPasswordVisible ? 'Hide password!' : 'Show password!'}
+            />
           </label>
           <input
-            type="password"
+            type={isPasswordVisible ? 'text' : 'password'}
             name="password"
             id="password"
             onChange={this.handleChange}
@@ -214,34 +221,22 @@ class Register extends React.Component<AllProps, IRegisterState> {
             {passwordErr}
           </span>
 
-          <label
-            htmlFor="confirmPassword"
-            className="form__label"
-          >
-            Repeat Password
-          </label>
-          <input
-            type="password"
-            name="confirmPassword"
-            id="confirmPassword"
-            onChange={this.handleChange}
-            className="form__input"
-            required
-          />
-          {' '}
-          <span className="form__notes">
-            {' '}
-            {passwordsMatch}
-          </span>
-
           <div>
             <span className="form__notes">
               {usernameTaken ? ' Username is already in use' : ''}
             </span>
             <span className="form__notes">{emailTaken ? ' Email is already in use' : ''}</span>
+            {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
           </div>
 
-          <button type="button" onClick={this.handleSubmit} className="btn btn--submit">Register</button>
+          <button
+            type="button"
+            onClick={this.handleSubmit}
+            className="btn btn--submit"
+            disabled={!username || !email || !password}
+          >
+            Register
+          </button>
           <span className="form__notes--additional">
             Already have an account?
             {' '}
