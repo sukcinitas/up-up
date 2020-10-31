@@ -19,7 +19,8 @@ type AllProps = CreatePollFormRouteProps & ICreatePollFormStateProps;
 interface ICreatePollFormState {
   name:string,
   question:string,
-  values:Array<string>,
+  list:Array<{id:number, value:string}>,
+  counter:number,
   errorMessage:string,
   [index: string]:any,
 }
@@ -32,7 +33,8 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
     this.state = {
       name: '',
       question: '',
-      values: ['', ''],
+      list: [{ id: 1, value: '' }, { id: 2, value: '' }],
+      counter: 2,
       errorMessage: '',
     };
     this.handleChange = this.handleChange.bind(this);
@@ -49,10 +51,11 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
   }
 
   handleOptionsChange(idx:number, e:React.ChangeEvent<HTMLInputElement>) {
-    const { values } = this.state;
-    values[idx] = e.target.value;
+    const { list } = this.state;
+    const i = list.findIndex((item) => item.id === idx);
+    list[i].value = e.target.value;
     this.setState({
-      values,
+      list,
     });
   }
 
@@ -60,26 +63,27 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
     e.preventDefault();
     const { history, username } = this.props;
     const {
-      name, question, values,
+      name, question, list,
     } = this.state;
-    if (!name || !question || values.some((value) => value === '') || values.length < 2) {
+    if (!name || !question || list.some((item) => item.value === '') || list.length < 2) {
       this.setState({
         errorMessage: 'Poll name, question/statement and at least two options are required for submission! All fields must be filled in!',
       });
       return;
     }
-    if ((new Set(values)).size !== values.length) {
+    const compareList = list.map((item) => item.value);
+    if ((new Set(compareList)).size !== list.length) {
       this.setState({
         errorMessage: 'Poll options must be unique!',
       });
       return;
     }
     const optionsList:{[index: string]:number} = {};
-    values.forEach((value, i) => {
-      if (this.state.values[i] === '') {
+    list.forEach((item, i) => {
+      if (this.state.list[i].value === '') {
         return;
       }
-      optionsList[value] = 0;
+      optionsList[item.value] = 0;
     });
     const poll = {
       name,
@@ -103,35 +107,38 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
   addOption(e:React.MouseEvent<HTMLButtonElement>):void {
     e.preventDefault();
     this.setState((prevState) => ({
-      values: [...prevState.values, ''],
+      counter: prevState.counter + 1,
+      list: [...prevState.list, { id: prevState.counter + 1, value: '' }],
     }));
   }
 
   removeOption(idx:number):void {
-    this.setState((prevState) => ({
-      values: [...prevState.values.slice(0, idx), ...prevState.values.slice(idx + 1)],
+    const newList = this.state.list.filter((item) => item.id !== idx);
+    this.setState(() => ({
+      list: newList,
     }));
   }
 
   render() {
     const {
-      name, question, values, errorMessage,
+      name, question, list, errorMessage,
     } = this.state;
-    const optionsList = values.map((item, idx) => (
+    // eslint-disable-next-line no-console
+    console.log(list, this.state.counter);
+    const optionsList = list.map((item) => (
       <div className="wrapper">
         <input
-          // eslint-disable-next-line react/no-array-index-key
-          key={idx}
-          aria-label={`${idx}`}
+          key={item.id}
+          aria-label={`${item.id}`}
           className="form__input form__input--poll-form"
           type="text"
-          name={`${idx}`}
-          onChange={(e) => this.handleOptionsChange(idx, e)}
-          value={item || ''}
+          name={`${item.id}`}
+          onChange={(e) => this.handleOptionsChange(item.id, e)}
+          value={item.value || ''}
         />
         <button
           type="button"
-          onClick={() => this.removeOption(idx)}
+          onClick={() => this.removeOption(item.id)}
           className="form__minus"
         >
           <FontAwesomeIcon icon={['fas', 'minus']} />
