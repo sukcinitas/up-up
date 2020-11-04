@@ -39,7 +39,7 @@ Check the app [here](https://still-bayou-60170.herokuapp.com) (it takes ~ 10 sec
 
 - As a user, I can see a list of polls. I can choose a way in which list is sorted from two options.
 - As a user, I can vote in a poll. My vote is added immediately and reflected in a chart.
-- As a user, I can register by providing an email, a username, and a password. Both, username and email must be unique. Password must be at least 6 characters long. Registered users have access to additional functionalities: creating polls and saving polls that interest them.
+- As a user, I can register by providing an email, a username, and a password. Both, username and email must be unique. Password must be at least 10 characters long. Registered users have access to additional functionalities: creating polls and saving polls that interest them.
 - As a logged-in user, I can create a poll by providing a poll name, a poll statement/question and at least two options. The number of options can be increased or reduced.
 - As a logged-in user, I can delete the posts I have created either in profile page or specific poll page.
 - As a logged-in user, I can save posts I like. A list of saved polls can be accessed in a profile page.
