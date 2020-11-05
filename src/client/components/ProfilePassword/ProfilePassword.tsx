@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import checkValidity from '../../util/checkValidity';
 
@@ -17,6 +18,7 @@ interface IProfilePasswordState {
   isChangingPassword:boolean,
   message:string,
   changeErr:string,
+  isPasswordVisible: boolean,
 }
 
 class ProfilePassword extends React.Component<IProfilePasswordProps, IProfilePasswordState> {
@@ -30,10 +32,12 @@ class ProfilePassword extends React.Component<IProfilePasswordProps, IProfilePas
       isChangingPassword: false,
       message: '',
       changeErr: '',
+      isPasswordVisible: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.showPasswordChange = this.showPasswordChange.bind(this);
     this.changePassword = this.changePassword.bind(this);
+    this.togglePasswordVisibility = this.togglePasswordVisibility.bind(this);
   }
 
   handleChange(e:React.ChangeEvent<HTMLInputElement>) {
@@ -98,9 +102,16 @@ class ProfilePassword extends React.Component<IProfilePasswordProps, IProfilePas
       });
   }
 
+  togglePasswordVisibility() {
+    const { isPasswordVisible } = this.state;
+    this.setState({
+      isPasswordVisible: !isPasswordVisible,
+    });
+  }
+
   render() {
     const {
-      oldPassword, newPassword, message, isChangingPassword, changeErr,
+      oldPassword, newPassword, message, isChangingPassword, changeErr, isPasswordVisible,
     } = this.state;
     return (
       <div className="user-information__elem">
@@ -111,8 +122,16 @@ class ProfilePassword extends React.Component<IProfilePasswordProps, IProfilePas
             <div className="form form--user-information">
               <label className="form__label">Old password</label>
               <input type="password" data-testid="oldPassword" value={oldPassword} name="oldPassword" onChange={this.handleChange} className="form__input" />
-              <label className="form__label">New password</label>
-              <input type="password" data-testid="newPassword" value={newPassword} name="newPassword" onChange={this.handleChange} className="form__input" />
+              <label className="form__label">
+                New password
+                <FontAwesomeIcon
+                  icon={isPasswordVisible ? ['far', 'eye-slash'] : ['far', 'eye']}
+                  className="eye-icon"
+                  onClick={this.togglePasswordVisibility}
+                  title={isPasswordVisible ? 'Hide password!' : 'Show password!'}
+                />
+              </label>
+              <input type={isPasswordVisible ? 'text' : 'password'} data-testid="newPassword" value={newPassword} name="newPassword" onChange={this.handleChange} className="form__input" />
               <button type="button" onClick={this.changePassword} className="btn btn--submit">Change</button>
               {changeErr && <ErrorMessage errorMessage={changeErr} />}
             </div>

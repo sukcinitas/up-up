@@ -104,7 +104,7 @@ class UserPolls extends React.Component<IUserPollsProps, IUserPollsState> {
         {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         { isLoading ? <Loader size="big" /> : userPolls.length === 0 && !errorMessage
           ? <p className="user-polls__notes">You have not created any polls yet!</p>
-          : polls}
+          : <div className="user-polls__polls">{polls}</div>}
       </section>
     );
   }

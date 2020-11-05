@@ -110,7 +110,7 @@ const UserController = {
   },
   async register(req:Request, res:Response) {
     try {
-      const { username, email } = req.body.user;
+      const { username, email } = req.body;
       const user = await UserService.getOneUserByUsername(username);
       const user2 = await UserService.getOneUserByEmail(email);
       if (user && user2) {
@@ -126,9 +126,9 @@ const UserController = {
         return res.json({ success: false, email_taken: true, message: 'Email is already in use!' });
       }
       const newUser:IUser = new User({
-        username: req.body.user.username,
-        email: req.body.user.email,
-        password: req.body.user.password,
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password,
         starredPolls: [],
       });
 

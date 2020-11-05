@@ -111,13 +111,8 @@ class Register extends React.Component<AllProps, IRegisterState> {
     if (usernameErr !== '' || emailErr !== '' || passwordErr !== '') {
       return;
     }
-    const user = {
-      username,
-      email,
-      password,
-    };
 
-    axios.post('/api/user/register', { user })
+    axios.post('/api/user/register', { username, email, password })
       .then((res) => {
         const newErrors = {
           ...errors,

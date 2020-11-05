@@ -117,7 +117,7 @@ class StarredPolls extends React.Component<AllProps, IStarredPollsState> {
         {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
         { isLoading ? <Loader size="big" /> : starredPolls.length === 0
           ? <p className="user-polls__notes">You have not saved any polls yet!</p>
-          : polls}
+          : <div className="user-polls__polls">{polls}</div>}
       </section>
     );
   }

@@ -33,24 +33,36 @@
       background-color: variables.$primary-dark;
       color: variables.$primary-light;
       margin: 43px auto 20px;
+      &:disabled, &[disabled] {
+        cursor: inherit;
+      }
   }
  
   &--nav {
-    border: none;
     text-transform: none;
-    padding: 7px;
-    font-weight: bold;
-    margin: 2px 0;
+    margin: 6px;
     background-color: transparent;
-    padding: 0px 2px;
-    text-transform: uppercase;
-    font-weight: 400;
+    padding: 10px;
+    position: relative;
+    font-variant: small-caps;
+    border: none;
+    border-bottom: 3px solid transparent;
+    font-weight: 500;
+    &:hover::after {
+      right: 0;
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -3px;
+      right: 100%;
+      transition: all 500ms;
+      border-bottom: 3px solid variables.$secondary-dark;
+    }
     &--selected {
       color: variables.$secondary-bright;
-      font-weight: 500;
-    }
-    &::before, &::after {
-      content: ' — '
+      border-bottom: 3px solid variables.$secondary-dark;
     }
   }
 
