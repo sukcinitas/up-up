@@ -44,10 +44,12 @@
     background-color: transparent;
     padding: 10px;
     position: relative;
-    font-variant: small-caps;
     border: none;
     border-bottom: 3px solid transparent;
     font-weight: 500;
+    &:hover, &:focus {
+      outline: none;
+    }
     &:hover::after {
       right: 0;
     }

@@ -64,8 +64,6 @@ export const validate = (req:Request, res:Response, next:NextFunction) => {
   if (errors.isEmpty()) {
     return next();
   }
-  // eslint-disable-next-line no-console
-  console.log(errors.array());
   const extractedErrors = errors.array().map((err:any) => `${err.msg}!`);
   const message = extractedErrors.join(' ');
 

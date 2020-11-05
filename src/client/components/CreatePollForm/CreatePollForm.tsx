@@ -123,8 +123,6 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
     const {
       name, question, list, errorMessage,
     } = this.state;
-    // eslint-disable-next-line no-console
-    console.log(list, this.state.counter);
     const optionsList = list.map((item) => (
       <div className="wrapper">
         <input
