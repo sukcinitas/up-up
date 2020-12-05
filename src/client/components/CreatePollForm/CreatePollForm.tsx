@@ -78,12 +78,12 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
       });
       return;
     }
-    const optionsList:{[index: string]:number} = {};
+    const optionsList:Array<{ option: string, votes: number }> = [];
     list.forEach((item, i) => {
       if (this.state.list[i].value === '') {
         return;
       }
-      optionsList[item.value] = 0;
+      optionsList.push({ option: item.value, votes: 0 });
     });
     const poll = {
       name,

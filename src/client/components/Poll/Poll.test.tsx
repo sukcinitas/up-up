@@ -46,7 +46,7 @@ const poll = {
   _id: '1',
   question: 'Test question',
   name: 'Test one',
-  options: { one: 1, two: 2 },
+  options: [{ option: 'One', votes: 1 }, { option: 'Two', votes: 2 }],
   votes: 69,
   createdBy: 'testUser1',
   createdAt: '2020-01-21T12:45:03.180Z',
@@ -116,7 +116,7 @@ describe('<Poll /> Component', () => {
   it('let\'s vote and rerenders component after that', async () => {
     axiosMock.get.mockResolvedValueOnce({ data: { poll, success: true } });
     axiosMock.put.mockResolvedValueOnce(
-      { data: { poll: { ...poll, options: { one: 1, two: 3 }, votes: 70 }, success: true } },
+      { data: { poll: { ...poll, options: [{ option: 'One', votes: 1 }, { option: 'Two', votes: 3 }], votes: 70 }, success: true } },
     );
     const { getByText, getByTestId } = renderWithRedux(
       <Route path="/polls/1">
@@ -131,7 +131,7 @@ describe('<Poll /> Component', () => {
     const loader = getByTestId('loader');
     expect(loader.textContent).toBe('');
 
-    const btn = await waitForElement(() => getByTestId('two'));
+    const btn = await waitForElement(() => getByTestId('Two'));
     fireEvent.click(btn);
 
     const pollVotes = await waitForElement(() => getByText('Total votes: 70'));

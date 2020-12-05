@@ -12,7 +12,7 @@ const pollSchema:Schema = new Schema({
     type: String,
     required: true,
   },
-  options: {},
+  options: Array,
   votes: Number,
   createdBy: {
     type: String,
@@ -25,7 +25,7 @@ const pollSchema:Schema = new Schema({
 export interface IPoll extends Document {
   name:string,
   question:string,
-  options:{},
+  options:Array<{option:string, votes:number}>,
   votes:number,
   createdBy:string,
   createdAt:Date,

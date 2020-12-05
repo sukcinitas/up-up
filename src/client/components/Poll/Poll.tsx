@@ -23,7 +23,7 @@ interface IPollState {
   poll: {
     name:string,
     question:string,
-    options: {[index: string]:number},
+    options: Array<{option: string, votes: number}>,
     votes:number,
     createdBy:string,
     createdAt:string,
@@ -46,7 +46,7 @@ class Poll extends React.Component<AllProps, IPollState> {
       poll: {
         name: '',
         question: '',
-        options: {},
+        options: [],
         votes: 0,
         createdBy: '',
         createdAt: '',
@@ -93,6 +93,11 @@ class Poll extends React.Component<AllProps, IPollState> {
       });
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.setSize);
+    window.removeEventListener('orientationchange', this.setSize);
+  }
+
   setSize(e:Event) {
     const width = barChartWidth().w;
     const leftMargin = barChartWidth().left;
@@ -117,7 +122,7 @@ class Poll extends React.Component<AllProps, IPollState> {
       return;
     } // initial dealing with only letting one vote per user
     axios.put(`/api/polls/${match.params.id}`, {
-      option: e.currentTarget.dataset.option,
+      option: { option: e.currentTarget.dataset.option, votes: e.currentTarget.dataset.votes },
       options: poll.options,
       votes: poll.votes,
     })
@@ -168,7 +173,7 @@ class Poll extends React.Component<AllProps, IPollState> {
       optionsList: {option:string, votes:number}[],
       sumVotes:number,
     } = {
-      optionsList: Object.keys(options).map((option) => ({ option, votes: options[option] })),
+      optionsList: options,
       sumVotes: votes,
     };
 
@@ -195,9 +200,18 @@ class Poll extends React.Component<AllProps, IPollState> {
         </div>
         <div className="poll__section">
           <div className="poll__options">
-            {Object.keys(options).map((option) => (
-              <div className="poll__option" key={option}>
-                <button type="button" data-testid={option} data-option={option} onClick={this.handleVote} className="btn btn--vote">{option}</button>
+            {options.map((option) => (
+              <div className="poll__option" key={option.option}>
+                <button
+                  type="button"
+                  data-testid={option.option}
+                  data-option={option.option}
+                  data-votes={option.votes}
+                  onClick={this.handleVote}
+                  className="btn btn--vote"
+                >
+                  {option.option}
+                </button>
               </div>
             ))}
             <p className="poll__votes">{`Total votes: ${votes}`}</p>

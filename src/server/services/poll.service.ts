@@ -31,7 +31,7 @@ const PollService = {
     name:string,
     question:string,
     votes:number,
-    options:{},
+    options:Array<{option: string, votes: number}>,
     createdBy:string,
     updatedAt:Date,
     createdAt:Date,
@@ -57,7 +57,7 @@ const PollService = {
       ]);
       return polls;
   },
-  async insert(name:string, question:string, options:{}, createdBy:string):Promise<string> {
+  async insert(name:string, question:string, options:Array<{option: string, votes: number}>, createdBy:string):Promise<string> {
       const newPoll:IPoll = new Poll({
         name,
         question,
@@ -74,12 +74,12 @@ const PollService = {
   async deleteMany(username:string):Promise<void> {
       await Poll.deleteMany({ createdBy: username }).exec();
   },
-  async update(id:string, updatedOptions:{}, votes:number):Promise<{
+  async update(id:string, updatedOptions:Array<{option: string, votes: number}>, votes:number):Promise<{
     _id:string,
     name:string,
     question:string,
     votes:number,
-    options:{},
+    options:Array<{option: string, votes: number}>,
     createdBy:string,
     updatedAt:Date,
     createdAt:Date,
@@ -93,7 +93,7 @@ const PollService = {
     name:string,
     question:string,
     votes:number,
-    options:{},
+    options:Array<{option: string, votes: number}>,
     createdBy:string,
     updatedAt:Date,
     createdAt:Date,

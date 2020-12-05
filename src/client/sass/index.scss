@@ -45,8 +45,9 @@
     padding: 10px;
     position: relative;
     border: none;
-    border-bottom: 3px solid transparent;
+    border-bottom: 2px solid transparent;
     font-weight: 500;
+    font-family: variables.$font-btn;
     &:hover, &:focus {
       outline: none;
     }
@@ -57,14 +58,14 @@
       content: '';
       position: absolute;
       left: 0;
-      bottom: -3px;
+      bottom: -2px;
       right: 100%;
       transition: all 500ms;
-      border-bottom: 3px solid variables.$secondary-dark;
+      border-bottom: 2px solid variables.$secondary-dark;
     }
     &--selected {
       color: variables.$secondary-bright;
-      border-bottom: 3px solid variables.$secondary-dark;
+      border-bottom: 2px solid variables.$secondary-dark;
     }
   }
 
@@ -266,6 +267,7 @@
     background-color: transparent;
     border: none;
     top: 10%;
+    right: -30px;
     &:hover {
       cursor: pointer;
     }

@@ -54,8 +54,10 @@ const PollController = {
     try {
       const { id } = req.params;
       const { option, options, votes } = req.body;
-      const updatedOptions = { ...options };
-      updatedOptions[option] = options[option] + 1;
+      const updatedOptions = [...options];
+      const optionToBeChangedId = options
+        .findIndex((elem:{option:string, votes:number}) => elem.option === option.option);
+      updatedOptions[optionToBeChangedId].votes += 1;
       const poll = await PollService.update(id, updatedOptions, votes);
       return res.json({ success: true, poll });
     } catch (err) {
