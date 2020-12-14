@@ -1,4 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { RouteComponentProps } from 'react-router-dom';
@@ -11,29 +10,38 @@ import { AppState } from '../../redux/actions';
 axios.defaults.withCredentials = true;
 
 interface ICreatePollFormStateProps {
-  username: string,
+  username: string;
 }
 interface CreatePollFormRouteProps extends RouteComponentProps {}
 type AllProps = CreatePollFormRouteProps & ICreatePollFormStateProps;
 
 interface ICreatePollFormState {
-  name:string,
-  question:string,
-  list:Array<{id:number, value:string}>,
-  counter:number,
-  errorMessage:string,
-  [index: string]:any,
+  name: string;
+  question: string;
+  list: Array<{ id: number; value: string }>;
+  counter: number;
+  errorMessage: string;
+  [index: string]: any;
 }
 
-class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
-  static propTypes: { history: any; username: PropTypes.Validator<string>; };
+class CreatePollForm extends React.Component<
+  AllProps,
+  ICreatePollFormState
+> {
+  static propTypes: {
+    history: any;
+    username: PropTypes.Validator<string>;
+  };
 
-  constructor(props:AllProps) {
+  constructor(props: AllProps) {
     super(props);
     this.state = {
       name: '',
       question: '',
-      list: [{ id: 1, value: '' }, { id: 2, value: '' }],
+      list: [
+        { id: 1, value: '' },
+        { id: 2, value: '' },
+      ],
       counter: 2,
       errorMessage: '',
     };
@@ -44,13 +52,16 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
     this.removeOption = this.removeOption.bind(this);
   }
 
-  handleChange(e:React.ChangeEvent<HTMLInputElement>) {
+  handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState({
       [e.target.name]: e.target.value,
     });
   }
 
-  handleOptionsChange(idx:number, e:React.ChangeEvent<HTMLInputElement>) {
+  handleOptionsChange(
+    idx: number,
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) {
     const { list } = this.state;
     const i = list.findIndex((item) => item.id === idx);
     list[i].value = e.target.value;
@@ -59,26 +70,30 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
     });
   }
 
-  handleSubmit(e:React.MouseEvent<HTMLButtonElement>) {
+  handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     const { history, username } = this.props;
-    const {
-      name, question, list,
-    } = this.state;
-    if (!name || !question || list.some((item) => item.value === '') || list.length < 2) {
+    const { name, question, list } = this.state;
+    if (
+      !name ||
+      !question ||
+      list.some((item) => item.value === '') ||
+      list.length < 2
+    ) {
       this.setState({
-        errorMessage: 'Poll name, question/statement and at least two options are required for submission! All fields must be filled in!',
+        errorMessage:
+          'Poll name, question/statement and at least two options are required for submission! All fields must be filled in!',
       });
       return;
     }
     const compareList = list.map((item) => item.value);
-    if ((new Set(compareList)).size !== list.length) {
+    if (new Set(compareList).size !== list.length) {
       this.setState({
         errorMessage: 'Poll options must be unique!',
       });
       return;
     }
-    const optionsList:Array<{ option: string, votes: number }> = [];
+    const optionsList: Array<{ option: string; votes: number }> = [];
     list.forEach((item, i) => {
       if (this.state.list[i].value === '') {
         return;
@@ -91,7 +106,8 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
       options: optionsList,
       createdBy: username,
     };
-    axios.post('/api/polls/create-poll', poll)
+    axios
+      .post('/api/polls/create-poll', poll)
       .then((res) => {
         if (res.data.success) {
           history.push(`/polls/${res.data.id}`);
@@ -99,20 +115,25 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
       })
       .catch((err) => {
         this.setState({
-          errorMessage: err.response.data.message || `${err.response.status}: ${err.response.statusText}`,
+          errorMessage:
+            err.response.data.message ||
+            `${err.response.status}: ${err.response.statusText}`,
         });
       });
   }
 
-  addOption(e:React.MouseEvent<HTMLButtonElement>):void {
+  addOption(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
     this.setState((prevState) => ({
       counter: prevState.counter + 1,
-      list: [...prevState.list, { id: prevState.counter + 1, value: '' }],
+      list: [
+        ...prevState.list,
+        { id: prevState.counter + 1, value: '' },
+      ],
     }));
   }
 
-  removeOption(idx:number):void {
+  removeOption(idx: number): void {
     const newList = this.state.list.filter((item) => item.id !== idx);
     this.setState(() => ({
       list: newList,
@@ -120,9 +141,7 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
   }
 
   render() {
-    const {
-      name, question, list, errorMessage,
-    } = this.state;
+    const { name, question, list, errorMessage } = this.state;
     const optionsList = list.map((item) => (
       <div className="wrapper">
         <input
@@ -145,13 +164,9 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
     ));
     return (
       <form className="form create-poll-form">
-
         <h1 className="heading">Create a Poll</h1>
 
-        <label
-          className="form__label"
-          htmlFor="name"
-        >
+        <label className="form__label" htmlFor="name">
           Poll name
         </label>
         <input
@@ -163,10 +178,7 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
           value={name}
         />
 
-        <label
-          className="form__label"
-          htmlFor="question"
-        >
+        <label className="form__label" htmlFor="question">
           Poll question/statement
         </label>
         <input
@@ -178,13 +190,26 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
           value={question}
         />
 
-        <label className="form__label" htmlFor="answers">Poll options</label>
+        <label className="form__label" htmlFor="answers">
+          Poll options
+        </label>
         {optionsList}
 
-        <button type="button" onClick={this.addOption} className="btn btn--plus" data-testid="plus">
+        <button
+          type="button"
+          onClick={this.addOption}
+          className="btn btn--plus"
+          data-testid="plus"
+        >
           <FontAwesomeIcon icon={['fas', 'plus']} />
         </button>
-        <button type="submit" onClick={this.handleSubmit} className="btn btn--submit">Submit</button>
+        <button
+          type="submit"
+          onClick={this.handleSubmit}
+          className="btn btn--submit"
+        >
+          Submit
+        </button>
 
         {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
       </form>
@@ -192,7 +217,7 @@ class CreatePollForm extends React.Component<AllProps, ICreatePollFormState> {
   }
 }
 
-const mapStateToProps = (state:AppState) => ({
+const mapStateToProps = (state: AppState) => ({
   username: state.username,
 });
 

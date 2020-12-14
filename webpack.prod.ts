@@ -19,17 +19,25 @@ export default merge(common, {
     minimizer: [new TerserPlugin(), new OptimizeCssAssetsPlugin({})],
   },
   devtool: false,
-  plugins: [new MiniCssExtractPlugin({ filename: '[name].[contentHash].css' })],
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name].[contentHash].css',
+    }),
+  ],
   module: {
     rules: [
       {
         test: /\.(scss|css)$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', {
-          loader: 'sass-loader',
-          options: {
-            implementation: sass,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              implementation: sass,
+            },
           },
-        }],
+        ],
       },
     ],
   },

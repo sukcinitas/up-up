@@ -4,7 +4,10 @@ import { createMemoryHistory, MemoryHistory } from 'history';
 import { createStore, Store } from 'redux';
 import { Provider } from 'react-redux';
 import {
-  render, cleanup, fireEvent, waitForElement,
+  render,
+  cleanup,
+  fireEvent,
+  waitForElement,
 } from '@testing-library/react';
 // import axiosMock from 'axios';
 import axios from 'axios';
@@ -14,19 +17,18 @@ import reducer, { initialState } from '../../redux/reducers';
 import Login from './Login';
 
 function renderWithRedux(
-  ui:JSX.Element,
+  ui: JSX.Element,
   {
     state = initialState,
     store = createStore(reducer, state),
     route = '/user/login',
     history = createMemoryHistory({ initialEntries: [route] }),
-  }:{
-    state?:AppState,
-    store?:Store,
-    route?:string,
-    history?:MemoryHistory
+  }: {
+    state?: AppState;
+    store?: Store;
+    route?: string;
+    history?: MemoryHistory;
   } = {},
-
 ) {
   return {
     ...render(
@@ -46,7 +48,7 @@ describe('<Login /> Component', () => {
     const { getByText, getAllByText } = renderWithRedux(
       <Route path="/user/login">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props:any) => <Login {...props} />}
+        {(props: any) => <Login {...props} />}
       </Route>,
       {
         route: '/user/login',
@@ -57,51 +59,77 @@ describe('<Login /> Component', () => {
     expect(getByText(/Password/i).textContent).toBe('Password');
     expect(getAllByText(/Login/i));
     expect(getByText(/Register/i).textContent).toBe('Register');
-    expect(getByText(/^Do not have an account?/i).textContent).toBe('Do not have an account? Register');
+    expect(getByText(/^Do not have an account?/i).textContent).toBe(
+      'Do not have an account? Register',
+    );
   });
 
   it('can input all values', () => {
     const { getByLabelText } = renderWithRedux(
       <Route path="/user/login">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props:any) => <Login {...props} />}
+        {(props: any) => <Login {...props} />}
       </Route>,
       {
         route: '/user/login',
       },
     );
 
-    const usernameInput = getByLabelText('Username') as HTMLInputElement;
-    fireEvent.change(usernameInput, { target: { value: 'testUser1' } });
+    const usernameInput = getByLabelText(
+      'Username',
+    ) as HTMLInputElement;
+    fireEvent.change(usernameInput, {
+      target: { value: 'testUser1' },
+    });
     expect(usernameInput.value).toBe('testUser1');
 
-    const passwordInput = getByLabelText('Password') as HTMLInputElement;
-    fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
+    const passwordInput = getByLabelText(
+      'Password',
+    ) as HTMLInputElement;
+    fireEvent.change(passwordInput, {
+      target: { value: 'testPassword' },
+    });
     expect(passwordInput.value).toBe('testPassword');
   });
 
   it('prints error if login unsuccessful', async () => {
-    axiosMock.post.mockResolvedValueOnce({ data: { success: false, message: 'Could not login user!' } });
-    const { getByTestId, getByText, getByLabelText } = renderWithRedux(
+    axiosMock.post.mockResolvedValueOnce({
+      data: { success: false, message: 'Could not login user!' },
+    });
+    const {
+      getByTestId,
+      getByText,
+      getByLabelText,
+    } = renderWithRedux(
       <Route path="/user/login">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props:any) => <Login {...props} />}
+        {(props: any) => <Login {...props} />}
       </Route>,
       {
         route: '/user/login',
       },
     );
 
-    const usernameInput = getByLabelText('Username') as HTMLInputElement;
-    fireEvent.change(usernameInput, { target: { value: 'testUser1' } });
+    const usernameInput = getByLabelText(
+      'Username',
+    ) as HTMLInputElement;
+    fireEvent.change(usernameInput, {
+      target: { value: 'testUser1' },
+    });
     expect(usernameInput.value).toBe('testUser1');
 
-    const passwordInput = getByLabelText('Password') as HTMLInputElement;
-    fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
+    const passwordInput = getByLabelText(
+      'Password',
+    ) as HTMLInputElement;
+    fireEvent.change(passwordInput, {
+      target: { value: 'testPassword' },
+    });
     expect(passwordInput.value).toBe('testPassword');
 
     fireEvent.click(getByTestId('login-btn'));
-    const errorMessage = await waitForElement(() => getByText('Could not login user!'));
+    const errorMessage = await waitForElement(() =>
+      getByText('Could not login user!'),
+    );
     expect(errorMessage.textContent).toBe('Could not login user!');
   });
 });

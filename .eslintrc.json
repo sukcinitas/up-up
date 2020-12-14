@@ -1,47 +1,72 @@
 {
-    // "parser": "babel-eslint",
-    "parser": "@typescript-eslint/parser", // ?
-    "parserOptions": {
-        "project": "./tsconfig.json",
-        "ecmaFeatures": {
-            "jsx": true
-          },
-        "ecmaVersion": 2018,
-        "sourceType": "module"
+  // "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser", // ?
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "ecmaFeatures": {
+      "jsx": true
     },
-    "extends": ["airbnb", "airbnb-typescript"],
-    "settings": {
-        "import/resolver": "webpack",
-        "import/extensions": [".js",".jsx",".ts",".tsx"], //
-        "import/parsers": {                                //
-          "@typescript-eslint/parser": [".ts",".tsx"]       //
-         }
-    },
-    "rules": {
-        "jsx-a11y/label-has-associated-control": 0,
-        "no-unused-vars": "off",//
-        "@typescript-eslint/no-unused-vars": "error",//
-        "no-useless-constructor": "off",//
-        "react/static-property-placement": "off",
-        "@typescript-eslint/no-useless-constructor": "error",//
-        "import/no-unresolved": "off", // unable to resolve path module
-        "import/extensions": [
-          "off",
-          "ignorePackages",
-          {
-            "js": "never",
-            "jsx": "never",
-            "ts": "never",
-            "tsx": "never"
-          }
-       ],
-       "import/no-extraneous-dependencies": ["error", {"devDependencies": true}]
-    },
-    "plugins": ["jest", "react", "@typescript-eslint"],
-    "env": {
-        "jest/globals": true,
-        "browser": true, // document will work
-        "node": true,
-        "es6": true
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "extends": [
+    "airbnb",
+    "airbnb-typescript",
+    "prettier",
+    "prettier/react"
+  ],
+  "settings": {
+    "import/resolver": "webpack",
+    "import/extensions": [".js", ".jsx", ".ts", ".tsx"], //
+    "import/parsers": {
+      //
+      "@typescript-eslint/parser": [".ts", ".tsx"] //
     }
+  },
+  "rules": {
+    "jsx-a11y/label-has-associated-control": 0,
+    "no-unused-vars": "warn", //
+    "@typescript-eslint/no-unused-vars": "error", //
+    "no-useless-constructor": "off", //
+    "react/static-property-placement": "off",
+    "@typescript-eslint/no-useless-constructor": "error", //
+    "import/no-unresolved": "off", // unable to resolve path module
+    "import/extensions": [
+      "off",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      { "devDependencies": true }
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "prettier/prettier": ["error"]
+  },
+  "plugins": [
+    "jest",
+    "jsx-a11y",
+    "react",
+    "react-hooks",
+    "@typescript-eslint",
+    "prettier"
+  ],
+  "env": {
+    "jest/globals": true,
+    "browser": true, // document will work
+    "node": true,
+    "es6": true
+  },
+  "prettierOptions": {
+    "semi": true,
+    "trailingComma": "all",
+    "singleQuote": true,
+    "printWidth": 70
+  }
 }

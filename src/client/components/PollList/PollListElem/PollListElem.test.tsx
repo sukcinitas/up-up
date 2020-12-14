@@ -9,19 +9,18 @@ import reducer, { initialState } from '../../../redux/reducers';
 import PollListElem from './PollListElem';
 
 function renderWithRedux(
-  ui:JSX.Element,
+  ui: JSX.Element,
   {
     state = initialState,
     store = createStore(reducer, state),
     route = '/user/profile/testUser1',
     history = createMemoryHistory({ initialEntries: [route] }),
-  }:{
-    state?:AppState,
-    store?:Store,
-    route?:string,
-    history?:MemoryHistory
+  }: {
+    state?: AppState;
+    store?: Store;
+    route?: string;
+    history?: MemoryHistory;
   } = {},
-
 ) {
   return {
     ...render(
@@ -55,14 +54,22 @@ describe('<PollListElem /> Component', () => {
           updatedAt={poll.updatedAt}
           id={poll.id}
           starred
-          link={():string => ''}
+          link={(): string => ''}
         />
       </Router>,
-      { state: { userId: '1', username: 'testUser1', starredPolls: ['id'] } },
+      {
+        state: {
+          userId: '1',
+          username: 'testUser1',
+          starredPolls: ['id'],
+        },
+      },
     );
     expect(getByText(/name/i).textContent).toBe('name');
     expect(getByText(/panemune/i).textContent).toBe(' panemune');
-    expect(getByText(/last updated on 2012-12-12/i).textContent).toBe('last updated on 2012-12-12');
+    expect(getByText(/last updated on 2012-12-12/i).textContent).toBe(
+      'last updated on 2012-12-12',
+    );
     expect(getByText(/3/i).textContent).toBe('3');
   });
 });

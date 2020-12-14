@@ -4,12 +4,18 @@ import { body, validationResult, oneOf } from 'express-validator';
 export const validationRules = {
   poll: [
     body('name')
-      .not().isEmpty()
-      .withMessage('All fields must be filled in for form submission!')
+      .not()
+      .isEmpty()
+      .withMessage(
+        'All fields must be filled in for form submission!',
+      )
       .trim(),
     body('question')
-      .not().isEmpty()
-      .withMessage('All fields must be filled in for form submission!')
+      .not()
+      .isEmpty()
+      .withMessage(
+        'All fields must be filled in for form submission!',
+      )
       .trim(),
   ],
   userUpdate: [
@@ -26,15 +32,17 @@ export const validationRules = {
         .withMessage('Password is required'),
     ]),
     oneOf([
-      body('password')
-        .exists()
-        .withMessage('Password is required'),
+      body('password').exists().withMessage('Password is required'),
       body('newpassword')
         .exists()
         .withMessage('Password is required')
         .isLength({ min: 10 })
-        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/)
-        .withMessage('Password must be at least 10 characters and contain at least one uppercase letter, one lowercase letter, one number and one special character'),
+        .matches(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/,
+        )
+        .withMessage(
+          'Password must be at least 10 characters and contain at least one uppercase letter, one lowercase letter, one number and one special character',
+        ),
     ]),
   ],
   userRegistration: [
@@ -46,25 +54,31 @@ export const validationRules = {
     body('password')
       .exists()
       .withMessage('Password is required')
-      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/)
-      .withMessage('Password must be at least 10 characters and contain at least one uppercase letter, one lowercase letter, one number and one special character'),
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/,
+      )
+      .withMessage(
+        'Password must be at least 10 characters and contain at least one uppercase letter, one lowercase letter, one number and one special character',
+      ),
   ],
   userLogin: [
-    body('username')
-      .exists()
-      .withMessage('Username is required'),
-    body('password')
-      .exists()
-      .withMessage('Password is required'),
+    body('username').exists().withMessage('Username is required'),
+    body('password').exists().withMessage('Password is required'),
   ],
 };
 
-export const validate = (req:Request, res:Response, next:NextFunction) => {
+export const validate = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
     return next();
   }
-  const extractedErrors = errors.array().map((err:any) => `${err.msg}!`);
+  const extractedErrors = errors
+    .array()
+    .map((err: any) => `${err.msg}!`);
   const message = extractedErrors.join(' ');
 
   return res.status(400).json({

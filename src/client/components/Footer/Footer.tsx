@@ -4,8 +4,7 @@ import '../../sass/Footer.scss';
 const Footer = () => (
   <footer className="footer">
     <p className="footer__text">
-      Created by
-      {' '}
+      Created by{' '}
       <a
         className="footer__link"
         href="https://github.com/sukcinitas"

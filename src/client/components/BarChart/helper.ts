@@ -1,19 +1,29 @@
 import * as d3 from 'd3';
 
 // https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
-const hexToRgbA = (hex:string, opacity:number) => {
-  const arr = hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i,
-    (m, r, g, b) => `#${r}${r}${g}${g}${b}${b}`)
-    .substring(1).match(/.{2}/g)
+const hexToRgbA = (hex: string, opacity: number) => {
+  const arr = hex
+    .replace(
+      /^#?([a-f\d])([a-f\d])([a-f\d])$/i,
+      (m, r, g, b) => `#${r}${r}${g}${g}${b}${b}`,
+    )
+    .substring(1)
+    .match(/.{2}/g)
     .map((x) => parseInt(x, 16));
   return `rgba(${arr.join(',')}, ${opacity})`;
 };
 
-const drawChart = (datum:{optionsList:
-{option:string, votes:number}[], sumVotes:number}, w:number = 860, left:number = 100) => {
+const drawChart = (
+  datum: {
+    optionsList: { option: string; votes: number }[];
+    sumVotes: number;
+  },
+  w: number = 860,
+  left: number = 100,
+) => {
   d3.select('svg').remove();
 
-  function addDots(option:string) {
+  function addDots(option: string) {
     if (option.length < 12) {
       return option;
     }
@@ -28,31 +38,56 @@ const drawChart = (datum:{optionsList:
   }));
   const { sumVotes } = datum;
   const margin = {
-    top: 10, right: 40, bottom: 30, left,
+    top: 10,
+    right: 40,
+    bottom: 30,
+    left,
   };
   const width = w - margin.left - margin.right;
   const height = 500 - margin.top - margin.bottom;
 
-  const color = d3.scaleSequential(d3.interpolateViridis)
-    .domain([0, d3.max(dataPrev, (d:{option:string, votes:any}) => d.votes)]); //
+  const color = d3
+    .scaleSequential(d3.interpolateViridis)
+    .domain([
+      0,
+      d3.max(
+        dataPrev,
+        (d: { option: string; votes: any }) => d.votes,
+      ),
+    ]); //
 
-  const y = d3.scaleBand()
+  const y = d3
+    .scaleBand()
     .range([height, 0])
-    .domain(data.map((d:{option:string, votes:number}):any => d.option))
+    .domain(
+      data.map(
+        (d: { option: string; votes: number }): any => d.option,
+      ),
+    )
     .padding(0.2);
 
-  const x = d3.scaleLinear()
+  const x = d3
+    .scaleLinear()
     .range([0, width])
-    .domain([0, d3.max(dataPrev,
-      (d:{option:string, votes:number}):any => (d.votes) / sumVotes) * 100]); //
+    .domain([
+      0,
+      d3.max(
+        dataPrev,
+        (d: { option: string; votes: number }): any =>
+          d.votes / sumVotes,
+      ) * 100,
+    ]); //
 
-  const svg = d3.select('#chart').append('svg')
+  const svg = d3
+    .select('#chart')
+    .append('svg')
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
     .append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`);
 
-  const line = svg.append('line')
+  const line = svg
+    .append('line')
     .style('stroke', 'white')
     .style('stroke-width', '0')
     .attr('x1', 0)
@@ -60,24 +95,28 @@ const drawChart = (datum:{optionsList:
     .attr('x2', 0)
     .attr('y2', 0);
 
-  const tooltip = d3.select('#chart')
+  const tooltip = d3
+    .select('#chart')
     .style('position', 'relative')
     .append('div')
     .attr('id', 'tooltip');
 
   const handleOut = () => {
-    tooltip
-      .style('display', 'none');
+    tooltip.style('display', 'none');
     line
       .style('stroke', 'black')
       .style('stroke-width', '0')
-      .style('stroke-dasharray', ('3, 3'))
+      .style('stroke-dasharray', '3, 3')
       .attr('x1', 0)
       .attr('y1', 0)
       .attr('x2', 0)
       .attr('y2', 0);
   };
-  const handleOver = (d:{option:string, votes:number, optionM:string}) => {
+  const handleOver = (d: {
+    option: string;
+    votes: number;
+    optionM: string;
+  }) => {
     tooltip
       .style('display', 'inline-block')
       .style('position', 'absolute')
@@ -87,26 +126,36 @@ const drawChart = (datum:{optionsList:
       .style('right', `${0}px`)
       .style('top', `${20}px`)
       .style('z-index', 100)
-      .html(`${d.optionM} - <span>${Math.round((d.votes / sumVotes) * 100)}%</span>`);
+      .html(
+        `${d.optionM} - <span>${Math.round(
+          (d.votes / sumVotes) * 100,
+        )}%</span>`,
+      );
 
     line
       .style('stroke', 'black')
       .style('stroke-width', '2')
-      .style('stroke-dasharray', ('3, 3'))
-      .attr('x1', x(((d.votes / sumVotes) * 100)))
+      .style('stroke-dasharray', '3, 3')
+      .attr('x1', x((d.votes / sumVotes) * 100))
       .attr('y1', y(d.option))
-      .attr('x2', x(((d.votes / sumVotes) * 100)))
+      .attr('x2', x((d.votes / sumVotes) * 100))
       .attr('y2', height);
   };
 
-  const bars = svg.selectAll('.bar')
+  const bars = svg
+    .selectAll('.bar')
     .data(data)
-    .enter().append('rect')
+    .enter()
+    .append('rect')
     .attr('class', 'bar')
     .attr('width', 10) // percentage
-    .attr('y', (d:{option:string, votes:number}):any => y(d.option))
+    .attr('y', (d: { option: string; votes: number }): any =>
+      y(d.option),
+    )
     .attr('height', y.bandwidth())
-    .style('fill', (d:{option:string, votes:number}) => hexToRgbA(color(d.votes), 0.6))
+    .style('fill', (d: { option: string; votes: number }) =>
+      hexToRgbA(color(d.votes), 0.6),
+    )
     .style('stroke', (d) => color(d.votes))
     .style('stroke-width', 2)
     .on('mouseover', handleOver)
@@ -114,32 +163,50 @@ const drawChart = (datum:{optionsList:
     .on('mouseout', handleOut)
     .on('touchend', handleOut);
 
-  svg.selectAll('.text')
+  svg
+    .selectAll('.text')
     .data(data)
-    .enter().append('text')
+    .enter()
+    .append('text')
     .attr('class', 'text')
-    .attr('y', (d:{option:string, votes:number}) => y(d.option) + y.bandwidth() / 2 + 9)
-    .attr('x', (d:{option:string, votes:number}) => x(((d.votes / sumVotes) * 100)) + 5)
-    .text((d:{option:string, votes:number}) => d.votes)
+    .attr(
+      'y',
+      (d: { option: string; votes: number }) =>
+        y(d.option) + y.bandwidth() / 2 + 9,
+    )
+    .attr(
+      'x',
+      (d: { option: string; votes: number }) =>
+        x((d.votes / sumVotes) * 100) + 5,
+    )
+    .text((d: { option: string; votes: number }) => d.votes)
     .attr('font-family', 'Roboto Condensed, sans-serif')
     .attr('font-size', '18px')
-    .attr('fill', (d:{option:string, votes:number}) => color(d.votes));
+    .attr('fill', (d: { option: string; votes: number }) =>
+      color(d.votes),
+    );
 
-  bars.transition()
+  bars
+    .transition()
     .duration(1000)
-    .attr('width', (d) => x(((d.votes / sumVotes) * 100)));
+    .attr('width', (d) => x((d.votes / sumVotes) * 100));
 
   // add the x Axis
-  svg.append('g')
+  svg
+    .append('g')
     .attr('transform', `translate(0,${height})`)
-    .call(d3.axisBottom(x)
-      .ticks(5)
-      .tickFormat((d) => `${d}%`))
+    .call(
+      d3
+        .axisBottom(x)
+        .ticks(5)
+        .tickFormat((d) => `${d}%`),
+    )
     .style('color', 'black')
     .style('stroke-width', '2');
 
   // add the y Axis
-  svg.append('g')
+  svg
+    .append('g')
     .call(d3.axisLeft(y).tickSize(0))
     .style('color', 'black')
     .style('font-size', '12px')

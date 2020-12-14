@@ -4,7 +4,10 @@ import { createMemoryHistory, MemoryHistory } from 'history';
 import { createStore, Store } from 'redux';
 import { Provider } from 'react-redux';
 import {
-  render, cleanup, waitForElement, fireEvent,
+  render,
+  cleanup,
+  waitForElement,
+  fireEvent,
 } from '@testing-library/react';
 // import axiosMock from 'axios';
 import axios from 'axios';
@@ -14,19 +17,18 @@ import reducer, { initialState } from '../../redux/reducers';
 import Poll from './Poll';
 
 function renderWithRedux(
-  ui:JSX.Element,
+  ui: JSX.Element,
   {
     state = initialState,
     store = createStore(reducer, state),
     route = '/polls/1',
     history = createMemoryHistory({ initialEntries: [route] }),
-  }:{
-    state?:AppState,
-    store?:Store,
-    route?:string,
-    history?:MemoryHistory
+  }: {
+    state?: AppState;
+    store?: Store;
+    route?: string;
+    history?: MemoryHistory;
   } = {},
-
 ) {
   return {
     ...render(
@@ -46,7 +48,10 @@ const poll = {
   _id: '1',
   question: 'Test question',
   name: 'Test one',
-  options: [{ option: 'One', votes: 1 }, { option: 'Two', votes: 2 }],
+  options: [
+    { option: 'One', votes: 1 },
+    { option: 'Two', votes: 2 },
+  ],
   votes: 69,
   createdBy: 'testUser1',
   createdAt: '2020-01-21T12:45:03.180Z',
@@ -56,11 +61,13 @@ const poll = {
 
 describe('<Poll /> Component', () => {
   it('renders Poll component when default redux state - user not logged in', async () => {
-    axiosMock.get.mockResolvedValueOnce({ data: { poll, success: true } });
+    axiosMock.get.mockResolvedValueOnce({
+      data: { poll, success: true },
+    });
     const { getByText, getByTestId } = renderWithRedux(
       <Route path="/polls/1">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props:any) => <Poll {...props} />}
+        {(props: any) => <Poll {...props} />}
       </Route>,
       {
         route: '/polls/1',
@@ -70,62 +77,108 @@ describe('<Poll /> Component', () => {
     const loader = getByTestId('loader');
     expect(loader.textContent).toBe('');
 
-    const pollQuestion = await waitForElement(() => getByText('Test question'));
+    const pollQuestion = await waitForElement(() =>
+      getByText('Test question'),
+    );
     expect(pollQuestion.textContent).toBe('Test question');
-    const pollName = await waitForElement(() => getByText('Test one'));
+    const pollName = await waitForElement(() =>
+      getByText('Test one'),
+    );
     expect(pollName.textContent).toBe('Test one');
-    const pollVotes = await waitForElement(() => getByText('Total votes: 69'));
+    const pollVotes = await waitForElement(() =>
+      getByText('Total votes: 69'),
+    );
     expect(pollVotes.textContent).toBe('Total votes: 69');
-    const pollCreatedBy = await waitForElement(() => getByText('created by testUser1'));
+    const pollCreatedBy = await waitForElement(() =>
+      getByText('created by testUser1'),
+    );
     expect(pollCreatedBy.textContent).toBe('created by testUser1');
-    const pollCreatedAt = await waitForElement(() => getByText('created on January 21, 2020'));
-    expect(pollCreatedAt.textContent).toBe('created on January 21, 2020');
+    const pollCreatedAt = await waitForElement(() =>
+      getByText('created on January 21, 2020'),
+    );
+    expect(pollCreatedAt.textContent).toBe(
+      'created on January 21, 2020',
+    );
   });
 
   it('renders Poll component when redux state - user logged in', async () => {
-    axiosMock.get.mockResolvedValueOnce({ data: { poll, success: true } });
+    axiosMock.get.mockResolvedValueOnce({
+      data: { poll, success: true },
+    });
     const { getByText, getByTestId } = renderWithRedux(
       <Route path="/polls/1">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props:any) => <Poll {...props} />}
+        {(props: any) => <Poll {...props} />}
       </Route>,
       {
         route: '/polls/1',
-        state: { username: 'testUser1', userId: '1', starredPolls: ['id'] },
+        state: {
+          username: 'testUser1',
+          userId: '1',
+          starredPolls: ['id'],
+        },
       },
     );
 
     const loader = getByTestId('loader');
     expect(loader.textContent).toBe('');
 
-    const pollQuestion = await waitForElement(() => getByText('Test question'));
+    const pollQuestion = await waitForElement(() =>
+      getByText('Test question'),
+    );
     expect(pollQuestion.textContent).toBe('Test question');
-    const pollName = await waitForElement(() => getByText('Test one'));
+    const pollName = await waitForElement(() =>
+      getByText('Test one'),
+    );
     expect(pollName.textContent).toBe('Test one');
-    const pollVotes = await waitForElement(() => getByText('Total votes: 69'));
+    const pollVotes = await waitForElement(() =>
+      getByText('Total votes: 69'),
+    );
     expect(pollVotes.textContent).toBe('Total votes: 69');
-    const pollCreatedBy = await waitForElement(() => getByText('created by testUser1'));
+    const pollCreatedBy = await waitForElement(() =>
+      getByText('created by testUser1'),
+    );
     expect(pollCreatedBy.textContent).toBe('created by testUser1');
-    const pollCreatedAt = await waitForElement(() => getByText('created on January 21, 2020'));
-    expect(pollCreatedAt.textContent).toBe('created on January 21, 2020');
+    const pollCreatedAt = await waitForElement(() =>
+      getByText('created on January 21, 2020'),
+    );
+    expect(pollCreatedAt.textContent).toBe(
+      'created on January 21, 2020',
+    );
 
     const btn = await waitForElement(() => getByText(/delete/i));
     expect(btn.textContent).toBe('Delete');
   });
 
-  it('let\'s vote and rerenders component after that', async () => {
-    axiosMock.get.mockResolvedValueOnce({ data: { poll, success: true } });
-    axiosMock.put.mockResolvedValueOnce(
-      { data: { poll: { ...poll, options: [{ option: 'One', votes: 1 }, { option: 'Two', votes: 3 }], votes: 70 }, success: true } },
-    );
+  it("let's vote and rerenders component after that", async () => {
+    axiosMock.get.mockResolvedValueOnce({
+      data: { poll, success: true },
+    });
+    axiosMock.put.mockResolvedValueOnce({
+      data: {
+        poll: {
+          ...poll,
+          options: [
+            { option: 'One', votes: 1 },
+            { option: 'Two', votes: 3 },
+          ],
+          votes: 70,
+        },
+        success: true,
+      },
+    });
     const { getByText, getByTestId } = renderWithRedux(
       <Route path="/polls/1">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props:any) => <Poll {...props} />}
+        {(props: any) => <Poll {...props} />}
       </Route>,
       {
         route: '/polls/1',
-        state: { username: 'testUser1', userId: '1', starredPolls: ['id'] },
+        state: {
+          username: 'testUser1',
+          userId: '1',
+          starredPolls: ['id'],
+        },
       },
     );
     const loader = getByTestId('loader');
@@ -134,7 +187,9 @@ describe('<Poll /> Component', () => {
     const btn = await waitForElement(() => getByTestId('Two'));
     fireEvent.click(btn);
 
-    const pollVotes = await waitForElement(() => getByText('Total votes: 70'));
+    const pollVotes = await waitForElement(() =>
+      getByText('Total votes: 70'),
+    );
     expect(pollVotes.textContent).toBe('Total votes: 70');
   });
 });

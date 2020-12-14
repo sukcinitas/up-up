@@ -5,55 +5,75 @@ import axios from 'axios';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { logoutCurrentUser, ActionTypes, AppState } from '../../redux/actions';
+import {
+  logoutCurrentUser,
+  ActionTypes,
+  AppState,
+} from '../../redux/actions';
 import '../../sass/Header.scss';
 
 axios.defaults.withCredentials = true;
 
 interface IHeaderStateProps {
-  isLoggedIn:boolean,
-  username:string,
+  isLoggedIn: boolean;
+  username: string
 }
 
 interface IHeaderRouteProps extends RouteComponentProps {}
 
 interface IHeaderDispatchProps {
-  logout: () => void,
+  logout: () => void;
 }
 
-type AllProps = IHeaderStateProps & IHeaderDispatchProps & IHeaderRouteProps;
+type AllProps = IHeaderStateProps &
+  IHeaderDispatchProps &
+  IHeaderRouteProps;
 
-const Header:React.FunctionComponent<AllProps> = ({
-  isLoggedIn, logout, history, username,
+const Header: React.FunctionComponent<AllProps> = ({
+  isLoggedIn,
+  logout,
+  history,
+  username,
 }) => {
   const handleLogout = () => {
-    axios.get('/api/user/logout')
-      .then((res) => {
-        if (res.data.success) {
-          logout();
-          history.push('/user/login');
-        }
-      });
+    axios.get('/api/user/logout').then((res) => {
+      if (res.data.success) {
+        logout();
+        history.push('/user/login');
+      }
+    });
   };
   return (
     <header className="header">
       <h1 className="header__heading">
-        <Link to="/" className="header__link">VA.</Link>
+        <Link to="/" className="header__link">
+          VA.
+        </Link>
       </h1>
       <div>
-        {isLoggedIn
-          ? (
-            <>
-              <Link to="/user/profile" className="btn btn--username">{username}</Link>
-              <button type="button" onClick={handleLogout} className="btn">Sign out</button>
-            </>
-          )
-          : (
-            <>
-              <Link to="/user/login" className="btn btn--bold">Login</Link>
-              <Link to="/user/register" className="btn">Register</Link>
-            </>
-          )}
+        {isLoggedIn ? (
+          <>
+            <Link to="/user/profile" className="btn btn--username">
+              {username}
+            </Link>
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="btn"
+            >
+              Sign out
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to="/user/login" className="btn btn--bold">
+              Login
+            </Link>
+            <Link to="/user/register" className="btn">
+              Register
+            </Link>
+          </>
+        )}
       </div>
     </header>
   );
@@ -67,11 +87,11 @@ Header.propTypes = {
   username: PropTypes.string.isRequired,
 };
 
-const mapDispatchToProps = (dispatch:Dispatch<ActionTypes>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<ActionTypes>) => ({
   logout: () => dispatch(logoutCurrentUser()),
 });
 
-const mapStateToProps = (state:AppState) => ({
+const mapStateToProps = (state: AppState) => ({
   isLoggedIn: Boolean(state.userId),
   username: state.username,
 });

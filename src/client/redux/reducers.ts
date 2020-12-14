@@ -6,9 +6,13 @@ import {
   ActionTypes,
 } from './actions';
 
-export const initialState:AppState = { userId: '', username: '', starredPolls: [] };
+export const initialState: AppState = {
+  userId: '',
+  username: '',
+  starredPolls: [],
+};
 
-export default (state = initialState, action:ActionTypes) => {
+export default (state = initialState, action: ActionTypes) => {
   switch (action.type) {
     case RECEIVE_CURRENT_USER:
       return { ...state, ...action.user };

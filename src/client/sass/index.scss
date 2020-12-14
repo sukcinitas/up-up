@@ -1,6 +1,6 @@
 @use 'variables';
 
-/*BUTTONS*/////////////////////////////////////////////////////////////////////////////////////////
+/*BUTTONS*/ ////////////////////////////////////////////////////////////////////////////////////////
 
 .btn {
   font-family: variables.$font-btn;
@@ -15,29 +15,30 @@
   margin: 3px;
   cursor: pointer;
   &--bold {
-      color: variables.$primary-light;
-      background-color: variables.$primary-dark;
+    color: variables.$primary-light;
+    background-color: variables.$primary-dark;
   }
 
   &--username {
-      border: none;
-      text-transform: none;
-      padding: 7px;
-      font-weight: bold;
-      color: variables.$secondary-bright;
+    border: none;
+    text-transform: none;
+    padding: 7px;
+    font-weight: bold;
+    color: variables.$secondary-bright;
   }
 
   &--submit {
-      font-size: 14px;
-      width: 100px;
-      background-color: variables.$primary-dark;
-      color: variables.$primary-light;
-      margin: 43px auto 20px;
-      &:disabled, &[disabled] {
-        cursor: inherit;
-      }
+    font-size: 14px;
+    width: 100px;
+    background-color: variables.$primary-dark;
+    color: variables.$primary-light;
+    margin: 43px auto 20px;
+    &:disabled,
+    &[disabled] {
+      cursor: inherit;
+    }
   }
- 
+
   &--nav {
     text-transform: none;
     margin: 6px;
@@ -48,7 +49,8 @@
     border-bottom: 2px solid transparent;
     font-weight: 500;
     font-family: variables.$font-btn;
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       outline: none;
     }
     &:hover::after {
@@ -80,25 +82,25 @@
   }
 
   &--vote {
-      padding: 8px;
-      color: variables.$primary-dark;
-      border-radius: 2px;
-      text-transform: none;
-      margin: 0 auto;
-      font-size: 16px;
-      font-family: variables.$font-btn;
-      width: 300px;
+    padding: 8px;
+    color: variables.$primary-dark;
+    border-radius: 2px;
+    text-transform: none;
+    margin: 0 auto;
+    font-size: 16px;
+    font-family: variables.$font-btn;
+    width: 300px;
   }
 
   &--selected {
-      background-color: variables.$selected;
+    background-color: variables.$selected;
   }
 
   &--plus {
-      margin: 10px;
-      align-self: center;
-      border: none;
-      font-size: 20px;
+    margin: 10px;
+    align-self: center;
+    border: none;
+    font-size: 20px;
   }
 
   &--create {
@@ -107,9 +109,9 @@
     border: 1px solid variables.$primary-bright;
     color: variables.$primary-dark;
     background-color: variables.$primary-bright;
-      @media only screen and (max-width: 500px) {
-        padding: 7px 10px;
-      } 
+    @media only screen and (max-width: 500px) {
+      padding: 7px 10px;
+    }
   }
   &--supp {
     border: none;
@@ -124,7 +126,7 @@
   }
 }
 
-/*HEADINGS*////////////////////////////////////////////////////////////////////////////////////////
+/*HEADINGS*/ ///////////////////////////////////////////////////////////////////////////////////////
 
 .heading {
   font-family: variables.$font-heading;
@@ -136,7 +138,7 @@
 
   @media only screen and (max-width: 700px) {
     font-size: 30px;
-  } 
+  }
 }
 
 .subheading {
@@ -149,15 +151,16 @@
 
   @media only screen and (max-width: 700px) {
     font-size: 20px;
-  } 
+  }
 }
 
-.user-information__heading, .user-polls__heading {
-    margin-top: 40px;
-    margin-bottom: 70px;
+.user-information__heading,
+.user-polls__heading {
+  margin-top: 40px;
+  margin-bottom: 70px;
 }
 
-/*FORMS*///////////////////////////////////////////////////////////////////////////
+/*FORMS*/ //////////////////////////////////////////////////////////////////////////
 
 .wrapper {
   position: relative;
@@ -176,38 +179,38 @@
   flex-direction: column;
 
   &--profile {
-      border: none;
-      margin: 10px;
-      display: flex;
-      flex-direction: row;
+    border: none;
+    margin: 10px;
+    display: flex;
+    flex-direction: row;
   }
 
   &__label {
-      padding: 0px 0px;
-      font-size: 11px;
-      color: variables.$primary-dark;
-      margin-top: 20px;  
-      font-weight: 600;
-      text-transform: uppercase;
+    padding: 0px 0px;
+    font-size: 11px;
+    color: variables.$primary-dark;
+    margin-top: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
   }
 
   &__input {
-      font-size: 15px;
-      margin: 8px 0px;
-      border: none;
-      border-bottom: 1.5px solid variables.$primary-dark;  
-      background-color: transparent; 
-      color: variables.$secondary-bright;
-      padding: 10px 2px;
+    font-size: 15px;
+    margin: 8px 0px;
+    border: none;
+    border-bottom: 1.5px solid variables.$primary-dark;
+    background-color: transparent;
+    color: variables.$secondary-bright;
+    padding: 10px 2px;
 
-      &--poll-form {
-        @extend .form__input;
-        width: 100%;
-      }
+    &--poll-form {
+      @extend .form__input;
+      width: 100%;
+    }
 
-      &--danger {
-        border-bottom: 2px solid variables.$primary-danger;
-      }
+    &--danger {
+      border-bottom: 2px solid variables.$primary-danger;
+    }
   }
 
   &__input:invalid {
@@ -215,38 +218,39 @@
   }
 
   &__input:focus {
-      border-bottom: 1.5px solid variables.$secondary-bright;
-      outline: none;
+    border-bottom: 1.5px solid variables.$secondary-bright;
+    outline: none;
   }
   &__input--danger:focus {
     border-bottom: 2px solid variables.$primary-danger;
   }
   &__notes {
-      min-height: 17px;
-      padding: 0px 0px;
+    min-height: 17px;
+    padding: 0px 0px;
+    font-size: 13px;
+    color: variables.$primary-danger;
+    display: inline-block;
+
+    &--additional {
+      margin: 0 auto;
+      color: variables.$primary-dark;
       font-size: 13px;
-      color: variables.$primary-danger;
-      display: inline-block;
+    }
 
-      &--additional {
-          margin: 0 auto;
-          color: variables.$primary-dark;
-          font-size: 13px;
-      }
-
-      &--info {
-        padding: 0px 70px;
-        color: variables.$secondary-bright;
-        font-size: 14px;
-      }
+    &--info {
+      padding: 0px 70px;
+      color: variables.$secondary-bright;
+      font-size: 14px;
+    }
   }
 
   &__link {
-      color: variables.$secondary-bright;
+    color: variables.$secondary-bright;
 
-      &:active, &:visited {
-          color: variables.$secondary-bright;
-      }
+    &:active,
+    &:visited {
+      color: variables.$secondary-bright;
+    }
   }
 
   &__subheading {
@@ -272,7 +276,6 @@
       cursor: pointer;
     }
   }
-
 }
 
 .create-poll-form {
@@ -280,7 +283,7 @@
 
   @media only screen and (max-width: 500px) {
     max-width: 240px;
-  } 
+  }
 }
 
 .eye-icon {
@@ -292,17 +295,19 @@
 }
 
 @media only screen and (max-width: 700px) {
-    .form {
-      padding: 60px;
-      padding-bottom: 90px;
-      max-width: 220px;
-      &__label, &__notes {
-          padding: 0px 0px;
-      }
-      &__notes--profile {
-          padding: 0px 0px;
-      }
-      &__input {
-          margin: 8px 0px;      }
+  .form {
+    padding: 60px;
+    padding-bottom: 90px;
+    max-width: 220px;
+    &__label,
+    &__notes {
+      padding: 0px 0px;
     }
+    &__notes--profile {
+      padding: 0px 0px;
+    }
+    &__input {
+      margin: 8px 0px;
+    }
+  }
 }

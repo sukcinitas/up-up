@@ -1,9 +1,13 @@
 # Voting App
+
 An application to create polls and vote.
 
-----
+---
+
 ## Technologies & methodologies
+
 ##### Front-end
+
 - TypeScript
 - React, React Router
 - Redux
@@ -13,6 +17,7 @@ An application to create polls and vote.
 - BEM naming methodology
 
 ##### Back-end
+
 - Node & Express
 - MongoDB & Mongoose
 - Axios
@@ -20,21 +25,25 @@ An application to create polls and vote.
 - Bcryptjs
 
 ##### Testing & linting & bundling & compiling
+
 - Jest & React Testing Library
-- Webpack 
+- Webpack
 - Babel
 - ESLint (Airbnb & Airbnb-typescript style guides)
 
-----
+---
+
 ## Setup
-Check the app [here](https://still-bayou-60170.herokuapp.com) (it takes ~ 10 seconds for the sleeping app on Heroku to wake up) or clone this repository - `git clone https://github.com/sukcinitas/voting-app.git`, install dependencies - 
-`npm install` (you will need `npm` and `node` installed globally) 
+
+Check the app [here](https://still-bayou-60170.herokuapp.com) (it takes ~ 10 seconds for the sleeping app on Heroku to wake up) or clone this repository - `git clone https://github.com/sukcinitas/voting-app.git`, install dependencies -
+`npm install` (you will need `npm` and `node` installed globally)
 
 - `npm run dev` - to run the app on [localhost:3000](http://localhost:3000/)
 - `npm run test` - to run tests
-- `npm run prod` - to run minified app on [localhost:8080](http://localhost:8080/) 
+- `npm run prod` - to run minified app on [localhost:8080](http://localhost:8080/)
 
-----
+---
+
 ## User stories
 
 - As a user, I can see a list of polls. I can choose a way in which list is sorted from two options.

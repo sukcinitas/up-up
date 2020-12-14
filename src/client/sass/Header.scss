@@ -7,13 +7,13 @@
   margin-bottom: 30px;
   padding: 2px;
 
-    &__heading {
-        margin: 0;
-        font-family: variables.$font-primary;
-        font-size: 40px;
-    }
-    &__link {
-        text-decoration: none;
-        color: variables.$primary-dark;
-    }
+  &__heading {
+    margin: 0;
+    font-family: variables.$font-primary;
+    font-size: 40px;
+  }
+  &__link {
+    text-decoration: none;
+    color: variables.$primary-dark;
+  }
 }

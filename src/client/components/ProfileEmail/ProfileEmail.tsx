@@ -8,11 +8,14 @@ import checkValidity from '../../util/checkValidity';
 axios.defaults.withCredentials = true;
 
 interface IProfileEmailProps {
-  username:string,
-  userId:string,
+  username: string;
+  userId: string;
 }
 
-const ProfileEmail:React.FunctionComponent<IProfileEmailProps> = ({ username, userId }) => {
+const ProfileEmail: React.FunctionComponent<IProfileEmailProps> = ({
+  username,
+  userId,
+}) => {
   const [email, setEmail] = useState('');
   const [newEmail, setNewEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,7 +27,8 @@ const ProfileEmail:React.FunctionComponent<IProfileEmailProps> = ({ username, us
   useEffect(() => {
     const getEmail = () => {
       setIsLoading(true);
-      axios.get(`/api/user/profile/${username}`)
+      axios
+        .get(`/api/user/profile/${username}`)
         .then((res) => {
           if (res.data.success) {
             const data = res.data.user[0].email;
@@ -35,7 +39,10 @@ const ProfileEmail:React.FunctionComponent<IProfileEmailProps> = ({ username, us
           }
         })
         .catch((err) => {
-          setErrorMessage(err.response.data.message || `${err.response.status}: ${err.response.statusText}`);
+          setErrorMessage(
+            err.response.data.message ||
+              `${err.response.status}: ${err.response.statusText}`,
+          );
           setIsLoading(false);
         });
     };
@@ -48,7 +55,7 @@ const ProfileEmail:React.FunctionComponent<IProfileEmailProps> = ({ username, us
     setChangeErr('');
   };
 
-  const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
     if (name === 'password') {
       setPassword(value);
@@ -64,25 +71,30 @@ const ProfileEmail:React.FunctionComponent<IProfileEmailProps> = ({ username, us
     if (changeErr) {
       return;
     }
-    axios.put('/api/user/profile', {
-      parameter: 'email',
-      id: userId,
-      email: newEmail,
-      password,
-    }).then((res) => {
-      if (res.data.success) {
-        setEmail(newEmail);
-        setNewEmail('');
-        setPassword('');
-        setErrorMessage(res.data.message);
-        setIsChangingEmail(false);
-      } else {
-        setErrorMessage(res.data.message);
-        setIsLoading(false);
-      }
-    })
+    axios
+      .put('/api/user/profile', {
+        parameter: 'email',
+        id: userId,
+        email: newEmail,
+        password,
+      })
+      .then((res) => {
+        if (res.data.success) {
+          setEmail(newEmail);
+          setNewEmail('');
+          setPassword('');
+          setErrorMessage(res.data.message);
+          setIsChangingEmail(false);
+        } else {
+          setErrorMessage(res.data.message);
+          setIsLoading(false);
+        }
+      })
       .catch((err) => {
-        setChangeErr(err.response.data.message || `${err.response.status}: ${err.response.statusText}`);
+        setChangeErr(
+          err.response.data.message ||
+            `${err.response.status}: ${err.response.statusText}`,
+        );
       });
   };
 
@@ -93,20 +105,46 @@ const ProfileEmail:React.FunctionComponent<IProfileEmailProps> = ({ username, us
         {'  '}
         {isLoading ? '...' : email}
       </p>
-      <button type="button" data-testid="showEmailChange" onClick={showEmailChange} className="btn">Change email</button>
+      <button
+        type="button"
+        data-testid="showEmailChange"
+        onClick={showEmailChange}
+        className="btn"
+      >
+        Change email
+      </button>
       {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
-      {isChangingEmail
-        ? (
-          <div className="form form--user-information">
-            <label className="form__label">New e-mail</label>
-            <input value={newEmail} data-testid="newEmail" name="newEmail" onChange={handleChange} className="form__input" />
-            <label className="form__label">Password</label>
-            <input value={password} type="password" data-testid="password" name="password" onChange={handleChange} className="form__input" />
-            <button type="button" onClick={changeEmail} className="btn btn--submit">Change</button>
-            {changeErr && <ErrorMessage errorMessage={changeErr} />}
-          </div>
-        )
-        : ''}
+      {isChangingEmail ? (
+        <div className="form form--user-information">
+          <label className="form__label">New e-mail</label>
+          <input
+            value={newEmail}
+            data-testid="newEmail"
+            name="newEmail"
+            onChange={handleChange}
+            className="form__input"
+          />
+          <label className="form__label">Password</label>
+          <input
+            value={password}
+            type="password"
+            data-testid="password"
+            name="password"
+            onChange={handleChange}
+            className="form__input"
+          />
+          <button
+            type="button"
+            onClick={changeEmail}
+            className="btn btn--submit"
+          >
+            Change
+          </button>
+          {changeErr && <ErrorMessage errorMessage={changeErr} />}
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 };

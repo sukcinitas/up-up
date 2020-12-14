@@ -1,5 +1,3 @@
-/* eslint-disable react/no-unused-state */
-/* eslint-disable no-useless-escape */
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import axios from 'axios';
@@ -8,35 +6,41 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
-import { receiveCurrentUser, ActionTypes, AppState } from '../../redux/actions';
+import {
+  receiveCurrentUser,
+  ActionTypes,
+  AppState,
+} from '../../redux/actions';
 import checkValidity from '../../util/checkValidity';
 
 axios.defaults.withCredentials = true;
 
 interface IRegisterDispatchProps {
-  register: (user:AppState) => void,
+  register: (user: AppState) => void;
 }
 type AllProps = AppState & IRegisterDispatchProps;
 
 interface IRegisterState {
-  username:string,
-  email:string,
-  password:string,
-  errorMessage:string,
-  errors:{
-    usernameErr:string,
-    emailErr:string,
-    passwordErr: string,
-    usernameTaken:boolean,
-    emailTaken:boolean
-  },
-  isPasswordVisible: boolean,
+  username: string;
+  email: string;
+  password: string;
+  errorMessage: string;
+  errors: {
+    usernameErr: string;
+    emailErr: string;
+    passwordErr: string;
+    usernameTaken: boolean;
+    emailTaken: boolean;
+  };
+  isPasswordVisible: boolean;
 }
 
 class Register extends React.Component<AllProps, IRegisterState> {
-  static propTypes: { register: PropTypes.Validator<(...args: any[]) => any>; };
+  static propTypes: {
+    register: PropTypes.Validator<(...args: any[]) => any>;
+  };
 
-  constructor(props:AllProps) {
+  constructor(props: AllProps) {
     super(props);
     this.state = {
       username: '',
@@ -54,24 +58,33 @@ class Register extends React.Component<AllProps, IRegisterState> {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.togglePasswordVisibility = this.togglePasswordVisibility.bind(this);
+    this.togglePasswordVisibility = this.togglePasswordVisibility.bind(
+      this,
+    );
   }
 
-  handleChange(e:React.ChangeEvent<HTMLInputElement>) {
+  handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { errors } = this.state;
     switch (e.currentTarget.name) {
       case 'username':
-        errors.usernameErr = e.currentTarget.value.length < 5 || e.currentTarget.value.length > 30
-          ? 'Username must be 5-30 characters long!'
-          : '';
+        errors.usernameErr =
+          e.currentTarget.value.length < 5 ||
+          e.currentTarget.value.length > 30
+            ? 'Username must be 5-30 characters long!'
+            : '';
         break;
       case 'email':
-        errors.emailErr = checkValidity.checkEmail(e.currentTarget.value);
+        errors.emailErr = checkValidity.checkEmail(
+          e.currentTarget.value,
+        );
         break;
       case 'password':
-        errors.passwordErr = checkValidity.checkPassword(e.currentTarget.value);
+        errors.passwordErr = checkValidity.checkPassword(
+          e.currentTarget.value,
+        );
         break;
-      default: return;
+      default:
+        return;
     }
     switch (e.currentTarget.name) {
       case 'username':
@@ -99,37 +112,39 @@ class Register extends React.Component<AllProps, IRegisterState> {
     }
   }
 
-  handleSubmit(e:React.MouseEvent<HTMLButtonElement>) {
-    const {
-      errors, username, email, password,
-    } = this.state;
+  handleSubmit(e: React.MouseEvent<HTMLButtonElement>) {
+    const { errors, username, email, password } = this.state;
     e.preventDefault();
-    const {
-      usernameErr, emailErr, passwordErr,
-    } = errors;
+    const { usernameErr, emailErr, passwordErr } = errors;
     const { register } = this.props;
     if (usernameErr !== '' || emailErr !== '' || passwordErr !== '') {
       return;
     }
 
-    axios.post('/api/user/register', { username, email, password })
+    axios
+      .post('/api/user/register', { username, email, password })
       .then((res) => {
         const newErrors = {
           ...errors,
           usernameTaken: res.data.username_taken || false,
           emailTaken: res.data.email_taken || false,
         };
-        this.setState({
-          errors: newErrors,
-        }, () => {
-          if (res.data.success) {
-            register(res.data.sessionUser);
-          }
-        });
+        this.setState(
+          {
+            errors: newErrors,
+          },
+          () => {
+            if (res.data.success) {
+              register(res.data.sessionUser);
+            }
+          },
+        );
       })
       .catch((err) => {
         this.setState({
-          errorMessage: err.response.data.message || `${err.response.status}: ${err.response.statusText}`,
+          errorMessage:
+            err.response.data.message ||
+            `${err.response.status}: ${err.response.statusText}`,
         });
       });
   }
@@ -143,20 +158,25 @@ class Register extends React.Component<AllProps, IRegisterState> {
 
   render() {
     const {
-      errors, errorMessage, username, email, password, isPasswordVisible,
+      errors,
+      errorMessage,
+      username,
+      email,
+      password,
+      isPasswordVisible,
     } = this.state;
     const {
-      usernameErr, emailErr, passwordErr, usernameTaken, emailTaken,
+      usernameErr,
+      emailErr,
+      passwordErr,
+      usernameTaken,
+      emailTaken,
     } = errors;
     return (
       <div>
         <form className="form">
-
           <h1 className="heading form__heading">Register</h1>
-          <label
-            htmlFor="username"
-            className="form__label"
-          >
+          <label htmlFor="username" className="form__label">
             Username
           </label>
           <input
@@ -170,10 +190,7 @@ class Register extends React.Component<AllProps, IRegisterState> {
           />
           <span className="form__notes">{` ${usernameErr}`}</span>
 
-          <label
-            htmlFor="email"
-            className="form__label"
-          >
+          <label htmlFor="email" className="form__label">
             E-mail
           </label>
           <input
@@ -185,10 +202,7 @@ class Register extends React.Component<AllProps, IRegisterState> {
             required
             placeholder="Example: vardenis@email.com"
           />
-          <span className="form__notes">
-            {' '}
-            {emailErr}
-          </span>
+          <span className="form__notes"> {emailErr}</span>
 
           <label
             htmlFor="password"
@@ -197,10 +211,18 @@ class Register extends React.Component<AllProps, IRegisterState> {
           >
             Password
             <FontAwesomeIcon
-              icon={isPasswordVisible ? ['far', 'eye-slash'] : ['far', 'eye']}
+              icon={
+                isPasswordVisible
+                  ? ['far', 'eye-slash']
+                  : ['far', 'eye']
+              }
               className="eye-icon"
               onClick={this.togglePasswordVisibility}
-              title={isPasswordVisible ? 'Hide password!' : 'Show password!'}
+              title={
+                isPasswordVisible
+                  ? 'Hide password!'
+                  : 'Show password!'
+              }
             />
           </label>
           <input
@@ -211,17 +233,18 @@ class Register extends React.Component<AllProps, IRegisterState> {
             className="form__input"
             required
           />
-          <span className="form__notes">
-            {' '}
-            {passwordErr}
-          </span>
+          <span className="form__notes"> {passwordErr}</span>
 
           <div>
             <span className="form__notes">
               {usernameTaken ? ' Username is already in use' : ''}
             </span>
-            <span className="form__notes">{emailTaken ? ' Email is already in use' : ''}</span>
-            {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
+            <span className="form__notes">
+              {emailTaken ? ' Email is already in use' : ''}
+            </span>
+            {errorMessage && (
+              <ErrorMessage errorMessage={errorMessage} />
+            )}
           </div>
 
           <button
@@ -233,9 +256,10 @@ class Register extends React.Component<AllProps, IRegisterState> {
             Register
           </button>
           <span className="form__notes--additional">
-            Already have an account?
-            {' '}
-            <Link to="/user/login" className="link form__link">Login</Link>
+            Already have an account?{' '}
+            <Link to="/user/login" className="link form__link">
+              Login
+            </Link>
           </span>
         </form>
       </div>
@@ -243,8 +267,10 @@ class Register extends React.Component<AllProps, IRegisterState> {
   }
 }
 
-const mapDispatchToProps = (dispatch:Dispatch<ActionTypes>):IRegisterDispatchProps => ({
-  register: (user:AppState) => dispatch(receiveCurrentUser(user)),
+const mapDispatchToProps = (
+  dispatch: Dispatch<ActionTypes>,
+): IRegisterDispatchProps => ({
+  register: (user: AppState) => dispatch(receiveCurrentUser(user)),
 });
 
 export default connect(null, mapDispatchToProps)(Register);

@@ -3,26 +3,24 @@ import { Route, Router } from 'react-router-dom';
 import { createMemoryHistory, MemoryHistory } from 'history';
 import { createStore, Store } from 'redux';
 import { Provider } from 'react-redux';
-import {
-  render, cleanup, fireEvent,
-} from '@testing-library/react';
+import { render, cleanup, fireEvent } from '@testing-library/react';
 import { AppState } from '../../redux/actions';
 import reducer, { initialState } from '../../redux/reducers';
 
 import Register from './Register';
 
 function renderWithRedux(
-  ui:JSX.Element,
+  ui: JSX.Element,
   {
     state = initialState,
     store = createStore(reducer, state),
     route = '/user/register',
     history = createMemoryHistory({ initialEntries: [route] }),
-  }:{
-    state?:AppState,
-    store?:Store,
-    route?:string,
-    history?:MemoryHistory
+  }: {
+    state?: AppState;
+    store?: Store;
+    route?: string;
+    history?: MemoryHistory;
   } = {},
 ) {
   return {
@@ -43,7 +41,7 @@ describe('<Register /> Component', () => {
     const { getByText } = renderWithRedux(
       <Route path="/user/register">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props:any) => <Register {...props} />}
+        {(props: any) => <Register {...props} />}
       </Route>,
       {
         route: '/user/register',
@@ -53,7 +51,9 @@ describe('<Register /> Component', () => {
     expect(getByText(/Username/i).textContent).toBe('Username');
     expect(getByText(/^Password$/i).textContent).toBe('Password');
     expect(getByText(/E-mail/i).textContent).toBe('E-mail');
-    expect(getByText(/Already have an account?/i).textContent).toBe('Already have an account? Login');
+    expect(getByText(/Already have an account?/i).textContent).toBe(
+      'Already have an account? Login',
+    );
     expect(getByText(/^Login$/i).textContent).toBe('Login');
   });
 
@@ -61,7 +61,7 @@ describe('<Register /> Component', () => {
     const { getByLabelText } = renderWithRedux(
       <Route path="/user/register">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props:any) => <Register {...props} />}
+        {(props: any) => <Register {...props} />}
       </Route>,
       {
         route: '/user/register',
@@ -72,7 +72,9 @@ describe('<Register /> Component', () => {
     const password = getByLabelText('Password') as HTMLInputElement;
 
     fireEvent.change(username, { target: { value: 'testUser1' } });
-    fireEvent.change(email, { target: { value: 'testEmail@test.lt' } });
+    fireEvent.change(email, {
+      target: { value: 'testEmail@test.lt' },
+    });
     fireEvent.change(password, { target: { value: 'testas1' } });
 
     expect(username.value).toBe('testUser1');
@@ -84,7 +86,7 @@ describe('<Register /> Component', () => {
     const { getByLabelText, getByText } = renderWithRedux(
       <Route path="/user/register">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props:any) => <Register {...props} />}
+        {(props: any) => <Register {...props} />}
       </Route>,
       {
         route: '/user/register',
@@ -102,8 +104,18 @@ describe('<Register /> Component', () => {
     expect(email.value).toBe('emaiil');
     expect(password.value).toBe('testa');
 
-    expect(getByText('Username must be 5-30 characters long!').textContent).toBe(' Username must be 5-30 characters long!');
-    expect(getByText('Email is not valid!').textContent).toBe(' Email is not valid!');
-    expect(getByText('Password must be at least 10 characters and contain at least one uppercase letter, one lowercase letter, one number and one special character!').textContent).toBe(' Password must be at least 10 characters and contain at least one uppercase letter, one lowercase letter, one number and one special character!');
+    expect(
+      getByText('Username must be 5-30 characters long!').textContent,
+    ).toBe(' Username must be 5-30 characters long!');
+    expect(getByText('Email is not valid!').textContent).toBe(
+      ' Email is not valid!',
+    );
+    expect(
+      getByText(
+        'Password must be at least 10 characters and contain at least one uppercase letter, one lowercase letter, one number and one special character!',
+      ).textContent,
+    ).toBe(
+      ' Password must be at least 10 characters and contain at least one uppercase letter, one lowercase letter, one number and one special character!',
+    );
   });
 });

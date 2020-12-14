@@ -5,7 +5,7 @@
   @media only screen and (max-width: 700px) {
     padding: 0px 10px;
     margin-top: 50px;
-  } 
+  }
   &__polls {
     margin: 20px;
   }
@@ -24,20 +24,22 @@
     font-family: variables.$font-primary;
     @media only screen and (max-width: 500px) {
       max-width: 90%;
-    } 
+    }
   }
   &__notes {
     font-family: variables.$font-primary;
     font-size: 14px;
   }
 
-  &__title, &__votes, &__btn {
-      padding: 0 10px;
+  &__title,
+  &__votes,
+  &__btn {
+    padding: 0 10px;
   }
   &__title {
-      color: variables.$secondary-dark;
-      text-decoration: none;
-      width: 60%;
+    color: variables.$secondary-dark;
+    text-decoration: none;
+    width: 60%;
   }
   &__btn--create {
     font-family: variables.$font-btn;
@@ -53,9 +55,9 @@
     border: 1px solid variables.$primary-bright;
     color: variables.$primary-dark;
     background-color: variables.$primary-bright;
-      @media only screen and (max-width: 500px) {
-        padding: 7px 10px;
-      } 
+    @media only screen and (max-width: 500px) {
+      padding: 7px 10px;
+    }
   }
   &__star--starred {
     color: transparent;

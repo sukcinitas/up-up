@@ -29,12 +29,16 @@ export default merge(common, {
     rules: [
       {
         test: /\.(scss|css)$/,
-        use: ['style-loader', 'css-loader', {
-          loader: 'sass-loader',
-          options: {
-            implementation: sass,
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              implementation: sass,
+            },
           },
-        }],
+        ],
       },
       {
         test: /\.(js|jsx)$/,

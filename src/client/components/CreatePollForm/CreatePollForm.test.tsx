@@ -9,19 +9,18 @@ import reducer, { initialState } from '../../redux/reducers';
 import CreatePollForm from './CreatePollForm';
 
 function renderWithRedux(
-  ui:JSX.Element,
+  ui: JSX.Element,
   {
     state = initialState,
     store = createStore(reducer, state),
     route = '/user/create-poll',
     history = createMemoryHistory({ initialEntries: [route] }),
-  }:{
-    state?:AppState,
-    store?:Store,
-    route?:string,
-    history?:MemoryHistory
+  }: {
+    state?: AppState;
+    store?: Store;
+    route?: string;
+    history?: MemoryHistory;
   } = {},
-
 ) {
   return {
     ...render(
@@ -41,17 +40,23 @@ describe('<CreatePollForm /> Component', () => {
     const { getByText, getByLabelText } = renderWithRedux(
       <Route path="/user/create-poll">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props:any) => <CreatePollForm {...props} />}
+        {(props: any) => <CreatePollForm {...props} />}
       </Route>,
       {
         route: '/user/create-poll',
       },
     );
 
-    expect(getByText(/Create a Poll/i).textContent).toBe('Create a Poll');
+    expect(getByText(/Create a Poll/i).textContent).toBe(
+      'Create a Poll',
+    );
     expect(getByText(/Poll name/i).textContent).toBe('Poll name');
-    expect(getByText(/Poll question\/statement/i).textContent).toBe('Poll question/statement');
-    expect(getByText(/Poll options/i).textContent).toBe('Poll options');
+    expect(getByText(/Poll question\/statement/i).textContent).toBe(
+      'Poll question/statement',
+    );
+    expect(getByText(/Poll options/i).textContent).toBe(
+      'Poll options',
+    );
     expect(getByText(/Submit/i).textContent).toBe('Submit');
     expect((getByLabelText('1') as HTMLInputElement).value).toBe('');
     expect((getByLabelText('2') as HTMLInputElement).value).toBe('');
@@ -61,7 +66,7 @@ describe('<CreatePollForm /> Component', () => {
     const { getByLabelText, getByTestId } = renderWithRedux(
       <Route path="/user/create-poll">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props:any) => <CreatePollForm {...props} />}
+        {(props: any) => <CreatePollForm {...props} />}
       </Route>,
       {
         route: '/user/create-poll',
@@ -78,7 +83,7 @@ describe('<CreatePollForm /> Component', () => {
     const { getByLabelText, getByTestId } = renderWithRedux(
       <Route path="/user/create-poll">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props:any) => <CreatePollForm {...props} />}
+        {(props: any) => <CreatePollForm {...props} />}
       </Route>,
       {
         route: '/user/create-poll',
@@ -89,8 +94,12 @@ describe('<CreatePollForm /> Component', () => {
     fireEvent.change(nameInput, { target: { value: 'Test name' } });
     expect(nameInput.value).toBe('Test name');
 
-    const questionInput = getByLabelText('Poll question/statement') as HTMLInputElement;
-    fireEvent.change(questionInput, { target: { value: 'Test question' } });
+    const questionInput = getByLabelText(
+      'Poll question/statement',
+    ) as HTMLInputElement;
+    fireEvent.change(questionInput, {
+      target: { value: 'Test question' },
+    });
     expect(questionInput.value).toBe('Test question');
 
     const option1Input = getByLabelText('1') as HTMLInputElement;

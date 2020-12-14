@@ -4,45 +4,59 @@ import * as React from 'react';
 // import * as PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  Redirect, Route, withRouter, RouteComponentProps,
+  Redirect,
+  Route,
+  withRouter,
+  RouteComponentProps,
 } from 'react-router-dom';
 import { AppState } from '../redux/actions';
 
 // with Router is needed sot that Auth and Protected children would
 // have certain properties: history, etc.
 
-const mapStateToProps = (state:AppState) => ({
+const mapStateToProps = (state: AppState) => ({
   isLoggedIn: Boolean(state.userId),
 });
-interface RouteProps extends RouteComponentProps{
-  path:string,
+interface RouteProps extends RouteComponentProps {
+  path: string;
 }
 interface Props {
-  isLoggedIn:boolean,
-  component:any,
+  isLoggedIn: boolean;
+  component: any;
 }
 type AllProps = Props & RouteProps;
 
-const Auth:React.FunctionComponent<AllProps> = ({ isLoggedIn, path, component: Component }) => (
+const Auth: React.FunctionComponent<AllProps> = ({
+  isLoggedIn,
+  path,
+  component: Component,
+}) => (
   <Route
     path={path}
-    render={(props) => (
-      isLoggedIn ? <Redirect to="/" from="/" /> : <Component {...props} />
-    )}
+    render={(props) =>
+      isLoggedIn ? (
+        <Redirect to="/" from="/" />
+      ) : (
+        <Component {...props} />
+      )
+    }
   />
 );
 
-const Protected:React.FunctionComponent<AllProps> = (
-  {
-    isLoggedIn,
-    path, component: Component,
-  },
-) => (
+const Protected: React.FunctionComponent<AllProps> = ({
+  isLoggedIn,
+  path,
+  component: Component,
+}) => (
   <Route
     path={path}
-    render={(props) => (
-      isLoggedIn ? <Component {...props} /> : <Redirect to="/user/login" from="/" />
-    )}
+    render={(props) =>
+      isLoggedIn ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to="/user/login" from="/" />
+      )
+    }
   />
 );
 
@@ -58,9 +72,7 @@ const Protected:React.FunctionComponent<AllProps> = (
 //   component: PropTypes.Profile.isRequired,
 // };
 
-export const AuthRoute = withRouter(
-  connect(mapStateToProps)(Auth),
-);
+export const AuthRoute = withRouter(connect(mapStateToProps)(Auth));
 
 export const ProtectedRoute = withRouter(
   connect(mapStateToProps)(Protected),

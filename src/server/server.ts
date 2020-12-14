@@ -21,23 +21,25 @@ const MongoStore = connectMongo(session);
     mongoose.set('useFindAndModify', false);
 
     const app = express();
-    app.use(session({
-      name: process.env.SESS_NAME,
-      secret: process.env.SESS_SECRET,
-      saveUninitialized: false,
-      resave: false,
-      store: new MongoStore({
-        mongooseConnection: mongoose.connection,
-        collection: 'session',
-        ttl: 60 * 60,
+    app.use(
+      session({
+        name: process.env.SESS_NAME,
+        secret: process.env.SESS_SECRET,
+        saveUninitialized: false,
+        resave: false,
+        store: new MongoStore({
+          mongooseConnection: mongoose.connection,
+          collection: 'session',
+          ttl: 60 * 60,
+        }),
+        cookie: {
+          sameSite: false,
+          secure: process.env.NODE_ENV === 'prod',
+          maxAge: 86400000,
+          // expires: false, // after closing the browser, session ends
+        },
       }),
-      cookie: {
-        sameSite: false,
-        secure: process.env.NODE_ENV === 'prod',
-        maxAge: 86400000,
-        // expires: false, // after closing the browser, session ends
-      },
-    }));
+    );
 
     app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
     app.use(express.json()); // instead of bodyParser, since 4.16 Express; extended
@@ -66,16 +68,28 @@ const MongoStore = connectMongo(session);
     app.use(express.static('dist'));
     app.use((req, res, next) => {
       res.header('Access-Control-Allow-Credentials', 'true');
-      res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-      res.header('Access-Control-Allow-Method', 'GET, POST, PUT, PATCH, POST, DELETE, HEAD, OPTIONS');
+      res.header(
+        'Access-Control-Allow-Origin',
+        'http://localhost:3000',
+      );
+      res.header(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept',
+      );
+      res.header(
+        'Access-Control-Allow-Method',
+        'GET, POST, PUT, PATCH, POST, DELETE, HEAD, OPTIONS',
+      );
       res.header('Access-Control-Max-Age', '86400');
       next();
     });
 
     const uri = process.env.MONGODB_URI;
-    mongoose.connect(uri,
-      { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
+    mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useUnifiedTopology: true,
+    });
     const { connection } = mongoose;
     connection.once('open', () => {
       console.log('Connection with MongoDB database established');
@@ -84,13 +98,16 @@ const MongoStore = connectMongo(session);
     app.use('/api/user', userRouter);
 
     app.all('*', (req, res) => {
-      res.sendFile(path.join(process.cwd(), '/dist/index.html'), (err) => {
-        if (err) {
-          res.status(500).send(err);
-        }
-      });
+      res.sendFile(
+        path.join(process.cwd(), '/dist/index.html'),
+        (err) => {
+          if (err) {
+            res.status(500).send(err);
+          }
+        },
+      );
     });
-    app.use((err:Error, req:Request, res:Response) => {
+    app.use((err: Error, req: Request, res: Response) => {
       console.error(err.stack);
       res.status(500).end();
     });

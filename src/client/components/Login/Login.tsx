@@ -4,25 +4,31 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { receiveCurrentUser, AppState, ActionTypes } from '../../redux/actions';
+import {
+  receiveCurrentUser,
+  AppState,
+  ActionTypes,
+} from '../../redux/actions';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 axios.defaults.withCredentials = true;
 
 interface ILoginDispatchProps {
-  login: (user: AppState) => void,
+  login: (user: AppState) => void;
 }
 
 type AllProps = AppState & ILoginDispatchProps;
 
 interface ILoginState {
-  username: string,
-  password: string,
-  errorMessage: string,
+  username: string;
+  password: string;
+  errorMessage: string;
 }
 
 class Login extends React.Component<AllProps, ILoginState> {
-  static propTypes: { login: PropTypes.Validator<(...args: any[]) => any>; };
+  static propTypes: {
+    login: PropTypes.Validator<(...args: any[]) => any>;
+  };
 
   constructor(props: AllProps) {
     super(props);
@@ -54,7 +60,8 @@ class Login extends React.Component<AllProps, ILoginState> {
     const { username, password } = this.state;
     const { login } = this.props;
     e.preventDefault();
-    axios.post('/api/user/login', { username, password })
+    axios
+      .post('/api/user/login', { username, password })
       .then((res) => {
         if (res.data.success) {
           login(res.data.sessionUser);
@@ -66,7 +73,9 @@ class Login extends React.Component<AllProps, ILoginState> {
       })
       .catch((err) => {
         this.setState({
-          errorMessage: err.response.data.message || `${err.response.status}: ${err.response.statusText}`,
+          errorMessage:
+            err.response.data.message ||
+            `${err.response.status}: ${err.response.statusText}`,
         });
       });
   }
@@ -77,25 +86,29 @@ class Login extends React.Component<AllProps, ILoginState> {
       <div>
         <form className="form">
           <h1 className="heading">Login</h1>
-          <label
-            htmlFor="username"
-            className="form__label"
-          >
+          <label htmlFor="username" className="form__label">
             Username
           </label>
-          <input type="text" name="username" id="username" onChange={this.handleChange} className="form__input" />
+          <input
+            type="text"
+            name="username"
+            id="username"
+            onChange={this.handleChange}
+            className="form__input"
+          />
 
-          <span className="form__notes">
-            {' '}
-          </span>
+          <span className="form__notes"> </span>
 
-          <label
-            htmlFor="password"
-            className="form__label"
-          >
+          <label htmlFor="password" className="form__label">
             Password
           </label>
-          <input type="password" name="password" id="password" onChange={this.handleChange} className="form__input" />
+          <input
+            type="password"
+            name="password"
+            id="password"
+            onChange={this.handleChange}
+            className="form__input"
+          />
           <ErrorMessage errorMessage={errorMessage} />
           <button
             data-testid="login-btn"
@@ -108,11 +121,11 @@ class Login extends React.Component<AllProps, ILoginState> {
           </button>
 
           <span className="form__notes form__notes--additional">
-            Do not have an account?
-            {' '}
-            <Link to="/user/register" className="link form__link">Register</Link>
+            Do not have an account?{' '}
+            <Link to="/user/register" className="link form__link">
+              Register
+            </Link>
           </span>
-
         </form>
       </div>
     );

@@ -1,5 +1,9 @@
 import * as React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+} from 'react-router-dom';
 import { AuthRoute, ProtectedRoute } from '../../util/route';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -11,11 +15,14 @@ import Profile from '../Profile/Profile';
 import CreatePollForm from '../CreatePollForm/CreatePollForm';
 import '../../sass/index.scss';
 
-const App:React.FunctionComponent<{}> = () => (
+const App: React.FunctionComponent<{}> = () => (
   <Router>
     <Route component={Header} />
     <Switch>
-      <ProtectedRoute path="/user/create-poll" component={CreatePollForm} />
+      <ProtectedRoute
+        path="/user/create-poll"
+        component={CreatePollForm}
+      />
       <AuthRoute path="/user/register" component={Register} />
       <AuthRoute path="/user/login" component={Login} />
       <ProtectedRoute path="/user/profile" component={Profile} />

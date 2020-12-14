@@ -1,8 +1,10 @@
 export default () => {
-  const windowW = window.innerWidth // to supoort <= IE8
-|| document.documentElement.clientWidth
-|| document.body.clientWidth;
-  let w:number; let left:number;
+  const windowW =
+    window.innerWidth || // to supoort <= IE8
+    document.documentElement.clientWidth ||
+    document.body.clientWidth;
+  let w: number;
+  let left: number;
   if (windowW < 920) {
     w = windowW - 40;
     left = 60;

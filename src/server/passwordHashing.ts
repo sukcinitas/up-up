@@ -8,6 +8,9 @@ export function hashPassword(password: string): string {
   return hashSync(`${password}${pepper}`, 10);
 }
 
-export function comparePassword(assumedPassword: string, hashedPassword: string): boolean {
+export function comparePassword(
+  assumedPassword: string,
+  hashedPassword: string,
+): boolean {
   return compareSync(`${assumedPassword}${pepper}`, hashedPassword);
 }

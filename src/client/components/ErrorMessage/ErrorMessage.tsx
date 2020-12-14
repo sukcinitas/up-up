@@ -2,10 +2,12 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 
 interface IErrorMessageProps {
-  errorMessage:string,
+  errorMessage: string;
 }
 
-const ErrorMessage: React.FunctionComponent<IErrorMessageProps> = ({ errorMessage }) => (
+const ErrorMessage: React.FunctionComponent<IErrorMessageProps> = ({
+  errorMessage,
+}) => (
   <span className="form__notes form__notes--profile">
     {errorMessage}
   </span>

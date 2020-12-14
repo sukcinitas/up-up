@@ -8,23 +8,29 @@ import checkValidity from '../../util/checkValidity';
 axios.defaults.withCredentials = true;
 
 interface IProfilePasswordProps {
-  username:string,
-  userId:string,
+  username: string;
+  userId: string;
 }
 
 interface IProfilePasswordState {
-  newPassword:string,
-  oldPassword:string,
-  isChangingPassword:boolean,
-  message:string,
-  changeErr:string,
-  isPasswordVisible: boolean,
+  newPassword: string;
+  oldPassword: string;
+  isChangingPassword: boolean;
+  message: string;
+  changeErr: string;
+  isPasswordVisible: boolean;
 }
 
-class ProfilePassword extends React.Component<IProfilePasswordProps, IProfilePasswordState> {
-  static propTypes: { username: PropTypes.Validator<string>; userId: PropTypes.Validator<string>; };
+class ProfilePassword extends React.Component<
+  IProfilePasswordProps,
+  IProfilePasswordState
+> {
+  static propTypes: {
+    username: PropTypes.Validator<string>;
+    userId: PropTypes.Validator<string>;
+  };
 
-  constructor(props:IProfilePasswordProps) {
+  constructor(props: IProfilePasswordProps) {
     super(props);
     this.state = {
       newPassword: '',
@@ -37,10 +43,12 @@ class ProfilePassword extends React.Component<IProfilePasswordProps, IProfilePas
     this.handleChange = this.handleChange.bind(this);
     this.showPasswordChange = this.showPasswordChange.bind(this);
     this.changePassword = this.changePassword.bind(this);
-    this.togglePasswordVisibility = this.togglePasswordVisibility.bind(this);
+    this.togglePasswordVisibility = this.togglePasswordVisibility.bind(
+      this,
+    );
   }
 
-  handleChange(e:React.ChangeEvent<HTMLInputElement>) {
+  handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.currentTarget.name === 'newPassword') {
       this.setState({
         newPassword: e.currentTarget.value,
@@ -70,32 +78,36 @@ class ProfilePassword extends React.Component<IProfilePasswordProps, IProfilePas
     if (changeErr) {
       return;
     }
-    axios.put('/api/user/profile', {
-      parameter: 'password',
-      id: userId,
-      username,
-      oldpassword: oldPassword,
-      newpassword: newPassword,
-    }).then((res) => {
-      if (res.data.success) {
-        this.setState({
-          message: res.data.message,
-          isChangingPassword: false,
-          changeErr: '',
-          newPassword: '',
-          oldPassword: '',
-        });
-      } else {
-        this.setState({
-          changeErr: res.data.message,
-          newPassword: '',
-          oldPassword: '',
-        });
-      }
-    })
+    axios
+      .put('/api/user/profile', {
+        parameter: 'password',
+        id: userId,
+        username,
+        oldpassword: oldPassword,
+        newpassword: newPassword,
+      })
+      .then((res) => {
+        if (res.data.success) {
+          this.setState({
+            message: res.data.message,
+            isChangingPassword: false,
+            changeErr: '',
+            newPassword: '',
+            oldPassword: '',
+          });
+        } else {
+          this.setState({
+            changeErr: res.data.message,
+            newPassword: '',
+            oldPassword: '',
+          });
+        }
+      })
       .catch((err) => {
         this.setState({
-          changeErr: err.response.data.message || `${err.response.status}: ${err.response.statusText}`,
+          changeErr:
+            err.response.data.message ||
+            `${err.response.status}: ${err.response.statusText}`,
           newPassword: '',
           oldPassword: '',
         });
@@ -111,32 +123,71 @@ class ProfilePassword extends React.Component<IProfilePasswordProps, IProfilePas
 
   render() {
     const {
-      oldPassword, newPassword, message, isChangingPassword, changeErr, isPasswordVisible,
+      oldPassword,
+      newPassword,
+      message,
+      isChangingPassword,
+      changeErr,
+      isPasswordVisible,
     } = this.state;
     return (
       <div className="user-information__elem">
-        <button type="button" onClick={this.showPasswordChange} className="btn btn--user">Change password</button>
+        <button
+          type="button"
+          onClick={this.showPasswordChange}
+          className="btn btn--user"
+        >
+          Change password
+        </button>
         {message && <ErrorMessage errorMessage={message} />}
-        {isChangingPassword
-          ? (
-            <div className="form form--user-information">
-              <label className="form__label">Old password</label>
-              <input type="password" data-testid="oldPassword" value={oldPassword} name="oldPassword" onChange={this.handleChange} className="form__input" />
-              <label className="form__label">
-                New password
-                <FontAwesomeIcon
-                  icon={isPasswordVisible ? ['far', 'eye-slash'] : ['far', 'eye']}
-                  className="eye-icon"
-                  onClick={this.togglePasswordVisibility}
-                  title={isPasswordVisible ? 'Hide password!' : 'Show password!'}
-                />
-              </label>
-              <input type={isPasswordVisible ? 'text' : 'password'} data-testid="newPassword" value={newPassword} name="newPassword" onChange={this.handleChange} className="form__input" />
-              <button type="button" onClick={this.changePassword} className="btn btn--submit">Change</button>
-              {changeErr && <ErrorMessage errorMessage={changeErr} />}
-            </div>
-          )
-          : ''}
+        {isChangingPassword ? (
+          <div className="form form--user-information">
+            <label className="form__label">Old password</label>
+            <input
+              type="password"
+              data-testid="oldPassword"
+              value={oldPassword}
+              name="oldPassword"
+              onChange={this.handleChange}
+              className="form__input"
+            />
+            <label className="form__label">
+              New password
+              <FontAwesomeIcon
+                icon={
+                  isPasswordVisible
+                    ? ['far', 'eye-slash']
+                    : ['far', 'eye']
+                }
+                className="eye-icon"
+                onClick={this.togglePasswordVisibility}
+                title={
+                  isPasswordVisible
+                    ? 'Hide password!'
+                    : 'Show password!'
+                }
+              />
+            </label>
+            <input
+              type={isPasswordVisible ? 'text' : 'password'}
+              data-testid="newPassword"
+              value={newPassword}
+              name="newPassword"
+              onChange={this.handleChange}
+              className="form__input"
+            />
+            <button
+              type="button"
+              onClick={this.changePassword}
+              className="btn btn--submit"
+            >
+              Change
+            </button>
+            {changeErr && <ErrorMessage errorMessage={changeErr} />}
+          </div>
+        ) : (
+          ''
+        )}
       </div>
     );
   }

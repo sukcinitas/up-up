@@ -14,33 +14,37 @@ import barChartWidth from '../../util/barChartWidth';
 axios.defaults.withCredentials = true;
 
 interface IPollStateProps {
-  username:string,
+  username: string;
 }
-interface RouteProps extends RouteComponentProps<{id:string}> {}
+interface RouteProps extends RouteComponentProps<{ id: string }> {}
 type AllProps = RouteProps & IPollStateProps;
 
 interface IPollState {
   poll: {
-    name:string,
-    question:string,
-    options: Array<{option: string, votes: number}>,
-    votes:number,
-    createdBy:string,
-    createdAt:string,
-  },
-  hasVoted:boolean,
-  message:string,
-  loadError:string,
-  isLoading:boolean,
-  errorMessage:string,
-  width:number,
-  leftMargin: number,
+    name: string;
+    question: string;
+    options: Array<{ option: string; votes: number }>;
+    votes: number;
+    createdBy: string;
+    createdAt: string;
+  };
+  hasVoted: boolean;
+  message: string;
+  loadError: string;
+  isLoading: boolean;
+  errorMessage: string;
+  width: number;
+  leftMargin: number;
 }
 
 class Poll extends React.Component<AllProps, IPollState> {
-  static propTypes: { match: any; history: any; username: PropTypes.Validator<string>; };
+  static propTypes: {
+    match: any;
+    history: any;
+    username: PropTypes.Validator<string>;
+  };
 
-  constructor(props:AllProps) {
+  constructor(props: AllProps) {
     super(props);
     this.state = {
       poll: {
@@ -72,22 +76,28 @@ class Poll extends React.Component<AllProps, IPollState> {
       leftMargin: barChartWidth().left,
     });
     const { match } = this.props;
-    axios.get(`/api/polls/${match.params.id}`)
+    axios
+      .get(`/api/polls/${match.params.id}`)
       .then((res) => {
         if (res.data.success) {
           const updatedPoll = res.data.poll;
-          this.setState({
-            isLoading: false,
-          }, () => {
-            this.setState({
-              poll: { ...updatedPoll },
-            });
-          });
+          this.setState(
+            {
+              isLoading: false,
+            },
+            () => {
+              this.setState({
+                poll: { ...updatedPoll },
+              });
+            },
+          );
         }
       })
       .catch((err) => {
         this.setState({
-          loadError: err.response.data.message || `${err.response.status}: ${err.response.statusText}`,
+          loadError:
+            err.response.data.message ||
+            `${err.response.status}: ${err.response.statusText}`,
           isLoading: false,
         });
       });
@@ -98,7 +108,7 @@ class Poll extends React.Component<AllProps, IPollState> {
     window.removeEventListener('orientationchange', this.setSize);
   }
 
-  setSize(e:Event) {
+  setSize(e: Event) {
     const width = barChartWidth().w;
     const leftMargin = barChartWidth().left;
     const { windowW } = barChartWidth();
@@ -114,40 +124,50 @@ class Poll extends React.Component<AllProps, IPollState> {
     });
   }
 
-  handleVote(e:React.MouseEvent<HTMLButtonElement>) {
+  handleVote(e: React.MouseEvent<HTMLButtonElement>) {
     const { hasVoted, poll } = this.state;
     const { match } = this.props;
     const selectedOption = e.currentTarget;
     if (hasVoted) {
       return;
     } // initial dealing with only letting one vote per user
-    axios.put(`/api/polls/${match.params.id}`, {
-      option: { option: e.currentTarget.dataset.option, votes: e.currentTarget.dataset.votes },
-      options: poll.options,
-      votes: poll.votes,
-    })
+    axios
+      .put(`/api/polls/${match.params.id}`, {
+        option: {
+          option: e.currentTarget.dataset.option,
+          votes: e.currentTarget.dataset.votes,
+        },
+        options: poll.options,
+        votes: poll.votes,
+      })
       .then((res) => {
         if (res.data.success) {
-          this.setState({
-            hasVoted: true,
-          }, () => {
-            this.setState({
-              poll: res.data.poll,
-            });
-            selectedOption.classList.add('btn--selected');
-          });
+          this.setState(
+            {
+              hasVoted: true,
+            },
+            () => {
+              this.setState({
+                poll: res.data.poll,
+              });
+              selectedOption.classList.add('btn--selected');
+            },
+          );
         }
       })
       .catch((err) => {
         this.setState({
-          errorMessage: err.response.data.message || `${err.response.status}: ${err.response.statusText}`,
+          errorMessage:
+            err.response.data.message ||
+            `${err.response.status}: ${err.response.statusText}`,
         });
       });
   }
 
   handlePollDeletion() {
     const { history, match } = this.props;
-    axios.delete(`/api/polls/${match.params.id}`)
+    axios
+      .delete(`/api/polls/${match.params.id}`)
       .then((res) => {
         if (res.data.success) {
           history.push('/');
@@ -155,7 +175,9 @@ class Poll extends React.Component<AllProps, IPollState> {
       })
       .catch((err) => {
         this.setState({
-          errorMessage: err.response.data.message || `${err.response.status}: ${err.response.statusText}`,
+          errorMessage:
+            err.response.data.message ||
+            `${err.response.status}: ${err.response.statusText}`,
         });
       });
   }
@@ -163,15 +185,23 @@ class Poll extends React.Component<AllProps, IPollState> {
   render() {
     const { username } = this.props;
     const {
-      poll, errorMessage,
-      width, leftMargin, loadError,
+      poll,
+      errorMessage,
+      width,
+      leftMargin,
+      loadError,
     } = this.state;
     const {
-      name, question, options, votes, createdBy, createdAt,
+      name,
+      question,
+      options,
+      votes,
+      createdBy,
+      createdAt,
     } = poll;
-    const data:{
-      optionsList: {option:string, votes:number}[],
-      sumVotes:number,
+    const data: {
+      optionsList: { option: string; votes: number }[];
+      sumVotes: number;
     } = {
       optionsList: options,
       sumVotes: votes,
@@ -187,12 +217,26 @@ class Poll extends React.Component<AllProps, IPollState> {
     return (
       <div className="poll">
         <div>
-          {message && <span className="form__notes--info">{message}</span>}
-          {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
+          {message && (
+            <span className="form__notes--info">{message}</span>
+          )}
+          {errorMessage && (
+            <ErrorMessage errorMessage={errorMessage} />
+          )}
         </div>
         <h2 className="heading poll__heading">{name}</h2>
         <h3 className="subheading poll__subheading">{question}</h3>
-        {username === createdBy ? <button type="button" onClick={this.handlePollDeletion} className="btn btn--delete btn--delete--poll">Delete</button> : ''}
+        {username === createdBy ? (
+          <button
+            type="button"
+            onClick={this.handlePollDeletion}
+            className="btn btn--delete btn--delete--poll"
+          >
+            Delete
+          </button>
+        ) : (
+          ''
+        )}
         <div className="additional poll__additional">
           <p>{`created by ${createdBy}`}</p>
           <p> | </p>
@@ -216,14 +260,18 @@ class Poll extends React.Component<AllProps, IPollState> {
             ))}
             <p className="poll__votes">{`Total votes: ${votes}`}</p>
           </div>
-          <BarChart data={data} width={width} leftMargin={leftMargin} />
+          <BarChart
+            data={data}
+            width={width}
+            leftMargin={leftMargin}
+          />
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state:AppState) => ({
+const mapStateToProps = (state: AppState) => ({
   username: state.username,
 });
 
