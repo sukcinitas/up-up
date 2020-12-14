@@ -15,7 +15,6 @@ describe('<ProfileEmail /> Component', () => {
   it('shows message when email update is successful', async () => {
     axiosMock.get.mockResolvedValueOnce({ data: { user: [{ username: 'testUser1', email: 'test@test.lt' }], success: true } });
     axiosMock.put.mockResolvedValueOnce({ data: { message: 'Your email has been successfully updated!', success: true } });
-    axiosMock.get.mockResolvedValueOnce({ data: { user: [{ username: 'testUser1', email: 'pa@pa.lt' }], success: true } });
     const { getByText, getByTestId } = render(
       <ProfileEmail
         userId="1"
@@ -49,7 +48,6 @@ describe('<ProfileEmail /> Component', () => {
   it('shows message when email update unsuccessful', async () => {
     axiosMock.get.mockResolvedValueOnce({ data: { user: [{ username: 'testUser1', email: 'test@test.lt' }], success: true } });
     axiosMock.put.mockResolvedValueOnce({ data: { message: 'This e-mail is already in use! Try again!', success: false } });
-    axiosMock.get.mockResolvedValueOnce({ data: { user: [{ username: 'testUser1', email: 'test@test.lt' }], success: true } });
     const { getByText, getByTestId } = render(
       <ProfileEmail
         userId="1"
@@ -83,7 +81,6 @@ describe('<ProfileEmail /> Component', () => {
   it('shows message when password is incorrect', async () => {
     axiosMock.get.mockResolvedValueOnce({ data: { user: [{ username: 'testUser1', email: 'test@test.lt' }], success: true } });
     axiosMock.put.mockResolvedValueOnce({ data: { message: 'Password is incorrect! Try again!', success: false } });
-    axiosMock.get.mockResolvedValueOnce({ data: { user: [{ username: 'testUser1', email: 'test@test.lt' }], success: true } });
     const { getByText, getByTestId } = render(
       <ProfileEmail
         userId="1"

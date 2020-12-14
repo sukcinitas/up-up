@@ -46,18 +46,19 @@ const MongoStore = connectMongo(session);
     app.use(passport.session());
 
     if (process.env.NODE_ENV === 'development') {
-      const whitelist = ['http://localhost:3000', 'http://localhost:8080'];
+      // const whitelist = ['http://localhost:3000', 'http://localhost:8080'];
       const corsOptions = {
-        origin(origin: string, callback: (arg0: Error, arg1?: boolean) => void) {
-          if (whitelist.indexOf(origin) !== -1) {
-            callback(null, true);
-          } else {
-            callback(new Error('Not allowed by CORS'));
-          }
-        },
+        // origin(origin: string, callback: (arg0: Error, arg1?: boolean) => void) {
+        //   if (whitelist.indexOf(origin) !== -1) {
+        //     callback(null, true);
+        //   } else {
+        //     callback(new Error('Not allowed by CORS'));
+        //   }
+        // },
         credentials: true,
       };
-      app.options('*', cors(corsOptions)); // preflight OPTIONS; put before other routes
+      app.use(cors(corsOptions));
+      // app.options('*', cors(corsOptions)); // preflight OPTIONS; put before other routes
     } else {
       app.use(cors());
     }
