@@ -151,7 +151,7 @@ class Profile extends React.Component<AllProps, IProfileState> {
         {section === 'info' ? (
           <section className="user-information">
             {errorMessage && (
-              <ErrorMessage errorMessage={errorMessage} />
+              <ErrorMessage>{errorMessage}</ErrorMessage>
             )}
             <h2
               className="heading user-information__heading"

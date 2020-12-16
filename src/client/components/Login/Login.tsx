@@ -109,7 +109,7 @@ class Login extends React.Component<AllProps, ILoginState> {
             onChange={this.handleChange}
             className="form__input"
           />
-          <ErrorMessage errorMessage={errorMessage} />
+          <ErrorMessage>{errorMessage}</ErrorMessage>
           <button
             data-testid="login-btn"
             type="button"

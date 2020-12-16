@@ -16,7 +16,7 @@ axios.defaults.withCredentials = true;
 
 interface IHeaderStateProps {
   isLoggedIn: boolean;
-  username: string
+  username: string;
 }
 
 interface IHeaderRouteProps extends RouteComponentProps {}

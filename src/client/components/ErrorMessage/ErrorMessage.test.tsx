@@ -7,7 +7,7 @@ afterEach(cleanup);
 describe('<ErrorMessage /> Component', () => {
   it('renders errorMessage component', () => {
     const { getByText } = render(
-      <ErrorMessage errorMessage="This is an error message!" />,
+      <ErrorMessage>This is an error message!</ErrorMessage>,
     );
 
     expect(getByText(/^This is an error message!/i).textContent).toBe(

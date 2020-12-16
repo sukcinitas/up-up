@@ -6,6 +6,7 @@ export interface User {
   username: string;
   userId: string;
 }
+
 export interface AppState {
   username: string;
   userId: string;
@@ -21,9 +22,11 @@ interface ReceiveCurrentUserAction {
   type: typeof RECEIVE_CURRENT_USER;
   user: User;
 }
+
 interface LogoutCurrentUserAction {
   type: typeof LOGOUT_CURRENT_USER;
 }
+
 interface GetStarredPollsAction {
   type: typeof GET_STARRED_POLLS;
   starredPolls: Array<string>;
@@ -48,6 +51,7 @@ export const getStarredPolls = (
   type: GET_STARRED_POLLS,
   starredPolls,
 });
+
 export const getStarredPollsAsync = (username: string): any => (
   dispatch: Dispatch,
 ) => {

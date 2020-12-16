@@ -67,7 +67,8 @@ const ProfileEmail: React.FunctionComponent<IProfileEmailProps> = ({
     }
   };
 
-  const changeEmail = () => {
+  const changeEmail = (e: React.FormEvent) => {
+    e.preventDefault();
     if (changeErr) {
       return;
     }
@@ -113,9 +114,9 @@ const ProfileEmail: React.FunctionComponent<IProfileEmailProps> = ({
       >
         Change email
       </button>
-      {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
+      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       {isChangingEmail ? (
-        <div className="form form--user-information">
+        <form className="form form--user-information">
           <label className="form__label">New e-mail</label>
           <input
             value={newEmail}
@@ -134,14 +135,14 @@ const ProfileEmail: React.FunctionComponent<IProfileEmailProps> = ({
             className="form__input"
           />
           <button
-            type="button"
+            type="submit"
             onClick={changeEmail}
             className="btn btn--submit"
           >
             Change
           </button>
-          {changeErr && <ErrorMessage errorMessage={changeErr} />}
-        </div>
+          {changeErr && <ErrorMessage>{changeErr}</ErrorMessage>}
+        </form>
       ) : (
         ''
       )}

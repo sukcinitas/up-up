@@ -84,12 +84,10 @@ const UserController = {
             message: 'Your password has been successfully updated!',
           });
         }
-        return res
-          .status(500)
-          .json({
-            success: false,
-            message: 'Password is incorrect!',
-          });
+        return res.status(500).json({
+          success: false,
+          message: 'Password is incorrect!',
+        });
       }
     } catch (err) {
       return res.status(500).json({
@@ -162,12 +160,10 @@ const UserController = {
         },
       )(req, res, next);
     } catch (err) {
-      return res
-        .status(500)
-        .json({
-          success: false,
-          message: 'User could not be authenticated!',
-        });
+      return res.status(500).json({
+        success: false,
+        message: 'User could not be authenticated!',
+      });
     }
   },
   async register(req: Request, res: Response) {

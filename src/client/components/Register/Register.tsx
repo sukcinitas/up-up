@@ -243,7 +243,7 @@ class Register extends React.Component<AllProps, IRegisterState> {
               {emailTaken ? ' Email is already in use' : ''}
             </span>
             {errorMessage && (
-              <ErrorMessage errorMessage={errorMessage} />
+              <ErrorMessage>{errorMessage}</ErrorMessage>
             )}
           </div>
 

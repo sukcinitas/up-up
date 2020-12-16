@@ -130,7 +130,7 @@ class StarredPolls extends React.Component<
     return (
       <section className="user-polls">
         <h2 className="heading user-polls__heading">Saved polls</h2>
-        {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
+        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
         {isLoading ? (
           <Loader size="big" />
         ) : starredPolls.length === 0 ? (

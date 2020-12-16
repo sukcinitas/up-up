@@ -211,7 +211,7 @@ class CreatePollForm extends React.Component<
           Submit
         </button>
 
-        {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
+        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       </form>
     );
   }

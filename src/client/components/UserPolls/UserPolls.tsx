@@ -98,7 +98,7 @@ const UserPolls: React.FunctionComponent<IUserPollsProps> = ({
       >
         Create a poll
       </Link>
-      {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
+      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       {isLoading ? (
         <Loader size="big" />
       ) : userPolls.length === 0 && !errorMessage ? (
