@@ -47,7 +47,7 @@ const ProfileEmail: React.FunctionComponent<IProfileEmailProps> = ({
         });
     };
     getEmail();
-  }, []);
+  }, [username]);
 
   const showEmailChange = () => {
     setIsChangingEmail(!isChangingEmail);

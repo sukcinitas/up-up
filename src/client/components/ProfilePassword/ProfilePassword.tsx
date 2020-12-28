@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import { useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -142,6 +143,11 @@ const ProfilePassword: React.FunctionComponent<IProfilePasswordProps> = ({
       )}
     </div>
   );
+};
+
+ProfilePassword.propTypes = {
+  username: PropTypes.string.isRequired,
+  userId: PropTypes.string.isRequired,
 };
 
 export default ProfilePassword;

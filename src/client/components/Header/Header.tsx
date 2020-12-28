@@ -1,44 +1,23 @@
 import * as React from 'react';
-import * as PropTypes from 'prop-types';
-// import ReactRouterPropTypes from 'react-router-prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import {
-  logoutCurrentUser,
-  ActionTypes,
-  AppState,
-} from '../../redux/actions';
+import { logoutCurrentUser, AppState } from '../../redux/actions';
 import '../../sass/Header.scss';
 
 axios.defaults.withCredentials = true;
 
-interface IHeaderStateProps {
-  isLoggedIn: boolean;
-  username: string;
-}
-
-interface IHeaderRouteProps extends RouteComponentProps {}
-
-interface IHeaderDispatchProps {
-  logout: () => void;
-}
-
-type AllProps = IHeaderStateProps &
-  IHeaderDispatchProps &
-  IHeaderRouteProps;
-
-const Header: React.FunctionComponent<AllProps> = ({
-  isLoggedIn,
-  logout,
-  history,
-  username,
-}) => {
+const Header = ({ history }: RouteComponentProps) => {
+  const { username, isLoggedIn } = useSelector((state: AppState) => ({
+    username: state.username,
+    isLoggedIn: Boolean(state.userId),
+  }));
+  const dispatch = useDispatch();
   const handleLogout = () => {
     axios.get('/api/user/logout').then((res) => {
       if (res.data.success) {
-        logout();
+        dispatch(logoutCurrentUser());
         history.push('/user/login');
       }
     });
@@ -80,20 +59,7 @@ const Header: React.FunctionComponent<AllProps> = ({
 };
 
 Header.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  history: PropTypes.any.isRequired,
-  logout: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired,
+  history: ReactRouterPropTypes.history.isRequired,
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<ActionTypes>) => ({
-  logout: () => dispatch(logoutCurrentUser()),
-});
-
-const mapStateToProps = (state: AppState) => ({
-  isLoggedIn: Boolean(state.userId),
-  username: state.username,
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default Header;

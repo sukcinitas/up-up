@@ -62,11 +62,11 @@
     "browser": true, // document will work
     "node": true,
     "es6": true
-  },
-  "prettierOptions": {
-    "semi": true,
-    "trailingComma": "all",
-    "singleQuote": true,
-    "printWidth": 70
   }
+  // "prettierOptions": {
+  //   "semi": true,
+  //   "trailingComma": "all",
+  //   "singleQuote": true,
+  //   "printWidth": 70
+  // }
 }

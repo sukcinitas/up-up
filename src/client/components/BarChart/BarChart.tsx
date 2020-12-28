@@ -1,35 +1,32 @@
-/* eslint-disable react/no-unused-prop-types */
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import drawChart from './helper';
 
-interface Props {
+interface IBarChartProps {
   data: {
-    optionsList: { option: string; votes: number }[];
+    optionsList: Array<{ option: string; votes: number }>;
     sumVotes: number;
   };
   width: number;
   leftMargin: number;
 }
 
-const BarChart: React.FunctionComponent<Props> = ({
-  data,
-  width,
-  leftMargin,
-}) => {
-  drawChart(data, width, leftMargin);
+const BarChart = ({ data, width, leftMargin }: IBarChartProps) => {
+  if (data.sumVotes !== 0) {
+    drawChart(data, width, leftMargin);
+  }
   return <div id="chart" />;
 };
 
 BarChart.propTypes = {
-  data: PropTypes.exact({
+  data: PropTypes.shape({
     optionsList: PropTypes.arrayOf(
-      PropTypes.exact({
+      PropTypes.shape({
         option: PropTypes.string.isRequired,
         votes: PropTypes.number.isRequired,
-      }),
+      }).isRequired,
     ).isRequired,
-    sumVotes: PropTypes.number.isRequired,
+    sumVotes: PropTypes.number,
   }).isRequired,
   width: PropTypes.number.isRequired,
   leftMargin: PropTypes.number.isRequired,

@@ -41,7 +41,7 @@ const UserPolls: React.FunctionComponent<IUserPollsProps> = ({
         });
     };
     getUserPolls();
-  }, []);
+  }, [username]);
 
   const handlePollDeletion = (
     e: React.MouseEvent<HTMLButtonElement>,

@@ -9,7 +9,6 @@ import {
   waitForElement,
   fireEvent,
 } from '@testing-library/react';
-// import axiosMock from 'axios';
 import axios from 'axios';
 import { AppState } from '../../redux/actions';
 import reducer, { initialState } from '../../redux/reducers';
