@@ -1,19 +1,15 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as PropTypes from 'prop-types';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  AppState,
-  getStarredPollsAsync,
-} from '../../../redux/actions';
+import { AppState, getStarredPollsAsync } from '../../../redux/actions';
 import '../../../sass/PollListElem.scss';
 
 axios.defaults.withCredentials = true;
 
-interface IPollListElemProps {
+type TPollListElemProps = {
   id: string;
   name: string;
   votes: number;
@@ -21,9 +17,9 @@ interface IPollListElemProps {
   updatedAt: string;
   starred: boolean;
   link: Function;
-}
+};
 
-const PollListElem: React.FunctionComponent<IPollListElemProps> = ({
+const PollListElem = ({
   id,
   name,
   votes,
@@ -31,12 +27,10 @@ const PollListElem: React.FunctionComponent<IPollListElemProps> = ({
   updatedAt,
   starred,
   link,
-}) => {
+}: TPollListElemProps) => {
   const dispatch = useDispatch();
-  const { username } = useSelector((state: AppState) => ({
+  const { username, userId } = useSelector((state: AppState) => ({
     username: state.username,
-  }));
-  const { userId } = useSelector((state: AppState) => ({
     userId: state.userId,
   }));
   const [errorMessage, setErrorMessage] = useState('');
@@ -96,7 +90,12 @@ const PollListElem: React.FunctionComponent<IPollListElemProps> = ({
       role="button"
       tabIndex={0}
       className="poll-list-elem"
-      onClick={() => link(id)}
+      onClick={(): void => link(id)}
+      onKeyPress={(e: React.KeyboardEvent<HTMLDivElement>): void => {
+        if (e.key === 'Enter') {
+          link(id);
+        }
+      }}
     >
       <div className="poll-list-elem__heading">
         <h2>{name}</h2>
@@ -123,8 +122,8 @@ const PollListElem: React.FunctionComponent<IPollListElemProps> = ({
           }`}
           onClick={
             starred
-              ? (e) => unStarAPoll(id, e)
-              : (e) => starAPoll(id, e)
+              ? (e: React.MouseEvent<HTMLButtonElement>) => unStarAPoll(id, e)
+              : (e: React.MouseEvent<HTMLButtonElement>) => starAPoll(id, e)
           }
         >
           {starred ? (

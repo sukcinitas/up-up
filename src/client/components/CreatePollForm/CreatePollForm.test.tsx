@@ -47,16 +47,12 @@ describe('<CreatePollForm /> Component', () => {
       },
     );
 
-    expect(getByText(/Create a Poll/i).textContent).toBe(
-      'Create a Poll',
-    );
+    expect(getByText(/Create a Poll/i).textContent).toBe('Create a Poll');
     expect(getByText(/Poll name/i).textContent).toBe('Poll name');
     expect(getByText(/Poll question\/statement/i).textContent).toBe(
       'Poll question/statement',
     );
-    expect(getByText(/Poll options/i).textContent).toBe(
-      'Poll options',
-    );
+    expect(getByText(/Poll options/i).textContent).toBe('Poll options');
     expect(getByText(/Submit/i).textContent).toBe('Submit');
     expect((getByLabelText('1') as HTMLInputElement).value).toBe('');
     expect((getByLabelText('2') as HTMLInputElement).value).toBe('');

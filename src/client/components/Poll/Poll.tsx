@@ -14,14 +14,11 @@ import barChartWidth from '../../util/barChartWidth';
 
 axios.defaults.withCredentials = true;
 
-interface RouteParams {
+type RouteParams = {
   id: string;
-}
+};
 
-const Poll = ({
-  match,
-  history,
-}: RouteComponentProps<RouteParams>) => {
+const Poll = ({ match, history }: RouteComponentProps<RouteParams>) => {
   const { username } = useSelector((state: AppState) => ({
     username: state.username,
   }));
@@ -43,7 +40,7 @@ const Poll = ({
   });
 
   useEffect(() => {
-    const fetchData = () => {
+    const fetchData = (): void => {
       setIsLoading(true);
       axios.get(`/api/polls/${match.params.id}`).then(
         (res) => {
@@ -69,7 +66,7 @@ const Poll = ({
   }, [match.params.id]);
 
   useEffect(() => {
-    const setSize = (e: Event) => {
+    const setSize = (e: Event): void => {
       const { windowW } = barChartWidth();
       const width = barChartWidth().w;
       const leftMargin = barChartWidth().left;
@@ -89,7 +86,7 @@ const Poll = ({
     };
   }, []);
 
-  const handleVote = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleVote = (e: React.MouseEvent<HTMLButtonElement>): void => {
     const selectedOption = e.currentTarget;
     const { dataset } = e.currentTarget;
     if (hasVoted) {
@@ -137,14 +134,7 @@ const Poll = ({
     );
   };
 
-  const {
-    name,
-    question,
-    options,
-    votes,
-    createdBy,
-    createdAt,
-  } = poll;
+  const { name, question, options, votes, createdBy, createdAt } = poll;
   const data: {
     optionsList: { option: string; votes: number }[];
     sumVotes: number;
@@ -161,12 +151,10 @@ const Poll = ({
   }
   return (
     <div className="poll">
-      <div>
-        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-      </div>
+      <div>{errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}</div>
       <h2 className="heading poll__heading">{name}</h2>
       <h3 className="subheading poll__subheading">{question}</h3>
-      {username === createdBy ? (
+      {username === createdBy && (
         <button
           type="button"
           onClick={handlePollDeletion}
@@ -174,8 +162,6 @@ const Poll = ({
         >
           Delete
         </button>
-      ) : (
-        ''
       )}
       <div className="additional poll__additional">
         <p>{`created by ${createdBy}`}</p>

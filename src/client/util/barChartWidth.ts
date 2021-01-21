@@ -1,4 +1,8 @@
-export default () => {
+export default (): {
+  w: number;
+  left: number;
+  windowW: number;
+} => {
   const windowW =
     window.innerWidth || // to supoort <= IE8
     document.documentElement.clientWidth ||

@@ -14,7 +14,8 @@ const Header = ({ history }: RouteComponentProps) => {
     isLoggedIn: Boolean(state.userId),
   }));
   const dispatch = useDispatch();
-  const handleLogout = () => {
+
+  const handleLogout = (): void => {
     axios.get('/api/user/logout').then((res) => {
       if (res.data.success) {
         dispatch(logoutCurrentUser());
@@ -22,6 +23,7 @@ const Header = ({ history }: RouteComponentProps) => {
       }
     });
   };
+
   return (
     <header className="header">
       <h1 className="header__heading">
@@ -35,11 +37,7 @@ const Header = ({ history }: RouteComponentProps) => {
             <Link to="/user/profile" className="btn btn--username">
               {username}
             </Link>
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="btn"
-            >
+            <button type="button" onClick={handleLogout} className="btn">
               Sign out
             </button>
           </>

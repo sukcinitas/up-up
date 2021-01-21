@@ -26,16 +26,16 @@ const CreatePollForm = ({ history }: RouteComponentProps) => {
   const handleOptionsChange = (
     idx: number,
     e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  ): void => {
     const newList = [...list];
-    const i = newList.findIndex((item) => item.id === idx);
-    newList[i].value = e.target.value;
+    const i = newList.findIndex(
+      (item: { id: number; value: string }): boolean => item.id === idx,
+    );
+    newList[i].value = e.currentTarget.value;
     setList(newList);
   };
 
-  const addOption = (
-    e: React.MouseEvent<HTMLButtonElement>,
-  ): void => {
+  const addOption = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();
     const count = counter + 1;
     setCounter(count);
@@ -43,16 +43,20 @@ const CreatePollForm = ({ history }: RouteComponentProps) => {
   };
 
   const removeOption = (idx: number): void => {
-    const newList = list.filter((item) => item.id !== idx);
+    const newList = list.filter(
+      (item: { id: number; value: string }): boolean => item.id !== idx,
+    );
     setList(newList);
   };
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();
     if (
       !name ||
       !question ||
-      list.some((item) => item.value === '') ||
+      list.some(
+        (item: { id: number; value: string }): boolean => item.value === '',
+      ) ||
       list.length < 2
     ) {
       setErrorMessage(
@@ -60,13 +64,15 @@ const CreatePollForm = ({ history }: RouteComponentProps) => {
       );
       return;
     }
-    const compareList = list.map((item) => item.value);
+    const compareList = list.map(
+      (item: { id: number; value: string }): string => item.value,
+    );
     if (new Set(compareList).size !== list.length) {
       setErrorMessage('Poll options must be unique!');
       return;
     }
     const optionsList: Array<{ option: string; votes: number }> = [];
-    list.forEach((item, i) => {
+    list.forEach((item: { id: number; value: string }, i: number): void => {
       if (list[i].value === '') {
         return;
       }
@@ -79,7 +85,7 @@ const CreatePollForm = ({ history }: RouteComponentProps) => {
       createdBy: username,
     };
     axios.post('/api/polls/create-poll', poll).then(
-      (res) => {
+      (res: { data: { success: boolean; id: string } }): void => {
         if (res.data.success) {
           history.push(`/polls/${res.data.id}`);
         }
@@ -93,25 +99,30 @@ const CreatePollForm = ({ history }: RouteComponentProps) => {
     );
   };
 
-  const optionsList = list.map((item) => (
-    <div className="wrapper" key={item.id}>
-      <input
-        aria-label={`${item.id}`}
-        className="form__input form__input--poll-form"
-        type="text"
-        name={`${item.id}`}
-        onChange={(e) => handleOptionsChange(item.id, e)}
-        value={item.value}
-      />
-      <button
-        type="button"
-        onClick={() => removeOption(item.id)}
-        className="form__minus"
-      >
-        <FontAwesomeIcon icon={['fas', 'minus']} />
-      </button>
-    </div>
-  ));
+  const optionsList = list.map(
+    (item: { id: number; value: string }): JSX.Element => (
+      <div className="wrapper" key={item.id}>
+        <input
+          aria-label={`${item.id}`}
+          className="form__input form__input--poll-form"
+          type="text"
+          name={`${item.id}`}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
+            handleOptionsChange(item.id, e)
+          }
+          value={item.value}
+        />
+        <button
+          type="button"
+          onClick={(): void => removeOption(item.id)}
+          className="form__minus"
+        >
+          <FontAwesomeIcon icon={['fas', 'minus']} />
+        </button>
+      </div>
+    ),
+  );
+
   return (
     <form className="form create-poll-form">
       <h1 className="heading">Create a Poll</h1>
@@ -124,7 +135,9 @@ const CreatePollForm = ({ history }: RouteComponentProps) => {
         type="text"
         id="name"
         name="name"
-        onChange={(e) => setName(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
+          setName(e.currentTarget.value)
+        }
         value={name}
       />
 
@@ -136,7 +149,9 @@ const CreatePollForm = ({ history }: RouteComponentProps) => {
         type="text"
         id="question"
         name="question"
-        onChange={(e) => setQuestion(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
+          setQuestion(e.currentTarget.value)
+        }
         value={question}
       />
 
@@ -153,11 +168,7 @@ const CreatePollForm = ({ history }: RouteComponentProps) => {
       >
         <FontAwesomeIcon icon={['fas', 'plus']} />
       </button>
-      <button
-        type="submit"
-        onClick={handleSubmit}
-        className="btn btn--submit"
-      >
+      <button type="submit" onClick={handleSubmit} className="btn btn--submit">
         Submit
       </button>
 

@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 
 // https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
-const hexToRgbA = (hex: string, opacity: number) => {
+const hexToRgbA = (hex: string, opacity: number): string => {
   const arr = hex
     .replace(
       /^#?([a-f\d])([a-f\d])([a-f\d])$/i,
@@ -20,31 +20,40 @@ const drawChart = (
   },
   w: number = 860,
   left: number = 100,
-) => {
+): void => {
   d3.select('svg').remove();
 
-  function addDots(option: string) {
+  function addDots(option: string): string {
     if (option.length < 12) {
       return option;
     }
     return `...${option.substr(-5)}`;
   }
 
-  const dataPrev = datum.optionsList;
-  const data = dataPrev.map((item) => ({
+  const dataPrev: { option: string; votes: number }[] = datum.optionsList;
+  const data = dataPrev.map((item: { option: string; votes: number }): {
+    option: string;
+    votes: number;
+    optionM: string;
+  } => ({
     option: addDots(item.option),
     votes: item.votes,
     optionM: item.option,
   }));
   const { sumVotes } = datum;
-  const margin = {
+  const margin: {
+    top: number;
+    right: number;
+    bottom: number;
+    left: number;
+  } = {
     top: 10,
     right: 40,
     bottom: 30,
     left,
   };
-  const width = w - margin.left - margin.right;
-  const height = 500 - margin.top - margin.bottom;
+  const width: number = w - margin.left - margin.right;
+  const height: number = 500 - margin.top - margin.bottom;
 
   const color = d3
     .scaleSequential(d3.interpolateViridis)
@@ -52,16 +61,17 @@ const drawChart = (
       0,
       d3.max(
         dataPrev,
-        (d: { option: string; votes: any }) => d.votes,
+        (d: { option: string; votes: number }): number => d.votes,
       ),
-    ]); //
+    ]);
 
   const y = d3
     .scaleBand()
     .range([height, 0])
     .domain(
       data.map(
-        (d: { option: string; votes: number }): any => d.option,
+        (d: { option: string; votes: number; optionM: string }): string =>
+          d.option,
       ),
     )
     .padding(0.2);
@@ -73,10 +83,9 @@ const drawChart = (
       0,
       d3.max(
         dataPrev,
-        (d: { option: string; votes: number }): any =>
-          d.votes / sumVotes,
+        (d: { option: string; votes: number }): number => d.votes / sumVotes,
       ) * 100,
-    ]); //
+    ]);
 
   const svg = d3
     .select('#chart')
@@ -101,7 +110,7 @@ const drawChart = (
     .append('div')
     .attr('id', 'tooltip');
 
-  const handleOut = () => {
+  const handleOut = (): void => {
     tooltip.style('display', 'none');
     line
       .style('stroke', 'black')
@@ -116,7 +125,7 @@ const drawChart = (
     option: string;
     votes: number;
     optionM: string;
-  }) => {
+  }): void => {
     tooltip
       .style('display', 'inline-block')
       .style('position', 'absolute')
@@ -149,14 +158,22 @@ const drawChart = (
     .append('rect')
     .attr('class', 'bar')
     .attr('width', 10) // percentage
-    .attr('y', (d: { option: string; votes: number }): any =>
-      y(d.option),
+    .attr(
+      'y',
+      (d: { option: string; votes: number; optionM: string }): number =>
+        y(d.option),
     )
     .attr('height', y.bandwidth())
-    .style('fill', (d: { option: string; votes: number }) =>
-      hexToRgbA(color(d.votes), 0.6),
+    .style(
+      'fill',
+      (d: { option: string; votes: number; optionM: string }): string =>
+        hexToRgbA(color(d.votes), 0.6),
     )
-    .style('stroke', (d) => color(d.votes))
+    .style(
+      'stroke',
+      (d: { option: string; votes: number; optionM: string }): string =>
+        color(d.votes),
+    )
     .style('stroke-width', 2)
     .on('mouseover', handleOver)
     .on('touchstart', handleOver)
@@ -171,25 +188,34 @@ const drawChart = (
     .attr('class', 'text')
     .attr(
       'y',
-      (d: { option: string; votes: number }) =>
+      (d: { option: string; votes: number; optionM: string }): number =>
         y(d.option) + y.bandwidth() / 2 + 9,
     )
     .attr(
       'x',
-      (d: { option: string; votes: number }) =>
+      (d: { option: string; votes: number; optionM: string }): number =>
         x((d.votes / sumVotes) * 100) + 5,
     )
-    .text((d: { option: string; votes: number }) => d.votes)
+    .text(
+      (d: { option: string; votes: number; optionM: string }): number =>
+        d.votes,
+    )
     .attr('font-family', 'Roboto Condensed, sans-serif')
     .attr('font-size', '18px')
-    .attr('fill', (d: { option: string; votes: number }) =>
-      color(d.votes),
+    .attr(
+      'fill',
+      (d: { option: string; votes: number; optionM: string }): string =>
+        color(d.votes),
     );
 
   bars
     .transition()
     .duration(1000)
-    .attr('width', (d) => x((d.votes / sumVotes) * 100));
+    .attr(
+      'width',
+      (d: { option: string; votes: number; optionM: string }): number =>
+        x((d.votes / sumVotes) * 100),
+    );
 
   // add the x Axis
   svg

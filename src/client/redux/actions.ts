@@ -31,6 +31,7 @@ interface GetStarredPollsAction {
   type: typeof GET_STARRED_POLLS;
   starredPolls: Array<string>;
 }
+
 export type ActionTypes =
   | ReceiveCurrentUserAction
   | LogoutCurrentUserAction
@@ -45,9 +46,7 @@ export const logoutCurrentUser = (): ActionTypes => ({
   type: LOGOUT_CURRENT_USER,
 });
 
-export const getStarredPolls = (
-  starredPolls: Array<string>,
-): ActionTypes => ({
+export const getStarredPolls = (starredPolls: Array<string>): ActionTypes => ({
   type: GET_STARRED_POLLS,
   starredPolls,
 });

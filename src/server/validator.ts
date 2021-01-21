@@ -6,16 +6,12 @@ export const validationRules = {
     body('name')
       .not()
       .isEmpty()
-      .withMessage(
-        'All fields must be filled in for form submission!',
-      )
+      .withMessage('All fields must be filled in for form submission!')
       .trim(),
     body('question')
       .not()
       .isEmpty()
-      .withMessage(
-        'All fields must be filled in for form submission!',
-      )
+      .withMessage('All fields must be filled in for form submission!')
       .trim(),
   ],
   userUpdate: [
@@ -27,9 +23,7 @@ export const validationRules = {
         .withMessage('Invalid email')
         .normalizeEmail()
         .trim(),
-      body('oldpassword')
-        .exists()
-        .withMessage('Password is required'),
+      body('oldpassword').exists().withMessage('Password is required'),
     ]),
     oneOf([
       body('password').exists().withMessage('Password is required'),
@@ -67,18 +61,12 @@ export const validationRules = {
   ],
 };
 
-export const validate = (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const validate = (req: Request, res: Response, next: NextFunction) => {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
     return next();
   }
-  const extractedErrors = errors
-    .array()
-    .map((err: any) => `${err.msg}!`);
+  const extractedErrors = errors.array().map((err: any) => `${err.msg}!`);
   const message = extractedErrors.join(' ');
 
   return res.status(400).json({

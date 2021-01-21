@@ -30,17 +30,13 @@ describe('<ProfilePassword /> Component', () => {
     fireEvent.click(getByText(/^Change password$/i));
     expect(getByText(/^Change$/).textContent).toBe('Change');
 
-    const oldPassword = getByTestId(
-      'oldPassword',
-    ) as HTMLInputElement;
+    const oldPassword = getByTestId('oldPassword') as HTMLInputElement;
     fireEvent.change(oldPassword, {
       target: { value: 'incorrectOldPassword' },
     });
     expect(oldPassword.value).toBe('incorrectOldPassword');
 
-    const newPassword = getByTestId(
-      'newPassword',
-    ) as HTMLInputElement;
+    const newPassword = getByTestId('newPassword') as HTMLInputElement;
     fireEvent.change(newPassword, {
       target: { value: 'newPass123@' },
     });

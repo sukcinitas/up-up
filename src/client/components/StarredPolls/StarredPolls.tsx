@@ -12,7 +12,7 @@ import '../../sass/UserPolls.scss';
 
 axios.defaults.withCredentials = true;
 
-const StarredPolls: React.FunctionComponent = () => {
+const StarredPolls = () => {
   const dispatch = useDispatch();
   const { username, userId, starredPollsIds } = useSelector(
     (state: AppState) => ({
@@ -21,30 +21,34 @@ const StarredPolls: React.FunctionComponent = () => {
       starredPollsIds: state.starredPolls,
     }),
   );
-  const [starredPolls, setStarredPolls] = useState([]);
+  const [starredPolls, setStarredPolls] = useState<
+    {
+      _id: string;
+      name: string;
+      votes: number;
+    }[]
+  >([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const getStarredPolls = () => {
+    const getStarredPolls = (): void => {
       setIsLoading(true);
-      axios
-        .post('/api/polls/starred', { listOfIds: starredPollsIds })
-        .then(
-          (res) => {
-            if (res.data.success) {
-              setIsLoading(false);
-              setStarredPolls([...res.data.polls]);
-            }
-          },
-          (err) => {
+      axios.post('/api/polls/starred', { listOfIds: starredPollsIds }).then(
+        (res) => {
+          if (res.data.success) {
             setIsLoading(false);
-            setErrorMessage(
-              err.response.data.message ||
-                `${err.response.status}: ${err.response.statusText}`,
-            );
-          },
-        );
+            setStarredPolls([...res.data.polls]);
+          }
+        },
+        (err) => {
+          setIsLoading(false);
+          setErrorMessage(
+            err.response.data.message ||
+              `${err.response.status}: ${err.response.statusText}`,
+          );
+        },
+      );
     };
     getStarredPolls();
   }, [starredPollsIds]);
@@ -59,9 +63,7 @@ const StarredPolls: React.FunctionComponent = () => {
         (res) => {
           if (res.data.success) {
             dispatch(getStarredPollsAsync(username));
-            setStarredPolls(
-              starredPolls.filter((poll) => poll._id !== pollId),
-            );
+            setStarredPolls(starredPolls.filter((poll) => poll._id !== pollId));
           }
         },
         (err) => {
@@ -82,7 +84,7 @@ const StarredPolls: React.FunctionComponent = () => {
         <button
           type="button"
           className="user-polls__star--starred"
-          onClick={() => unStarAPoll(poll._id)}
+          onClick={(): void => unStarAPoll(poll._id)}
           data-testid={poll._id}
         >
           <FontAwesomeIcon icon={['fas', 'star']} />
@@ -100,9 +102,7 @@ const StarredPolls: React.FunctionComponent = () => {
     <section className="user-polls">
       <h2 className="heading user-polls__heading">Saved polls</h2>
       {starredPolls.length === 0 ? (
-        <p className="user-polls__notes">
-          You have not saved any polls yet!
-        </p>
+        <p className="user-polls__notes">You have not saved any polls yet!</p>
       ) : (
         <div className="user-polls__polls">{polls}</div>
       )}

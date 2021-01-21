@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import * as passport from 'passport'; // .env file must be at root
+import * as passport from 'passport';
 import * as express from 'express';
 import * as cors from 'cors';
 import * as mongoose from 'mongoose';
@@ -36,7 +36,6 @@ const MongoStore = connectMongo(session);
           sameSite: false,
           secure: process.env.NODE_ENV === 'prod',
           maxAge: 86400000,
-          // expires: false, // after closing the browser, session ends
         },
       }),
     );
@@ -68,10 +67,7 @@ const MongoStore = connectMongo(session);
     app.use(express.static('dist'));
     app.use((req, res, next) => {
       res.header('Access-Control-Allow-Credentials', 'true');
-      res.header(
-        'Access-Control-Allow-Origin',
-        'http://localhost:3000',
-      );
+      res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
       res.header(
         'Access-Control-Allow-Headers',
         'Origin, X-Requested-With, Content-Type, Accept',
@@ -98,14 +94,11 @@ const MongoStore = connectMongo(session);
     app.use('/api/user', userRouter);
 
     app.all('*', (req, res) => {
-      res.sendFile(
-        path.join(process.cwd(), '/dist/index.html'),
-        (err) => {
-          if (err) {
-            res.status(500).send(err);
-          }
-        },
-      );
+      res.sendFile(path.join(process.cwd(), '/dist/index.html'), (err) => {
+        if (err) {
+          res.status(500).send(err);
+        }
+      });
     });
     app.use((err: Error, req: Request, res: Response) => {
       console.error(err.stack);

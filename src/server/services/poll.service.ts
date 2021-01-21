@@ -28,21 +28,14 @@ const PollService = {
     ]);
     return polls;
   },
+
   async get(
     id: string,
-  ): Promise<{
-    _id: string;
-    name: string;
-    question: string;
-    votes: number;
-    options: Array<{ option: string; votes: number }>;
-    createdBy: string;
-    updatedAt: Date;
-    createdAt: Date;
-  }> {
+  ): Promise<IPoll> {
     const poll = await Poll.findById(id).exec();
     return poll;
   },
+
   async getUsers(
     username: string,
   ): Promise<
@@ -65,6 +58,7 @@ const PollService = {
     ]);
     return polls;
   },
+
   async insert(
     name: string,
     question: string,
@@ -81,26 +75,20 @@ const PollService = {
     await newPoll.save();
     return newPoll._id;
   },
+
   async delete(id: string): Promise<void> {
     await Poll.findByIdAndDelete(id).exec();
   },
+
   async deleteMany(username: string): Promise<void> {
     await Poll.deleteMany({ createdBy: username }).exec();
   },
+
   async update(
     id: string,
     updatedOptions: Array<{ option: string; votes: number }>,
     votes: number,
-  ): Promise<{
-    _id: string;
-    name: string;
-    question: string;
-    votes: number;
-    options: Array<{ option: string; votes: number }>;
-    createdBy: string;
-    updatedAt: Date;
-    createdAt: Date;
-  }> {
+  ): Promise<IPoll> {
     const poll = await Poll.findByIdAndUpdate(
       id,
       {
@@ -112,21 +100,11 @@ const PollService = {
     ).exec();
     return poll;
   },
+
   async getStarred(
     listOfIds: [string],
-  ): Promise<
-    Array<{
-      _id: string;
-      name: string;
-      question: string;
-      votes: number;
-      options: Array<{ option: string; votes: number }>;
-      createdBy: string;
-      updatedAt: Date;
-      createdAt: Date;
-    }>
-  > {
-    const polls = await Poll.find({ _id: { $in: listOfIds } }).exec();
+  ): Promise<Array<IPoll>> {
+    const polls = await Poll.find({ _id: { $in: listOfIds } }, '-createdAt -updatedAt -v -question -options -createdBy').exec();
     return polls;
   },
 };

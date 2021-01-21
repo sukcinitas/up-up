@@ -44,6 +44,7 @@ function renderWithRedux(
 afterEach(cleanup);
 jest.mock('axios');
 const axiosMock = axios as jest.Mocked<typeof axios>;
+
 describe('<StarredPolls /> Component', () => {
   it('renders StarredPolls component', async () => {
     const polls = [
@@ -124,9 +125,7 @@ describe('<StarredPolls /> Component', () => {
     fireEvent.click(btn);
 
     expect(axiosMock.put).toHaveBeenCalledTimes(1);
-    await wait(() =>
-      expect(queryByText(/test-name-one/i)).toBeFalsy(),
-    );
+    await wait(() => expect(queryByText(/test-name-one/i)).toBeFalsy());
     await wait(() => expect(queryByText(/1 vote/i)).toBeFalsy());
     const resolvedPollNameTwo = await waitForElement(() =>
       getByText(/test-name-two/i),

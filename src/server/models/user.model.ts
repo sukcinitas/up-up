@@ -46,19 +46,14 @@ userSchema.pre<IUser>('save', function hash() {
     this.password = hashPassword(this.password);
   }
 });
-userSchema.pre<IUser>(
-  'findOneAndDelete',
-  async function deleteUserPolls() {
-    try {
-      const user = await UserService.getOneUserById(
-        this.getQuery()._id,
-      );
-      await PollService.deleteMany(user.username);
-    } catch (err) {
-      throw Error(err.message);
-    }
-  },
-);
+userSchema.pre<IUser>('findOneAndDelete', async function deleteUserPolls() {
+  try {
+    const user = await UserService.getOneUserById(this.getQuery()._id);
+    await PollService.deleteMany(user.username);
+  } catch (err) {
+    throw Error(err.message);
+  }
+});
 export interface IUserModel extends Model<IUser> {}
 const User = model<IUser>('User', userSchema);
 

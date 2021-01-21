@@ -9,7 +9,6 @@ import {
   fireEvent,
   waitForElement,
 } from '@testing-library/react';
-// import axiosMock from 'axios';
 import axios from 'axios';
 import { AppState } from '../../redux/actions';
 import reducer, { initialState } from '../../redux/reducers';
@@ -75,17 +74,13 @@ describe('<Login /> Component', () => {
       },
     );
 
-    const usernameInput = getByLabelText(
-      'Username',
-    ) as HTMLInputElement;
+    const usernameInput = getByLabelText('Username') as HTMLInputElement;
     fireEvent.change(usernameInput, {
       target: { value: 'testUser1' },
     });
     expect(usernameInput.value).toBe('testUser1');
 
-    const passwordInput = getByLabelText(
-      'Password',
-    ) as HTMLInputElement;
+    const passwordInput = getByLabelText('Password') as HTMLInputElement;
     fireEvent.change(passwordInput, {
       target: { value: 'testPassword' },
     });
@@ -96,11 +91,7 @@ describe('<Login /> Component', () => {
     axiosMock.post.mockResolvedValueOnce({
       data: { success: false, message: 'Could not login user!' },
     });
-    const {
-      getByTestId,
-      getByText,
-      getByLabelText,
-    } = renderWithRedux(
+    const { getByTestId, getByText, getByLabelText } = renderWithRedux(
       <Route path="/user/login">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         {(props: any) => <Login {...props} />}
@@ -110,17 +101,13 @@ describe('<Login /> Component', () => {
       },
     );
 
-    const usernameInput = getByLabelText(
-      'Username',
-    ) as HTMLInputElement;
+    const usernameInput = getByLabelText('Username') as HTMLInputElement;
     fireEvent.change(usernameInput, {
       target: { value: 'testUser1' },
     });
     expect(usernameInput.value).toBe('testUser1');
 
-    const passwordInput = getByLabelText(
-      'Password',
-    ) as HTMLInputElement;
+    const passwordInput = getByLabelText('Password') as HTMLInputElement;
     fireEvent.change(passwordInput, {
       target: { value: 'testPassword' },
     });

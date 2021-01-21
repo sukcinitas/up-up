@@ -2,16 +2,11 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import '../../sass/Loader.scss';
 
-interface ILoaderProps {
-  size: string;
-}
 // available size options: default, big, small
-const Loader: React.FunctionComponent<ILoaderProps> = ({ size }) => (
+const Loader = ({ size }: { size: string }) => (
   <div
     data-testid="loader"
-    className={`loader ${
-      size !== 'default' ? `loader--${size}` : ''
-    }`}
+    className={`loader ${size !== 'default' ? `loader--${size}` : ''}`}
   />
 );
 

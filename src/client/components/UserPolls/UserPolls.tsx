@@ -10,60 +10,60 @@ import '../../sass/UserPolls.scss';
 
 axios.defaults.withCredentials = true;
 
-interface IUserPollsProps {
-  username: string;
-}
+type TPoll = {
+  name: string;
+  votes: number;
+  id: string;
+};
 
-const UserPolls: React.FunctionComponent<IUserPollsProps> = ({
-  username,
-}) => {
-  const [userPolls, setUserPolls] = useState([]);
+const UserPolls = ({ username }: { username: string }) => {
+  const [userPolls, setUserPolls] = useState<TPoll[]>([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const getUserPolls = (): void => {
+    const getUserPolls = () => {
       setIsLoading(true);
-      axios
-        .get(`/api/polls/user/${username}`)
-        .then((res) => {
+      axios.get(`/api/polls/user/${username}`).then(
+        (res) => {
           if (res.data.success) {
             setUserPolls([...res.data.polls]);
             setIsLoading(false);
           }
-        })
-        .catch((err) => {
+        },
+        (err) => {
           setErrorMessage(
             err.response.data.message ||
               `${err.response.status}: ${err.response.statusText}`,
           );
           setIsLoading(false);
-        });
+        },
+      );
     };
     getUserPolls();
   }, [username]);
 
-  const handlePollDeletion = (
-    e: React.MouseEvent<HTMLButtonElement>,
-  ): void => {
+  const handlePollDeletion = (e: React.MouseEvent<HTMLButtonElement>): void => {
     const { id } = e.currentTarget;
-    axios
-      .delete(`/api/polls/${id}`)
-      .then((res) => {
+    axios.delete(`/api/polls/${id}`).then(
+      (res) => {
         if (res.data.success) {
-          setUserPolls(userPolls.filter((poll) => poll.id !== id));
+          setUserPolls(
+            userPolls.filter((poll: TPoll): boolean => poll.id !== id),
+          );
         }
-      })
-      .catch((err) => {
+      },
+      (err) => {
         setErrorMessage(
           err.response.data.message ||
             `${err.response.status}: ${err.response.statusText}`,
         );
-      });
+      },
+    );
   };
 
   const polls = userPolls.map(
-    (poll: { id: string; name: string; votes: number }) => (
+    (poll: TPoll): JSX.Element => (
       <div
         key={poll.id}
         data-testid={`div${poll.id}`}
@@ -73,9 +73,7 @@ const UserPolls: React.FunctionComponent<IUserPollsProps> = ({
           {poll.name}
         </Link>
         <p className="user-polls__votes">
-          {poll.votes === 1
-            ? `${poll.votes} vote`
-            : `${poll.votes} votes`}
+          {poll.votes === 1 ? `${poll.votes} vote` : `${poll.votes} votes`}
         </p>
         <button
           data-testid={poll.id}
@@ -92,19 +90,14 @@ const UserPolls: React.FunctionComponent<IUserPollsProps> = ({
   return (
     <section className="user-polls">
       <h2 className="heading user-polls__heading">Polls</h2>
-      <Link
-        to="/user/create-poll"
-        className="user-polls__btn--create"
-      >
+      <Link to="/user/create-poll" className="user-polls__btn--create">
         Create a poll
       </Link>
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       {isLoading ? (
         <Loader size="big" />
       ) : userPolls.length === 0 && !errorMessage ? (
-        <p className="user-polls__notes">
-          You have not created any polls yet!
-        </p>
+        <p className="user-polls__notes">You have not created any polls yet!</p>
       ) : (
         <div className="user-polls__polls">{polls}</div>
       )}

@@ -8,9 +8,7 @@ describe('<Footer /> Component', () => {
   it('renders footer component with link to github', () => {
     const { getByText } = render(<Footer />);
 
-    expect(getByText(/^Created by/i).textContent).toBe(
-      'Created by sukcinitas',
-    );
+    expect(getByText(/^Created by/i).textContent).toBe('Created by sukcinitas');
     const link = getByText(/sukcinitas/i) as HTMLLinkElement;
     expect(link.textContent).toBe('sukcinitas');
     expect(link.href).toBe('https://github.com/sukcinitas');

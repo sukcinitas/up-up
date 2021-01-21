@@ -135,30 +135,26 @@ const UserController = {
   authenticate(req: Request, res: Response, next: NextFunction) {
     try {
       // eslint-disable-next-line consistent-return
-      return passport.authenticate(
-        'local',
-        { session: true },
-        (err, user) => {
-          if (err) {
-            return next(err);
-          }
-          if (!user) {
-            return res.json({
-              success: false,
-              message: 'Username or password is incorrect!',
-            });
-          }
-          req.login(user, (loginErr) => {
-            if (loginErr) {
-              return next(loginErr);
-            }
-            return res.json({
-              success: true,
-              sessionUser: sessionizeUser(user),
-            });
+      return passport.authenticate('local', { session: true }, (err, user) => {
+        if (err) {
+          return next(err);
+        }
+        if (!user) {
+          return res.json({
+            success: false,
+            message: 'Username or password is incorrect!',
           });
-        },
-      )(req, res, next);
+        }
+        req.login(user, (loginErr) => {
+          if (loginErr) {
+            return next(loginErr);
+          }
+          return res.json({
+            success: true,
+            sessionUser: sessionizeUser(user),
+          });
+        });
+      })(req, res, next);
     } catch (err) {
       return res.status(500).json({
         success: false,
@@ -174,8 +170,7 @@ const UserController = {
       if (user && user2) {
         return res.json({
           success: false,
-          message:
-            'Username and email are both already in use! Try again!',
+          message: 'Username and email are both already in use! Try again!',
           username_taken: true,
           email_taken: true,
         });

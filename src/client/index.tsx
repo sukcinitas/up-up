@@ -25,11 +25,7 @@ const renderApp = async () => {
           starredPolls: [...starredPolls.data.user[0].starredPolls],
         };
       }
-      const store = createStore(
-        reducer,
-        state,
-        applyMiddleware(thunk),
-      );
+      const store = createStore(reducer, state, applyMiddleware(thunk));
       ReactDOM.render(
         <Provider store={store}>
           <App />

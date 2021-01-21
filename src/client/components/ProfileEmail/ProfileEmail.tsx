@@ -7,15 +7,12 @@ import checkValidity from '../../util/checkValidity';
 
 axios.defaults.withCredentials = true;
 
-interface IProfileEmailProps {
+type TProfileEmailProps = {
   username: string;
   userId: string;
-}
+};
 
-const ProfileEmail: React.FunctionComponent<IProfileEmailProps> = ({
-  username,
-  userId,
-}) => {
+const ProfileEmail = ({ username, userId }: TProfileEmailProps) => {
   const [email, setEmail] = useState('');
   const [newEmail, setNewEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -49,13 +46,13 @@ const ProfileEmail: React.FunctionComponent<IProfileEmailProps> = ({
     getEmail();
   }, [username]);
 
-  const showEmailChange = () => {
+  const showEmailChange = (): void => {
     setIsChangingEmail(!isChangingEmail);
     setErrorMessage('');
     setChangeErr('');
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.currentTarget;
     if (name === 'password') {
       setPassword(value);
@@ -67,7 +64,7 @@ const ProfileEmail: React.FunctionComponent<IProfileEmailProps> = ({
     }
   };
 
-  const changeEmail = (e: React.FormEvent) => {
+  const changeEmail = (e: React.FormEvent): void => {
     e.preventDefault();
     if (changeErr) {
       return;
@@ -115,7 +112,7 @@ const ProfileEmail: React.FunctionComponent<IProfileEmailProps> = ({
         Change email
       </button>
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-      {isChangingEmail ? (
+      {isChangingEmail && (
         <form className="form form--user-information">
           <label className="form__label">New e-mail</label>
           <input
@@ -143,8 +140,6 @@ const ProfileEmail: React.FunctionComponent<IProfileEmailProps> = ({
           </button>
           {changeErr && <ErrorMessage>{changeErr}</ErrorMessage>}
         </form>
-      ) : (
-        ''
       )}
     </div>
   );

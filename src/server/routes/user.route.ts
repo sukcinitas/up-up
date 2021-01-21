@@ -12,9 +12,7 @@ const catchErr = (f: Function) => (
   next: NextFunction,
 ) => f(req, res).catch((err: Error) => next(err));
 
-router
-  .route('/profile/:username')
-  .get(catchErr(UserController.getUser));
+router.route('/profile/:username').get(catchErr(UserController.getUser));
 router.route('/profile').delete(catchErr(UserController.deleteUser));
 router
   .route('/profile')
@@ -23,9 +21,7 @@ router
     validate,
     catchErr(UserController.updateUser),
   );
-router
-  .route('/star-poll')
-  .put(catchErr(UserController.addUserStarredPoll));
+router.route('/star-poll').put(catchErr(UserController.addUserStarredPoll));
 router
   .route('/unstar-poll')
   .put(catchErr(UserController.removeUserStarredPoll));

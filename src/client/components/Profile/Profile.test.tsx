@@ -68,12 +68,8 @@ describe('<Profile /> Component', () => {
       },
     );
     expect(getByTestId('info').textContent).toBe('User information');
-    expect(getByText(/USERNAME/i).textContent).toBe(
-      'USERNAME:  testUser1',
-    );
-    expect(getByText(/Delete account/i).textContent).toBe(
-      'Delete account',
-    );
+    expect(getByText(/USERNAME/i).textContent).toBe('USERNAME:  testUser1');
+    expect(getByText(/Delete account/i).textContent).toBe('Delete account');
 
     fireEvent.click(getByText(/Delete account/i));
     expect(getByText(/Yes/i).textContent).toBe('Yes');
@@ -82,8 +78,6 @@ describe('<Profile /> Component', () => {
     const message = await waitForElement(() =>
       getByText(/User has been successfully deleted!/i),
     );
-    expect(message.textContent).toBe(
-      'User has been successfully deleted!',
-    );
+    expect(message.textContent).toBe('User has been successfully deleted!');
   });
 });

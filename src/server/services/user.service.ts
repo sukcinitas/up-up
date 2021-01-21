@@ -38,25 +38,23 @@ const UserService = {
     const user = await User.findOne({ email }, '-password').exec();
     return user;
   },
+
   async deleteUser(id: string): Promise<void> {
     await User.findOneAndDelete({ _id: id }).exec();
   },
+
   async updateUserEmail(id: string, email: string): Promise<void> {
     await User.findByIdAndUpdate({ _id: id }, { email }).exec();
   },
-  async addUserStarredPoll(
-    id: string,
-    pollId: string,
-  ): Promise<void> {
+
+  async addUserStarredPoll(id: string, pollId: string): Promise<void> {
     await User.findByIdAndUpdate(
       { _id: id },
       { $push: { starredPolls: pollId } },
     ).exec();
   },
-  async removeUserStarredPoll(
-    id: string,
-    pollId: string,
-  ): Promise<void> {
+
+  async removeUserStarredPoll(id: string, pollId: string): Promise<void> {
     await User.findByIdAndUpdate(
       { _id: id },
       { $pull: { starredPolls: pollId } },

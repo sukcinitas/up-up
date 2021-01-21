@@ -34,11 +34,8 @@ export interface IPoll extends Document {
 }
 pollSchema.pre<IPoll>('save', async function checkIfUserExists() {
   try {
-    const user = await UserService.getOneUserByUsername(
-      this.createdBy,
-    );
-    if (!user)
-      throw Error('Could not create poll; user does not exist!');
+    const user = await UserService.getOneUserByUsername(this.createdBy);
+    if (!user) throw Error('Could not create poll; user does not exist!');
   } catch (err) {
     throw Error(err.message);
   }

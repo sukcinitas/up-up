@@ -14,6 +14,7 @@ import UserPolls from './UserPolls';
 afterEach(cleanup);
 jest.mock('axios');
 const axiosMock = axios as jest.Mocked<typeof axios>;
+
 describe('<UserPolls /> Component', () => {
   it('renders userPolls component', async () => {
     const polls = [
@@ -88,9 +89,7 @@ describe('<UserPolls /> Component', () => {
     fireEvent.click(btn);
 
     expect(axiosMock.delete).toHaveBeenCalledTimes(1);
-    await wait(() =>
-      expect(queryByText(/test-name-one/i)).toBeFalsy(),
-    );
+    await wait(() => expect(queryByText(/test-name-one/i)).toBeFalsy());
     await wait(() => expect(queryByText(/1 vote/i)).toBeFalsy());
     const resolvedPollNameTwo = await waitForElement(() =>
       getByText(/test-name-two/i),

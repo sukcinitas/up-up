@@ -13,7 +13,7 @@ import '../../sass/Profile.scss';
 
 axios.defaults.withCredentials = true;
 
-const Profile: React.FunctionComponent = () => {
+const Profile = () => {
   const dispatch = useDispatch();
   const { username, userId } = useSelector((state: AppState) => ({
     username: state.username,
@@ -31,33 +31,30 @@ const Profile: React.FunctionComponent = () => {
   const toggleConfirmation = (state: string): void => {
     if (state === 'close') {
       setIsDeletionConfirmationVisible(false);
-      setErrorMessage('');
     } else if (state === 'open') {
       setIsDeletionConfirmationVisible(true);
-      setErrorMessage('');
     }
+    setErrorMessage('');
   };
 
-  const handleDelete = () => {
-    axios
-      .delete('/api/user/profile', { data: { id: userId, username } })
-      .then(
-        (res) => {
-          if (res.data.success) {
-            setMessage('User has been successfully deleted!');
-            setTimeout(() => {
-              dispatch(logoutCurrentUser());
-              history.push('/');
-            }, 1000);
-          }
-        },
-        (err) => {
-          setErrorMessage(
-            err.response.data.message ||
-              `${err.response.status}: ${err.response.statusText}`,
-          );
-        },
-      );
+  const handleDelete = (): void => {
+    axios.delete('/api/user/profile', { data: { id: userId, username } }).then(
+      (res) => {
+        if (res.data.success) {
+          setMessage('User has been successfully deleted!');
+          setTimeout(() => {
+            dispatch(logoutCurrentUser());
+            history.push('/');
+          }, 1000);
+        }
+      },
+      (err) => {
+        setErrorMessage(
+          err.response.data.message ||
+            `${err.response.status}: ${err.response.statusText}`,
+        );
+      },
+    );
   };
 
   if (message) {
@@ -71,7 +68,7 @@ const Profile: React.FunctionComponent = () => {
             section === 'info' ? 'btn--nav--selected' : ''
           }`}
           type="button"
-          onClick={() => setSection('info')}
+          onClick={(): void => setSection('info')}
         >
           User information
         </button>
@@ -80,7 +77,7 @@ const Profile: React.FunctionComponent = () => {
             section === 'user-polls' ? 'btn--nav--selected' : ''
           }`}
           type="button"
-          onClick={() => setSection('user-polls')}
+          onClick={(): void => setSection('user-polls')}
         >
           User polls
         </button>
@@ -89,20 +86,15 @@ const Profile: React.FunctionComponent = () => {
             section === 'saved-polls' ? 'btn--nav--selected' : ''
           }`}
           type="button"
-          onClick={() => setSection('saved-polls')}
+          onClick={(): void => setSection('saved-polls')}
         >
           Saved polls
         </button>
       </nav>
-      {section === 'info' ? (
+      {section === 'info' && (
         <section className="user-information">
-          {errorMessage && (
-            <ErrorMessage>{errorMessage}</ErrorMessage>
-          )}
-          <h2
-            className="heading user-information__heading"
-            data-testid="info"
-          >
+          {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+          <h2 className="heading user-information__heading" data-testid="info">
             User information
           </h2>
           <div className="user-information__elem">
@@ -117,12 +109,12 @@ const Profile: React.FunctionComponent = () => {
           <div className="user-information__elem">
             <button
               type="button"
-              onClick={() => toggleConfirmation('open')}
+              onClick={(): void => toggleConfirmation('open')}
               className="btn btn--delete"
             >
               Delete account
             </button>
-            {isDeletionConfirmationVisible ? (
+            {isDeletionConfirmationVisible && (
               <div className="form form--user-information">
                 <p className="form__subheading">
                   {' '}
@@ -138,27 +130,19 @@ const Profile: React.FunctionComponent = () => {
                   </button>
                   <button
                     type="button"
-                    onClick={() => toggleConfirmation('close')}
+                    onClick={(): void => toggleConfirmation('close')}
                     className="btn btn--submit"
                   >
                     Close
                   </button>
                 </div>
               </div>
-            ) : (
-              ''
             )}
           </div>
         </section>
-      ) : (
-        ''
       )}
-      {section === 'user-polls' ? (
-        <UserPolls username={username} />
-      ) : (
-        ''
-      )}
-      {section === 'saved-polls' ? <StarredPolls /> : ''}
+      {section === 'user-polls' && <UserPolls username={username} />}
+      {section === 'saved-polls' && <StarredPolls />}
     </div>
   );
 };

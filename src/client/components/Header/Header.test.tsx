@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import * as React from 'react';
 import { Route, Router } from 'react-router-dom';
 import { createMemoryHistory, MemoryHistory } from 'history';
@@ -47,10 +48,7 @@ function renderWithRedux(
 describe('<Header /> Component', () => {
   it('renders header component when user not logged in', () => {
     const { getByText } = renderWithRedux(
-      <Route path="/">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props: any) => <Header {...props} />}
-      </Route>,
+      <Route path="/">{(props: any) => <Header {...props} />}</Route>,
       {
         route: '/',
       },
@@ -67,10 +65,7 @@ describe('<Header /> Component', () => {
       starredPolls: ['id'],
     };
     const { getByText } = renderWithRedux(
-      <Route path="/">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props: any) => <Header {...props} />}
-      </Route>,
+      <Route path="/">{(props: any) => <Header {...props} />}</Route>,
       {
         route: '/',
         state: { ...user },
@@ -89,10 +84,7 @@ describe('<Header /> Component', () => {
     };
     axiosMock.get.mockResolvedValueOnce({ data: { success: true } });
     const { getByText } = renderWithRedux(
-      <Route path="/">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props: any) => <Header {...props} />}
-      </Route>,
+      <Route path="/">{(props: any) => <Header {...props} />}</Route>,
       {
         route: '/',
         state: { ...user },
@@ -102,15 +94,9 @@ describe('<Header /> Component', () => {
 
     fireEvent.click(getByText('Sign out'));
 
-    const loginButton = await waitForElement(() =>
-      getByText(/Login/i),
-    );
-    const registerButton = await waitForElement(() =>
-      getByText(/Register/i),
-    );
-    const votingBanner = await waitForElement(() =>
-      getByText(/VA\./i),
-    );
+    const loginButton = await waitForElement(() => getByText(/Login/i));
+    const registerButton = await waitForElement(() => getByText(/Register/i));
+    const votingBanner = await waitForElement(() => getByText(/VA\./i));
     expect(loginButton.textContent).toBe('Login');
     expect(registerButton.textContent).toBe('Register');
     expect(votingBanner.textContent).toBe('VA.');

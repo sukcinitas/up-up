@@ -32,19 +32,13 @@ describe('<ProfileEmail /> Component', () => {
       <ProfileEmail userId="1" username="testUser1" />,
     );
     expect(getByText(/EMAIL:.../i).textContent).toBe('EMAIL:  ...');
-    expect(getByText(/^Change email$/i).textContent).toBe(
-      'Change email',
-    );
+    expect(getByText(/^Change email$/i).textContent).toBe('Change email');
 
-    const resolvedEmail = await waitForElement(() =>
-      getByText(/^EMAIL/),
-    );
+    const resolvedEmail = await waitForElement(() => getByText(/^EMAIL/));
     expect(resolvedEmail.textContent).toBe('EMAIL:  test@test.lt');
 
     fireEvent.click(getByText(/^Change email$/i));
-    const changebtn = await waitForElement(() =>
-      getByText(/^Change$/),
-    );
+    const changebtn = await waitForElement(() => getByText(/^Change$/));
     expect(changebtn.textContent).toBe('Change');
 
     const input = (await waitForElement(() =>
@@ -84,19 +78,13 @@ describe('<ProfileEmail /> Component', () => {
       <ProfileEmail userId="1" username="testUser1" />,
     );
     expect(getByText(/EMAIL:.../i).textContent).toBe('EMAIL:  ...');
-    expect(getByText(/^Change email$/i).textContent).toBe(
-      'Change email',
-    );
+    expect(getByText(/^Change email$/i).textContent).toBe('Change email');
 
-    const resolvedEmail = await waitForElement(() =>
-      getByText(/^EMAIL/),
-    );
+    const resolvedEmail = await waitForElement(() => getByText(/^EMAIL/));
     expect(resolvedEmail.textContent).toBe('EMAIL:  test@test.lt');
 
     fireEvent.click(getByText(/^Change email$/i));
-    const changebtn = await waitForElement(() =>
-      getByText(/^Change$/),
-    );
+    const changebtn = await waitForElement(() => getByText(/^Change$/));
     expect(changebtn.textContent).toBe('Change');
 
     const input = (await waitForElement(() =>
@@ -136,19 +124,13 @@ describe('<ProfileEmail /> Component', () => {
       <ProfileEmail userId="1" username="testUser1" />,
     );
     expect(getByText(/EMAIL:.../i).textContent).toBe('EMAIL:  ...');
-    expect(getByText(/^Change email$/i).textContent).toBe(
-      'Change email',
-    );
+    expect(getByText(/^Change email$/i).textContent).toBe('Change email');
 
-    const resolvedEmail = await waitForElement(() =>
-      getByText(/^EMAIL/),
-    );
+    const resolvedEmail = await waitForElement(() => getByText(/^EMAIL/));
     expect(resolvedEmail.textContent).toBe('EMAIL:  test@test.lt');
 
     fireEvent.click(getByText(/^Change email$/i));
-    const changebtn = await waitForElement(() =>
-      getByText(/^Change$/),
-    );
+    const changebtn = await waitForElement(() => getByText(/^Change$/));
     expect(changebtn.textContent).toBe('Change');
 
     const input = (await waitForElement(() =>
@@ -165,9 +147,7 @@ describe('<ProfileEmail /> Component', () => {
     const message = await waitForElement(() =>
       getByText('Password is incorrect! Try again!'),
     );
-    expect(message.textContent).toBe(
-      'Password is incorrect! Try again!',
-    );
+    expect(message.textContent).toBe('Password is incorrect! Try again!');
     expect(resolvedEmail.textContent).toBe('EMAIL:  test@test.lt');
   });
 });

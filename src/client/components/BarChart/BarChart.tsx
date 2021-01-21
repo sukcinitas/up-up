@@ -2,16 +2,16 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import drawChart from './helper';
 
-interface IBarChartProps {
+type TBarChartProps = {
   data: {
     optionsList: Array<{ option: string; votes: number }>;
     sumVotes: number;
   };
   width: number;
   leftMargin: number;
-}
+};
 
-const BarChart = ({ data, width, leftMargin }: IBarChartProps) => {
+const BarChart = ({ data, width, leftMargin }: TBarChartProps): JSX.Element => {
   if (data.sumVotes !== 0) {
     drawChart(data, width, leftMargin);
   }

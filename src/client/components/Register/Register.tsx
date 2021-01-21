@@ -25,24 +25,19 @@ const Register = () => {
   });
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ): void => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.currentTarget;
     const newErrors = { ...errors };
     switch (name) {
       case 'username':
         newErrors.usernameErr =
-          e.currentTarget.value.length < 5 ||
-          e.currentTarget.value.length > 30
+          e.currentTarget.value.length < 5 || e.currentTarget.value.length > 30
             ? 'Username must be 5-30 characters long!'
             : '';
         setUsername(value);
         break;
       case 'email':
-        newErrors.emailErr = checkValidity.checkEmail(
-          e.currentTarget.value,
-        );
+        newErrors.emailErr = checkValidity.checkEmail(e.currentTarget.value);
         setEmail(value);
         break;
       case 'password':
@@ -57,34 +52,31 @@ const Register = () => {
     setErrors(newErrors);
   };
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();
     const { usernameErr, emailErr, passwordErr } = errors;
     if (usernameErr !== '' || emailErr !== '' || passwordErr !== '') {
       return;
     }
-
-    axios
-      .post('/api/user/register', { username, email, password })
-      .then(
-        (res) => {
-          const newErrors = {
-            ...errors,
-            usernameTaken: res.data.username_taken || false,
-            emailTaken: res.data.email_taken || false,
-          };
-          setErrors(newErrors);
-          if (res.data.success) {
-            dispatch(receiveCurrentUser(res.data.sessionUser));
-          }
-        },
-        (err) => {
-          setErrorMessage(
-            err.response.data.message ||
-              `${err.response.status}: ${err.response.statusText}`,
-          );
-        },
-      );
+    axios.post('/api/user/register', { username, email, password }).then(
+      (res) => {
+        const newErrors = {
+          ...errors,
+          usernameTaken: res.data.username_taken || false,
+          emailTaken: res.data.email_taken || false,
+        };
+        setErrors(newErrors);
+        if (res.data.success) {
+          dispatch(receiveCurrentUser(res.data.sessionUser));
+        }
+      },
+      (err) => {
+        setErrorMessage(
+          err.response.data.message ||
+            `${err.response.status}: ${err.response.statusText}`,
+        );
+      },
+    );
   };
 
   const {
@@ -133,16 +125,10 @@ const Register = () => {
         >
           Password
           <FontAwesomeIcon
-            icon={
-              isPasswordVisible
-                ? ['far', 'eye-slash']
-                : ['far', 'eye']
-            }
+            icon={isPasswordVisible ? ['far', 'eye-slash'] : ['far', 'eye']}
             className="eye-icon"
-            onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-            title={
-              isPasswordVisible ? 'Hide password!' : 'Show password!'
-            }
+            onClick={(): void => setIsPasswordVisible(!isPasswordVisible)}
+            title={isPasswordVisible ? 'Hide password!' : 'Show password!'}
           />
         </label>
         <input
@@ -157,14 +143,12 @@ const Register = () => {
 
         <div>
           <span className="form__notes">
-            {usernameTaken ? ' Username is already in use' : ''}
+            {usernameTaken && ' Username is already in use'}
           </span>
           <span className="form__notes">
-            {emailTaken ? ' Email is already in use' : ''}
+            {emailTaken && ' Email is already in use'}
           </span>
-          {errorMessage && (
-            <ErrorMessage>{errorMessage}</ErrorMessage>
-          )}
+          {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
         </div>
 
         <button

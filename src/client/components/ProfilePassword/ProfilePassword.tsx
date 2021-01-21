@@ -8,15 +8,12 @@ import checkValidity from '../../util/checkValidity';
 
 axios.defaults.withCredentials = true;
 
-interface IProfilePasswordProps {
+type TProfilePasswordProps = {
   username: string;
   userId: string;
-}
+};
 
-const ProfilePassword: React.FunctionComponent<IProfilePasswordProps> = ({
-  username,
-  userId,
-}) => {
+const ProfilePassword = ({ username, userId }: TProfilePasswordProps) => {
   const [newPassword, setNewPassword] = useState('');
   const [oldPassword, setOldPassword] = useState('');
   const [isChangingPassword, setIsChangingPassword] = useState(false);
@@ -24,9 +21,7 @@ const ProfilePassword: React.FunctionComponent<IProfilePasswordProps> = ({
   const [changeErr, setChangeErr] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ): void => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.currentTarget;
     if (name === 'newPassword') {
       setNewPassword(value);
@@ -43,7 +38,8 @@ const ProfilePassword: React.FunctionComponent<IProfilePasswordProps> = ({
     setMessage('');
     setChangeErr('');
   };
-  const changePassword = (e: React.FormEvent) => {
+
+  const changePassword = (e: React.FormEvent): void => {
     if (changeErr) {
       return;
     }
@@ -93,7 +89,7 @@ const ProfilePassword: React.FunctionComponent<IProfilePasswordProps> = ({
         Change password
       </button>
       {message && <ErrorMessage>{message}</ErrorMessage>}
-      {isChangingPassword ? (
+      {isChangingPassword && (
         <form className="form form--user-information">
           <label className="form__label">Old password</label>
           <input
@@ -107,18 +103,10 @@ const ProfilePassword: React.FunctionComponent<IProfilePasswordProps> = ({
           <label className="form__label">
             New password
             <FontAwesomeIcon
-              icon={
-                isPasswordVisible
-                  ? ['far', 'eye-slash']
-                  : ['far', 'eye']
-              }
+              icon={isPasswordVisible ? ['far', 'eye-slash'] : ['far', 'eye']}
               className="eye-icon"
               onClick={togglePasswordVisibility}
-              title={
-                isPasswordVisible
-                  ? 'Hide password!'
-                  : 'Show password!'
-              }
+              title={isPasswordVisible ? 'Hide password!' : 'Show password!'}
             />
           </label>
           <input
@@ -138,8 +126,6 @@ const ProfilePassword: React.FunctionComponent<IProfilePasswordProps> = ({
           </button>
           {changeErr && <ErrorMessage>{changeErr}</ErrorMessage>}
         </form>
-      ) : (
-        ''
       )}
     </div>
   );
