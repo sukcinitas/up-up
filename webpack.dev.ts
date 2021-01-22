@@ -1,7 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import * as path from 'path';
 import merge from 'webpack-merge';
-import * as sass from 'sass';
 import common from './webpack.common';
 
 export default merge(common, {
@@ -29,16 +28,7 @@ export default merge(common, {
     rules: [
       {
         test: /\.(scss|css)$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          {
-            loader: 'sass-loader',
-            options: {
-              implementation: sass,
-            },
-          },
-        ],
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.(js|jsx)$/,

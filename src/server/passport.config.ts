@@ -1,7 +1,7 @@
 import * as passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { comparePassword } from './passwordHashing';
-import User from './models/user.model';
+import User, { IUser } from './models/user.model';
 
 passport.use(
   new LocalStrategy(async (username: string, password: string, done) => {
@@ -24,12 +24,12 @@ passport.use(
   }),
 );
 
-passport.serializeUser((user: { id: string; username?: string }, done) => {
+passport.serializeUser((user: IUser, done): void => {
   done(null, user.id);
 });
 
 passport.deserializeUser((_id, done) => {
-  User.findOne({ _id }, '-password', (err, user) => {
+  User.findOne({ _id }, '-password', (err: Error, user: IUser) => {
     done(err, user);
   });
 });

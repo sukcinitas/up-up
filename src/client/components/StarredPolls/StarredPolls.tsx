@@ -92,20 +92,19 @@ const StarredPolls = () => {
       </div>
     ),
   );
-  if (isLoading) {
-    return <Loader size="big" />;
-  }
+  const pollList =
+    starredPolls.length === 0 ? (
+      <p className="user-polls__notes">You have not saved any polls!</p>
+    ) : (
+      <div className="user-polls__polls">{polls}</div>
+    );
   if (errorMessage) {
     return <ErrorMessage>{errorMessage}</ErrorMessage>;
   }
   return (
     <section className="user-polls">
       <h2 className="heading user-polls__heading">Saved polls</h2>
-      {starredPolls.length === 0 ? (
-        <p className="user-polls__notes">You have not saved any polls yet!</p>
-      ) : (
-        <div className="user-polls__polls">{polls}</div>
-      )}
+      {isLoading ? <Loader size="big" /> : pollList}
     </section>
   );
 };
