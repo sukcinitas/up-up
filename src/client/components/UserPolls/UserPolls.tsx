@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import * as PropTypes from 'prop-types';
 import axios from 'axios';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import DeleteButton from '../DeleteButton/DeleteButton';
 import Loader from '../Loader/Loader';
 import '../../sass/UserPolls.scss';
 
@@ -43,8 +44,7 @@ const UserPolls = ({ username }: { username: string }) => {
     getUserPolls();
   }, [username]);
 
-  const handlePollDeletion = (e: React.MouseEvent<HTMLButtonElement>): void => {
-    const { id } = e.currentTarget;
+  const handlePollDeletion = (id: String): void => {
     axios.delete(`/api/polls/${id}`).then(
       (res) => {
         if (res.data.success) {
@@ -75,15 +75,10 @@ const UserPolls = ({ username }: { username: string }) => {
         <p className="user-polls__votes">
           {poll.votes === 1 ? `${poll.votes} vote` : `${poll.votes} votes`}
         </p>
-        <button
-          data-testid={poll.id}
-          type="button"
+        <DeleteButton
           id={poll.id}
-          onClick={handlePollDeletion}
-          className="btn btn--delete user-polls__btn"
-        >
-          Delete
-        </button>
+          callback={() => handlePollDeletion(poll.id)}
+        />
       </div>
     ),
   );

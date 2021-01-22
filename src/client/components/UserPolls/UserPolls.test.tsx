@@ -87,6 +87,8 @@ describe('<UserPolls /> Component', () => {
 
     const btn = await waitForElement(() => getByTestId('1'));
     fireEvent.click(btn);
+    const confirmBtn = await waitForElement(() => getByText('Confirm'));
+    fireEvent.click(confirmBtn);
 
     expect(axiosMock.delete).toHaveBeenCalledTimes(1);
     await wait(() => expect(queryByText(/test-name-one/i)).toBeFalsy());

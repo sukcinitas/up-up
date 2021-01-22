@@ -8,6 +8,7 @@ import formatDate from '../../util/formatDate';
 import { AppState } from '../../redux/actions';
 import BarChart from '../BarChart/BarChart';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import DeleteButton from '../DeleteButton/DeleteButton';
 import Loader from '../Loader/Loader';
 import '../../sass/Poll.scss';
 import barChartWidth from '../../util/barChartWidth';
@@ -155,13 +156,7 @@ const Poll = ({ match, history }: RouteComponentProps<RouteParams>) => {
       <h2 className="heading poll__heading">{name}</h2>
       <h3 className="subheading poll__subheading">{question}</h3>
       {username === createdBy && (
-        <button
-          type="button"
-          onClick={handlePollDeletion}
-          className="btn btn--delete btn--delete--poll"
-        >
-          Delete
-        </button>
+        <DeleteButton callback={handlePollDeletion} poll />
       )}
       <div className="additional poll__additional">
         <p>{`created by ${createdBy}`}</p>

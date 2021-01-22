@@ -1,0 +1,25 @@
+@use 'variables';
+
+.delete-confirmation {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: #000000a1;
+
+  &__box {
+    margin: 100px auto;
+    max-width: 400px;
+    background-color: white;
+    padding: 20px 30px;
+    border-radius: 20px;
+    font-family: variables.$font-heading;
+  }
+
+  &__buttons {
+    padding: 10px 2px 0px;
+    display: flex;
+    flex-direction: row-reverse;
+  }
+}
