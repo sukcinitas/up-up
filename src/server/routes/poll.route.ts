@@ -15,7 +15,7 @@ const catchErr = (f: Function) => (
 router.route('/').get(catchErr(PollController.getAll));
 router.route('/:id').get(catchErr(PollController.get));
 router.route('/:id').delete(authorize, catchErr(PollController.delete));
-router.route('/:id').put(authorize, catchErr(PollController.update));
+router.route('/:id').put(catchErr(PollController.update));
 router
   .route('/user/:username')
   .get(authorize, catchErr(PollController.getUsers));

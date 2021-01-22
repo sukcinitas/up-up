@@ -24,10 +24,19 @@ const drawChart = (
   d3.select('svg').remove();
 
   function addDots(option: string): string {
+    if (
+      window.innerWidth < 400 ||
+      document.documentElement.clientWidth < 400 ||
+      document.body.clientWidth < 400
+    ) {
+      if (option.length > 5) {
+        return `...${option.substr(-5)}`;
+      }
+    }
     if (option.length < 12) {
       return option;
     }
-    return `...${option.substr(-5)}`;
+    return `...${option.substr(-12)}`;
   }
 
   const dataPrev: { option: string; votes: number }[] = datum.optionsList;
