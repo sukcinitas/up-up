@@ -34,10 +34,9 @@ const renderApp = async () => {
       );
     })
     .catch((err) => {
+      console.log(err);
       ReactDOM.render(
-        <p>
-          {err.response.status} {err.response.statusText}
-        </p>,
+        <h2>Something went wrong!</h2>,
         document.getElementById('root'),
       );
     });

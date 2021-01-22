@@ -31,12 +31,14 @@ const MongoStore = connectMongo(session);
           mongooseConnection: mongoose.connection,
           collection: 'session',
           ttl: 60 * 60,
+          autoRemove: 'native',
         }),
         cookie: {
           sameSite: false,
           secure: process.env.NODE_ENV === 'prod',
           maxAge: 86400000,
         },
+        unset: 'destroy',
       }),
     );
 

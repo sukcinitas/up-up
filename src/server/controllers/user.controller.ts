@@ -97,9 +97,25 @@ const UserController = {
       });
     }
   },
+  // eslint-disable-next-line consistent-return
   async logout(req: Request, res: Response) {
     try {
       await req.logout();
+      // req.session.destroy((err) => {
+      //   if (!err) {
+      //     return res
+      //       .status(200)
+      //       .clearCookie('sid', { path: '/' })
+      //       .json({ success: true });
+      //   }
+      //   // handle error case...
+      //   console.log(err);
+      //   return res.status(500).json({
+      //     success: false,
+      //     message: 'Logout failed!',
+      //     error: err.message,
+      //   });
+      // });
       return res.json({
         success: true,
         message: 'User has successfully loged out!',
