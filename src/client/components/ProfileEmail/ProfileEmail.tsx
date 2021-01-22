@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import * as PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import checkValidity from '../../util/checkValidity';
@@ -20,6 +21,7 @@ const ProfileEmail = ({ username, userId }: TProfileEmailProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [changeErr, setChangeErr] = useState('');
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   useEffect(() => {
     const getEmail = () => {
@@ -122,10 +124,18 @@ const ProfileEmail = ({ username, userId }: TProfileEmailProps) => {
             onChange={handleChange}
             className="form__input"
           />
-          <label className="form__label">Password</label>
+          <label className="form__label">
+            Password
+            <FontAwesomeIcon
+              icon={isPasswordVisible ? ['far', 'eye-slash'] : ['far', 'eye']}
+              className="eye-icon"
+              onClick={(): void => setIsPasswordVisible(!isPasswordVisible)}
+              title={isPasswordVisible ? 'Hide password!' : 'Show password!'}
+            />
+          </label>
           <input
             value={password}
-            type="password"
+            type={isPasswordVisible ? 'text' : 'password'}
             data-testid="password"
             name="password"
             onChange={handleChange}

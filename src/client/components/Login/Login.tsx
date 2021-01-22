@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { receiveCurrentUser } from '../../redux/actions';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
@@ -13,6 +14,7 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.currentTarget;
@@ -62,9 +64,15 @@ const Login = () => {
 
         <label htmlFor="password" className="form__label">
           Password
+          <FontAwesomeIcon
+            icon={isPasswordVisible ? ['far', 'eye-slash'] : ['far', 'eye']}
+            className="eye-icon"
+            onClick={(): void => setIsPasswordVisible(!isPasswordVisible)}
+            title={isPasswordVisible ? 'Hide password!' : 'Show password!'}
+          />
         </label>
         <input
-          type="password"
+          type={isPasswordVisible ? 'text' : 'password'}
           name="password"
           id="password"
           onChange={handleChange}
