@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import { Request, Response, NextFunction } from 'express';
 import * as passport from 'passport';
 import User, { IUser } from '../models/user.model';
@@ -30,6 +31,7 @@ const UserController = {
       });
     }
   },
+
   async deleteUser(req: Request, res: Response) {
     try {
       const { id } = req.body;
@@ -47,7 +49,7 @@ const UserController = {
       });
     }
   },
-  // eslint-disable-next-line consistent-return
+
   async updateUser(req: Request, res: Response) {
     try {
       const { parameter } = req.body;
@@ -97,28 +99,13 @@ const UserController = {
       });
     }
   },
-  // eslint-disable-next-line consistent-return
+
   async logout(req: Request, res: Response) {
     try {
       await req.logout();
-      // req.session.destroy((err) => {
-      //   if (!err) {
-      //     return res
-      //       .status(200)
-      //       .clearCookie('sid', { path: '/' })
-      //       .json({ success: true });
-      //   }
-      //   // handle error case...
-      //   console.log(err);
-      //   return res.status(500).json({
-      //     success: false,
-      //     message: 'Logout failed!',
-      //     error: err.message,
-      //   });
-      // });
       return res.json({
         success: true,
-        message: 'User has successfully loged out!',
+        message: 'User has successfully logged out!',
       });
     } catch (err) {
       return res.status(500).json({
@@ -128,6 +115,7 @@ const UserController = {
       });
     }
   },
+
   checkIfLoggedIn(req: Request, res: Response) {
     try {
       if (!req.user) {
@@ -148,9 +136,9 @@ const UserController = {
       });
     }
   },
+
   authenticate(req: Request, res: Response, next: NextFunction) {
     try {
-      // eslint-disable-next-line consistent-return
       return passport.authenticate('local', { session: true }, (err, user) => {
         if (err) {
           return next(err);
@@ -178,6 +166,7 @@ const UserController = {
       });
     }
   },
+
   async register(req: Request, res: Response) {
     try {
       const { username, email } = req.body;
@@ -214,6 +203,15 @@ const UserController = {
 
       await newUser.save();
 
+      req.login(newUser, (err) => {
+        if (err) {
+          return res.status(500).json({
+            success: false,
+            message: 'User could not be registered!',
+            error: err.message,
+          });
+        }
+      });
       const sessionUser = sessionizeUser(newUser);
       return res.json({ success: true, sessionUser });
     } catch (err) {
@@ -224,6 +222,7 @@ const UserController = {
       });
     }
   },
+
   async addUserStarredPoll(req: Request, res: Response) {
     try {
       const { id, pollId } = req.body;
@@ -240,6 +239,7 @@ const UserController = {
       });
     }
   },
+
   async removeUserStarredPoll(req: Request, res: Response) {
     try {
       const { id, pollId } = req.body;
