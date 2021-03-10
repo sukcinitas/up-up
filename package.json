@@ -39,7 +39,7 @@
     "express-validator": "^6.6.1",
     "history": "^5.0.0",
     "mongodb": "^3.6.2",
-    "mongoose": "^5.10.8",
+    "mongoose": "^5.11.19",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "prop-types": "^15.7.2",

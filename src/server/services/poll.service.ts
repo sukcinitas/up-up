@@ -29,9 +29,7 @@ const PollService = {
     return polls;
   },
 
-  async get(
-    id: string,
-  ): Promise<IPoll> {
+  async get(id: string): Promise<IPoll> {
     const poll = await Poll.findById(id).exec();
     return poll;
   },
@@ -73,7 +71,7 @@ const PollService = {
       createdBy,
     });
     await newPoll.save();
-    return newPoll._id;
+    return newPoll.id;
   },
 
   async delete(id: string): Promise<void> {
@@ -101,10 +99,11 @@ const PollService = {
     return poll;
   },
 
-  async getStarred(
-    listOfIds: [string],
-  ): Promise<Array<IPoll>> {
-    const polls = await Poll.find({ _id: { $in: listOfIds } }, '-createdAt -updatedAt -v -question -options -createdBy').exec();
+  async getStarred(listOfIds: Array<string>): Promise<Array<IPoll>> {
+    const polls = await Poll.find(
+      { _id: { $in: listOfIds } },
+      '-createdAt -updatedAt -v -question -options -createdBy',
+    ).exec();
     return polls;
   },
 };

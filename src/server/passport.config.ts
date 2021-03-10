@@ -29,7 +29,7 @@ passport.serializeUser((user: IUser, done): void => {
 });
 
 passport.deserializeUser((_id, done) => {
-  User.findOne({ _id }, '-password', (err: Error, user: IUser) => {
+  User.findOne({ _id }, (err: Error, user: any) => {
     done(err, user);
   });
 });

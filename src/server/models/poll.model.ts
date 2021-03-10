@@ -25,12 +25,12 @@ const pollSchema: Schema = new Schema(
 
 export interface IPoll extends Document {
   name: string;
-  question: string;
-  options: Array<{ option: string; votes: number }>;
+  question?: string;
+  options?: Array<{ option: string; votes: number }>;
   votes: number;
-  createdBy: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdBy?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 pollSchema.pre<IPoll>('save', async function checkIfUserExists() {
   try {

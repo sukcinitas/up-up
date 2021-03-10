@@ -32,6 +32,7 @@ const userSchema: Schema = new Schema(
 );
 
 export interface IUser extends Document {
+  _id?: string;
   username: string;
   email: string;
   password: string;
@@ -46,7 +47,7 @@ userSchema.pre<IUser>('save', function hash() {
     this.password = hashPassword(this.password);
   }
 });
-userSchema.pre<IUser>('findOneAndDelete', async function deleteUserPolls() {
+userSchema.pre<IUser>('deleteOne', async function deleteUserPolls() {
   try {
     const user = await UserService.getOneUserById(this.getQuery()._id);
     await PollService.deleteMany(user.username);

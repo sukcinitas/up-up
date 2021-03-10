@@ -10,7 +10,7 @@ const sessionizeUser = (user: {
   id?: string;
   username?: string;
   email?: string;
-  paassword?: string;
+  password?: string;
   starredPolls?: Array<{}>;
 }): { userId: string; username: string } => ({
   userId: user.id,
@@ -194,6 +194,7 @@ const UserController = {
           message: 'Email is already in use!',
         });
       }
+
       const newUser: IUser = new User({
         username: req.body.username,
         email: req.body.email,

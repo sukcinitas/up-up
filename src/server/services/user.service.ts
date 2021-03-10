@@ -5,7 +5,7 @@ const UserService = {
     username: string,
   ): Promise<
     Array<{
-      _id: string;
+      _id?: string;
       username: string;
       email: string;
       starredPolls: Array<string>;
@@ -28,7 +28,7 @@ const UserService = {
   async getOneUserByEmail(
     email: string,
   ): Promise<{
-    _id: string;
+    _id?: string;
     username: string;
     email: string;
     starredPolls: Array<string>;
@@ -40,7 +40,7 @@ const UserService = {
   },
 
   async deleteUser(id: string): Promise<void> {
-    await User.findOneAndDelete({ _id: id }).exec();
+    await User.deleteOne({ _id: id }).exec();
   },
 
   async updateUserEmail(id: string, email: string): Promise<void> {
