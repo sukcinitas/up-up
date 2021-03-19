@@ -34,7 +34,14 @@ const UserController = {
 
   async deleteUser(req: Request, res: Response) {
     try {
-      const { id } = req.body;
+      const { id, password } = req.body;
+      const user = await UserService.getOneUserById(id);
+      if (user && !comparePassword(password, user.password)) {
+        return res.json({
+          success: false,
+          message: 'Password is incorrect! Try again!',
+        });
+      }
       await UserService.deleteUser(id);
       req.logout();
       return res.json({
