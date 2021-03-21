@@ -37,7 +37,7 @@ const UserController = {
       const { id, password } = req.body;
       const user = await UserService.getOneUserById(id);
       if (user && !comparePassword(password, user.password)) {
-        return res.json({
+        return res.status(401).json({
           success: false,
           message: 'Password is incorrect! Try again!',
         });
@@ -64,14 +64,14 @@ const UserController = {
         const { email, id, password } = req.body;
         const userEmail = await UserService.getOneUserByEmail(email);
         if (userEmail) {
-          return res.json({
+          return res.status(400).json({
             success: false,
             message: 'This e-mail is already in use! Try again!',
           });
         }
         const user = await UserService.getOneUserById(id);
         if (user && !comparePassword(password, user.password)) {
-          return res.json({
+          return res.status(401).json({
             success: false,
             message: 'Password is incorrect! Try again!',
           });
@@ -93,7 +93,7 @@ const UserController = {
             message: 'Your password has been successfully updated!',
           });
         }
-        return res.status(500).json({
+        return res.status(401).json({
           success: false,
           message: 'Password is incorrect!',
         });
@@ -151,7 +151,7 @@ const UserController = {
           return next(err);
         }
         if (!user) {
-          return res.json({
+          return res.status(401).json({
             success: false,
             message: 'Username or password is incorrect!',
           });
@@ -180,7 +180,7 @@ const UserController = {
       const user = await UserService.getOneUserByUsername(username);
       const user2 = await UserService.getOneUserByEmail(email);
       if (user && user2) {
-        return res.json({
+        return res.status(400).json({
           success: false,
           message: 'Username and email are both already in use! Try again!',
           username_taken: true,
@@ -188,14 +188,14 @@ const UserController = {
         });
       }
       if (user) {
-        return res.json({
+        return res.status(400).json({
           success: false,
           username_taken: true,
           message: 'Username is already in use!',
         });
       }
       if (user2) {
-        return res.json({
+        return res.status(400).json({
           success: false,
           email_taken: true,
           message: 'Email is already in use!',

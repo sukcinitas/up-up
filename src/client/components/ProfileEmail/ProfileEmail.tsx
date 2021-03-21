@@ -91,6 +91,8 @@ const ProfileEmail = ({ username, userId }: TProfileEmailProps) => {
         }
       })
       .catch((err) => {
+        setErrorMessage(err.response.message);
+        setIsLoading(false);
         setChangeErr(
           err.response.data.message ||
             `${err.response.status}: ${err.response.statusText}`,

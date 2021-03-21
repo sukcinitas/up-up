@@ -60,21 +60,24 @@ const Register = () => {
     }
     axios.post('/api/user/register', { username, email, password }).then(
       (res) => {
-        const newErrors = {
-          ...errors,
-          usernameTaken: res.data.username_taken || false,
-          emailTaken: res.data.email_taken || false,
-        };
-        setErrors(newErrors);
         if (res.data.success) {
           dispatch(receiveCurrentUser(res.data.sessionUser));
         }
       },
       (err) => {
-        setErrorMessage(
-          err.response.data.message ||
-            `${err.response.status}: ${err.response.statusText}`,
-        );
+        if (err.statusCode === 400) {
+          const newErrors = {
+            ...errors,
+            usernameTaken: res.data.username_taken || false,
+            emailTaken: res.data.email_taken || false,
+          };
+          setErrors(newErrors);
+        } else {
+          setErrorMessage(
+            err.response.data.message ||
+              `${err.response.status}: ${err.response.statusText}`,
+          );
+        }
       },
     );
   };

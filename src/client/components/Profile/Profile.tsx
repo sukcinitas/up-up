@@ -49,11 +49,13 @@ const Profile = () => {
               dispatch(logoutCurrentUser());
               history.push('/');
             }, 1000);
-          } else {
-            setChangeErr(res.data.message);
           }
         },
         (err) => {
+          if (err.response.status && err.response.status === 401) {
+            setChangeErr(err.response.data.message);
+            return;
+          }
           setErrorMessage(
             err.response.data.message ||
               `${err.response.status}: ${err.response.statusText}`,
@@ -120,28 +122,6 @@ const Profile = () => {
               Delete account
             </button>
             {isDeletionConfirmationVisible && (
-              // <div className="form form--user-information">
-              //   <p className="form__subheading">
-              //     {' '}
-              //     Are you sure you want to delete your account?
-              //   </p>
-              //   <div className="form__wrapper">
-              //     <button
-              //       type="button"
-              //       onClick={handleDelete}
-              //       className="btn btn--submit"
-              //     >
-              //       Yes
-              //     </button>
-              //     <button
-              //       type="button"
-              //       onClick={(): void => toggleConfirmation('close')}
-              //       className="btn btn--submit"
-              //     >
-              //       Close
-              //     </button>
-              //   </div>
-              // </div>
               <form className="form form--user-information">
                 <label className="form__label">
                   Enter password to delete account
@@ -171,13 +151,6 @@ const Profile = () => {
                   >
                     Confirm
                   </button>
-                  {/* <button
-                    type="button"
-                    onClick={(): void => toggleConfirmation()}
-                    className="btn btn--submit"
-                  >
-                    Close
-                  </button> */}
                 </div>
                 {changeErr && <ErrorMessage>{changeErr}</ErrorMessage>}
               </form>

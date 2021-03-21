@@ -32,11 +32,12 @@ const Login = () => {
       (res) => {
         if (res.data.success) {
           dispatch(receiveCurrentUser(res.data.sessionUser));
-        } else {
-          setErrorMessage(res.data.message);
         }
       },
       (err) => {
+        if (err.statusCode === 401) {
+          setErrorMessage(res.data.message);
+        }
         setErrorMessage(
           err.response.data.message ||
             `${err.response.status}: ${err.response.statusText}`,
