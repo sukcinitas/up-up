@@ -43,7 +43,7 @@ An application to create polls and vote.
 
 ## Setup
 
-Check the app [here](https://still-bayou-60170.herokuapp.com) (it takes ~ 10 seconds for the sleeping app on Heroku to wake up) or clone this repository - `git clone https://github.com/sukcinitas/voting-app.git`, install dependencies -
+Check the app [here](https://up-up.herokuapp.com/) (it takes ~ 10 seconds for the sleeping app on Heroku to wake up) or clone this repository - `git clone https://github.com/sukcinitas/voting-app.git`, install dependencies -
 `npm install` (you will need `npm` and `node` installed globally)
 
 - `npm run dev` - to run the app on [localhost:3000](http://localhost:3000/)
