@@ -37,6 +37,7 @@ const MongoStore = connectMongo(session);
           sameSite: false,
           secure: process.env.NODE_ENV === 'prod',
           maxAge: 86400000,
+          httpOnly: true,
         },
         unset: 'destroy',
       }),
@@ -49,38 +50,28 @@ const MongoStore = connectMongo(session);
     app.use(passport.session());
 
     if (process.env.NODE_ENV === 'development') {
-      // const whitelist = ['http://localhost:3000', 'http://localhost:8080'];
       const corsOptions = {
-        // origin(origin: string, callback: (arg0: Error, arg1?: boolean) => void) {
-        //   if (whitelist.indexOf(origin) !== -1) {
-        //     callback(null, true);
-        //   } else {
-        //     callback(new Error('Not allowed by CORS'));
-        //   }
-        // },
         credentials: true,
+        origin: 'http://localhost:3000',
       };
       app.use(cors(corsOptions));
-      // app.options('*', cors(corsOptions)); // preflight OPTIONS; put before other routes
-    } else {
-      app.use(cors());
     }
 
-    app.use(express.static('dist'));
-    app.use((req, res, next) => {
-      res.header('Access-Control-Allow-Credentials', 'true');
-      res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-      res.header(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept',
-      );
-      res.header(
-        'Access-Control-Allow-Method',
-        'GET, POST, PUT, PATCH, POST, DELETE, HEAD, OPTIONS',
-      );
-      res.header('Access-Control-Max-Age', '86400');
-      next();
-    });
+    // app.use(express.static('dist'));
+    // app.use((req, res, next) => {
+    //   res.header('Access-Control-Allow-Credentials', 'true');
+    //   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+    //   res.header(
+    //     'Access-Control-Allow-Headers',
+    //     'Origin, X-Requested-With, Content-Type, Accept',
+    //   );
+    //   res.header(
+    //     'Access-Control-Allow-Method',
+    //     'GET, POST, PUT, PATCH, POST, DELETE, HEAD, OPTIONS',
+    //   );
+    //   res.header('Access-Control-Max-Age', '86400');
+    //   next();
+    // });
 
     const uri = process.env.MONGODB_URI;
     mongoose.connect(uri, {
