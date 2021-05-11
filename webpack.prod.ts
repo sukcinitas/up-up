@@ -3,7 +3,7 @@ import * as sass from 'sass';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import * as path from 'path';
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import * as OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+import * as CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import * as TerserPlugin from 'terser-webpack-plugin';
 import common from './webpack.common';
 
@@ -16,7 +16,7 @@ export default merge(common, {
   },
   optimization: {
     minimize: true,
-    minimizer: [new TerserPlugin(), new OptimizeCssAssetsPlugin({})],
+    minimizer: [new TerserPlugin(), new CssMinimizerPlugin()],
   },
   devtool: false,
   plugins: [
