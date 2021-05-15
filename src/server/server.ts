@@ -35,7 +35,7 @@ const MongoStore = connectMongo(session);
         }),
         cookie: {
           sameSite: false,
-          secure: process.env.NODE_ENV === 'prod',
+          secure: process.env.NODE_ENV === 'production',
           maxAge: 86400000,
           httpOnly: true,
         },
@@ -58,20 +58,6 @@ const MongoStore = connectMongo(session);
     }
 
     app.use(express.static('dist'));
-    // app.use((req, res, next) => {
-    //   res.header('Access-Control-Allow-Credentials', 'true');
-    //   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-    //   res.header(
-    //     'Access-Control-Allow-Headers',
-    //     'Origin, X-Requested-With, Content-Type, Accept',
-    //   );
-    //   res.header(
-    //     'Access-Control-Allow-Method',
-    //     'GET, POST, PUT, PATCH, POST, DELETE, HEAD, OPTIONS',
-    //   );
-    //   res.header('Access-Control-Max-Age', '86400');
-    //   next();
-    // });
 
     const uri = process.env.MONGODB_URI;
     mongoose.connect(uri, {
