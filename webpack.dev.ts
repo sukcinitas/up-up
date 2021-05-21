@@ -1,16 +1,17 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import * as path from 'path';
-import merge from 'webpack-merge';
-import common from './webpack.common';
+import * as HtmlWebpackPlugin from 'html-webpack-plugin';
 
-export default merge(common, {
+export default {
+  entry: './src/client/index.tsx',
   mode: 'development',
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
+    clean: true,
   },
-  devtool: 'inline-source-map', // as well as eval increases bundle size and reduces the overall performance
+  devtool: 'eval', // as well as eval increases bundle size and reduces the overall performance
   devServer: {
     historyApiFallback: true,
     hot: true,
@@ -35,6 +36,26 @@ export default merge(common, {
         use: ['source-map-loader'],
         enforce: 'pre',
       },
+      {
+        test: /\.html$/,
+        use: ['html-loader'],
+      },
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: ['babel-loader', 'eslint-loader'],
+      },
+      {
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        use: ['babel-loader'],
+      },
     ],
   },
-});
+  resolve: {
+    extensions: ['.js', '.json', '.jsx', '.ts', '.tsx'],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({ template: 'template.html' }),
+  ],
+};
