@@ -10,6 +10,7 @@ import {
   fireEvent,
 } from '@testing-library/react';
 import axios from 'axios';
+import formatDate from '../../util/formatDate';
 import { AppState } from '../../redux/actions';
 import reducer, { initialState } from '../../redux/reducers';
 
@@ -87,9 +88,9 @@ describe('<Poll /> Component', () => {
     );
     expect(pollCreatedBy.textContent).toBe('created by testUser1');
     const pollCreatedAt = await waitForElement(() =>
-      getByText('created on January 21, 2020'),
+      getByText(`created on ${formatDate(poll.createdAt)}`),
     );
-    expect(pollCreatedAt.textContent).toBe('created on January 21, 2020');
+    expect(pollCreatedAt.textContent).toBe('created on 2020 m. sausio 21 d.');
   });
 
   it('renders Poll component when redux state - user logged in', async () => {
@@ -125,9 +126,9 @@ describe('<Poll /> Component', () => {
     );
     expect(pollCreatedBy.textContent).toBe('created by testUser1');
     const pollCreatedAt = await waitForElement(() =>
-      getByText('created on January 21, 2020'),
+      getByText(`created on ${formatDate(poll.createdAt)}`),
     );
-    expect(pollCreatedAt.textContent).toBe('created on January 21, 2020');
+    expect(pollCreatedAt.textContent).toBe('created on 2020 m. sausio 21 d.');
 
     const btn = await waitForElement(() => getByText(/delete/i));
     expect(btn.textContent).toBe('Delete');

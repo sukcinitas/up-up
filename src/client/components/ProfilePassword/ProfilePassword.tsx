@@ -3,6 +3,7 @@ import * as PropTypes from 'prop-types';
 import { useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import checkValidity from '../../util/checkValidity';
 
@@ -103,7 +104,7 @@ const ProfilePassword = ({ username, userId }: TProfilePasswordProps) => {
           <label className="form__label">
             New password
             <FontAwesomeIcon
-              icon={isPasswordVisible ? ['far', 'eye-slash'] : ['far', 'eye']}
+              icon={isPasswordVisible ? faEyeSlash : faEye}
               className="eye-icon"
               onClick={togglePasswordVisibility}
               title={isPasswordVisible ? 'Hide password!' : 'Show password!'}

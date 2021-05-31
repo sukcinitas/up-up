@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import * as PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import axios from 'axios';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import checkValidity from '../../util/checkValidity';
@@ -129,7 +130,7 @@ const ProfileEmail = ({ username, userId }: TProfileEmailProps) => {
           <label className="form__label">
             Password
             <FontAwesomeIcon
-              icon={isPasswordVisible ? ['far', 'eye-slash'] : ['far', 'eye']}
+              icon={isPasswordVisible ? faEyeSlash : faEye}
               className="eye-icon"
               onClick={(): void => setIsPasswordVisible(!isPasswordVisible)}
               title={isPasswordVisible ? 'Hide password!' : 'Show password!'}

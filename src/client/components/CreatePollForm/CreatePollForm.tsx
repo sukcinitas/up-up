@@ -4,6 +4,11 @@ import { useSelector } from 'react-redux';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { RouteComponentProps } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faPlus,
+  faMinus,
+} from '@fortawesome/free-solid-svg-icons';
+
 import axios from 'axios';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import { AppState } from '../../redux/actions';
@@ -117,7 +122,7 @@ const CreatePollForm = ({ history }: RouteComponentProps) => {
           onClick={(): void => removeOption(item.id)}
           className="form__minus"
         >
-          <FontAwesomeIcon icon={['fas', 'minus']} />
+          <FontAwesomeIcon icon={faMinus} />
         </button>
       </div>
     ),
@@ -166,7 +171,7 @@ const CreatePollForm = ({ history }: RouteComponentProps) => {
         className="btn btn--plus"
         data-testid="plus"
       >
-        <FontAwesomeIcon icon={['fas', 'plus']} />
+        <FontAwesomeIcon icon={faPlus} />
       </button>
       <button type="submit" onClick={handleSubmit} className="btn btn--submit">
         Submit

@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faStar as solidStar,
+} from '@fortawesome/free-solid-svg-icons';
 import { AppState, getStarredPollsAsync } from '../../redux/actions';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import Loader from '../Loader/Loader';
@@ -87,7 +90,7 @@ const StarredPolls = () => {
           onClick={(): void => unStarAPoll(poll._id)}
           data-testid={poll._id}
         >
-          <FontAwesomeIcon icon={['fas', 'star']} />
+          <FontAwesomeIcon icon={solidStar} />
         </button>
       </div>
     ),

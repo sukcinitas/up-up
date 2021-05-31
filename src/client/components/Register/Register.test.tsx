@@ -49,7 +49,7 @@ describe('<Register /> Component', () => {
     );
 
     expect(getByText(/Username/i).textContent).toBe('Username');
-    expect(getByText(/^Password$/i).textContent).toBe('Password');
+    expect(getByText(/^Password$/i).textContent).toBe('PasswordShow password!');
     expect(getByText(/E-mail/i).textContent).toBe('E-mail');
     expect(getByText(/Already have an account?/i).textContent).toBe(
       'Already have an account? Login',
@@ -69,7 +69,7 @@ describe('<Register /> Component', () => {
     );
     const username = getByLabelText('Username') as HTMLInputElement;
     const email = getByLabelText('E-mail') as HTMLInputElement;
-    const password = getByLabelText('Password') as HTMLInputElement;
+    const password = getByLabelText('PasswordShow password!') as HTMLInputElement;
 
     fireEvent.change(username, { target: { value: 'testUser1' } });
     fireEvent.change(email, {
@@ -94,7 +94,7 @@ describe('<Register /> Component', () => {
     );
     const username = getByLabelText('Username') as HTMLInputElement;
     const email = getByLabelText('E-mail') as HTMLInputElement;
-    const password = getByLabelText('Password') as HTMLInputElement;
+    const password = getByLabelText('PasswordShow password!') as HTMLInputElement;
 
     fireEvent.change(username, { target: { value: 'test' } });
     fireEvent.change(email, { target: { value: 'emaiil' } });

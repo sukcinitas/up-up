@@ -5,7 +5,7 @@
   "main": "index.tsx",
   "private": true,
   "scripts": {
-    "test": "jest",
+    "test": "jest --runInBand --detectOpenHandles",
     "dev-client": "webpack serve --config webpack.dev.ts",
     "dev-server": "nodemon src/server/server.ts",
     "dev": "concurrently \"npm run dev-server\" \"npm run dev-client\"",

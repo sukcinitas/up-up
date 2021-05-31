@@ -4,7 +4,8 @@
       "@babel/preset-env",
       {
         "useBuiltIns": "usage",
-        "corejs": { "version": 3 }
+        "corejs": { "version": 3 },
+        "targets": "defaults"
       }
     ],
     "@babel/preset-react",

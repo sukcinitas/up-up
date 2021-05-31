@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { AppState, logoutCurrentUser } from '../../redux/actions';
 import UserPolls from '../UserPolls/UserPolls';
 import StarredPolls from '../StarredPolls/StarredPolls';
@@ -127,7 +128,7 @@ const Profile = () => {
                   Enter password to delete account
                   <FontAwesomeIcon
                     icon={
-                      isPasswordVisible ? ['far', 'eye-slash'] : ['far', 'eye']
+                      isPasswordVisible ? faEyeSlash : faEye
                     }
                     className="eye-icon"
                     onClick={() => setIsPasswordVisible(!isPasswordVisible)}

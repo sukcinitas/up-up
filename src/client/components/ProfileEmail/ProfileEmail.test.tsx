@@ -5,7 +5,6 @@ import {
   fireEvent,
   waitForElement,
 } from '@testing-library/react';
-// import axiosMock from 'axios';
 import axios from 'axios';
 
 import ProfileEmail from './ProfileEmail';

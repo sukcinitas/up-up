@@ -4,6 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as PropTypes from 'prop-types';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
+import {
+  faStar as solidStar,
+  faPlus,
+  faMinus,
+} from '@fortawesome/free-solid-svg-icons';
 import { AppState, getStarredPollsAsync } from '../../../redux/actions';
 import '../../../sass/PollListElem.scss';
 
@@ -127,9 +133,9 @@ const PollListElem = ({
           }
         >
           {starred ? (
-            <FontAwesomeIcon icon={['fas', 'star']} />
+            <FontAwesomeIcon icon={solidStar} />
           ) : (
-            <FontAwesomeIcon icon={['far', 'star']} />
+            <FontAwesomeIcon icon={faStar} />
           )}
         </button>
       )}

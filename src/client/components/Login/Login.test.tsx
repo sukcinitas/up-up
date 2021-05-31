@@ -55,7 +55,6 @@ describe('<Login /> Component', () => {
     );
 
     expect(getByText(/Username/i).textContent).toBe('Username');
-    expect(getByText(/Password/i).textContent).toBe('Password');
     expect(getAllByText(/Login/i));
     expect(getByText(/Register/i).textContent).toBe('Register');
     expect(getByText(/^Do not have an account?/i).textContent).toBe(
@@ -80,7 +79,7 @@ describe('<Login /> Component', () => {
     });
     expect(usernameInput.value).toBe('testUser1');
 
-    const passwordInput = getByLabelText('Password') as HTMLInputElement;
+    const passwordInput = getByLabelText('PasswordShow password!') as HTMLInputElement;
     fireEvent.change(passwordInput, {
       target: { value: 'testPassword' },
     });
@@ -88,8 +87,8 @@ describe('<Login /> Component', () => {
   });
 
   it('prints error if login unsuccessful', async () => {
-    axiosMock.post.mockResolvedValueOnce({
-      data: { success: false, message: 'Could not login user!' },
+    axiosMock.post.mockRejectedValueOnce({
+      response: { data: { message: 'Username or password is incorrect!'} },
     });
     const { getByTestId, getByText, getByLabelText } = renderWithRedux(
       <Route path="/user/login">
@@ -107,7 +106,7 @@ describe('<Login /> Component', () => {
     });
     expect(usernameInput.value).toBe('testUser1');
 
-    const passwordInput = getByLabelText('Password') as HTMLInputElement;
+    const passwordInput = getByLabelText('PasswordShow password!') as HTMLInputElement;
     fireEvent.change(passwordInput, {
       target: { value: 'testPassword' },
     });
@@ -115,9 +114,9 @@ describe('<Login /> Component', () => {
 
     fireEvent.click(getByTestId('login-btn'));
     const errorMessage = await waitForElement(() =>
-      getByText('Could not login user!'),
+      getByText('Username or password is incorrect!'),
     );
-    expect(errorMessage.textContent).toBe('Could not login user!');
+    expect(errorMessage.textContent).toBe('Username or password is incorrect!');
   });
 });
 

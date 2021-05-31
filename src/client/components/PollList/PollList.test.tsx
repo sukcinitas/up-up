@@ -94,7 +94,7 @@ describe('<PollList /> Component', () => {
 
     fireEvent.click(getByText(/^most popular$/)); // I sort by most popular
     expect(pollsDiv.lastChild.firstChild.textContent).toBe(
-      'Test twocreated by testUser218 voteslast updated on February 12, 2020',
+      'Test twocreated by testUser218 voteslast updated on 2020 m. vasario 12 d.',
     );
   });
 

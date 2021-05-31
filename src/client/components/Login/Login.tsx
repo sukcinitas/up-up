@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import axios from 'axios';
 import { receiveCurrentUser } from '../../redux/actions';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
@@ -36,7 +37,7 @@ const Login = () => {
       },
       (err) => {
         if (err.statusCode === 401) {
-          setErrorMessage(res.data.message);
+          setErrorMessage(err.response.data.message);
         }
         setErrorMessage(
           err.response.data.message ||
@@ -66,7 +67,7 @@ const Login = () => {
         <label htmlFor="password" className="form__label">
           Password
           <FontAwesomeIcon
-            icon={isPasswordVisible ? ['far', 'eye-slash'] : ['far', 'eye']}
+            icon={isPasswordVisible ? faEyeSlash : faEye}
             className="eye-icon"
             onClick={(): void => setIsPasswordVisible(!isPasswordVisible)}
             title={isPasswordVisible ? 'Hide password!' : 'Show password!'}

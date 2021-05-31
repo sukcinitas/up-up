@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import { receiveCurrentUser } from '../../redux/actions';
 import checkValidity from '../../util/checkValidity';
@@ -68,8 +69,8 @@ const Register = () => {
         if (err.statusCode === 400) {
           const newErrors = {
             ...errors,
-            usernameTaken: res.data.username_taken || false,
-            emailTaken: res.data.email_taken || false,
+            usernameTaken: err.response.data.username_taken || false,
+            emailTaken: err.response.data.email_taken || false,
           };
           setErrors(newErrors);
         } else {
@@ -128,7 +129,7 @@ const Register = () => {
         >
           Password
           <FontAwesomeIcon
-            icon={isPasswordVisible ? ['far', 'eye-slash'] : ['far', 'eye']}
+            icon={isPasswordVisible ? faEyeSlash : faEye}
             className="eye-icon"
             onClick={(): void => setIsPasswordVisible(!isPasswordVisible)}
             title={isPasswordVisible ? 'Hide password!' : 'Show password!'}
