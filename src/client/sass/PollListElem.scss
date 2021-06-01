@@ -6,9 +6,6 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  // left: 0px;
-  // animation: slide 1s forwards;
-  // transition: left 0.2s;
   border: 1px solid variables.$primary-neutral;
   border-radius: 10px;
 
@@ -22,8 +19,6 @@
 
   &:hover {
     position: relative;
-    // left: 50px;
-    // transition: left 0.4s;
     cursor: pointer;
 
     @media only screen and (max-width: 1024px) {
@@ -42,6 +37,7 @@
     background: transparent;
     cursor: pointer;
     transition: color 0.1s;
+
     &:hover {
       color: variables.$primary-bright;
       transition: color 0.1s;
@@ -52,17 +48,21 @@
         color: variables.$primary-bright;
       }
     }
+
     &--starred {
       color: variables.$primary-bright;
       transition: none;
     }
+
     @media only screen and (min-width: 768px) and (max-width: 1024px) {
       font-size: 11px;
     }
+
     @media only screen and (min-width: 500px) and (max-width: 768px) {
       font-size: 10px;
       color: variables.$primary-bright;
     }
+
     @media only screen and (max-width: 500px) {
       font-size: 10px;
       top: -5px;
@@ -113,6 +113,7 @@
       font-weight: bold;
     }
   }
+
   &__votes,
   &__created-by,
   &__updated-at {
@@ -142,10 +143,19 @@
   &:nth-child(even) {
     left: 50px;
   }
+}
 
-  // &:nth-child(2) {
-  //   left: 0;
-  // }
+.paused {
+  animation: none;
+  opacity: 1;
+
+  &:nth-child(odd) {
+    left: 0px;
+  }
+
+  &:nth-child(even) {
+    left: 0px;
+  }
 }
 
 @for $i from 2 through 10 {

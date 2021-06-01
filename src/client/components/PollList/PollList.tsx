@@ -31,6 +31,7 @@ const PollList = ({ history }: RouteComponentProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [loadError, setLoadError] = useState('');
   const [sortType, setSortType] = useState('newest'); // initially I sort in server
+  const [isAnimationPaused, setIsAnimationPaused] = useState(false);
 
   useEffect(() => {
     let isSubscribed = true;
@@ -57,7 +58,7 @@ const PollList = ({ history }: RouteComponentProps) => {
         dispatch(getStarredPollsAsync(username));
       }
     };
-    fetchPolls();
+    fetchPolls(); 
     return () => {
       isSubscribed = false;
     };
@@ -81,12 +82,13 @@ const PollList = ({ history }: RouteComponentProps) => {
       sortedPolls = [...polls].sort((a, b) => b.votes - a.votes);
       setSortType('most-popular');
     }
+    setIsAnimationPaused(true);
     setPolls(sortedPolls);
   };
 
   const list = polls.map(
-    ({ id: pollId, name, votes, createdBy, updatedAt }, index) => (
-      <div key={new Date().getTime() + index} className="poll-list-elem-wrapper">
+    ({ id: pollId, name, votes, createdBy, updatedAt }) => (
+      <div key={pollId} className={isAnimationPaused ? 'paused poll-list-elem-wrapper' : 'poll-list-elem-wrapper'}>
         <PollListElem
           name={name}
           votes={votes}
