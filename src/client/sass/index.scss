@@ -7,7 +7,6 @@
   font-size: 14px;
   padding: 7px 16px;
   background-color: variables.$primary-light;
-  // border: 1px solid variables.$primary-dark;
   border: none;
   border-radius: 2px;
   color: variables.$primary-dark;
@@ -153,7 +152,8 @@
     }
 
     &-selected {
-      text-decoration: underline;
+      border-radius: 0px;
+      border-bottom: 2px solid variables.$secondary-bright;
     }
   }
   
