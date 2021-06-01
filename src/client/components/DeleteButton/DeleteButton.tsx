@@ -21,7 +21,7 @@ const DeleteButton = ({ callback, id, poll }: TDeleButtonProps) => {
           </button>
           <button
             type="button"
-            className="btn"
+            className="btn btn--cancel"
             onClick={(): void => setIsOpen(false)}
           >
             Cancel

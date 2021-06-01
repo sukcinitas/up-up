@@ -37,7 +37,7 @@ const Header = ({ history }: RouteComponentProps) => {
             <Link to="/user/profile" className="btn btn--username">
               {username}
             </Link>
-            <button type="button" onClick={handleLogout} className="btn">
+            <button type="button" onClick={handleLogout} className="btn btn--accent">
               Sign out
             </button>
           </>
@@ -46,7 +46,7 @@ const Header = ({ history }: RouteComponentProps) => {
             <Link to="/user/login" className="btn btn--bold">
               Login
             </Link>
-            <Link to="/user/register" className="btn">
+            <Link to="/user/register" className="btn btn--accent">
               Register
             </Link>
           </>

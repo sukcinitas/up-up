@@ -6,14 +6,17 @@
   bottom: 0;
   right: 0;
   left: 0;
-  background-color: #000000a1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffffeb;
 
   &__box {
     margin: 100px auto;
     max-width: 400px;
-    background-color: white;
+    background-color: variables.$tertiary-bright-3;
     padding: 20px 30px;
-    border-radius: 20px;
+    border-radius: 4px;
     font-family: variables.$font-heading;
   }
 

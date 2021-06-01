@@ -112,7 +112,7 @@ const ProfileEmail = ({ username, userId }: TProfileEmailProps) => {
         type="button"
         data-testid="showEmailChange"
         onClick={showEmailChange}
-        className="btn"
+        className="btn btn--accent"
       >
         Change email
       </button>

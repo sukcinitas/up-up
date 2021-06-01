@@ -85,7 +85,7 @@ const UserPolls = ({ username }: { username: string }) => {
   return (
     <section className="user-polls">
       <h2 className="heading user-polls__heading">Polls</h2>
-      <Link to="/user/create-poll" className="user-polls__btn--create">
+      <Link to="/user/create-poll" className="btn btn--create">
         Create a poll
       </Link>
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}

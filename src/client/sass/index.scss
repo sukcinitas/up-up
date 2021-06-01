@@ -7,16 +7,35 @@
   font-size: 14px;
   padding: 7px 16px;
   background-color: variables.$primary-light;
-  border: 1px solid variables.$primary-dark;
+  // border: 1px solid variables.$primary-dark;
+  border: none;
   border-radius: 2px;
   color: variables.$primary-dark;
   text-transform: uppercase;
   text-decoration: none;
   margin: 3px;
   cursor: pointer;
+  transition: box-shadow 0.10s linear;
+
+  &:hover {
+    box-shadow: 0px 2px 4px rgba(99, 91, 91, 0.29);
+    transition: box-shadow 0.10s linear;
+  }
+
   &--bold {
     color: variables.$primary-light;
     background-color: variables.$primary-dark;
+  }
+
+  &--accent {
+    color: variables.$primary-dark;
+    background-color: variables.$tertiary-bright;
+  }
+
+  &--cancel {
+    &:hover {
+      box-shadow: none;
+    }
   }
 
   &--username {
@@ -25,6 +44,9 @@
     padding: 7px;
     font-weight: bold;
     color: variables.$secondary-bright;
+    &:hover {
+      box-shadow: none;
+    }
   }
 
   &--submit {
@@ -84,12 +106,19 @@
   &--vote {
     padding: 8px;
     color: variables.$primary-dark;
-    border-radius: 2px;
+    border-radius: 4px;
     text-transform: none;
     margin: 0 auto;
     font-size: 16px;
     font-family: variables.$font-btn;
     width: 300px;
+    box-shadow: 0px 2px 4px rgba(99, 91, 91, 0.29);
+    transition: background-color 0.10s linear;
+
+    &:hover {
+      background-color: variables.$selected;
+      transition: background-color 0.15s linear;
+    }
   }
 
   &--selected {
@@ -101,6 +130,7 @@
     align-self: center;
     border: none;
     font-size: 20px;
+    box-shadow: none;
   }
 
   &--create {
@@ -117,10 +147,16 @@
     border: none;
     font-size: 13px;
     padding: 0;
+
+    &:hover {
+      box-shadow: none;
+    }
+
     &-selected {
       text-decoration: underline;
     }
   }
+  
   &--hidden {
     visibility: hidden;
   }
@@ -168,9 +204,9 @@
 
 .form {
   font-family: variables.$font-primary;
-  background-color: variables.$primary-light;
-  border: 3px double variables.$primary-dark;
-  border-radius: 2px;
+  background-color: variables.$tertiary-bright-2;
+  // border: 3px double variables.$primary-dark;
+  border-radius: 4px;
   padding: 30px 80px 90px;
   max-width: 300px;
   margin: 40px auto;

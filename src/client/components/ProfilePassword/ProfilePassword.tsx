@@ -85,7 +85,7 @@ const ProfilePassword = ({ username, userId }: TProfilePasswordProps) => {
       <button
         type="button"
         onClick={showPasswordChange}
-        className="btn btn--user"
+        className="btn btn--accent"
       >
         Change password
       </button>
