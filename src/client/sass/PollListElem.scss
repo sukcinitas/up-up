@@ -6,21 +6,26 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  left: 0px;
-  transition: left 0.2s;
+  // left: 0px;
+  // animation: slide 1s forwards;
+  // transition: left 0.2s;
   border: 1px solid variables.$primary-neutral;
   border-radius: 10px;
+
   @media only screen and (max-width: 1024px) {
     transition: none;
   }
+
   @media only screen and (max-width: 400px) {
     margin: 40px 20px;
   }
+
   &:hover {
     position: relative;
-    left: 50px;
-    transition: left 0.4s;
+    // left: 50px;
+    // transition: left 0.4s;
     cursor: pointer;
+
     @media only screen and (max-width: 1024px) {
       transition: none;
       left: 0;
@@ -123,4 +128,32 @@
       margin: 0px;
     }
   }
+}
+
+.poll-list-elem-wrapper {
+  position: relative;
+  animation: slide 1.5s forwards;
+  opacity: 0;
+
+  &:nth-child(odd) {
+    left: -50px;
+  }
+
+  &:nth-child(even) {
+    left: 50px;
+  }
+
+  // &:nth-child(2) {
+  //   left: 0;
+  // }
+}
+
+@for $i from 2 through 10 {
+  .poll-list-elem-wrapper:nth-child(#{$i}) {
+    animation-delay: calc(#{$i - 1} * 0.15s);
+  }
+}
+
+@keyframes slide {
+  100% { left: 0; opacity: 1;}
 }

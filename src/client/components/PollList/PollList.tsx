@@ -72,21 +72,21 @@ const PollList = ({ history }: RouteComponentProps) => {
       updatedAt: string;
     }> = [];
     if (type === 'newest') {
-      sortedPolls = polls.sort(
+      sortedPolls = [...polls].sort(
         (a, b) =>
           new Date(b.updatedAt).valueOf() - new Date(a.updatedAt).valueOf(),
       );
       setSortType('newest');
     } else if (type === 'most-popular') {
-      sortedPolls = polls.sort((a, b) => b.votes - a.votes);
+      sortedPolls = [...polls].sort((a, b) => b.votes - a.votes);
       setSortType('most-popular');
     }
     setPolls(sortedPolls);
   };
 
   const list = polls.map(
-    ({ id: pollId, name, votes, createdBy, updatedAt }) => (
-      <div key={pollId}>
+    ({ id: pollId, name, votes, createdBy, updatedAt }, index) => (
+      <div key={new Date().getTime() + index} className="poll-list-elem-wrapper">
         <PollListElem
           name={name}
           votes={votes}
