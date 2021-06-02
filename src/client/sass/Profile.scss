@@ -31,5 +31,14 @@
     padding: 0px 3px;
     font-family: variables.$font-btn;
     font-size: 14px;
+
+    & p {
+      color: variables.$secondary-bright;
+      margin: 8px 4px;
+
+      & span {
+        color: variables.$primary-dark;
+      }
+    }
   }
 }

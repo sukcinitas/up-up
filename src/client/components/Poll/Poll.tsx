@@ -174,6 +174,7 @@ const Poll = ({ match, history }: RouteComponentProps<RouteParams>) => {
                 data-votes={option.votes}
                 onClick={handleVote}
                 className="btn btn--vote"
+                title={option.option}
               >
                 {option.option}
               </button>

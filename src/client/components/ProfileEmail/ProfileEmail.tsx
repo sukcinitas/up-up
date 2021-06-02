@@ -104,9 +104,9 @@ const ProfileEmail = ({ username, userId }: TProfileEmailProps) => {
   return (
     <div className="user-information__elem">
       <p>
-        EMAIL:
+        <b>Email</b>:
         {'  '}
-        {isLoading ? '...' : email}
+        <span>{isLoading ? '...' : email}</span>
       </p>
       <button
         type="button"

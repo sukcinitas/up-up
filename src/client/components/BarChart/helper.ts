@@ -45,7 +45,7 @@ const drawChart = (
     votes: number;
     optionM: string;
   } => ({
-    option: addDots(item.option),
+    option: item.option,
     votes: item.votes,
     optionM: item.option,
   }));

@@ -107,9 +107,8 @@ const Profile = () => {
           </h2>
           <div className="user-information__elem">
             <p>
-              USERNAME:
-              {'  '}
-              {username}
+              <b>Username:</b>{' '}
+              <span>{username}</span>
             </p>
           </div>
           <ProfileEmail username={username} userId={userId} />
