@@ -62,11 +62,8 @@ const drawChart = (
     left: 100,
   };
 
-  const windowW =
-  window.innerWidth || // to support <= IE8
-  document.documentElement.clientWidth;
-  const widthPrimal = windowW < 640 ? 700 : 1000;
-  const heightPrimal = windowW < 6040 ? 800 : 500; 
+  const widthPrimal = w < 640 ? 700 : 1000;
+  const heightPrimal = w < 640 ? 800 : 500; 
   const width: number = widthPrimal - margin.left - margin.right;
   const height: number = heightPrimal - margin.top - margin.bottom;
 
