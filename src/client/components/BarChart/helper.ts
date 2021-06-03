@@ -23,21 +23,21 @@ const drawChart = (
 ): void => {
   d3.select('svg').remove();
 
-  function addDots(option: string): string {
-    if (
-      window.innerWidth < 400 ||
-      document.documentElement.clientWidth < 400 ||
-      document.body.clientWidth < 400
-    ) {
-      if (option.length > 5) {
-        return `...${option.substr(-5)}`;
-      }
-    }
-    if (option.length < 12) {
-      return option;
-    }
-    return `...${option.substr(-12)}`;
-  }
+  // function addDots(option: string): string {
+  //   if (
+  //     window.innerWidth < 400 ||
+  //     document.documentElement.clientWidth < 400 ||
+  //     document.body.clientWidth < 400
+  //   ) {
+  //     if (option.length > 5) {
+  //       return `...${option.substr(-5)}`;
+  //     }
+  //   }
+  //   if (option.length < 12) {
+  //     return option;
+  //   }
+  //   return `...${option.substr(-12)}`;
+  // }
 
   const dataPrev: { option: string; votes: number }[] = datum.optionsList;
   const data = dataPrev.map((item: { option: string; votes: number }): {
@@ -61,8 +61,14 @@ const drawChart = (
     bottom: 30,
     left: 100,
   };
-  const width: number = 1000 - margin.left - margin.right;
-  const height: number = 500 - margin.top - margin.bottom;
+
+  const windowW =
+  window.innerWidth || // to support <= IE8
+  document.documentElement.clientWidth;
+  const widthPrimal = windowW < 640 ? 700 : 1000;
+  const heightPrimal = windowW < 6040 ? 800 : 500; 
+  const width: number = widthPrimal - margin.left - margin.right;
+  const height: number = heightPrimal - margin.top - margin.bottom;
 
   const color = d3
     .scaleSequential(d3.interpolateViridis)
@@ -99,7 +105,7 @@ const drawChart = (
   const svg = d3
     .select('#chart')
     .append('svg')
-    .attr('viewBox', `0 0 1000 500`)
+    .attr('viewBox', `0 0 ${widthPrimal} ${heightPrimal}`)
     .append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`);
 
