@@ -4,7 +4,7 @@ export default (): {
   windowW: number;
 } => {
   const windowW =
-    window.innerWidth || // to supoort <= IE8
+    window.innerWidth || // to support <= IE8
     document.documentElement.clientWidth ||
     document.body.clientWidth;
   let w: number;
