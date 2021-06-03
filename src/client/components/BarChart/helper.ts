@@ -59,9 +59,9 @@ const drawChart = (
     top: 10,
     right: 40,
     bottom: 30,
-    left,
+    left: 100,
   };
-  const width: number = w - margin.left - margin.right;
+  const width: number = 1000 - margin.left - margin.right;
   const height: number = 500 - margin.top - margin.bottom;
 
   const color = d3
@@ -99,8 +99,7 @@ const drawChart = (
   const svg = d3
     .select('#chart')
     .append('svg')
-    .attr('width', width + margin.left + margin.right)
-    .attr('height', height + margin.top + margin.bottom)
+    .attr('viewBox', `0 0 1000 500`)
     .append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`);
 
