@@ -67,8 +67,7 @@ const MongoStore = connectMongo(session);
 
     app.use(redirectToHTTPS([/localhost:(\d{4})/], [/\/insecure/], 301));
 
-    // app.use(express.static('dist'));
-    app.use(express.static(path.join(__dirname, 'dist')));
+    app.use(express.static('dist'));
 
     const uri = process.env.MONGODB_URI;
     mongoose.connect(uri, {
