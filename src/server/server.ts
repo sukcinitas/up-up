@@ -9,6 +9,8 @@ import * as path from 'path';
 import * as connectMongo from 'connect-mongo';
 import * as dotenv from 'dotenv';
 import { Request, Response } from 'express';
+import { redirectToHTTPS } from 'express-http-to-https';
+
 import userRouter from './routes/user.route';
 import pollRouter from './routes/poll.route';
 
@@ -57,25 +59,16 @@ const MongoStore = connectMongo(session);
       app.use(cors(corsOptions));
     }
 
-    app.use(express.static('dist'));
+    app.use(redirectToHTTPS([/localhost:(\d{4})/], [/\/insecure/], 301));
+
+    // app.use(express.static('dist'));
+    app.use(express.static(path.join(__dirname, 'dist')));
 
     const uri = process.env.MONGODB_URI;
     mongoose.connect(uri, {
       useNewUrlParser: true,
       useCreateIndex: true,
       useUnifiedTopology: true,
-    });
-
-    app.use (function (req, res, next) {
-      if (process.env.NODE_ENV !== 'production' ) {
-        next();
-        return;
-      }
-      if (req.secure) {
-        next();
-      } else {
-        res.redirect('https://' + req.headers.host + req.url);
-      }
     });
 
     const { connection } = mongoose;

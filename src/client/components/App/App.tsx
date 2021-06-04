@@ -9,6 +9,7 @@ import Register from '../Register/Register';
 import Login from '../Login/Login';
 import Profile from '../Profile/Profile';
 import CreatePollForm from '../CreatePollForm/CreatePollForm';
+import NotFound from '../NotFound/NotFound';
 import '../../sass/index.scss';
 
 const App = () => (
@@ -21,6 +22,7 @@ const App = () => (
       <ProtectedRoute path="/user/profile" component={Profile} />
       <Route path="/polls/:id" component={Poll} />
       <Route exact path="/" component={PollList} />
+      <Route component={NotFound} />
     </Switch>
     <Route component={Footer} />
   </Router>
