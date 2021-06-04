@@ -65,10 +65,24 @@ const MongoStore = connectMongo(session);
       useCreateIndex: true,
       useUnifiedTopology: true,
     });
+
+    app.use (function (req, res, next) {
+      if (process.env.NODE_ENV !== 'production' ) {
+        next();
+        return;
+      }
+      if (req.secure) {
+        next();
+      } else {
+        res.redirect('https://' + req.headers.host + req.url);
+      }
+    });
+
     const { connection } = mongoose;
     connection.once('open', () => {
       console.log('Connection with MongoDB database established');
     });
+
     app.use('/api/polls', pollRouter);
     app.use('/api/user', userRouter);
 

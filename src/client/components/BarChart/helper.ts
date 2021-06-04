@@ -63,7 +63,7 @@ const drawChart = (
   };
 
   const widthPrimal = w < 640 ? 700 : 1000;
-  const heightPrimal = w < 640 ? 800 : 500; 
+  const heightPrimal = w < 640 ? 600 : 300; 
   const width: number = widthPrimal - margin.left - margin.right;
   const height: number = heightPrimal - margin.top - margin.bottom;
 
