@@ -60,7 +60,7 @@ const MongoStore = connectMongo(session);
     } else {
       corsOptions = {
         credentials: true,
-        origin: 'https://up-up.herokuapp.com',
+        origin: 'http://up-up.herokuapp.com',
       };
     }
     app.use(cors(corsOptions));
