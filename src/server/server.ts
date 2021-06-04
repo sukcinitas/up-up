@@ -51,13 +51,19 @@ const MongoStore = connectMongo(session);
     app.use(passport.initialize());
     app.use(passport.session());
 
+    let corsOptions;
     if (process.env.NODE_ENV === 'development') {
-      const corsOptions = {
+      corsOptions = {
         credentials: true,
         origin: 'http://localhost:3000',
       };
-      app.use(cors(corsOptions));
+    } else {
+      corsOptions = {
+        credentials: true,
+        origin: 'https://up-up.herokuapp.com',
+      };
     }
+    app.use(cors(corsOptions));
 
     app.use(redirectToHTTPS([/localhost:(\d{4})/], [/\/insecure/], 301));
 
