@@ -22,7 +22,7 @@ const App = () => (
       <ProtectedRoute path="/user/profile" component={Profile} />
       <Route path="/polls/:id" component={Poll} />
       <Route exact path="/" component={PollList} />
-      <Route component={NotFound} />
+      <Route path="*" component={NotFound} />
     </Switch>
     <Route component={Footer} />
   </Router>

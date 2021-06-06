@@ -1,12 +1,12 @@
 # Voting App
 
-An application to create polls and vote.
+An application to create polls and vote. You can check the application demo [here](https://up-up.herokuapp.com/) (it takes ~ 10 seconds for the sleeping app on Heroku to wake up). 
 
 ---
 
 ## Built with
 
-##### Front-end
+#### Front-end
 
 - TypeScript
 - React, React Router
@@ -15,7 +15,7 @@ An application to create polls and vote.
 - Font Awesome
 - Sass (SCSS syntax), BEM naming methodology
 
-##### Back-end
+#### Back-end
 
 - Node & Express
 - MongoDB & Mongoose
@@ -43,7 +43,7 @@ An application to create polls and vote.
 
 ## Setup
 
-Check the app [here](https://up-up.herokuapp.com/) (it takes ~ 10 seconds for the sleeping app on Heroku to wake up) or clone this repository - `git clone https://github.com/sukcinitas/voting-app.git`, install dependencies -
+Clone this repository - `git clone https://github.com/sukcinitas/voting-app.git`, install dependencies -
 `npm install` (you will need `npm` and `node` installed globally)
 
 - `npm run dev` - to run the app on [localhost:3000](http://localhost:3000/)
@@ -61,6 +61,12 @@ Check the app [here](https://up-up.herokuapp.com/) (it takes ~ 10 seconds for th
 - As a logged-in user, I can delete the posts I have created either in profile page or specific poll page.
 - As a logged-in user, I can save posts I like. A list of saved polls can be accessed in a profile page.
 - As a logged-in user, I have an access to my profile page. In profile page I can change my user information (password, email) or delete user account entirely (user created polls are deleted as well); all these operations must be password confirmed. In this pages I can see list of polls I have created, and a list of polls I have saved.
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file 
+ 
+`MONGODB_URI`, `SESS_NAME`, `SESS_SECRET`
 
 ## Endpoints
 
