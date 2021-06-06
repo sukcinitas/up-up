@@ -62,8 +62,8 @@ const drawChart = (
     left: 100,
   };
 
-  const widthPrimal = w < 640 ? 700 : 1000;
-  const heightPrimal = w < 640 ? 600 : 300; 
+  const widthPrimal = w < 640 ? (0.9 * w) : (0.7 * w);
+  const heightPrimal = w < 640 ? 500: 400; 
   const width: number = widthPrimal - margin.left - margin.right;
   const height: number = heightPrimal - margin.top - margin.bottom;
 
@@ -102,7 +102,8 @@ const drawChart = (
   const svg = d3
     .select('#chart')
     .append('svg')
-    .attr('viewBox', `0 0 ${widthPrimal} ${heightPrimal}`)
+    .attr('width', width + margin.left + margin.right)
+    .attr('height', height + margin.top + margin.bottom)
     .append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`);
 
@@ -212,7 +213,7 @@ const drawChart = (
         d.votes,
     )
     .attr('font-family', 'Roboto Condensed, sans-serif')
-    .attr('font-size', '18px')
+    .attr('font-size', '14px')
     .attr(
       'fill',
       (d: { option: string; votes: number; optionM: string }): string =>
