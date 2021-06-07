@@ -1,6 +1,9 @@
 # Voting App
 
-An application to create polls and vote. You can check the application demo [here](https://up-up.herokuapp.com/) (it takes ~ 10 seconds for the sleeping app on Heroku to wake up). 
+A responsive application for poll creation and voting. You can check the application demo [here](https://up-up.herokuapp.com/) (it might take ~ 10 seconds for the sleeping app on Heroku to wake up). 
+
+![](https://github.com/sukcinitas/media/blob/master/uu/uu-1.gif)
+![](https://github.com/sukcinitas/media/blob/master/uu/uu-2.gif)
 
 ---
 
