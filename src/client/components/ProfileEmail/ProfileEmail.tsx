@@ -103,7 +103,7 @@ const ProfileEmail = ({ username, userId }: TProfileEmailProps) => {
 
   return (
     <div className="user-information__elem">
-      <p>
+      <p data-testid="em">
         <b>Email</b>:
         {'  '}
         <span>{isLoading ? '...' : email}</span>

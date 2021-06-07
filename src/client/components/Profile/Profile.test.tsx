@@ -68,7 +68,7 @@ describe('<Profile /> Component', () => {
       },
     );
     expect(getByTestId('info').textContent).toBe('User information');
-    expect(getByText(/USERNAME/i).textContent).toBe('USERNAME:  testUser1');
+    expect(getByTestId('user').textContent).toBe('Username: testUser1');
     expect(getByText(/Delete account/i).textContent).toBe('Delete account');
 
     fireEvent.click(getByText(/Delete account/i));
