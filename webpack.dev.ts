@@ -15,7 +15,6 @@ export default {
   devServer: {
     historyApiFallback: true,
     hot: true,
-    inline: true,
     open: true,
     port: 3000,
     proxy: {
