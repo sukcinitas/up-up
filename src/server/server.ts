@@ -19,9 +19,6 @@ const MongoStore = connectMongo(session);
 
 (async () => {
   try {
-    // mongoose.Promise = global.Promise;
-    mongoose.set('useFindAndModify', false);
-
     const app = express();
     app.use(
       session({
@@ -70,11 +67,7 @@ const MongoStore = connectMongo(session);
     app.use(express.static('dist'));
 
     const uri = process.env.MONGODB_URI;
-    mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useUnifiedTopology: true,
-    });
+    mongoose.connect(uri);
 
     const { connection } = mongoose;
     connection.once('open', () => {
