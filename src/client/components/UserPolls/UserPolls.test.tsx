@@ -2,9 +2,8 @@ import * as React from 'react';
 import {
   render,
   cleanup,
-  waitForElement,
   fireEvent,
-  wait,
+  waitFor,
 } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
@@ -35,16 +34,16 @@ describe('<UserPolls /> Component', () => {
     expect(loader.textContent).toBe('');
     // render after time to get has passed
     expect(axiosMock.get).toHaveBeenCalledTimes(1);
-    const resolvedPollNameOne = await waitForElement(() =>
+    const resolvedPollNameOne = await waitFor(() =>
       getByText(/test-name-one/i),
     );
-    const resolvedPollNameTwo = await waitForElement(() =>
+    const resolvedPollNameTwo = await waitFor(() =>
       getByText(/test-name-two/i),
     );
-    const resolvedPollVotesOne = await waitForElement(() =>
+    const resolvedPollVotesOne = await waitFor(() =>
       getByText(/1 vote/i),
     );
-    const resolvedPollVotesTwo = await waitForElement(() =>
+    const resolvedPollVotesTwo = await waitFor(() =>
       getByText(/2 votes/i),
     );
     expect(resolvedPollNameOne.textContent).toBe('test-name-one');
@@ -76,27 +75,27 @@ describe('<UserPolls /> Component', () => {
       </Router>,
     );
 
-    const resolvedPollNameOne = await waitForElement(() =>
+    const resolvedPollNameOne = await waitFor(() =>
       getByText(/test-name-one/i),
     );
     expect(resolvedPollNameOne.textContent).toBe('test-name-one');
-    const resolvedPollVotesOne = await waitForElement(() =>
+    const resolvedPollVotesOne = await waitFor(() =>
       getByText(/1 vote/i),
     );
     expect(resolvedPollVotesOne.textContent).toBe('1 vote');
 
-    const btn = await waitForElement(() => getByTestId('1'));
+    const btn = await waitFor(() => getByTestId('1'));
     fireEvent.click(btn);
-    const confirmBtn = await waitForElement(() => getByText('Confirm'));
+    const confirmBtn = await waitFor(() => getByText('Confirm'));
     fireEvent.click(confirmBtn);
 
     expect(axiosMock.delete).toHaveBeenCalledTimes(1);
-    await wait(() => expect(queryByText(/test-name-one/i)).toBeFalsy());
-    await wait(() => expect(queryByText(/1 vote/i)).toBeFalsy());
-    const resolvedPollNameTwo = await waitForElement(() =>
+    await waitFor(() => expect(queryByText(/test-name-one/i)).toBeFalsy());
+    await waitFor(() => expect(queryByText(/1 vote/i)).toBeFalsy());
+    const resolvedPollNameTwo = await waitFor(() =>
       getByText(/test-name-two/i),
     );
-    const resolvedPollVotesTwo = await waitForElement(() =>
+    const resolvedPollVotesTwo = await waitFor(() =>
       getByText(/2 votes/i),
     );
     expect(resolvedPollNameTwo.textContent).toBe('test-name-two');

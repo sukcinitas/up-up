@@ -3,7 +3,7 @@ import {
   render,
   cleanup,
   fireEvent,
-  waitForElement,
+  waitFor,
 } from '@testing-library/react';
 // import axiosMock from 'axios';
 import axios from 'axios';
@@ -43,7 +43,7 @@ describe('<ProfilePassword /> Component', () => {
     expect(newPassword.value).toBe('newPass123@');
 
     fireEvent.click(getByText(/^Change$/));
-    const message = await waitForElement(() =>
+    const message = await waitFor(() =>
       getByText('Password is incorrect!'),
     );
     expect(message.textContent).toBe('Password is incorrect!');
@@ -58,7 +58,7 @@ describe('<ProfilePassword /> Component', () => {
     expect(newPassword.value).toBe('newPass123@');
 
     fireEvent.click(getByText(/^Change$/));
-    const message2 = await waitForElement(() =>
+    const message2 = await waitFor(() =>
       getByText('Your password has been successfully updated!'),
     );
     expect(message2.textContent).toBe(

@@ -96,12 +96,12 @@ To run this project, you will need to add the following environment variables to
       </ul>
       Error responses:
       <ul>
-        <li><code>400</code> <code>{ success: false, message: 'Username must be 5-30 characters long! Password is required! Password must be at least 10 characters and contain at least one uppercase letter, one lowercase letter, one number and one special character!'
+        <li><code>400</code> <code>{ success: false, message: 'Username needs to be between 5 to 30 characters long! Password is required! Your password needs to be at least 10 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character'
         } </code></li>
-        <li><code>400</code> <code>{ success: false, message: 'Username is required. Username must be 5-30 characters long! Password is required! Password must be at least 10 characters and contain at least one uppercase letter, one lowercase letter, one number and one special character!'
+        <li><code>400</code> <code>{ success: false, message: 'Username is required. Username needs to be between 5 to 30 characters long! Password is required! Your password needs to be at least 10 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character'
         } </code></li>
-        <li><code>400</code> <code>{ success: false, message: 'Password must be at least 10 characters and contain at least one uppercase letter, one lowercase letter, one number and one special character!' } </code></li>
-        <li><code>400</code> <code>{ success: false, message: 'Password is required. Password must be at least 10 characters and contain at least one uppercase letter, one lowercase letter, one number and one special character!' } </code></li>
+        <li><code>400</code> <code>{ success: false, message: 'Your password needs to be at least 10 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character' } </code></li>
+        <li><code>400</code> <code>{ success: false, message: 'Password is required. Your password needs to be at least 10 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character' } </code></li>
         <li><code>400</code> <code>{ success: false, message: 'Username and email are both already in use! Try again!', username_taken: true, email_taken: true } </code></li>
         <li><code>400</code> <code>{ success: false, username_taken: true, message: 'Username is already in use!' }</code></li>
         <li><code>400</code> <code>{ success: false, email_taken: true, message: 'Email is already in use!',

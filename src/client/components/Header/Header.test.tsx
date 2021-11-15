@@ -8,7 +8,7 @@ import {
   render,
   cleanup,
   fireEvent,
-  waitForElement,
+  waitFor,
 } from '@testing-library/react';
 import axios from 'axios';
 import { AppState } from '../../redux/actions';
@@ -94,9 +94,9 @@ describe('<Header /> Component', () => {
 
     fireEvent.click(getByText('Sign out'));
 
-    const loginButton = await waitForElement(() => getByText(/Login/i));
-    const registerButton = await waitForElement(() => getByText(/Register/i));
-    const votingBanner = await waitForElement(() => getByText(/VA\./i));
+    const loginButton = await waitFor(() => getByText(/Login/i));
+    const registerButton = await waitFor(() => getByText(/Register/i));
+    const votingBanner = await waitFor(() => getByText(/VA\./i));
     expect(loginButton.textContent).toBe('Login');
     expect(registerButton.textContent).toBe('Register');
     expect(votingBanner.textContent).toBe('VA.');

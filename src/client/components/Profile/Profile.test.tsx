@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import {
   render,
   cleanup,
-  waitForElement,
+  waitFor,
   fireEvent,
 } from '@testing-library/react';
 import axios from 'axios';
@@ -75,7 +75,7 @@ describe('<Profile /> Component', () => {
     expect(getByText(/Confirm/i).textContent).toBe('Confirm');
 
     fireEvent.click(getByText(/Confirm/i));
-    const message = await waitForElement(() =>
+    const message = await waitFor(() =>
       getByText(/User has been successfully deleted!/i),
     );
     expect(message.textContent).toBe('User has been successfully deleted!');

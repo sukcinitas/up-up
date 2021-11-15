@@ -3,7 +3,7 @@ import {
   render,
   cleanup,
   fireEvent,
-  waitForElement,
+  waitFor,
 } from '@testing-library/react';
 import axios from 'axios';
 
@@ -33,14 +33,14 @@ describe('<ProfileEmail /> Component', () => {
     expect(getByTestId('em').textContent).toBe('Email:  ...');
     expect(getByText(/^Change email$/i).textContent).toBe('Change email');
 
-    const resolvedEmail = await waitForElement(() => getByTestId('em'));
+    const resolvedEmail = await waitFor(() => getByTestId('em'));
     expect(resolvedEmail.textContent).toBe('Email:  test@test.lt');
 
     fireEvent.click(getByText(/^Change email$/i));
-    const changebtn = await waitForElement(() => getByText(/^Change$/));
+    const changebtn = await waitFor(() => getByText(/^Change$/));
     expect(changebtn.textContent).toBe('Change');
 
-    const input = (await waitForElement(() =>
+    const input = (await waitFor(() =>
       getByTestId('newEmail'),
     )) as HTMLInputElement;
     fireEvent.change(input, { target: { value: 'pa@pa.lt' } });
@@ -51,7 +51,7 @@ describe('<ProfileEmail /> Component', () => {
     expect(password.value).toBe('password');
 
     fireEvent.click(changebtn);
-    const message = await waitForElement(() =>
+    const message = await waitFor(() =>
       getByText('Your email has been successfully updated!'),
     );
     expect(message.textContent).toBe(
@@ -79,14 +79,14 @@ describe('<ProfileEmail /> Component', () => {
     expect(getByTestId('em').textContent).toBe('Email:  ...');
     expect(getByText(/^Change email$/i).textContent).toBe('Change email');
 
-    const resolvedEmail = await waitForElement(() => getByTestId('em'));
+    const resolvedEmail = await waitFor(() => getByTestId('em'));
     expect(resolvedEmail.textContent).toBe('Email:  test@test.lt');
 
     fireEvent.click(getByText(/^Change email$/i));
-    const changebtn = await waitForElement(() => getByText(/^Change$/));
+    const changebtn = await waitFor(() => getByText(/^Change$/));
     expect(changebtn.textContent).toBe('Change');
 
-    const input = (await waitForElement(() =>
+    const input = (await waitFor(() =>
       getByTestId('newEmail'),
     )) as HTMLInputElement;
     fireEvent.change(input, { target: { value: 'test@test.lt' } });
@@ -97,7 +97,7 @@ describe('<ProfileEmail /> Component', () => {
     expect(password.value).toBe('password');
 
     fireEvent.click(changebtn);
-    const message = await waitForElement(() =>
+    const message = await waitFor(() =>
       getByText('This e-mail is already in use! Try again!'),
     );
     expect(message.textContent).toBe(
@@ -125,14 +125,14 @@ describe('<ProfileEmail /> Component', () => {
     expect(getByTestId('em').textContent).toBe('Email:  ...');
     expect(getByText(/^Change email$/i).textContent).toBe('Change email');
 
-    const resolvedEmail = await waitForElement(() => getByTestId('em'));
+    const resolvedEmail = await waitFor(() => getByTestId('em'));
     expect(resolvedEmail.textContent).toBe('Email:  test@test.lt');
 
     fireEvent.click(getByText(/^Change email$/i));
-    const changebtn = await waitForElement(() => getByText(/^Change$/));
+    const changebtn = await waitFor(() => getByText(/^Change$/));
     expect(changebtn.textContent).toBe('Change');
 
-    const input = (await waitForElement(() =>
+    const input = (await waitFor(() =>
       getByTestId('newEmail'),
     )) as HTMLInputElement;
     fireEvent.change(input, { target: { value: 'pa@pa.lt' } });
@@ -143,7 +143,7 @@ describe('<ProfileEmail /> Component', () => {
     expect(password.value).toBe('passwo');
 
     fireEvent.click(changebtn);
-    const message = await waitForElement(() =>
+    const message = await waitFor(() =>
       getByText('Password is incorrect! Try again!'),
     );
     expect(message.textContent).toBe('Password is incorrect! Try again!');

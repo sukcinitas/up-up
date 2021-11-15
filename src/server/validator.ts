@@ -35,7 +35,7 @@ export const validationRules = {
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/,
         )
         .withMessage(
-          'Password must be at least 10 characters and contain at least one uppercase letter, one lowercase letter, one number and one special character',
+          'Your password needs to be at least 10 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character',
         ),
     ]),
   ],
@@ -44,7 +44,7 @@ export const validationRules = {
       .exists()
       .withMessage('Username is required')
       .isLength({ min: 5, max: 30 })
-      .withMessage('Username must be 5-30 characters long'),
+      .withMessage('Username needs to be between 5 to 30 characters long'),
     body('password')
       .exists()
       .withMessage('Password is required')
@@ -52,7 +52,7 @@ export const validationRules = {
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/,
       )
       .withMessage(
-        'Password must be at least 10 characters and contain at least one uppercase letter, one lowercase letter, one number and one special character',
+        'Your password needs to be at least 10 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character',
       ),
   ],
   userLogin: [

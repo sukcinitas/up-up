@@ -7,7 +7,7 @@ import {
   render,
   cleanup,
   fireEvent,
-  waitForElement,
+  waitFor,
 } from '@testing-library/react';
 import axios from 'axios';
 import { AppState } from '../../redux/actions';
@@ -113,7 +113,7 @@ describe('<Login /> Component', () => {
     expect(passwordInput.value).toBe('testPassword');
 
     fireEvent.click(getByTestId('login-btn'));
-    const errorMessage = await waitForElement(() =>
+    const errorMessage = await waitFor(() =>
       getByText('Username or password is incorrect!'),
     );
     expect(errorMessage.textContent).toBe('Username or password is incorrect!');

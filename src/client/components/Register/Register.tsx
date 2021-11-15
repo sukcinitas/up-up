@@ -33,7 +33,7 @@ const Register = () => {
       case 'username':
         newErrors.usernameErr =
           e.currentTarget.value.length < 5 || e.currentTarget.value.length > 30
-            ? 'Username must be 5-30 characters long!'
+            ? 'Username needs to be between 5 to 30 characters long!'
             : '';
         setUsername(value);
         break;
@@ -104,7 +104,6 @@ const Register = () => {
           onChange={handleChange}
           className="form__input"
           required
-          placeholder="Example: Vardenis"
         />
         <span className="form__notes">{` ${usernameErr}`}</span>
 
@@ -118,14 +117,13 @@ const Register = () => {
           onChange={handleChange}
           className="form__input"
           required
-          placeholder="Example: vardenis@email.com"
         />
         <span className="form__notes"> {emailErr}</span>
 
         <label
           htmlFor="password"
           className="form__label"
-          title="Password must be at least 10 characters and contain at least one uppercase letter, one lowercase letter, one number and one special character!"
+          title="Your password needs to be at least 10 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character"
         >
           Password
           <FontAwesomeIcon

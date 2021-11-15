@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import {
   render,
   cleanup,
-  waitForElement,
+  waitFor,
   fireEvent,
 } from '@testing-library/react';
 import axios from 'axios';
@@ -77,17 +77,17 @@ describe('<Poll /> Component', () => {
     const loader = getByTestId('loader');
     expect(loader.textContent).toBe('');
 
-    const pollQuestion = await waitForElement(() => getByText('Test question'));
+    const pollQuestion = await waitFor(() => getByText('Test question'));
     expect(pollQuestion.textContent).toBe('Test question');
-    const pollName = await waitForElement(() => getByText('Test one'));
+    const pollName = await waitFor(() => getByText('Test one'));
     expect(pollName.textContent).toBe('Test one');
-    const pollVotes = await waitForElement(() => getByText('Total votes: 69'));
+    const pollVotes = await waitFor(() => getByText('Total votes: 69'));
     expect(pollVotes.textContent).toBe('Total votes: 69');
-    const pollCreatedBy = await waitForElement(() =>
+    const pollCreatedBy = await waitFor(() =>
       getByText('created by testUser1'),
     );
     expect(pollCreatedBy.textContent).toBe('created by testUser1');
-    const pollCreatedAt = await waitForElement(() =>
+    const pollCreatedAt = await waitFor(() =>
       getByText(`created on ${formatDate(poll.createdAt)}`),
     );
     expect(pollCreatedAt.textContent).toBe('created on 2020 m. sausio 21 d.');
@@ -115,22 +115,22 @@ describe('<Poll /> Component', () => {
     const loader = getByTestId('loader');
     expect(loader.textContent).toBe('');
 
-    const pollQuestion = await waitForElement(() => getByText('Test question'));
+    const pollQuestion = await waitFor(() => getByText('Test question'));
     expect(pollQuestion.textContent).toBe('Test question');
-    const pollName = await waitForElement(() => getByText('Test one'));
+    const pollName = await waitFor(() => getByText('Test one'));
     expect(pollName.textContent).toBe('Test one');
-    const pollVotes = await waitForElement(() => getByText('Total votes: 69'));
+    const pollVotes = await waitFor(() => getByText('Total votes: 69'));
     expect(pollVotes.textContent).toBe('Total votes: 69');
-    const pollCreatedBy = await waitForElement(() =>
+    const pollCreatedBy = await waitFor(() =>
       getByText('created by testUser1'),
     );
     expect(pollCreatedBy.textContent).toBe('created by testUser1');
-    const pollCreatedAt = await waitForElement(() =>
+    const pollCreatedAt = await waitFor(() =>
       getByText(`created on ${formatDate(poll.createdAt)}`),
     );
     expect(pollCreatedAt.textContent).toBe('created on 2020 m. sausio 21 d.');
 
-    const btn = await waitForElement(() => getByText(/delete/i));
+    const btn = await waitFor(() => getByText(/delete/i));
     expect(btn.textContent).toBe('Delete');
   });
 
@@ -168,10 +168,10 @@ describe('<Poll /> Component', () => {
     const loader = getByTestId('loader');
     expect(loader.textContent).toBe('');
 
-    const btn = await waitForElement(() => getByTestId('Two'));
+    const btn = await waitFor(() => getByTestId('Two'));
     fireEvent.click(btn);
 
-    const pollVotes = await waitForElement(() => getByText('Total votes: 70'));
+    const pollVotes = await waitFor(() => getByText('Total votes: 70'));
     expect(pollVotes.textContent).toBe('Total votes: 70');
   });
 });

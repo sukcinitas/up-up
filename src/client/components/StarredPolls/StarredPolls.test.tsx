@@ -4,9 +4,8 @@ import { Provider } from 'react-redux';
 import {
   render,
   cleanup,
-  waitForElement,
   fireEvent,
-  wait,
+  waitFor,
 } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory, MemoryHistory } from 'history';
@@ -73,10 +72,10 @@ describe('<StarredPolls /> Component', () => {
     expect(loader.textContent).toBe('');
     // render after time to get has passed
     expect(axiosMock.post).toHaveBeenCalledTimes(1);
-    const resolvedPollNameOne = await waitForElement(() =>
+    const resolvedPollNameOne = await waitFor(() =>
       getByText(/test-name-one/i),
     );
-    const resolvedPollNameTwo = await waitForElement(() =>
+    const resolvedPollNameTwo = await waitFor(() =>
       getByText(/test-name-two/i),
     );
     expect(resolvedPollNameOne.textContent).toBe('test-name-one');
@@ -116,18 +115,18 @@ describe('<StarredPolls /> Component', () => {
       },
     );
 
-    const resolvedPollNameOne = await waitForElement(() =>
+    const resolvedPollNameOne = await waitFor(() =>
       getByText(/test-name-one/i),
     );
     expect(resolvedPollNameOne.textContent).toBe('test-name-one');
 
-    const btn = await waitForElement(() => getByTestId('1'));
+    const btn = await waitFor(() => getByTestId('1'));
     fireEvent.click(btn);
 
     expect(axiosMock.put).toHaveBeenCalledTimes(1);
-    await wait(() => expect(queryByText(/test-name-one/i)).toBeFalsy());
-    await wait(() => expect(queryByText(/1 vote/i)).toBeFalsy());
-    const resolvedPollNameTwo = await waitForElement(() =>
+    await waitFor(() => expect(queryByText(/test-name-one/i)).toBeFalsy());
+    await waitFor(() => expect(queryByText(/1 vote/i)).toBeFalsy());
+    const resolvedPollNameTwo = await waitFor(() =>
       getByText(/test-name-two/i),
     );
     expect(resolvedPollNameTwo.textContent).toBe('test-name-two');
