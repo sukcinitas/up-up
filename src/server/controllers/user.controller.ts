@@ -23,11 +23,11 @@ const UserController = {
       const { username } = req.params;
       const user = await UserService.getUserByUsername(username);
       return res.json({ success: true, user });
-    } catch (err) {
+    } catch (err: unknown) {
       return res.status(500).json({
         success: false,
         message: 'User retrieval failed!',
-        error: err.message,
+        error: err instanceof Error ? err.message : '',
       });
     }
   },
@@ -48,11 +48,11 @@ const UserController = {
         success: true,
         message: 'User has been successfully deleted!',
       });
-    } catch (err) {
+    } catch (err: unknown) {
       return res.status(500).json({
         success: false,
         message: 'User deletion failed!',
-        error: err.message,
+        error: err instanceof Error ? err.message : '',
       });
     }
   },
@@ -98,11 +98,11 @@ const UserController = {
           message: 'Password is incorrect!',
         });
       }
-    } catch (err) {
+    } catch (err: unknown) {
       return res.status(500).json({
         success: false,
         message: 'User update failed!',
-        error: err.message,
+        error: err instanceof Error ? err.message : '',
       });
     }
   },
@@ -114,11 +114,11 @@ const UserController = {
         success: true,
         message: 'User has successfully logged out!',
       });
-    } catch (err) {
+    } catch (err: unknown) {
       return res.status(500).json({
         success: false,
         message: 'Logout failed!',
-        error: err.message,
+        error: err instanceof Error ? err.message : '',
       });
     }
   },
@@ -135,11 +135,11 @@ const UserController = {
         success: true,
         user: sessionizeUser(req.user),
       });
-    } catch (err) {
+    } catch (err: unknown) {
       return res.status(500).json({
         success: false,
         message: 'Could not check if user is logged in!',
-        error: err.message,
+        error: err instanceof Error ? err.message : '',
       });
     }
   },
@@ -216,17 +216,17 @@ const UserController = {
           return res.status(500).json({
             success: false,
             message: 'User could not be registered!',
-            error: err.message,
+            error: err instanceof Error ? err.message : '',
           });
         }
       });
       const sessionUser = sessionizeUser(newUser);
       return res.json({ success: true, sessionUser });
-    } catch (err) {
+    } catch (err: unknown) {
       return res.status(500).json({
         success: false,
         message: 'User could not be registered!',
-        error: err.message,
+        error: err instanceof Error ? err.message : '',
       });
     }
   },
@@ -239,11 +239,11 @@ const UserController = {
         success: true,
         message: 'Poll has been successfully saved!',
       });
-    } catch (err) {
+    } catch (err: unknown) {
       return res.status(500).json({
         success: false,
         message: 'Could not save the poll!',
-        error: err.message,
+        error: err instanceof Error ? err.message : '',
       });
     }
   },
@@ -256,11 +256,11 @@ const UserController = {
         success: true,
         message: 'Poll has been successfully removed!',
       });
-    } catch (err) {
+    } catch (err: unknown) {
       return res.status(500).json({
         success: false,
         message: 'Could not remove the poll from the saved list!',
-        error: err.message,
+        error: err instanceof Error ? err.message : '',
       });
     }
   },
