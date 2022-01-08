@@ -1,5 +1,9 @@
-import * as React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+} from 'react-router-dom';
 import { AuthRoute, ProtectedRoute } from '../../util/route';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -16,7 +20,10 @@ const App = () => (
   <Router>
     <Route component={Header} />
     <Switch>
-      <ProtectedRoute path="/user/create-poll" component={CreatePollForm} />
+      <ProtectedRoute
+        path="/user/create-poll"
+        component={CreatePollForm}
+      />
       <AuthRoute path="/user/register" component={Register} />
       <AuthRoute path="/user/login" component={Login} />
       <ProtectedRoute path="/user/profile" component={Profile} />

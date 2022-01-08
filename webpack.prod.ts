@@ -1,10 +1,10 @@
 
-import * as sass from 'sass';
+import  sass from 'sass';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import * as path from 'path';
-import * as MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import * as CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import * as HtmlWebpackPlugin from 'html-webpack-plugin';
+import  path from 'path';
+import  MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import  CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+import  HtmlWebpackPlugin from 'html-webpack-plugin';
 
 export default {
   entry: './src/client/index.tsx',

@@ -49,7 +49,9 @@ userSchema.pre<IUser>('save', function hash() {
 });
 userSchema.pre<IUser>('deleteOne', async function deleteUserPolls() {
   try {
-    const user = await UserService.getOneUserById(this.getQuery()._id);
+    const user = await UserService.getOneUserById(
+      this.getQuery()._id,
+    );
     await PollService.deleteMany(user.username);
   } catch (err) {
     throw Error(err.message);

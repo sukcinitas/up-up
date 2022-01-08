@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Route, Router } from 'react-router-dom';
 import { createMemoryHistory, MemoryHistory } from 'history';
 import { createStore, Store } from 'redux';
@@ -73,13 +73,17 @@ describe('<Login /> Component', () => {
       },
     );
 
-    const usernameInput = getByLabelText('Username') as HTMLInputElement;
+    const usernameInput = getByLabelText(
+      'Username',
+    ) as HTMLInputElement;
     fireEvent.change(usernameInput, {
       target: { value: 'testUser1' },
     });
     expect(usernameInput.value).toBe('testUser1');
 
-    const passwordInput = getByLabelText('PasswordShow password!') as HTMLInputElement;
+    const passwordInput = getByLabelText(
+      'PasswordShow password!',
+    ) as HTMLInputElement;
     fireEvent.change(passwordInput, {
       target: { value: 'testPassword' },
     });
@@ -88,9 +92,15 @@ describe('<Login /> Component', () => {
 
   it('prints error if login unsuccessful', async () => {
     axiosMock.post.mockRejectedValueOnce({
-      response: { data: { message: 'Username or password is incorrect!'} },
+      response: {
+        data: { message: 'Username or password is incorrect!' },
+      },
     });
-    const { getByTestId, getByText, getByLabelText } = renderWithRedux(
+    const {
+      getByTestId,
+      getByText,
+      getByLabelText,
+    } = renderWithRedux(
       <Route path="/user/login">
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         {(props: any) => <Login {...props} />}
@@ -100,13 +110,17 @@ describe('<Login /> Component', () => {
       },
     );
 
-    const usernameInput = getByLabelText('Username') as HTMLInputElement;
+    const usernameInput = getByLabelText(
+      'Username',
+    ) as HTMLInputElement;
     fireEvent.change(usernameInput, {
       target: { value: 'testUser1' },
     });
     expect(usernameInput.value).toBe('testUser1');
 
-    const passwordInput = getByLabelText('PasswordShow password!') as HTMLInputElement;
+    const passwordInput = getByLabelText(
+      'PasswordShow password!',
+    ) as HTMLInputElement;
     fireEvent.change(passwordInput, {
       target: { value: 'testPassword' },
     });
@@ -116,7 +130,9 @@ describe('<Login /> Component', () => {
     const errorMessage = await waitFor(() =>
       getByText('Username or password is incorrect!'),
     );
-    expect(errorMessage.textContent).toBe('Username or password is incorrect!');
+    expect(errorMessage.textContent).toBe(
+      'Username or password is incorrect!',
+    );
   });
 });
 

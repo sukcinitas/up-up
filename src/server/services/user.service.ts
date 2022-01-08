@@ -47,14 +47,20 @@ const UserService = {
     await User.findByIdAndUpdate({ _id: id }, { email }).exec();
   },
 
-  async addUserStarredPoll(id: string, pollId: string): Promise<void> {
+  async addUserStarredPoll(
+    id: string,
+    pollId: string,
+  ): Promise<void> {
     await User.findByIdAndUpdate(
       { _id: id },
       { $push: { starredPolls: pollId } },
     ).exec();
   },
 
-  async removeUserStarredPoll(id: string, pollId: string): Promise<void> {
+  async removeUserStarredPoll(
+    id: string,
+    pollId: string,
+  ): Promise<void> {
     await User.findByIdAndUpdate(
       { _id: id },
       { $pull: { starredPolls: pollId } },

@@ -1,9 +1,12 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
+import {
+  faEye,
+  faEyeSlash,
+} from '@fortawesome/free-regular-svg-icons';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import checkValidity from '../../util/checkValidity';
 
@@ -14,7 +17,10 @@ type TProfilePasswordProps = {
   userId: string;
 };
 
-const ProfilePassword = ({ username, userId }: TProfilePasswordProps) => {
+const ProfilePassword = ({
+  username,
+  userId,
+}: TProfilePasswordProps) => {
   const [newPassword, setNewPassword] = useState('');
   const [oldPassword, setOldPassword] = useState('');
   const [isChangingPassword, setIsChangingPassword] = useState(false);
@@ -22,7 +28,9 @@ const ProfilePassword = ({ username, userId }: TProfilePasswordProps) => {
   const [changeErr, setChangeErr] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ): void => {
     const { name, value } = e.currentTarget;
     if (name === 'newPassword') {
       setNewPassword(value);
@@ -107,7 +115,11 @@ const ProfilePassword = ({ username, userId }: TProfilePasswordProps) => {
               icon={isPasswordVisible ? faEyeSlash : faEye}
               className="eye-icon"
               onClick={togglePasswordVisibility}
-              title={isPasswordVisible ? 'Hide password!' : 'Show password!'}
+              title={
+                isPasswordVisible
+                  ? 'Hide password!'
+                  : 'Show password!'
+              }
             />
           </label>
           <input

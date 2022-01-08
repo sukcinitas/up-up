@@ -1,10 +1,13 @@
-import * as React from 'react';
+import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
+import {
+  faEye,
+  faEyeSlash,
+} from '@fortawesome/free-regular-svg-icons';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import { receiveCurrentUser } from '../../redux/actions';
 import checkValidity from '../../util/checkValidity';
@@ -26,19 +29,24 @@ const Register = () => {
   });
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ): void => {
     const { name, value } = e.currentTarget;
     const newErrors = { ...errors };
     switch (name) {
       case 'username':
         newErrors.usernameErr =
-          e.currentTarget.value.length < 5 || e.currentTarget.value.length > 30
+          e.currentTarget.value.length < 5 ||
+          e.currentTarget.value.length > 30
             ? 'Username needs to be between 5 to 30 characters long!'
             : '';
         setUsername(value);
         break;
       case 'email':
-        newErrors.emailErr = checkValidity.checkEmail(e.currentTarget.value);
+        newErrors.emailErr = checkValidity.checkEmail(
+          e.currentTarget.value,
+        );
         setEmail(value);
         break;
       case 'password':
@@ -53,34 +61,39 @@ const Register = () => {
     setErrors(newErrors);
   };
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>): void => {
+  const handleSubmit = (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ): void => {
     e.preventDefault();
     const { usernameErr, emailErr, passwordErr } = errors;
     if (usernameErr !== '' || emailErr !== '' || passwordErr !== '') {
       return;
     }
-    axios.post('/api/user/register', { username, email, password }).then(
-      (res) => {
-        if (res.data.success) {
-          dispatch(receiveCurrentUser(res.data.sessionUser));
-        }
-      },
-      (err) => {
-        if (err.statusCode === 400) {
-          const newErrors = {
-            ...errors,
-            usernameTaken: err.response.data.username_taken || false,
-            emailTaken: err.response.data.email_taken || false,
-          };
-          setErrors(newErrors);
-        } else {
-          setErrorMessage(
-            err.response.data.message ||
-              `${err.response.status}: ${err.response.statusText}`,
-          );
-        }
-      },
-    );
+    axios
+      .post('/api/user/register', { username, email, password })
+      .then(
+        (res) => {
+          if (res.data.success) {
+            dispatch(receiveCurrentUser(res.data.sessionUser));
+          }
+        },
+        (err) => {
+          if (err.statusCode === 400) {
+            const newErrors = {
+              ...errors,
+              usernameTaken:
+                err.response.data.username_taken || false,
+              emailTaken: err.response.data.email_taken || false,
+            };
+            setErrors(newErrors);
+          } else {
+            setErrorMessage(
+              err.response.data.message ||
+                `${err.response.status}: ${err.response.statusText}`,
+            );
+          }
+        },
+      );
   };
 
   const {
@@ -129,8 +142,12 @@ const Register = () => {
           <FontAwesomeIcon
             icon={isPasswordVisible ? faEyeSlash : faEye}
             className="eye-icon"
-            onClick={(): void => setIsPasswordVisible(!isPasswordVisible)}
-            title={isPasswordVisible ? 'Hide password!' : 'Show password!'}
+            onClick={(): void =>
+              setIsPasswordVisible(!isPasswordVisible)
+            }
+            title={
+              isPasswordVisible ? 'Hide password!' : 'Show password!'
+            }
           />
         </label>
         <input
@@ -150,7 +167,9 @@ const Register = () => {
           <span className="form__notes">
             {emailTaken && ' Email is already in use'}
           </span>
-          {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+          {errorMessage && (
+            <ErrorMessage>{errorMessage}</ErrorMessage>
+          )}
         </div>
 
         <button

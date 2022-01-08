@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {
   render,
   cleanup,
@@ -31,7 +31,9 @@ describe('<ProfileEmail /> Component', () => {
       <ProfileEmail userId="1" username="testUser1" />,
     );
     expect(getByTestId('em').textContent).toBe('Email:  ...');
-    expect(getByText(/^Change email$/i).textContent).toBe('Change email');
+    expect(getByText(/^Change email$/i).textContent).toBe(
+      'Change email',
+    );
 
     const resolvedEmail = await waitFor(() => getByTestId('em'));
     expect(resolvedEmail.textContent).toBe('Email:  test@test.lt');
@@ -77,7 +79,9 @@ describe('<ProfileEmail /> Component', () => {
       <ProfileEmail userId="1" username="testUser1" />,
     );
     expect(getByTestId('em').textContent).toBe('Email:  ...');
-    expect(getByText(/^Change email$/i).textContent).toBe('Change email');
+    expect(getByText(/^Change email$/i).textContent).toBe(
+      'Change email',
+    );
 
     const resolvedEmail = await waitFor(() => getByTestId('em'));
     expect(resolvedEmail.textContent).toBe('Email:  test@test.lt');
@@ -123,7 +127,9 @@ describe('<ProfileEmail /> Component', () => {
       <ProfileEmail userId="1" username="testUser1" />,
     );
     expect(getByTestId('em').textContent).toBe('Email:  ...');
-    expect(getByText(/^Change email$/i).textContent).toBe('Change email');
+    expect(getByText(/^Change email$/i).textContent).toBe(
+      'Change email',
+    );
 
     const resolvedEmail = await waitFor(() => getByTestId('em'));
     expect(resolvedEmail.textContent).toBe('Email:  test@test.lt');
@@ -146,7 +152,9 @@ describe('<ProfileEmail /> Component', () => {
     const message = await waitFor(() =>
       getByText('Password is incorrect! Try again!'),
     );
-    expect(message.textContent).toBe('Password is incorrect! Try again!');
+    expect(message.textContent).toBe(
+      'Password is incorrect! Try again!',
+    );
     expect(resolvedEmail.textContent).toBe('Email:  test@test.lt');
   });
 });

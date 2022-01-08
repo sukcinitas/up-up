@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Route, Router } from 'react-router-dom';
 import { createMemoryHistory, MemoryHistory } from 'history';
 import { createStore, Store } from 'redux';
@@ -49,7 +49,9 @@ describe('<Register /> Component', () => {
     );
 
     expect(getByText(/Username/i).textContent).toBe('Username');
-    expect(getByText(/^Password$/i).textContent).toBe('PasswordShow password!');
+    expect(getByText(/^Password$/i).textContent).toBe(
+      'PasswordShow password!',
+    );
     expect(getByText(/E-mail/i).textContent).toBe('E-mail');
     expect(getByText(/Already have an account?/i).textContent).toBe(
       'Already have an account? Login',
@@ -69,7 +71,9 @@ describe('<Register /> Component', () => {
     );
     const username = getByLabelText('Username') as HTMLInputElement;
     const email = getByLabelText('E-mail') as HTMLInputElement;
-    const password = getByLabelText('PasswordShow password!') as HTMLInputElement;
+    const password = getByLabelText(
+      'PasswordShow password!',
+    ) as HTMLInputElement;
 
     fireEvent.change(username, { target: { value: 'testUser1' } });
     fireEvent.change(email, {
@@ -94,7 +98,9 @@ describe('<Register /> Component', () => {
     );
     const username = getByLabelText('Username') as HTMLInputElement;
     const email = getByLabelText('E-mail') as HTMLInputElement;
-    const password = getByLabelText('PasswordShow password!') as HTMLInputElement;
+    const password = getByLabelText(
+      'PasswordShow password!',
+    ) as HTMLInputElement;
 
     fireEvent.change(username, { target: { value: 'test' } });
     fireEvent.change(email, { target: { value: 'emaiil' } });
@@ -105,7 +111,9 @@ describe('<Register /> Component', () => {
     expect(password.value).toBe('testa');
 
     expect(
-      getByText('Username needs to be between 5 to 30 characters long!').textContent,
+      getByText(
+        'Username needs to be between 5 to 30 characters long!',
+      ).textContent,
     ).toBe(' Username needs to be between 5 to 30 characters long!');
     expect(getByText('Email needs to be valid!').textContent).toBe(
       ' Email needs to be valid!',

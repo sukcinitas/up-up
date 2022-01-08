@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {
   render,
   cleanup,
@@ -90,7 +90,9 @@ describe('<UserPolls /> Component', () => {
     fireEvent.click(confirmBtn);
 
     expect(axiosMock.delete).toHaveBeenCalledTimes(1);
-    await waitFor(() => expect(queryByText(/test-name-one/i)).toBeFalsy());
+    await waitFor(() =>
+      expect(queryByText(/test-name-one/i)).toBeFalsy(),
+    );
     await waitFor(() => expect(queryByText(/1 vote/i)).toBeFalsy());
     const resolvedPollNameTwo = await waitFor(() =>
       getByText(/test-name-two/i),

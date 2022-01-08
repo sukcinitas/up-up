@@ -1,4 +1,4 @@
-import * as express from 'express';
+import express from 'express';
 import { Request, Response, NextFunction } from 'express';
 import apiLimiter from '../apiLimiter';
 import { validationRules, validate } from '../validator';
@@ -16,7 +16,9 @@ const catchErr = (f: Function) => (
 router
   .route('/profile/:username')
   .get(authorize, catchErr(UserController.getUser));
-router.route('/profile').delete(authorize, catchErr(UserController.deleteUser));
+router
+  .route('/profile')
+  .delete(authorize, catchErr(UserController.deleteUser));
 router
   .route('/profile')
   .put(

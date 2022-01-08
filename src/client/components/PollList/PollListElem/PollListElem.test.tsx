@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory, MemoryHistory } from 'history';

@@ -39,16 +39,22 @@ const drawChart = (
   //   return `...${option.substr(-12)}`;
   // }
 
-  const dataPrev: { option: string; votes: number }[] = datum.optionsList;
-  const data = dataPrev.map((item: { option: string; votes: number }): {
-    option: string;
-    votes: number;
-    optionM: string;
-  } => ({
-    option: item.option,
-    votes: item.votes,
-    optionM: item.option,
-  }));
+  const dataPrev: { option: string; votes: number }[] =
+    datum.optionsList;
+  const data = dataPrev.map(
+    (item: {
+      option: string;
+      votes: number;
+    }): {
+      option: string;
+      votes: number;
+      optionM: string;
+    } => ({
+      option: item.option,
+      votes: item.votes,
+      optionM: item.option,
+    }),
+  );
   const { sumVotes } = datum;
   const margin: {
     top: number;
@@ -62,8 +68,8 @@ const drawChart = (
     left: 100,
   };
 
-  const widthPrimal = w < 640 ? (0.9 * w) : (0.7 * w);
-  const heightPrimal = w < 640 ? 500: 400; 
+  const widthPrimal = w < 640 ? 0.9 * w : 0.7 * w;
+  const heightPrimal = w < 640 ? 500 : 400;
   const width: number = widthPrimal - margin.left - margin.right;
   const height: number = heightPrimal - margin.top - margin.bottom;
 
@@ -82,8 +88,11 @@ const drawChart = (
     .range([height, 0])
     .domain(
       data.map(
-        (d: { option: string; votes: number; optionM: string }): string =>
-          d.option,
+        (d: {
+          option: string;
+          votes: number;
+          optionM: string;
+        }): string => d.option,
       ),
     )
     .padding(0.2);
@@ -95,7 +104,8 @@ const drawChart = (
       0,
       d3.max(
         dataPrev,
-        (d: { option: string; votes: number }): number => d.votes / sumVotes,
+        (d: { option: string; votes: number }): number =>
+          d.votes / sumVotes,
       ) * 100,
     ]);
 
@@ -172,19 +182,28 @@ const drawChart = (
     .attr('width', 10) // percentage
     .attr(
       'y',
-      (d: { option: string; votes: number; optionM: string }): number =>
-        y(d.option),
+      (d: {
+        option: string;
+        votes: number;
+        optionM: string;
+      }): number => y(d.option),
     )
     .attr('height', y.bandwidth())
     .style(
       'fill',
-      (d: { option: string; votes: number; optionM: string }): string =>
-        hexToRgbA(color(d.votes), 0.6),
+      (d: {
+        option: string;
+        votes: number;
+        optionM: string;
+      }): string => hexToRgbA(color(d.votes), 0.6),
     )
     .style(
       'stroke',
-      (d: { option: string; votes: number; optionM: string }): string =>
-        color(d.votes),
+      (d: {
+        option: string;
+        votes: number;
+        optionM: string;
+      }): string => color(d.votes),
     )
     .style('stroke-width', 2)
     .on('mouseover', handleOver)
@@ -200,24 +219,36 @@ const drawChart = (
     .attr('class', 'text')
     .attr(
       'y',
-      (d: { option: string; votes: number; optionM: string }): number =>
-        y(d.option) + y.bandwidth() / 2 + 9,
+      (d: {
+        option: string;
+        votes: number;
+        optionM: string;
+      }): number => y(d.option) + y.bandwidth() / 2 + 9,
     )
     .attr(
       'x',
-      (d: { option: string; votes: number; optionM: string }): number =>
-        x((d.votes / sumVotes) * 100) + 5,
+      (d: {
+        option: string;
+        votes: number;
+        optionM: string;
+      }): number => x((d.votes / sumVotes) * 100) + 5,
     )
     .text(
-      (d: { option: string; votes: number; optionM: string }): number =>
-        d.votes,
+      (d: {
+        option: string;
+        votes: number;
+        optionM: string;
+      }): number => d.votes,
     )
     .attr('font-family', 'Roboto Condensed, sans-serif')
     .attr('font-size', '14px')
     .attr(
       'fill',
-      (d: { option: string; votes: number; optionM: string }): string =>
-        color(d.votes),
+      (d: {
+        option: string;
+        votes: number;
+        optionM: string;
+      }): string => color(d.votes),
     );
 
   bars
@@ -225,8 +256,11 @@ const drawChart = (
     .duration(1000)
     .attr(
       'width',
-      (d: { option: string; votes: number; optionM: string }): number =>
-        x((d.votes / sumVotes) * 100),
+      (d: {
+        option: string;
+        votes: number;
+        optionM: string;
+      }): number => x((d.votes / sumVotes) * 100),
     );
 
   // add the x Axis

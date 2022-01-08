@@ -1,13 +1,11 @@
 /* eslint-disable no-underscore-dangle */
-import * as React from 'react';
+import React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faStar as solidStar,
-} from '@fortawesome/free-solid-svg-icons';
+import { faStar as solidStar } from '@fortawesome/free-solid-svg-icons';
 import { AppState, getStarredPollsAsync } from '../../redux/actions';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import Loader from '../Loader/Loader';
@@ -37,21 +35,23 @@ const StarredPolls = () => {
   useEffect(() => {
     const getStarredPolls = (): void => {
       setIsLoading(true);
-      axios.post('/api/polls/starred', { listOfIds: starredPollsIds }).then(
-        (res) => {
-          if (res.data.success) {
+      axios
+        .post('/api/polls/starred', { listOfIds: starredPollsIds })
+        .then(
+          (res) => {
+            if (res.data.success) {
+              setIsLoading(false);
+              setStarredPolls([...res.data.polls]);
+            }
+          },
+          (err) => {
             setIsLoading(false);
-            setStarredPolls([...res.data.polls]);
-          }
-        },
-        (err) => {
-          setIsLoading(false);
-          setErrorMessage(
-            err.response.data.message ||
-              `${err.response.status}: ${err.response.statusText}`,
-          );
-        },
-      );
+            setErrorMessage(
+              err.response.data.message ||
+                `${err.response.status}: ${err.response.statusText}`,
+            );
+          },
+        );
     };
     getStarredPolls();
   }, [starredPollsIds]);
@@ -66,7 +66,9 @@ const StarredPolls = () => {
         (res) => {
           if (res.data.success) {
             dispatch(getStarredPollsAsync(username));
-            setStarredPolls(starredPolls.filter((poll) => poll._id !== pollId));
+            setStarredPolls(
+              starredPolls.filter((poll) => poll._id !== pollId),
+            );
           }
         },
         (err) => {
@@ -97,7 +99,9 @@ const StarredPolls = () => {
   );
   const pollList =
     starredPolls.length === 0 ? (
-      <p className="user-polls__notes">You have not saved any polls!</p>
+      <p className="user-polls__notes">
+        You have not saved any polls!
+      </p>
     ) : (
       <div className="user-polls__polls">{polls}</div>
     );

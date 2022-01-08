@@ -1,16 +1,23 @@
-import * as React from 'react';
+import React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
+import {
+  faStar,
+  faEye,
+  faEyeSlash,
+} from '@fortawesome/free-regular-svg-icons';
 import {
   faStar as solidStar,
   faPlus,
   faMinus,
 } from '@fortawesome/free-solid-svg-icons';
-import { AppState, getStarredPollsAsync } from '../../../redux/actions';
+import {
+  AppState,
+  getStarredPollsAsync,
+} from '../../../redux/actions';
 import '../../../sass/PollListElem.scss';
 
 axios.defaults.withCredentials = true;
@@ -128,8 +135,10 @@ const PollListElem = ({
           }`}
           onClick={
             starred
-              ? (e: React.MouseEvent<HTMLButtonElement>) => unStarAPoll(id, e)
-              : (e: React.MouseEvent<HTMLButtonElement>) => starAPoll(id, e)
+              ? (e: React.MouseEvent<HTMLButtonElement>) =>
+                  unStarAPoll(id, e)
+              : (e: React.MouseEvent<HTMLButtonElement>) =>
+                  starAPoll(id, e)
           }
         >
           {starred ? (

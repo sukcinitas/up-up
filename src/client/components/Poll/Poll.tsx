@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import ReactRouterPropTypes from 'react-router-prop-types';
@@ -19,7 +19,10 @@ type RouteParams = {
   id: string;
 };
 
-const Poll = ({ match, history }: RouteComponentProps<RouteParams>) => {
+const Poll = ({
+  match,
+  history,
+}: RouteComponentProps<RouteParams>) => {
   const { username } = useSelector((state: AppState) => ({
     username: state.username,
   }));
@@ -87,7 +90,9 @@ const Poll = ({ match, history }: RouteComponentProps<RouteParams>) => {
     };
   }, []);
 
-  const handleVote = (e: React.MouseEvent<HTMLButtonElement>): void => {
+  const handleVote = (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ): void => {
     const selectedOption = e.currentTarget;
     const { dataset } = e.currentTarget;
     if (hasVoted) {
@@ -135,7 +140,14 @@ const Poll = ({ match, history }: RouteComponentProps<RouteParams>) => {
     );
   };
 
-  const { name, question, options, votes, createdBy, createdAt } = poll;
+  const {
+    name,
+    question,
+    options,
+    votes,
+    createdBy,
+    createdAt,
+  } = poll;
   const data: {
     optionsList: { option: string; votes: number }[];
     sumVotes: number;
@@ -152,7 +164,9 @@ const Poll = ({ match, history }: RouteComponentProps<RouteParams>) => {
   }
   return (
     <div className="poll">
-      <div>{errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}</div>
+      <div>
+        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+      </div>
       <h2 className="heading poll__heading">{name}</h2>
       <h3 className="subheading poll__subheading">{question}</h3>
       {username === createdBy && (

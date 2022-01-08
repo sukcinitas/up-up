@@ -1,8 +1,8 @@
 /* eslint-disable no-nested-ternary */
-import * as React from 'react';
+import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import DeleteButton from '../DeleteButton/DeleteButton';
@@ -49,7 +49,9 @@ const UserPolls = ({ username }: { username: string }) => {
       (res) => {
         if (res.data.success) {
           setUserPolls(
-            userPolls.filter((poll: TPoll): boolean => poll.id !== id),
+            userPolls.filter(
+              (poll: TPoll): boolean => poll.id !== id,
+            ),
           );
         }
       },
@@ -73,7 +75,9 @@ const UserPolls = ({ username }: { username: string }) => {
           {poll.name}
         </Link>
         <p className="user-polls__votes">
-          {poll.votes === 1 ? `${poll.votes} vote` : `${poll.votes} votes`}
+          {poll.votes === 1
+            ? `${poll.votes} vote`
+            : `${poll.votes} votes`}
         </p>
         <DeleteButton
           id={poll.id}
@@ -92,7 +96,9 @@ const UserPolls = ({ username }: { username: string }) => {
       {isLoading ? (
         <Loader size="big" />
       ) : userPolls.length === 0 && !errorMessage ? (
-        <p className="user-polls__notes">You have not created any polls yet!</p>
+        <p className="user-polls__notes">
+          You have not created any polls yet!
+        </p>
       ) : (
         <div className="user-polls__polls">{polls}</div>
       )}

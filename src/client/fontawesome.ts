@@ -1,5 +1,9 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faStar, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
+import {
+  faStar,
+  faEye,
+  faEyeSlash,
+} from '@fortawesome/free-regular-svg-icons';
 import {
   faStar as solidStar,
   faPlus,

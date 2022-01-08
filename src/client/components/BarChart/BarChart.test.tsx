@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import BarChart from './BarChart';
 import drawChart from './helper';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -37,7 +37,11 @@ const Header = ({ history }: RouteComponentProps) => {
             <Link to="/user/profile" className="btn btn--username">
               {username}
             </Link>
-            <button type="button" onClick={handleLogout} className="btn btn--accent">
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="btn btn--accent"
+            >
               Sign out
             </button>
           </>

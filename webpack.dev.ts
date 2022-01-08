@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import * as path from 'path';
-import * as HtmlWebpackPlugin from 'html-webpack-plugin';
+import  path from 'path';
+import  HtmlWebpackPlugin from 'html-webpack-plugin';
 
 export default {
   entry: './src/client/index.tsx',

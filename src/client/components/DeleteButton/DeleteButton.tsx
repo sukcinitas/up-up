@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { useState } from 'react';
 import '../../sass/UserPolls.scss';
 import '../../sass/DeleteButton.scss';
@@ -16,7 +16,11 @@ const DeleteButton = ({ callback, id, poll }: TDeleButtonProps) => {
       <div className="delete-confirmation__box">
         <h3>Are you sure you want delete this poll?</h3>
         <div className="delete-confirmation__buttons">
-          <button type="button" className="btn btn--delete" onClick={callback}>
+          <button
+            type="button"
+            className="btn btn--delete"
+            onClick={callback}
+          >
             Confirm
           </button>
           <button

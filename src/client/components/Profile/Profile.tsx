@@ -1,10 +1,13 @@
-import * as React from 'react';
+import React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
+import {
+  faEye,
+  faEyeSlash,
+} from '@fortawesome/free-regular-svg-icons';
 import { AppState, logoutCurrentUser } from '../../redux/actions';
 import UserPolls from '../UserPolls/UserPolls';
 import StarredPolls from '../StarredPolls/StarredPolls';
@@ -40,7 +43,9 @@ const Profile = () => {
 
   const handleDelete = (): void => {
     axios
-      .delete('/api/user/profile', { data: { id: userId, username, password } })
+      .delete('/api/user/profile', {
+        data: { id: userId, username, password },
+      })
       .then(
         (res) => {
           if (res.data.success) {
@@ -101,14 +106,18 @@ const Profile = () => {
       </nav>
       {section === 'info' && (
         <section className="user-information">
-          {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-          <h2 className="heading user-information__heading" data-testid="info">
+          {errorMessage && (
+            <ErrorMessage>{errorMessage}</ErrorMessage>
+          )}
+          <h2
+            className="heading user-information__heading"
+            data-testid="info"
+          >
             User information
           </h2>
           <div className="user-information__elem">
             <p data-testid="user">
-              <b>Username:</b>{' '}
-              <span>{username}</span>
+              <b>Username:</b> <span>{username}</span>
             </p>
           </div>
           <ProfileEmail username={username} userId={userId} />
@@ -126,13 +135,15 @@ const Profile = () => {
                 <label className="form__label">
                   Enter password to delete account
                   <FontAwesomeIcon
-                    icon={
-                      isPasswordVisible ? faEyeSlash : faEye
-                    }
+                    icon={isPasswordVisible ? faEyeSlash : faEye}
                     className="eye-icon"
-                    onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                    onClick={() =>
+                      setIsPasswordVisible(!isPasswordVisible)
+                    }
                     title={
-                      isPasswordVisible ? 'Hide password!' : 'Show password!'
+                      isPasswordVisible
+                        ? 'Hide password!'
+                        : 'Show password!'
                     }
                   />
                 </label>
@@ -152,7 +163,9 @@ const Profile = () => {
                     Confirm
                   </button>
                 </div>
-                {changeErr && <ErrorMessage>{changeErr}</ErrorMessage>}
+                {changeErr && (
+                  <ErrorMessage>{changeErr}</ErrorMessage>
+                )}
               </form>
             )}
           </div>

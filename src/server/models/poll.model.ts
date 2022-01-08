@@ -34,10 +34,17 @@ export interface IPoll extends Document {
 }
 pollSchema.pre<IPoll>('save', async function checkIfUserExists() {
   try {
-    const user = await UserService.getOneUserByUsername(this.createdBy);
-    if (!user) throw Error('Could not create poll; user does not exist!');
+    const user = await UserService.getOneUserByUsername(
+      this.createdBy,
+    );
+    if (!user)
+      throw Error('Could not create poll; user does not exist!');
   } catch (err: unknown) {
-    throw Error(err instanceof Error ? err.message : 'An error occured while checking if user exists!');
+    throw Error(
+      err instanceof Error
+        ? err.message
+        : 'An error occured while checking if user exists!',
+    );
   }
 });
 export interface IPollModel extends Model<IPoll> {}

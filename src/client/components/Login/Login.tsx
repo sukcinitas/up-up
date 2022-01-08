@@ -1,9 +1,12 @@
-import * as React from 'react';
+import React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
+import {
+  faEye,
+  faEyeSlash,
+} from '@fortawesome/free-regular-svg-icons';
 import axios from 'axios';
 import { receiveCurrentUser } from '../../redux/actions';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
@@ -17,7 +20,9 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ): void => {
     const { name, value } = e.currentTarget;
     if (name === 'username') {
       setUsername(value);
@@ -27,7 +32,9 @@ const Login = () => {
     setErrorMessage('');
   };
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>): void => {
+  const handleSubmit = (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ): void => {
     e.preventDefault();
     axios.post('/api/user/login', { username, password }).then(
       (res) => {
@@ -69,8 +76,12 @@ const Login = () => {
           <FontAwesomeIcon
             icon={isPasswordVisible ? faEyeSlash : faEye}
             className="eye-icon"
-            onClick={(): void => setIsPasswordVisible(!isPasswordVisible)}
-            title={isPasswordVisible ? 'Hide password!' : 'Show password!'}
+            onClick={(): void =>
+              setIsPasswordVisible(!isPasswordVisible)
+            }
+            title={
+              isPasswordVisible ? 'Hide password!' : 'Show password!'
+            }
           />
         </label>
         <input

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { createStore, applyMiddleware, Store } from 'redux';
 import { Provider } from 'react-redux';
 import {
@@ -124,7 +124,9 @@ describe('<StarredPolls /> Component', () => {
     fireEvent.click(btn);
 
     expect(axiosMock.put).toHaveBeenCalledTimes(1);
-    await waitFor(() => expect(queryByText(/test-name-one/i)).toBeFalsy());
+    await waitFor(() =>
+      expect(queryByText(/test-name-one/i)).toBeFalsy(),
+    );
     await waitFor(() => expect(queryByText(/1 vote/i)).toBeFalsy());
     const resolvedPollNameTwo = await waitFor(() =>
       getByText(/test-name-two/i),

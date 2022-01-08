@@ -43,7 +43,12 @@ const PollController = {
   async insert(req: Request, res: Response) {
     try {
       const { name, question, options, createdBy } = req.body;
-      const id = await PollService.insert(name, question, options, createdBy);
+      const id = await PollService.insert(
+        name,
+        question,
+        options,
+        createdBy,
+      );
       return res.json({ success: true, id });
     } catch (err: unknown) {
       return res.status(500).json({
@@ -79,7 +84,11 @@ const PollController = {
           elem.option === option.option,
       );
       updatedOptions[optionToBeChangedId].votes += 1;
-      const poll = await PollService.update(id, updatedOptions, votes);
+      const poll = await PollService.update(
+        id,
+        updatedOptions,
+        votes,
+      );
       return res.json({ success: true, poll });
     } catch (err: unknown) {
       return res.status(500).json({

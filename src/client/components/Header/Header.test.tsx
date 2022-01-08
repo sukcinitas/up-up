@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import * as React from 'react';
+import React from 'react';
 import { Route, Router } from 'react-router-dom';
 import { createMemoryHistory, MemoryHistory } from 'history';
 import { createStore, Store } from 'redux';
@@ -95,7 +95,9 @@ describe('<Header /> Component', () => {
     fireEvent.click(getByText('Sign out'));
 
     const loginButton = await waitFor(() => getByText(/Login/i));
-    const registerButton = await waitFor(() => getByText(/Register/i));
+    const registerButton = await waitFor(() =>
+      getByText(/Register/i),
+    );
     const votingBanner = await waitFor(() => getByText(/VA\./i));
     expect(loginButton.textContent).toBe('Login');
     expect(registerButton.textContent).toBe('Register');

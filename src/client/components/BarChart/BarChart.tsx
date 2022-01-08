@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
 import drawChart from './helper';
 
 type TBarChartProps = {
@@ -11,7 +11,11 @@ type TBarChartProps = {
   leftMargin: number;
 };
 
-const BarChart = ({ data, width, leftMargin }: TBarChartProps): JSX.Element => {
+const BarChart = ({
+  data,
+  width,
+  leftMargin,
+}: TBarChartProps): JSX.Element => {
   if (data.sumVotes !== 0) {
     drawChart(data, width, leftMargin);
   }

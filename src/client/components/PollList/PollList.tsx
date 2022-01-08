@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/indent */
-import * as React from 'react';
+import React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactRouterPropTypes from 'react-router-prop-types';
@@ -15,10 +15,12 @@ axios.defaults.withCredentials = true;
 
 const PollList = ({ history }: RouteComponentProps) => {
   const dispatch = useDispatch();
-  const { username, starredPolls } = useSelector((state: AppState) => ({
-    username: state.username,
-    starredPolls: state.starredPolls,
-  }));
+  const { username, starredPolls } = useSelector(
+    (state: AppState) => ({
+      username: state.username,
+      starredPolls: state.starredPolls,
+    }),
+  );
   const [polls, setPolls] = useState<
     Array<{
       id: string;
@@ -58,7 +60,7 @@ const PollList = ({ history }: RouteComponentProps) => {
         dispatch(getStarredPollsAsync(username));
       }
     };
-    fetchPolls(); 
+    fetchPolls();
     return () => {
       isSubscribed = false;
     };
@@ -75,7 +77,8 @@ const PollList = ({ history }: RouteComponentProps) => {
     if (type === 'newest') {
       sortedPolls = [...polls].sort(
         (a, b) =>
-          new Date(b.updatedAt).valueOf() - new Date(a.updatedAt).valueOf(),
+          new Date(b.updatedAt).valueOf() -
+          new Date(a.updatedAt).valueOf(),
       );
       setSortType('newest');
     } else if (type === 'most-popular') {
@@ -88,7 +91,14 @@ const PollList = ({ history }: RouteComponentProps) => {
 
   const list = polls.map(
     ({ id: pollId, name, votes, createdBy, updatedAt }) => (
-      <div key={pollId} className={isAnimationPaused ? 'paused poll-list-elem-wrapper' : 'poll-list-elem-wrapper'}>
+      <div
+        key={pollId}
+        className={
+          isAnimationPaused
+            ? 'paused poll-list-elem-wrapper'
+            : 'poll-list-elem-wrapper'
+        }
+      >
         <PollListElem
           name={name}
           votes={votes}
@@ -112,7 +122,9 @@ const PollList = ({ history }: RouteComponentProps) => {
       <div className="poll-list__supp">
         <Link
           to="/user/create-poll"
-          className={`btn ${username ? 'btn--create' : 'btn--hidden'}`}
+          className={`btn ${
+            username ? 'btn--create' : 'btn--hidden'
+          }`}
         >
           Create a poll
         </Link>

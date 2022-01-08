@@ -1,8 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import { useState, useEffect } from 'react';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
+import {
+  faEye,
+  faEyeSlash,
+} from '@fortawesome/free-regular-svg-icons';
 import axios from 'axios';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import checkValidity from '../../util/checkValidity';
@@ -55,7 +58,9 @@ const ProfileEmail = ({ username, userId }: TProfileEmailProps) => {
     setChangeErr('');
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ): void => {
     const { name, value } = e.currentTarget;
     if (name === 'password') {
       setPassword(value);
@@ -104,8 +109,7 @@ const ProfileEmail = ({ username, userId }: TProfileEmailProps) => {
   return (
     <div className="user-information__elem">
       <p data-testid="em">
-        <b>Email</b>:
-        {'  '}
+        <b>Email</b>:{'  '}
         <span>{isLoading ? '...' : email}</span>
       </p>
       <button
@@ -132,8 +136,14 @@ const ProfileEmail = ({ username, userId }: TProfileEmailProps) => {
             <FontAwesomeIcon
               icon={isPasswordVisible ? faEyeSlash : faEye}
               className="eye-icon"
-              onClick={(): void => setIsPasswordVisible(!isPasswordVisible)}
-              title={isPasswordVisible ? 'Hide password!' : 'Show password!'}
+              onClick={(): void =>
+                setIsPasswordVisible(!isPasswordVisible)
+              }
+              title={
+                isPasswordVisible
+                  ? 'Hide password!'
+                  : 'Show password!'
+              }
             />
           </label>
           <input

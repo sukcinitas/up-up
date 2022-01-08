@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Route, Router } from 'react-router-dom';
 import { createMemoryHistory, MemoryHistory } from 'history';
 import { createStore, Store } from 'redux';
@@ -68,8 +68,12 @@ describe('<Profile /> Component', () => {
       },
     );
     expect(getByTestId('info').textContent).toBe('User information');
-    expect(getByTestId('user').textContent).toBe('Username: testUser1');
-    expect(getByText(/Delete account/i).textContent).toBe('Delete account');
+    expect(getByTestId('user').textContent).toBe(
+      'Username: testUser1',
+    );
+    expect(getByText(/Delete account/i).textContent).toBe(
+      'Delete account',
+    );
 
     fireEvent.click(getByText(/Delete account/i));
     expect(getByText(/Confirm/i).textContent).toBe('Confirm');
@@ -78,6 +82,8 @@ describe('<Profile /> Component', () => {
     const message = await waitFor(() =>
       getByText(/User has been successfully deleted!/i),
     );
-    expect(message.textContent).toBe('User has been successfully deleted!');
+    expect(message.textContent).toBe(
+      'User has been successfully deleted!',
+    );
   });
 });

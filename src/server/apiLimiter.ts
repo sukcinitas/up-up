@@ -1,4 +1,4 @@
-import * as rateLimit from 'express-rate-limit';
+import rateLimit from 'express-rate-limit';
 import { Request, Response } from 'express';
 
 export default rateLimit({

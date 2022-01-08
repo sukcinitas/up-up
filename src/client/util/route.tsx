@@ -1,5 +1,5 @@
-import * as React from 'react';
-// import * as PropTypes from 'prop-types';
+import React from 'react';
+// import  PropTypes from 'prop-types';
 // import ReactRouterPropTypes from 'react-router-prop-types';
 import { useSelector } from 'react-redux';
 import {
@@ -22,12 +22,18 @@ const Auth = ({ path, component: Component }: RouteProps) => {
   return (
     <Route
       path={path}
-      render={() => (isLoggedIn ? <Redirect to="/" from="/" /> : <Component />)}
+      render={() =>
+        isLoggedIn ? <Redirect to="/" from="/" /> : <Component />
+      }
     />
   );
 };
 
-const Protected = ({ path, component: Component, history }: RouteProps) => {
+const Protected = ({
+  path,
+  component: Component,
+  history,
+}: RouteProps) => {
   const { isLoggedIn } = useSelector((state: AppState) => ({
     isLoggedIn: Boolean(state.userId),
   }));

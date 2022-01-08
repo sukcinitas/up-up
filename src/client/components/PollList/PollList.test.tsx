@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Route, Router } from 'react-router-dom';
 import { createMemoryHistory, MemoryHistory } from 'history';
 import { createStore, applyMiddleware, Store } from 'redux';
@@ -82,7 +82,9 @@ describe('<PollList /> Component', () => {
     const loader = getByTestId('loader');
     expect(loader.textContent).toBe('');
 
-    const pollsDiv = await waitFor(() => getByTestId('test-polls-list'));
+    const pollsDiv = await waitFor(() =>
+      getByTestId('test-polls-list'),
+    );
     // firsty I sort by newest, last child is the least recently created one
     // expect(pollsDiv.lastChild.firstChild.textContent)
     // .toBe('Test onecreated by testUser169 voteslast updated on February 14, 2020');
@@ -125,14 +127,18 @@ describe('<PollList /> Component', () => {
     const loader = getByTestId('loader');
     expect(loader.textContent).toBe('');
 
-    const pollsDiv = await waitFor(() => getByTestId('test-polls-list'));
+    const pollsDiv = await waitFor(() =>
+      getByTestId('test-polls-list'),
+    );
     expect(pollsDiv.className).toBe('poll-list');
     const pollNameOne = await waitFor(() => getByText('Test one'));
     expect(pollNameOne.textContent).toBe('Test one');
     const pollNameTwo = await waitFor(() => getByText('Test two'));
     expect(pollNameTwo.textContent).toBe('Test two');
 
-    const createPoll = await waitFor(() => getByText('Create a poll'));
+    const createPoll = await waitFor(() =>
+      getByText('Create a poll'),
+    );
     expect(createPoll.textContent).toBe('Create a poll');
   });
 });

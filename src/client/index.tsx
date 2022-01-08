@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import axios from 'axios';
 import './fontawesome';
@@ -25,7 +25,11 @@ const renderApp = async () => {
           starredPolls: [...starredPolls.data.user[0].starredPolls],
         };
       }
-      const store = createStore(reducer, state, applyMiddleware(thunk));
+      const store = createStore(
+        reducer,
+        state,
+        applyMiddleware(thunk),
+      );
       ReactDOM.render(
         <Provider store={store}>
           <App />

@@ -1,13 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { RouteComponentProps } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faPlus,
-  faMinus,
-} from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 
 import axios from 'axios';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
@@ -34,13 +31,16 @@ const CreatePollForm = ({ history }: RouteComponentProps) => {
   ): void => {
     const newList = [...list];
     const i = newList.findIndex(
-      (item: { id: number; value: string }): boolean => item.id === idx,
+      (item: { id: number; value: string }): boolean =>
+        item.id === idx,
     );
     newList[i].value = e.currentTarget.value;
     setList(newList);
   };
 
-  const addOption = (e: React.MouseEvent<HTMLButtonElement>): void => {
+  const addOption = (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ): void => {
     e.preventDefault();
     const count = counter + 1;
     setCounter(count);
@@ -49,18 +49,22 @@ const CreatePollForm = ({ history }: RouteComponentProps) => {
 
   const removeOption = (idx: number): void => {
     const newList = list.filter(
-      (item: { id: number; value: string }): boolean => item.id !== idx,
+      (item: { id: number; value: string }): boolean =>
+        item.id !== idx,
     );
     setList(newList);
   };
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>): void => {
+  const handleSubmit = (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ): void => {
     e.preventDefault();
     if (
       !name ||
       !question ||
       list.some(
-        (item: { id: number; value: string }): boolean => item.value === '',
+        (item: { id: number; value: string }): boolean =>
+          item.value === '',
       ) ||
       list.length < 2
     ) {
@@ -77,12 +81,14 @@ const CreatePollForm = ({ history }: RouteComponentProps) => {
       return;
     }
     const optionsList: Array<{ option: string; votes: number }> = [];
-    list.forEach((item: { id: number; value: string }, i: number): void => {
-      if (list[i].value === '') {
-        return;
-      }
-      optionsList.push({ option: item.value, votes: 0 });
-    });
+    list.forEach(
+      (item: { id: number; value: string }, i: number): void => {
+        if (list[i].value === '') {
+          return;
+        }
+        optionsList.push({ option: item.value, votes: 0 });
+      },
+    );
     const poll = {
       name,
       question,
@@ -173,7 +179,11 @@ const CreatePollForm = ({ history }: RouteComponentProps) => {
       >
         <FontAwesomeIcon icon={faPlus} />
       </button>
-      <button type="submit" onClick={handleSubmit} className="btn btn--submit">
+      <button
+        type="submit"
+        onClick={handleSubmit}
+        className="btn btn--submit"
+      >
         Submit
       </button>
 

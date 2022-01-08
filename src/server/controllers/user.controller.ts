@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 import { Request, Response, NextFunction } from 'express';
-import * as passport from 'passport';
+import passport from 'passport';
 import User, { IUser } from '../models/user.model';
 import UserService from '../services/user.service';
 import { comparePassword } from '../passwordHashing';
@@ -146,26 +146,30 @@ const UserController = {
 
   authenticate(req: Request, res: Response, next: NextFunction) {
     try {
-      return passport.authenticate('local', { session: true }, (err, user) => {
-        if (err) {
-          return next(err);
-        }
-        if (!user) {
-          return res.status(401).json({
-            success: false,
-            message: 'Username or password is incorrect!',
-          });
-        }
-        req.login(user, (loginErr) => {
-          if (loginErr) {
-            return next(loginErr);
+      return passport.authenticate(
+        'local',
+        { session: true },
+        (err, user) => {
+          if (err) {
+            return next(err);
           }
-          return res.json({
-            success: true,
-            sessionUser: sessionizeUser(user),
+          if (!user) {
+            return res.status(401).json({
+              success: false,
+              message: 'Username or password is incorrect!',
+            });
+          }
+          req.login(user, (loginErr) => {
+            if (loginErr) {
+              return next(loginErr);
+            }
+            return res.json({
+              success: true,
+              sessionUser: sessionizeUser(user),
+            });
           });
-        });
-      })(req, res, next);
+        },
+      )(req, res, next);
     } catch (err) {
       return res.status(500).json({
         success: false,
@@ -182,7 +186,8 @@ const UserController = {
       if (user && user2) {
         return res.status(400).json({
           success: false,
-          message: 'Username and email are both already in use! Try again!',
+          message:
+            'Username and email are both already in use! Try again!',
           username_taken: true,
           email_taken: true,
         });
