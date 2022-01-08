@@ -183,6 +183,7 @@ const CreatePollForm = ({ history }: RouteComponentProps) => {
         type="submit"
         onClick={handleSubmit}
         className="btn btn--submit"
+        disabled={!name || !question || list.length < 2 || !list[0].value || !list[1].value}
       >
         Submit
       </button>

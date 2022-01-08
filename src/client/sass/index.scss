@@ -61,6 +61,8 @@
     &:disabled,
     &[disabled] {
       cursor: inherit;
+      color: variables.$disabled-btn-text;
+      background-color: variables.$disabled-btn-bg;
     }
   }
 
