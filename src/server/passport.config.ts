@@ -9,14 +9,10 @@ passport.use(
       try {
         const user = await User.findOne({ username });
         if (!user) {
-          return done(null, false, {
-            message: 'Incorrect username.',
-          });
+          return done(null, false);
         }
         if (!comparePassword(password, user.password)) {
-          return done(null, false, {
-            message: 'Incorrect password.',
-          });
+          return done(null, false);
         }
         return done(null, user);
       } catch (err) {

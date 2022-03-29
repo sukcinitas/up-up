@@ -53,8 +53,8 @@ userSchema.pre<IUser>('deleteOne', async function deleteUserPolls() {
       this.getQuery()._id,
     );
     await PollService.deleteMany(user.username);
-  } catch (err) {
-    throw Error(err.message);
+  } catch (err: unknown) {
+    throw Error('Something went wrong!');
   }
 });
 export interface IUserModel extends Model<IUser> {}

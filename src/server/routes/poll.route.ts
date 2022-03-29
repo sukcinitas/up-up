@@ -13,11 +13,11 @@ const catchErr = (f: Function) => (
 ) => f(req, res).catch((err: Error) => next(err));
 
 router.route('/').get(catchErr(PollController.getAll));
-router.route('/:id').get(catchErr(PollController.get));
 router
   .route('/:id')
-  .delete(authorize, catchErr(PollController.delete));
-router.route('/:id').put(catchErr(PollController.update));
+  .get(catchErr(PollController.get))
+  .delete(authorize, catchErr(PollController.delete))
+  .put(catchErr(PollController.update));
 router
   .route('/user/:username')
   .get(authorize, catchErr(PollController.getUsers));
