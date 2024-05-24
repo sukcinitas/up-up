@@ -1,18 +1,19 @@
 import React from 'react';
-import { Route, Router } from 'react-router-dom';
+import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import { createMemoryHistory, MemoryHistory } from 'history';
-import { createStore, Store } from 'redux';
+import { Store } from 'redux';
 import { Provider } from 'react-redux';
 import { render, cleanup, fireEvent } from '@testing-library/react';
 import { AppState } from '../../redux/actions';
 import reducer, { initialState } from '../../redux/reducers';
 import CreatePollForm from './CreatePollForm';
+import { configureStore } from '@reduxjs/toolkit';
 
 function renderWithRedux(
   ui: JSX.Element,
   {
     state = initialState,
-    store = createStore(reducer, state),
+    store = configureStore({ reducer, preloadedState: state }),
     route = '/user/create-poll',
     history = createMemoryHistory({ initialEntries: [route] }),
   }: {
@@ -25,7 +26,11 @@ function renderWithRedux(
   return {
     ...render(
       <Provider store={store}>
-        <Router history={history}>{ui}</Router>
+        <Router>
+          <Routes>
+          {ui}
+          </Routes>
+          </Router>
       </Provider>,
     ),
     store,
@@ -39,8 +44,7 @@ describe('<CreatePollForm /> Component', () => {
   it('renders createPollForm', async () => {
     const { getByText, getByLabelText } = renderWithRedux(
       <Route path="/user/create-poll">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props: any) => <CreatePollForm {...props} />}
+        <CreatePollForm />
       </Route>,
       {
         route: '/user/create-poll',
@@ -65,8 +69,7 @@ describe('<CreatePollForm /> Component', () => {
   it('adds options on click', () => {
     const { getByLabelText, getByTestId } = renderWithRedux(
       <Route path="/user/create-poll">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props: any) => <CreatePollForm {...props} />}
+        <CreatePollForm />
       </Route>,
       {
         route: '/user/create-poll',
@@ -82,8 +85,7 @@ describe('<CreatePollForm /> Component', () => {
   it('can input all values', () => {
     const { getByLabelText, getByTestId } = renderWithRedux(
       <Route path="/user/create-poll">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props: any) => <CreatePollForm {...props} />}
+        <CreatePollForm />
       </Route>,
       {
         route: '/user/create-poll',

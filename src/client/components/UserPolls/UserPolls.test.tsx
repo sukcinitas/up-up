@@ -5,7 +5,7 @@ import {
   fireEvent,
   waitFor,
 } from '@testing-library/react';
-import { Router } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import axios from 'axios';
 import UserPolls from './UserPolls';
@@ -24,9 +24,8 @@ describe('<UserPolls /> Component', () => {
       data: { polls, success: true },
     });
 
-    const history = createMemoryHistory();
     const { getByText, getByTestId } = render(
-      <Router history={history}>
+      <Router>
         <UserPolls username="testUser1" />
       </Router>,
     );
@@ -68,9 +67,8 @@ describe('<UserPolls /> Component', () => {
       data: { polls: [polls[1]], success: true },
     });
 
-    const history = createMemoryHistory();
     const { getByText, getByTestId, queryByText } = render(
-      <Router history={history}>
+      <Router>
         <UserPolls username="testUser1" />
       </Router>,
     );

@@ -1,6 +1,6 @@
 // action type constants + action creators
 import axios from 'axios';
-import { Dispatch } from 'redux';
+import { Dispatch, UnknownAction } from 'redux';
 
 export interface User {
   username: string;
@@ -32,23 +32,23 @@ interface GetStarredPollsAction {
   starredPolls: Array<string>;
 }
 
-export type ActionTypes =
-  | ReceiveCurrentUserAction
-  | LogoutCurrentUserAction
-  | GetStarredPollsAction;
+// export type ActionTypes =
+//   | ReceiveCurrentUserAction
+//   | LogoutCurrentUserAction
+//   | GetStarredPollsAction;
 
-export const receiveCurrentUser = (user: User): ActionTypes => ({
+export const receiveCurrentUser = (user: User): UnknownAction => ({
   type: RECEIVE_CURRENT_USER,
   user,
 });
 
-export const logoutCurrentUser = (): ActionTypes => ({
+export const logoutCurrentUser = (): UnknownAction => ({
   type: LOGOUT_CURRENT_USER,
 });
 
 export const getStarredPolls = (
   starredPolls: Array<string>,
-): ActionTypes => ({
+): UnknownAction => ({
   type: GET_STARRED_POLLS,
   starredPolls,
 });

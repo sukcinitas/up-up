@@ -2,24 +2,25 @@ import React from 'react';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { logoutCurrentUser, AppState } from '../../redux/actions';
 import '../../sass/Header.scss';
 
 axios.defaults.withCredentials = true;
 
-const Header = ({ history }: RouteComponentProps) => {
+const Header = () => {
   const { username, isLoggedIn } = useSelector((state: AppState) => ({
     username: state.username,
     isLoggedIn: Boolean(state.userId),
   }));
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleLogout = (): void => {
     axios.get('/api/user/logout').then((res) => {
       if (res.data.success) {
         dispatch(logoutCurrentUser());
-        history.push('/user/login');
+        navigate('/user/login');
       }
     });
   };
@@ -28,7 +29,7 @@ const Header = ({ history }: RouteComponentProps) => {
     <header className="header">
       <h1 className="header__heading">
         <Link to="/" className="header__link">
-          VA.
+          VA
         </Link>
       </h1>
       <div>
@@ -58,10 +59,6 @@ const Header = ({ history }: RouteComponentProps) => {
       </div>
     </header>
   );
-};
-
-Header.propTypes = {
-  history: ReactRouterPropTypes.history.isRequired,
 };
 
 export default Header;

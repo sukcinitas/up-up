@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStore, applyMiddleware, Store } from 'redux';
+import { Store } from 'redux';
 import { Provider } from 'react-redux';
 import {
   render,
@@ -7,19 +7,24 @@ import {
   fireEvent,
   waitFor,
 } from '@testing-library/react';
-import { Router } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { createMemoryHistory, MemoryHistory } from 'history';
 import axios from 'axios';
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import { AppState } from '../../redux/actions';
 import reducer, { initialState } from '../../redux/reducers';
 import StarredPolls from './StarredPolls';
+import { configureStore } from '@reduxjs/toolkit';
 
 function renderWithRedux(
   ui: JSX.Element,
   {
     state = initialState,
-    store = createStore(reducer, state, applyMiddleware(thunk)),
+    store = configureStore({ 
+      reducer, 
+      preloadedState: state, 
+      middleware: getDefaultMiddleware => getDefaultMiddleware().concat(thunk) 
+    }),
     route = '/user/profile/testUser1',
     history = createMemoryHistory({ initialEntries: [route] }),
   }: {
@@ -32,7 +37,9 @@ function renderWithRedux(
   return {
     ...render(
       <Provider store={store}>
-        <Router history={history}>{ui}</Router>
+        <Router>
+          {ui}
+        </Router>
       </Provider>,
     ),
     store,
@@ -55,7 +62,7 @@ describe('<StarredPolls /> Component', () => {
     });
     const history = createMemoryHistory();
     const { getByText, getByTestId } = renderWithRedux(
-      <Router history={history}>
+      <Router>
         <StarredPolls />
       </Router>,
       {
@@ -102,7 +109,7 @@ describe('<StarredPolls /> Component', () => {
 
     const history = createMemoryHistory();
     const { getByText, getByTestId, queryByText } = renderWithRedux(
-      <Router history={history}>
+      <Router>
         <StarredPolls />
       </Router>,
       {

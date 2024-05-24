@@ -3,9 +3,8 @@ import React from 'react';
 // import ReactRouterPropTypes from 'react-router-prop-types';
 import { useSelector } from 'react-redux';
 import {
-  Redirect,
+  Navigate,
   Route,
-  withRouter,
   RouteComponentProps,
 } from 'react-router-dom';
 import { AppState } from '../redux/actions';
@@ -15,52 +14,28 @@ interface RouteProps extends RouteComponentProps {
   component: any;
 }
 
-const Auth = ({ path, component: Component }: RouteProps) => {
+const Auth = ({ children }) => {
   const { isLoggedIn } = useSelector((state: AppState) => ({
     isLoggedIn: Boolean(state.userId),
   }));
-  return (
-    <Route
-      path={path}
-      render={() =>
-        isLoggedIn ? <Redirect to="/" from="/" /> : <Component />
-      }
-    />
-  );
+  if (isLoggedIn) {
+    return <Navigate to="/" />;
+  } else {
+    return children;
+  }
 };
 
-const Protected = ({
-  path,
-  component: Component,
-  history,
-}: RouteProps) => {
+const Protected = ({ children }) => {
   const { isLoggedIn } = useSelector((state: AppState) => ({
     isLoggedIn: Boolean(state.userId),
   }));
-  return (
-    <Route
-      path={path}
-      render={() =>
-        isLoggedIn ? (
-          <Component history={history} />
-        ) : (
-          <Redirect to="/user/login" from="/" />
-        )
-      }
-    />
-  );
+  if (isLoggedIn) {
+    return children;
+  } else {
+    return <Navigate to="/user/login" />;
+  }
 };
 
-// Auth.propTypes = {
-//   path: ReactRouterPropTypes.path.isRequired,
-//   component: PropTypes.elementType.isRequired,
-// };
+export const AuthRoute = Auth;
 
-// Protected.propTypes = {
-//   path: ReactRouterPropTypes.path.isRequired,
-//   component: PropTypes.elementType.isRequired,
-// };
-
-export const AuthRoute = withRouter(Auth);
-
-export const ProtectedRoute = withRouter(Protected);
+export const ProtectedRoute = Protected;

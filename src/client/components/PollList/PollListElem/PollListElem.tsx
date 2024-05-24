@@ -4,16 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faStar,
-  faEye,
-  faEyeSlash,
-} from '@fortawesome/free-regular-svg-icons';
-import {
-  faStar as solidStar,
-  faPlus,
-  faMinus,
-} from '@fortawesome/free-solid-svg-icons';
+import { faStar } from '@fortawesome/free-regular-svg-icons';
+import { faStar as solidStar } from '@fortawesome/free-solid-svg-icons';
 import {
   AppState,
   getStarredPollsAsync,

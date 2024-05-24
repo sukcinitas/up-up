@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import axios from 'axios';
-import { RouteComponentProps } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import formatDate from '../../util/formatDate';
 import { AppState } from '../../redux/actions';
 import BarChart from '../BarChart/BarChart';
@@ -15,14 +15,9 @@ import barChartWidth from '../../util/barChartWidth';
 
 axios.defaults.withCredentials = true;
 
-type RouteParams = {
-  id: string;
-};
-
-const Poll = ({
-  match,
-  history,
-}: RouteComponentProps<RouteParams>) => {
+const Poll = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
   const { username } = useSelector((state: AppState) => ({
     username: state.username,
   }));
@@ -46,7 +41,7 @@ const Poll = ({
   useEffect(() => {
     const fetchData = (): void => {
       setIsLoading(true);
-      axios.get(`/api/polls/${match.params.id}`).then(
+      axios.get(`/api/polls/${id}`).then(
         (res) => {
           if (res.data.success) {
             setPoll({ ...res.data.poll });
@@ -67,7 +62,7 @@ const Poll = ({
       );
     };
     fetchData();
-  }, [match.params.id]);
+  }, [id]);
 
   useEffect(() => {
     const setSize = (e: Event): void => {
@@ -99,7 +94,7 @@ const Poll = ({
       return;
     } // initial dealing with only letting one vote per user
     axios
-      .put(`/api/polls/${match.params.id}`, {
+      .put(`/api/polls/${id}`, {
         option: {
           option: dataset.option,
           votes: dataset.votes,
@@ -125,10 +120,10 @@ const Poll = ({
   };
 
   const handlePollDeletion = (): void => {
-    axios.delete(`/api/polls/${match.params.id}`).then(
+    axios.delete(`/api/polls/${id}`).then(
       (res) => {
         if (res.data.success) {
-          history.push('/');
+          navigate('/');
         }
       },
       (err) => {
@@ -204,11 +199,6 @@ const Poll = ({
       </div>
     </div>
   );
-};
-
-Poll.propTypes = {
-  match: ReactRouterPropTypes.match.isRequired,
-  history: ReactRouterPropTypes.history.isRequired,
 };
 
 export default Poll;

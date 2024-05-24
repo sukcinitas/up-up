@@ -1,10 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import axios from 'axios';
 import './fontawesome';
 import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import reducer from './redux/reducers';
 import { AppState } from './redux/actions';
 import App from './components/App/App';
@@ -30,19 +30,16 @@ const renderApp = async () => {
         state,
         applyMiddleware(thunk),
       );
-      ReactDOM.render(
-        <Provider store={store}>
-          <App />
-        </Provider>,
-        document.getElementById('root'),
-      );
+      const root = createRoot(document.getElementById('root'));
+      root.render(
+      <Provider store={store}>
+        <App />
+      </Provider>);
     })
     .catch((err) => {
       console.log(err);
-      ReactDOM.render(
-        <h2>Something went wrong!</h2>,
-        document.getElementById('root'),
-      );
+      const root = createRoot(document.getElementById('root'));
+      root.render(<h2>Something went wrong!</h2>);
     });
 };
 

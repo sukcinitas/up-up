@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import axios from 'axios';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppState, getStarredPollsAsync } from '../../redux/actions';
 import PollListElem from './PollListElem/PollListElem';
 import Loader from '../Loader/Loader';
@@ -13,7 +13,8 @@ import '../../sass/PollList.scss';
 
 axios.defaults.withCredentials = true;
 
-const PollList = ({ history }: RouteComponentProps) => {
+const PollList = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { username, starredPolls } = useSelector(
     (state: AppState) => ({
@@ -106,7 +107,7 @@ const PollList = ({ history }: RouteComponentProps) => {
           updatedAt={formatDate(updatedAt)}
           id={pollId}
           starred={starredPolls.indexOf(pollId) > -1}
-          link={(id: string): void => history.push(`/polls/${id}`)}
+          link={(id: string): void => navigate(`/polls/${id}`)}
         />
       </div>
     ),
@@ -152,10 +153,6 @@ const PollList = ({ history }: RouteComponentProps) => {
       {list}
     </div>
   );
-};
-
-PollList.propTypes = {
-  history: ReactRouterPropTypes.history.isRequired,
 };
 
 export default PollList;

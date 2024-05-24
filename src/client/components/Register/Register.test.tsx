@@ -26,7 +26,9 @@ function renderWithRedux(
   return {
     ...render(
       <Provider store={store}>
-        <Router history={history}>{ui}</Router>
+        <Router>
+          {ui}
+        </Router>
       </Provider>,
     ),
     store,
@@ -40,8 +42,7 @@ describe('<Register /> Component', () => {
   it('renders Register component', async () => {
     const { getByText } = renderWithRedux(
       <Route path="/user/register">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props: any) => <Register {...props} />}
+        <Register />
       </Route>,
       {
         route: '/user/register',
@@ -62,8 +63,7 @@ describe('<Register /> Component', () => {
   it('can input all correct values', () => {
     const { getByLabelText } = renderWithRedux(
       <Route path="/user/register">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props: any) => <Register {...props} />}
+        <Register />
       </Route>,
       {
         route: '/user/register',
@@ -89,8 +89,7 @@ describe('<Register /> Component', () => {
   it('incorrect inputs + prints error if register unsuccessful', async () => {
     const { getByLabelText, getByText } = renderWithRedux(
       <Route path="/user/register">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props: any) => <Register {...props} />}
+        <Register />
       </Route>,
       {
         route: '/user/register',

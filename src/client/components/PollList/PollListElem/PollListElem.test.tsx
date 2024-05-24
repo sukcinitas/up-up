@@ -1,18 +1,19 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
-import { Router } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { createMemoryHistory, MemoryHistory } from 'history';
-import { createStore, Store } from 'redux';
+import { Store } from 'redux';
 import { Provider } from 'react-redux';
 import { AppState } from '../../../redux/actions';
 import reducer, { initialState } from '../../../redux/reducers';
 import PollListElem from './PollListElem';
+import { configureStore } from '@reduxjs/toolkit';
 
 function renderWithRedux(
   ui: JSX.Element,
   {
     state = initialState,
-    store = createStore(reducer, state),
+    store = configureStore({ reducer, preloadedState: state }),
     route = '/user/profile/testUser1',
     history = createMemoryHistory({ initialEntries: [route] }),
   }: {
@@ -25,7 +26,9 @@ function renderWithRedux(
   return {
     ...render(
       <Provider store={store}>
-        <Router history={history}>{ui}</Router>
+        <Router>
+          {ui}
+        </Router>
       </Provider>,
     ),
     store,
@@ -44,9 +47,8 @@ describe('<PollListElem /> Component', () => {
       createdBy: 'panemune',
       updatedAt: '2012-12-12',
     };
-    const history = createMemoryHistory();
     const { getByText } = renderWithRedux(
-      <Router history={history}>
+      <Router>
         <PollListElem
           name={poll.name}
           votes={poll.votes}

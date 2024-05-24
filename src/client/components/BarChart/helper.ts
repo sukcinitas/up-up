@@ -1,4 +1,6 @@
 import * as d3 from 'd3';
+// import * as d3 from 'd3/dist/d3.min';
+
 
 // https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
 const hexToRgbA = (hex: string, opacity: number): string => {

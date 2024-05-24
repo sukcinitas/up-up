@@ -1,8 +1,7 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { Route, Router } from 'react-router-dom';
+import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import { createMemoryHistory, MemoryHistory } from 'history';
-import { createStore, Store } from 'redux';
+import { Store } from 'redux';
 import { Provider } from 'react-redux';
 import {
   render,
@@ -13,6 +12,7 @@ import {
 import axios from 'axios';
 import { AppState } from '../../redux/actions';
 import reducer, { initialState } from '../../redux/reducers';
+import { configureStore } from '@reduxjs/toolkit';
 
 import Header from './Header';
 
@@ -24,7 +24,7 @@ function renderWithRedux(
   ui: JSX.Element,
   {
     state = initialState,
-    store = createStore(reducer, state),
+    store = configureStore({ reducer, preloadedState: state }),
     route = '/',
     history = createMemoryHistory({ initialEntries: [route] }),
   }: {
@@ -37,7 +37,11 @@ function renderWithRedux(
   return {
     ...render(
       <Provider store={store}>
-        <Router history={history}>{ui}</Router>
+        <Router>
+          <Routes>
+          {ui}
+          </Routes>
+          </Router>
       </Provider>,
     ),
     store,
@@ -48,7 +52,9 @@ function renderWithRedux(
 describe('<Header /> Component', () => {
   it('renders header component when user not logged in', () => {
     const { getByText } = renderWithRedux(
-      <Route path="/">{(props: any) => <Header {...props} />}</Route>,
+      <Route path="/">
+        <Header />
+        </Route>,
       {
         route: '/',
       },
@@ -65,7 +71,9 @@ describe('<Header /> Component', () => {
       starredPolls: ['id'],
     };
     const { getByText } = renderWithRedux(
-      <Route path="/">{(props: any) => <Header {...props} />}</Route>,
+      <Route path="/">
+        <Header />
+      </Route>,
       {
         route: '/',
         state: { ...user },
@@ -84,7 +92,9 @@ describe('<Header /> Component', () => {
     };
     axiosMock.get.mockResolvedValueOnce({ data: { success: true } });
     const { getByText } = renderWithRedux(
-      <Route path="/">{(props: any) => <Header {...props} />}</Route>,
+      <Route path="/">
+        <Header />
+        </Route>,
       {
         route: '/',
         state: { ...user },

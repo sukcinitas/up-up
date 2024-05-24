@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Router } from 'react-router-dom';
+import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import { createMemoryHistory, MemoryHistory } from 'history';
 import { createStore, Store } from 'redux';
 import { Provider } from 'react-redux';
@@ -32,7 +32,11 @@ function renderWithRedux(
   return {
     ...render(
       <Provider store={store}>
-        <Router history={history}>{ui}</Router>
+        <Router>
+          <Routes>
+            {ui}
+          </Routes>
+        </Router>
       </Provider>,
     ),
     store,
@@ -46,8 +50,7 @@ describe('<Login /> Component', () => {
   it('renders login component', async () => {
     const { getByText, getAllByText } = renderWithRedux(
       <Route path="/user/login">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props: any) => <Login {...props} />}
+        <Login />
       </Route>,
       {
         route: '/user/login',
@@ -65,8 +68,7 @@ describe('<Login /> Component', () => {
   it('can input all values', () => {
     const { getByLabelText } = renderWithRedux(
       <Route path="/user/login">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props: any) => <Login {...props} />}
+        <Login />
       </Route>,
       {
         route: '/user/login',
@@ -102,8 +104,7 @@ describe('<Login /> Component', () => {
       getByLabelText,
     } = renderWithRedux(
       <Route path="/user/login">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props: any) => <Login {...props} />}
+        <Login />
       </Route>,
       {
         route: '/user/login',

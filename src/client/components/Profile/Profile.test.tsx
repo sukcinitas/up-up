@@ -1,7 +1,7 @@
 import React from 'react';
-import { Route, Router } from 'react-router-dom';
+import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import { createMemoryHistory, MemoryHistory } from 'history';
-import { createStore, Store } from 'redux';
+import { Store } from 'redux';
 import { Provider } from 'react-redux';
 import {
   render,
@@ -13,12 +13,13 @@ import axios from 'axios';
 import { AppState } from '../../redux/actions';
 import reducer, { initialState } from '../../redux/reducers';
 import Profile from './Profile';
+import { configureStore } from '@reduxjs/toolkit';
 
 function renderWithRedux(
   ui: JSX.Element,
   {
     state = initialState,
-    store = createStore(reducer, state),
+    store = configureStore({ reducer, preloadedState: state }),
     route = '/user/profile/testUser1',
     history = createMemoryHistory({ initialEntries: [route] }),
   }: {
@@ -31,7 +32,11 @@ function renderWithRedux(
   return {
     ...render(
       <Provider store={store}>
-        <Router history={history}>{ui}</Router>
+        <Router>
+          <Routes>
+          {ui}
+          </Routes>
+          </Router>
       </Provider>,
     ),
     store,
@@ -55,8 +60,7 @@ describe('<Profile /> Component', () => {
     });
     const { getByText, getByTestId } = renderWithRedux(
       <Route path="/user/profile/testUser1">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props: any) => <Profile {...props} />}
+        <Profile />
       </Route>,
       {
         route: '/user/profile/testUser1',

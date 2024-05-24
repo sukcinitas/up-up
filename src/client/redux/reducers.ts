@@ -12,9 +12,10 @@ export const initialState: AppState = {
   starredPolls: [],
 };
 
-export default (state = initialState, action: ActionTypes) => {
+export default (state = initialState, action: UnknownAction ) => {
   switch (action.type) {
     case RECEIVE_CURRENT_USER:
+      // extraProps
       return { ...state, ...action.user };
     case LOGOUT_CURRENT_USER:
       return initialState;

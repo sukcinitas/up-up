@@ -22,12 +22,16 @@ passport.use(
   ),
 );
 
-passport.serializeUser((user: IUser, done): void => {
+passport.serializeUser((user: Express.User, done): void => {
+  // @ts-ignore
   done(null, user.id);
 });
 
-passport.deserializeUser((_id, done) => {
-  User.findOne({ _id }, (err: Error, user: any) => {
-    done(err, user);
-  });
+passport.deserializeUser(async (_id, done) => {
+  try {
+    const user = User.findOne({ _id });
+    done(null, user);
+  } catch (err) {
+    done(err, null)
+  }
 });

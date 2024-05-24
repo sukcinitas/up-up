@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Router } from 'react-router-dom';
+import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import { createMemoryHistory, MemoryHistory } from 'history';
 import { createStore, applyMiddleware, Store } from 'redux';
 import { Provider } from 'react-redux';
@@ -10,7 +10,7 @@ import {
   fireEvent,
 } from '@testing-library/react';
 import axios from 'axios';
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import { AppState } from '../../redux/actions';
 import reducer, { initialState } from '../../redux/reducers';
 
@@ -33,7 +33,11 @@ function renderWithRedux(
   return {
     ...render(
       <Provider store={store}>
-        <Router history={history}>{ui}</Router>
+        <Router>
+          <Routes>
+          {ui}
+          </Routes>
+          </Router>
       </Provider>,
     ),
     store,
@@ -72,8 +76,7 @@ describe('<PollList /> Component', () => {
     });
     const { getByText, getByTestId } = renderWithRedux(
       <Route path="/">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props: any) => <PollList {...props} />}
+        <PollList />
       </Route>,
       {
         route: '/',
@@ -109,8 +112,7 @@ describe('<PollList /> Component', () => {
     });
     const { getByText, getByTestId } = renderWithRedux(
       <Route path="/">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props: any) => <PollList {...props} />}
+        <PollList />
       </Route>,
       {
         route: '/',

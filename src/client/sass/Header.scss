@@ -10,10 +10,11 @@
   &__heading {
     margin: 0;
     font-family: variables.$font-primary;
-    font-size: 40px;
+    font-size: 50px;
   }
   &__link {
     text-decoration: none;
-    color: variables.$primary-dark;
+    color: variables.$primary-bright;
+    letter-spacing: -19px;
   }
 }

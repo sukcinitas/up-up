@@ -17,12 +17,14 @@ export default {
     hot: true,
     open: true,
     port: 3000,
-    proxy: {
-      '/api/*': {
-        target: 'http://localhost:8080/',
-        secure: false,
-      },
-    },
+    proxy: [{
+      context: ['/api'],
+      target: 'http://localhost:8080/', 
+      // '/api/*': {
+      //   target: 'http://localhost:8080/',
+      //   secure: false,
+      // },
+    }],
   },
   module: {
     rules: [

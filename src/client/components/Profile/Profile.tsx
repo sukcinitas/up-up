@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -24,7 +24,7 @@ const Profile = () => {
     username: state.username,
     userId: state.userId,
   }));
-  const history = useHistory();
+  const navigate = useNavigate();
   const [message, setMessage] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -53,7 +53,7 @@ const Profile = () => {
             setChangeErr('');
             setTimeout(() => {
               dispatch(logoutCurrentUser());
-              history.push('/');
+              navigate('/');
             }, 1000);
           }
         },
