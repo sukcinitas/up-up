@@ -6,20 +6,21 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as solidStar } from '@fortawesome/free-solid-svg-icons';
-import { AppState, getStarredPollsAsync } from '../../redux/actions';
+import { fetchStarredPolls, fetchStarredPolls as setPolls } from '../../store/reducers/usersSlice';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import Loader from '../Loader/Loader';
 import '../../sass/UserPolls.scss';
+import { RootState } from '../../store';
 
 axios.defaults.withCredentials = true;
 
 const StarredPolls = () => {
   const dispatch = useDispatch();
   const { username, userId, starredPollsIds } = useSelector(
-    (state: AppState) => ({
-      username: state.username,
-      userId: state.userId,
-      starredPollsIds: state.starredPolls,
+    (state: RootState) => ({
+      username: state.users.username,
+      userId: state.users.userId,
+      starredPollsIds: state.users.starredPolls,
     }),
   );
   const [starredPolls, setStarredPolls] = useState<
@@ -65,7 +66,7 @@ const StarredPolls = () => {
       .then(
         (res) => {
           if (res.data.success) {
-            dispatch(getStarredPollsAsync(username));
+            dispatch(fetchStarredPolls(username));
             setStarredPolls(
               starredPolls.filter((poll) => poll._id !== pollId),
             );

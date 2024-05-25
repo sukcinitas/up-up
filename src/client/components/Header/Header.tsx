@@ -1,18 +1,16 @@
 import React from 'react';
-import ReactRouterPropTypes from 'react-router-prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { logoutCurrentUser, AppState } from '../../redux/actions';
+import { logoutCurrentUser } from '../../store/reducers/usersSlice';
+import { RootState } from '../../store';
 import '../../sass/Header.scss';
 
 axios.defaults.withCredentials = true;
 
 const Header = () => {
-  const { username, isLoggedIn } = useSelector((state: AppState) => ({
-    username: state.username,
-    isLoggedIn: Boolean(state.userId),
-  }));
+  const username = useSelector((state: RootState) => state.users.username);
+  const isLoggedIn = useSelector((state: RootState) => Boolean(state.users.userId));
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

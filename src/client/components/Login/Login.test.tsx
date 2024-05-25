@@ -10,16 +10,16 @@ import {
   waitFor,
 } from '@testing-library/react';
 import axios from 'axios';
-import { AppState } from '../../redux/actions';
-import reducer, { initialState } from '../../redux/reducers';
+import reducer, { initialState, AppState } from '../../store/reducers/usersSlice';
 
 import Login from './Login';
+import { configureStore } from '@reduxjs/toolkit';
 
 function renderWithRedux(
   ui: JSX.Element,
   {
     state = initialState,
-    store = createStore(reducer, state),
+    store = configureStore({ reducer, preloadedState: state }),
     route = '/user/login',
     history = createMemoryHistory({ initialEntries: [route] }),
   }: {

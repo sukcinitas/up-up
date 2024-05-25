@@ -7,14 +7,14 @@ import { useNavigate } from "react-router-dom";
 
 import axios from 'axios';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
-import { AppState } from '../../redux/actions';
+import { RootState } from '../../store';
 
 axios.defaults.withCredentials = true;
 
 const CreatePollForm = () => {
   const navigate = useNavigate();
-  const { username } = useSelector((state: AppState) => ({
-    username: state.username,
+  const { username } = useSelector((state: RootState) => ({
+    username: state.users.username,
   }));
   const [name, setName] = useState('');
   const [question, setQuestion] = useState('');

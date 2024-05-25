@@ -1,25 +1,24 @@
-/* eslint-disable @typescript-eslint/indent */
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ReactRouterPropTypes from 'react-router-prop-types';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { AppState, getStarredPollsAsync } from '../../redux/actions';
 import PollListElem from './PollListElem/PollListElem';
 import Loader from '../Loader/Loader';
 import formatDate from '../../util/formatDate';
 import '../../sass/PollList.scss';
+import { AppDispatch, RootState } from '../../store';
+import { fetchStarredPolls } from '../../store/reducers/usersSlice';
 
 axios.defaults.withCredentials = true;
 
 const PollList = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { username, starredPolls } = useSelector(
-    (state: AppState) => ({
-      username: state.username,
-      starredPolls: state.starredPolls,
+    (state: RootState) => ({
+      username: state.users.username,
+      starredPolls: state.users.starredPolls,
     }),
   );
   const [polls, setPolls] = useState<
@@ -58,7 +57,7 @@ const PollList = () => {
         },
       );
       if (username) {
-        dispatch(getStarredPollsAsync(username));
+        dispatch(fetchStarredPolls(username));
       }
     };
     fetchPolls();

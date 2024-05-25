@@ -11,10 +11,9 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { createMemoryHistory, MemoryHistory } from 'history';
 import axios from 'axios';
 import { thunk } from 'redux-thunk';
-import { AppState } from '../../redux/actions';
-import reducer, { initialState } from '../../redux/reducers';
+import reducer, { AppState, initialState } from '../../store/reducers/usersSlice';
 import StarredPolls from './StarredPolls';
-import { configureStore } from '@reduxjs/toolkit';
+import { Tuple, configureStore } from '@reduxjs/toolkit';
 
 function renderWithRedux(
   ui: JSX.Element,
@@ -23,7 +22,7 @@ function renderWithRedux(
     store = configureStore({ 
       reducer, 
       preloadedState: state, 
-      middleware: getDefaultMiddleware => getDefaultMiddleware().concat(thunk) 
+      middleware: () => new Tuple(thunk),
     }),
     route = '/user/profile/testUser1',
     history = createMemoryHistory({ initialEntries: [route] }),

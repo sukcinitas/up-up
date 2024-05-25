@@ -4,8 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { createMemoryHistory, MemoryHistory } from 'history';
 import { Store } from 'redux';
 import { Provider } from 'react-redux';
-import { AppState } from '../../../redux/actions';
-import reducer, { initialState } from '../../../redux/reducers';
+import reducer, { AppState, initialState } from '../../../store/reducers/usersSlice';
 import PollListElem from './PollListElem';
 import { configureStore } from '@reduxjs/toolkit';
 

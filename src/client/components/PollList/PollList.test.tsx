@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import { createMemoryHistory, MemoryHistory } from 'history';
-import { createStore, applyMiddleware, Store } from 'redux';
+import { Store, Tuple, configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import {
   render,
@@ -11,8 +11,7 @@ import {
 } from '@testing-library/react';
 import axios from 'axios';
 import { thunk } from 'redux-thunk';
-import { AppState } from '../../redux/actions';
-import reducer, { initialState } from '../../redux/reducers';
+import reducer, { AppState, initialState } from '../../store/reducers/usersSlice';
 
 import PollList from './PollList';
 
@@ -20,7 +19,7 @@ function renderWithRedux(
   ui: JSX.Element,
   {
     state = initialState,
-    store = createStore(reducer, state, applyMiddleware(thunk)),
+    store = configureStore({ reducer, preloadedState: state, middleware: () => new Tuple(thunk) }),
     route = '/',
     history = createMemoryHistory({ initialEntries: [route] }),
   }: {

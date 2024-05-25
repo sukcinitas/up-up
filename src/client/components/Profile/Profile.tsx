@@ -8,21 +8,22 @@ import {
   faEye,
   faEyeSlash,
 } from '@fortawesome/free-regular-svg-icons';
-import { AppState, logoutCurrentUser } from '../../redux/actions';
+import { logoutCurrentUser } from '../../store/reducers/usersSlice';
 import UserPolls from '../UserPolls/UserPolls';
 import StarredPolls from '../StarredPolls/StarredPolls';
 import ProfileEmail from '../ProfileEmail/ProfileEmail';
 import ProfilePassword from '../ProfilePassword/ProfilePassword';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import '../../sass/Profile.scss';
+import { RootState } from '../../store';
 
 axios.defaults.withCredentials = true;
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const { username, userId } = useSelector((state: AppState) => ({
-    username: state.username,
-    userId: state.userId,
+  const { username, userId } = useSelector((state: RootState) => ({
+    username: state.users.username,
+    userId: state.users.userId,
   }));
   const navigate = useNavigate();
   const [message, setMessage] = useState('');

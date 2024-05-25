@@ -4,8 +4,7 @@ import { createMemoryHistory, MemoryHistory } from 'history';
 import { Store } from 'redux';
 import { Provider } from 'react-redux';
 import { render, cleanup, fireEvent } from '@testing-library/react';
-import { AppState } from '../../redux/actions';
-import reducer, { initialState } from '../../redux/reducers';
+import reducer, { AppState, initialState } from '../../store/reducers/usersSlice';
 import CreatePollForm from './CreatePollForm';
 import { configureStore } from '@reduxjs/toolkit';
 

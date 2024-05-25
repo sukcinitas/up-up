@@ -6,11 +6,9 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as solidStar } from '@fortawesome/free-solid-svg-icons';
-import {
-  AppState,
-  getStarredPollsAsync,
-} from '../../../redux/actions';
+import { fetchStarredPolls } from '../../../store/reducers/usersSlice';
 import '../../../sass/PollListElem.scss';
+import { AppDispatch, RootState } from '../../../store';
 
 axios.defaults.withCredentials = true;
 
@@ -33,10 +31,10 @@ const PollListElem = ({
   starred,
   link,
 }: TPollListElemProps) => {
-  const dispatch = useDispatch();
-  const { username, userId } = useSelector((state: AppState) => ({
-    username: state.username,
-    userId: state.userId,
+  const dispatch = useDispatch<AppDispatch>();
+  const { username, userId } = useSelector((state: RootState) => ({
+    username: state.users.username,
+    userId: state.users.userId,
   }));
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -53,7 +51,7 @@ const PollListElem = ({
       .then(
         (res) => {
           if (res.data.success) {
-            dispatch(getStarredPollsAsync(username));
+            dispatch(fetchStarredPolls(username));
           }
         },
         (err) => {
@@ -78,7 +76,7 @@ const PollListElem = ({
       .then(
         (res) => {
           if (res.data.success) {
-            dispatch(getStarredPollsAsync(username));
+            dispatch(fetchStarredPolls(username));
           }
         },
         (err) => {

@@ -1,25 +1,24 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import ReactRouterPropTypes from 'react-router-prop-types';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import formatDate from '../../util/formatDate';
-import { AppState } from '../../redux/actions';
 import BarChart from '../BarChart/BarChart';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import DeleteButton from '../DeleteButton/DeleteButton';
 import Loader from '../Loader/Loader';
 import '../../sass/Poll.scss';
 import barChartWidth from '../../util/barChartWidth';
+import { RootState } from '../../store';
 
 axios.defaults.withCredentials = true;
 
 const Poll = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { username } = useSelector((state: AppState) => ({
-    username: state.username,
+  const { username } = useSelector((state: RootState) => ({
+    username: state.users.username,
   }));
   const [poll, setPoll] = useState({
     name: '',

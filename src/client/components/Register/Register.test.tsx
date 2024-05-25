@@ -1,19 +1,19 @@
 import React from 'react';
-import { Route, Router } from 'react-router-dom';
+import { Route, BrowserRouter as Router } from 'react-router-dom';
 import { createMemoryHistory, MemoryHistory } from 'history';
-import { createStore, Store } from 'redux';
+import { Store } from 'redux';
 import { Provider } from 'react-redux';
 import { render, cleanup, fireEvent } from '@testing-library/react';
-import { AppState } from '../../redux/actions';
-import reducer, { initialState } from '../../redux/reducers';
+import reducer, { initialState, AppState } from '../../store/reducers/usersSlice';
 
 import Register from './Register';
+import { configureStore } from '@reduxjs/toolkit';
 
 function renderWithRedux(
   ui: JSX.Element,
   {
     state = initialState,
-    store = createStore(reducer, state),
+    store = configureStore({ reducer, preloadedState: state }),
     route = '/user/register',
     history = createMemoryHistory({ initialEntries: [route] }),
   }: {

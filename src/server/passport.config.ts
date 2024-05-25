@@ -16,7 +16,7 @@ passport.use(
         }
         return done(null, user);
       } catch (err) {
-        return done(err);
+        return done(err, false);
       }
     },
   ),
@@ -29,7 +29,7 @@ passport.serializeUser((user: Express.User, done): void => {
 
 passport.deserializeUser(async (_id, done) => {
   try {
-    const user = User.findOne({ _id });
+    const user = await User.findOne({ _id });
     done(null, user);
   } catch (err) {
     done(err, null)

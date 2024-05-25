@@ -1,22 +1,11 @@
 import React from 'react';
-// import  PropTypes from 'prop-types';
-// import ReactRouterPropTypes from 'react-router-prop-types';
 import { useSelector } from 'react-redux';
-import {
-  Navigate,
-  Route,
-  RouteComponentProps,
-} from 'react-router-dom';
-import { AppState } from '../redux/actions';
+import { Navigate } from 'react-router-dom';
+import { RootState } from '../store';
 
-interface RouteProps extends RouteComponentProps {
-  path: string;
-  component: any;
-}
-
-const Auth = ({ children }) => {
-  const { isLoggedIn } = useSelector((state: AppState) => ({
-    isLoggedIn: Boolean(state.userId),
+const Auth = ({ children }: { children: JSX.Element }) => {
+  const { isLoggedIn } = useSelector((state: RootState) => ({
+    isLoggedIn: Boolean(state.users.userId),
   }));
   if (isLoggedIn) {
     return <Navigate to="/" />;
@@ -25,9 +14,9 @@ const Auth = ({ children }) => {
   }
 };
 
-const Protected = ({ children }) => {
-  const { isLoggedIn } = useSelector((state: AppState) => ({
-    isLoggedIn: Boolean(state.userId),
+const Protected = ({ children }: { children: JSX.Element }) => {
+  const { isLoggedIn } = useSelector((state: RootState) => ({
+    isLoggedIn: Boolean(state.users.userId),
   }));
   if (isLoggedIn) {
     return children;
