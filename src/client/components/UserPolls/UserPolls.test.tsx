@@ -6,7 +6,6 @@ import {
   waitFor,
 } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
 import axios from 'axios';
 import UserPolls from './UserPolls';
 

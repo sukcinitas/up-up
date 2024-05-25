@@ -1,53 +1,24 @@
 import React from 'react';
-import { Route, BrowserRouter as Router } from 'react-router-dom';
-import { createMemoryHistory, MemoryHistory } from 'history';
-import { Store } from 'redux';
-import { Provider } from 'react-redux';
-import { render, cleanup, fireEvent } from '@testing-library/react';
-import reducer, { initialState, AppState } from '../../store/reducers/usersSlice';
+import { cleanup, fireEvent } from '@testing-library/react';
 
 import Register from './Register';
-import { configureStore } from '@reduxjs/toolkit';
+import { renderComponent } from '../../utils/renderComponent';
 
-function renderWithRedux(
-  ui: JSX.Element,
-  {
-    state = initialState,
-    store = configureStore({ reducer, preloadedState: state }),
-    route = '/user/register',
-    history = createMemoryHistory({ initialEntries: [route] }),
-  }: {
-    state?: AppState;
-    store?: Store;
-    route?: string;
-    history?: MemoryHistory;
-  } = {},
-) {
-  return {
-    ...render(
-      <Provider store={store}>
-        <Router>
-          {ui}
-        </Router>
-      </Provider>,
-    ),
-    store,
-    history,
-  };
-}
 afterEach(cleanup);
 jest.mock('axios');
 
+const preloadedState = { 
+  users: {
+    userId: '',
+    username: '',
+    starredPolls: [] as string[],
+  },
+};
+
 describe('<Register /> Component', () => {
   it('renders Register component', async () => {
-    const { getByText } = renderWithRedux(
-      <Route path="/user/register">
-        <Register />
-      </Route>,
-      {
-        route: '/user/register',
-      },
-    );
+    const { getByText } = renderComponent(<Register />, { preloadedState });
+
 
     expect(getByText(/Username/i).textContent).toBe('Username');
     expect(getByText(/^Password$/i).textContent).toBe(
@@ -61,14 +32,7 @@ describe('<Register /> Component', () => {
   });
 
   it('can input all correct values', () => {
-    const { getByLabelText } = renderWithRedux(
-      <Route path="/user/register">
-        <Register />
-      </Route>,
-      {
-        route: '/user/register',
-      },
-    );
+    const { getByLabelText } = renderComponent(<Register />, { preloadedState });
     const username = getByLabelText('Username') as HTMLInputElement;
     const email = getByLabelText('E-mail') as HTMLInputElement;
     const password = getByLabelText(
@@ -87,14 +51,7 @@ describe('<Register /> Component', () => {
   });
 
   it('incorrect inputs + prints error if register unsuccessful', async () => {
-    const { getByLabelText, getByText } = renderWithRedux(
-      <Route path="/user/register">
-        <Register />
-      </Route>,
-      {
-        route: '/user/register',
-      },
-    );
+    const { getByLabelText, getByText } = renderComponent(<Register />, { preloadedState });
     const username = getByLabelText('Username') as HTMLInputElement;
     const email = getByLabelText('E-mail') as HTMLInputElement;
     const password = getByLabelText(

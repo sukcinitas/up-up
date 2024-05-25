@@ -1,50 +1,20 @@
 import React from 'react';
-import { Store } from 'redux';
-import { Provider } from 'react-redux';
 import {
-  render,
   cleanup,
   fireEvent,
   waitFor,
 } from '@testing-library/react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { createMemoryHistory, MemoryHistory } from 'history';
 import axios from 'axios';
-import { thunk } from 'redux-thunk';
-import reducer, { AppState, initialState } from '../../store/reducers/usersSlice';
 import StarredPolls from './StarredPolls';
-import { Tuple, configureStore } from '@reduxjs/toolkit';
+import { renderComponent } from '../../utils/renderComponent';
 
-function renderWithRedux(
-  ui: JSX.Element,
-  {
-    state = initialState,
-    store = configureStore({ 
-      reducer, 
-      preloadedState: state, 
-      middleware: () => new Tuple(thunk),
-    }),
-    route = '/user/profile/testUser1',
-    history = createMemoryHistory({ initialEntries: [route] }),
-  }: {
-    state?: AppState;
-    store?: Store;
-    route?: string;
-    history?: MemoryHistory;
-  } = {},
-) {
-  return {
-    ...render(
-      <Provider store={store}>
-        <Router>
-          {ui}
-        </Router>
-      </Provider>,
-    ),
-    store,
-    history,
-  };
-}
+const preloadedState = { 
+  users: {
+    userId: '1',
+    username: 'testUser1',
+    starredPolls: ['1', '2'],
+  },
+};
 
 afterEach(cleanup);
 jest.mock('axios');
@@ -59,20 +29,7 @@ describe('<StarredPolls /> Component', () => {
     axiosMock.post.mockResolvedValueOnce({
       data: { polls, success: true },
     });
-    const history = createMemoryHistory();
-    const { getByText, getByTestId } = renderWithRedux(
-      <Router>
-        <StarredPolls />
-      </Router>,
-      {
-        route: '/user/profile/testUser1',
-        state: {
-          userId: '1',
-          username: 'testUser1',
-          starredPolls: ['1', '2'],
-        },
-      },
-    );
+    const { getByText, getByTestId } = renderComponent(<StarredPolls />, { preloadedState });
     // first render
     const loader = getByTestId('loader');
     expect(loader.textContent).toBe('');
@@ -106,20 +63,7 @@ describe('<StarredPolls /> Component', () => {
       data: { polls: polls2, success: true },
     });
 
-    const history = createMemoryHistory();
-    const { getByText, getByTestId, queryByText } = renderWithRedux(
-      <Router>
-        <StarredPolls />
-      </Router>,
-      {
-        route: '/user/profile/testUser1',
-        state: {
-          userId: '1',
-          username: 'testUser1',
-          starredPolls: ['1', '2'],
-        },
-      },
-    );
+    const { getByText, getByTestId, queryByText } = renderComponent(<StarredPolls />, { preloadedState });
 
     const resolvedPollNameOne = await waitFor(() =>
       getByText(/test-name-one/i),

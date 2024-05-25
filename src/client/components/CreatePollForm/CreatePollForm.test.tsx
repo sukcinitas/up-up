@@ -1,54 +1,22 @@
 import React from 'react';
-import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
-import { createMemoryHistory, MemoryHistory } from 'history';
-import { Store } from 'redux';
-import { Provider } from 'react-redux';
-import { render, cleanup, fireEvent } from '@testing-library/react';
-import reducer, { AppState, initialState } from '../../store/reducers/usersSlice';
+import { cleanup, fireEvent } from '@testing-library/react';
 import CreatePollForm from './CreatePollForm';
-import { configureStore } from '@reduxjs/toolkit';
+import { renderComponent } from '../../utils/renderComponent';
 
-function renderWithRedux(
-  ui: JSX.Element,
-  {
-    state = initialState,
-    store = configureStore({ reducer, preloadedState: state }),
-    route = '/user/create-poll',
-    history = createMemoryHistory({ initialEntries: [route] }),
-  }: {
-    state?: AppState;
-    store?: Store;
-    route?: string;
-    history?: MemoryHistory;
-  } = {},
-) {
-  return {
-    ...render(
-      <Provider store={store}>
-        <Router>
-          <Routes>
-          {ui}
-          </Routes>
-          </Router>
-      </Provider>,
-    ),
-    store,
-    history,
-  };
-}
+const preloadedState = { 
+  users: {
+    userId: '',
+    username: '',
+    starredPolls: [] as string[],
+  },
+};
+
 afterEach(cleanup);
 jest.mock('axios');
 
 describe('<CreatePollForm /> Component', () => {
   it('renders createPollForm', async () => {
-    const { getByText, getByLabelText } = renderWithRedux(
-      <Route path="/user/create-poll">
-        <CreatePollForm />
-      </Route>,
-      {
-        route: '/user/create-poll',
-      },
-    );
+    const { getByText, getByLabelText } = renderComponent(<CreatePollForm />, { preloadedState });
 
     expect(getByText(/Create a Poll/i).textContent).toBe(
       'Create a Poll',
@@ -66,14 +34,7 @@ describe('<CreatePollForm /> Component', () => {
   });
 
   it('adds options on click', () => {
-    const { getByLabelText, getByTestId } = renderWithRedux(
-      <Route path="/user/create-poll">
-        <CreatePollForm />
-      </Route>,
-      {
-        route: '/user/create-poll',
-      },
-    );
+    const { getByLabelText, getByTestId } = renderComponent(<CreatePollForm />, { preloadedState });
     fireEvent.click(getByTestId('plus'));
     expect((getByLabelText('3') as HTMLInputElement).value).toBe('');
 
@@ -82,14 +43,7 @@ describe('<CreatePollForm /> Component', () => {
   });
 
   it('can input all values', () => {
-    const { getByLabelText, getByTestId } = renderWithRedux(
-      <Route path="/user/create-poll">
-        <CreatePollForm />
-      </Route>,
-      {
-        route: '/user/create-poll',
-      },
-    );
+    const { getByLabelText, getByTestId } = renderComponent(<CreatePollForm />, { preloadedState });
 
     const nameInput = getByLabelText('Poll name') as HTMLInputElement;
     fireEvent.change(nameInput, { target: { value: 'Test name' } });

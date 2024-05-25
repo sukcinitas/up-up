@@ -1,47 +1,21 @@
 import React from 'react';
-import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
-import { createMemoryHistory, MemoryHistory } from 'history';
-import { Store } from 'redux';
-import { Provider } from 'react-redux';
 import {
-  render,
   cleanup,
   waitFor,
   fireEvent,
 } from '@testing-library/react';
 import axios from 'axios';
-import reducer, { initialState, AppState } from '../../store/reducers/usersSlice';
 import Profile from './Profile';
-import { configureStore } from '@reduxjs/toolkit';
+import { renderComponent } from '../../utils/renderComponent';
 
-function renderWithRedux(
-  ui: JSX.Element,
-  {
-    state = initialState,
-    store = configureStore({ reducer, preloadedState: state }),
-    route = '/user/profile/testUser1',
-    history = createMemoryHistory({ initialEntries: [route] }),
-  }: {
-    state?: AppState;
-    store?: Store;
-    route?: string;
-    history?: MemoryHistory;
-  } = {},
-) {
-  return {
-    ...render(
-      <Provider store={store}>
-        <Router>
-          <Routes>
-          {ui}
-          </Routes>
-          </Router>
-      </Provider>,
-    ),
-    store,
-    history,
-  };
-}
+const preloadedState = { 
+  users: {
+    userId: '',
+    username: '',
+    starredPolls: [] as string[],
+  },
+};
+
 afterEach(cleanup);
 jest.mock('axios');
 const axiosMock = axios as jest.Mocked<typeof axios>;
@@ -57,19 +31,17 @@ describe('<Profile /> Component', () => {
     axiosMock.delete.mockResolvedValueOnce({
       data: { success: true },
     });
-    const { getByText, getByTestId } = renderWithRedux(
-      <Route path="/user/profile/testUser1">
-        <Profile />
-      </Route>,
-      {
-        route: '/user/profile/testUser1',
-        state: {
-          userId: '1',
-          username: 'testUser1',
-          starredPolls: ['id'],
-        },
+
+    const preloadedState = { 
+      users: {
+        userId: '1',
+        username: 'testUser1',
+        starredPolls: ['id'] as string[],
       },
-    );
+    };
+    
+
+    const { getByText, getByTestId } = renderComponent(<Profile />, { preloadedState });
     expect(getByTestId('info').textContent).toBe('User information');
     expect(getByTestId('user').textContent).toBe(
       'Username: testUser1',
