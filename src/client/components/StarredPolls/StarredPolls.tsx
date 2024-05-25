@@ -6,16 +6,16 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as solidStar } from '@fortawesome/free-solid-svg-icons';
-import { fetchStarredPolls, fetchStarredPolls as setPolls } from '../../store/reducers/usersSlice';
+import { fetchStarredPolls } from '../../store/reducers/usersSlice';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import Loader from '../Loader/Loader';
 import '../../sass/UserPolls.scss';
-import { RootState } from '../../store';
+import { AppDispatch, RootState } from '../../store';
 
 axios.defaults.withCredentials = true;
 
 const StarredPolls = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { username, userId, starredPollsIds } = useSelector(
     (state: RootState) => ({
       username: state.users.username,

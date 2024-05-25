@@ -11,8 +11,7 @@ import {
 } from '@testing-library/react';
 import axios from 'axios';
 import formatDate from '../../util/formatDate';
-import { AppState } from '../../redux/actions';
-import reducer, { initialState } from '../../redux/reducers';
+import reducer, { AppState, initialState } from '../../store/reducers/usersSlice';
 
 import Poll from './Poll';
 
