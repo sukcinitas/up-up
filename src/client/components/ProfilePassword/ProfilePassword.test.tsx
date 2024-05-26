@@ -1,17 +1,24 @@
 import React from 'react';
 import {
-  render,
   cleanup,
   fireEvent,
   waitFor,
 } from '@testing-library/react';
-// import axiosMock from 'axios';
 import axios from 'axios';
 import ProfilePassword from './ProfilePassword';
+import { renderComponent } from '../../util/renderComponent';
 
 afterEach(cleanup);
 jest.mock('axios');
 const axiosMock = axios as jest.Mocked<typeof axios>;
+
+const preloadedState = { 
+  users: {
+    userId: '1',
+    username: 'testUser1',
+    starredPolls: [] as string[],
+  },
+};
 
 describe('<ProfilePassword /> Component', () => {
   it('renders ProfilePassword component', async () => {
@@ -24,8 +31,8 @@ describe('<ProfilePassword /> Component', () => {
         message: 'Your password has been successfully updated!',
       },
     });
-    const { getByText, getByTestId } = render(
-      <ProfilePassword userId="1" username="testUser1" />,
+    const { getByText, getByTestId } = renderComponent(
+      <ProfilePassword userId="1" username="testUser1" />, { preloadedState }
     );
     fireEvent.click(getByText(/^Change password$/i));
     expect(getByText(/^Change$/).textContent).toBe('Change');

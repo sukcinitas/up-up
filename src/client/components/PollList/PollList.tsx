@@ -1,26 +1,22 @@
-/* eslint-disable @typescript-eslint/indent */
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ReactRouterPropTypes from 'react-router-prop-types';
 import axios from 'axios';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { AppState, getStarredPollsAsync } from '../../redux/actions';
+import { Link, useNavigate } from 'react-router-dom';
 import PollListElem from './PollListElem/PollListElem';
 import Loader from '../Loader/Loader';
 import formatDate from '../../util/formatDate';
 import '../../sass/PollList.scss';
+import { AppDispatch, RootState } from '../../store';
+import { fetchStarredPolls } from '../../store/reducers/usersSlice';
 
 axios.defaults.withCredentials = true;
 
-const PollList = ({ history }: RouteComponentProps) => {
-  const dispatch = useDispatch();
-  const { username, starredPolls } = useSelector(
-    (state: AppState) => ({
-      username: state.username,
-      starredPolls: state.starredPolls,
-    }),
-  );
+const PollList = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const username = useSelector((state: RootState) => state.users.username);
+  const starredPolls = useSelector((state: RootState) => state.users.starredPolls);
   const [polls, setPolls] = useState<
     Array<{
       id: string;
@@ -57,7 +53,7 @@ const PollList = ({ history }: RouteComponentProps) => {
         },
       );
       if (username) {
-        dispatch(getStarredPollsAsync(username));
+        dispatch(fetchStarredPolls(username));
       }
     };
     fetchPolls();
@@ -106,7 +102,7 @@ const PollList = ({ history }: RouteComponentProps) => {
           updatedAt={formatDate(updatedAt)}
           id={pollId}
           starred={starredPolls.indexOf(pollId) > -1}
-          link={(id: string): void => history.push(`/polls/${id}`)}
+          link={(id: string): void => navigate(`/polls/${id}`)}
         />
       </div>
     ),
@@ -152,10 +148,6 @@ const PollList = ({ history }: RouteComponentProps) => {
       {list}
     </div>
   );
-};
-
-PollList.propTypes = {
-  history: ReactRouterPropTypes.history.isRequired,
 };
 
 export default PollList;

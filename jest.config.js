@@ -29,10 +29,6 @@ module.exports = {
   // all test paths, matched tests are skipped
   testPathIgnorePatterns: ['\\\\node_modules\\\\'],
 
-  // This option sets the URL for the jsdom environment. It
-  // is reflected in properties such as location.href
-  testURL: 'http://localhost',
-
   // An array of regexp pattern strings that are matched against
   // all source file paths, matched files will skip transformation
   transformIgnorePatterns: ['<rootDir>/node_modules/'],
@@ -43,5 +39,6 @@ module.exports = {
   moduleNameMapper: {
     '\\.(css|less|scss|sss|styl)$':
       '<rootDir>/node_modules/jest-css-modules',
+      'd3': '<rootDir>/node_modules/d3/dist/d3.min.js'
   },
 };

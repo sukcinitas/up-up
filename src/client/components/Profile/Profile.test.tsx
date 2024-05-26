@@ -1,43 +1,13 @@
 import React from 'react';
-import { Route, Router } from 'react-router-dom';
-import { createMemoryHistory, MemoryHistory } from 'history';
-import { createStore, Store } from 'redux';
-import { Provider } from 'react-redux';
 import {
-  render,
   cleanup,
   waitFor,
   fireEvent,
 } from '@testing-library/react';
 import axios from 'axios';
-import { AppState } from '../../redux/actions';
-import reducer, { initialState } from '../../redux/reducers';
 import Profile from './Profile';
+import { renderComponent } from '../../util/renderComponent';
 
-function renderWithRedux(
-  ui: JSX.Element,
-  {
-    state = initialState,
-    store = createStore(reducer, state),
-    route = '/user/profile/testUser1',
-    history = createMemoryHistory({ initialEntries: [route] }),
-  }: {
-    state?: AppState;
-    store?: Store;
-    route?: string;
-    history?: MemoryHistory;
-  } = {},
-) {
-  return {
-    ...render(
-      <Provider store={store}>
-        <Router history={history}>{ui}</Router>
-      </Provider>,
-    ),
-    store,
-    history,
-  };
-}
 afterEach(cleanup);
 jest.mock('axios');
 const axiosMock = axios as jest.Mocked<typeof axios>;
@@ -53,20 +23,17 @@ describe('<Profile /> Component', () => {
     axiosMock.delete.mockResolvedValueOnce({
       data: { success: true },
     });
-    const { getByText, getByTestId } = renderWithRedux(
-      <Route path="/user/profile/testUser1">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props: any) => <Profile {...props} />}
-      </Route>,
-      {
-        route: '/user/profile/testUser1',
-        state: {
-          userId: '1',
-          username: 'testUser1',
-          starredPolls: ['id'],
-        },
+
+    const preloadedState = { 
+      users: {
+        userId: '1',
+        username: 'testUser1',
+        starredPolls: ['id'] as string[],
       },
-    );
+    };
+    
+
+    const { getByText, getByTestId } = renderComponent(<Profile />, { preloadedState });
     expect(getByTestId('info').textContent).toBe('User information');
     expect(getByTestId('user').textContent).toBe(
       'Username: testUser1',

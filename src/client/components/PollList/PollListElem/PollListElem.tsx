@@ -4,21 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faStar,
-  faEye,
-  faEyeSlash,
-} from '@fortawesome/free-regular-svg-icons';
-import {
-  faStar as solidStar,
-  faPlus,
-  faMinus,
-} from '@fortawesome/free-solid-svg-icons';
-import {
-  AppState,
-  getStarredPollsAsync,
-} from '../../../redux/actions';
+import { faStar } from '@fortawesome/free-regular-svg-icons';
+import { faStar as solidStar } from '@fortawesome/free-solid-svg-icons';
+import { fetchStarredPolls } from '../../../store/reducers/usersSlice';
 import '../../../sass/PollListElem.scss';
+import { AppDispatch, RootState } from '../../../store';
 
 axios.defaults.withCredentials = true;
 
@@ -29,7 +19,7 @@ type TPollListElemProps = {
   createdBy: string;
   updatedAt: string;
   starred: boolean;
-  link: Function;
+  link: (id: string) => void;
 };
 
 const PollListElem = ({
@@ -41,11 +31,9 @@ const PollListElem = ({
   starred,
   link,
 }: TPollListElemProps) => {
-  const dispatch = useDispatch();
-  const { username, userId } = useSelector((state: AppState) => ({
-    username: state.username,
-    userId: state.userId,
-  }));
+  const dispatch = useDispatch<AppDispatch>();
+  const username = useSelector((state: RootState) => state.users.username);
+  const userId = useSelector((state: RootState) => state.users.userId);
   const [errorMessage, setErrorMessage] = useState('');
 
   const starAPoll = (
@@ -61,7 +49,7 @@ const PollListElem = ({
       .then(
         (res) => {
           if (res.data.success) {
-            dispatch(getStarredPollsAsync(username));
+            dispatch(fetchStarredPolls(username));
           }
         },
         (err) => {
@@ -86,7 +74,7 @@ const PollListElem = ({
       .then(
         (res) => {
           if (res.data.success) {
-            dispatch(getStarredPollsAsync(username));
+            dispatch(fetchStarredPolls(username));
           }
         },
         (err) => {

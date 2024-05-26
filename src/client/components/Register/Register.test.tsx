@@ -1,52 +1,24 @@
 import React from 'react';
-import { Route, Router } from 'react-router-dom';
-import { createMemoryHistory, MemoryHistory } from 'history';
-import { createStore, Store } from 'redux';
-import { Provider } from 'react-redux';
-import { render, cleanup, fireEvent } from '@testing-library/react';
-import { AppState } from '../../redux/actions';
-import reducer, { initialState } from '../../redux/reducers';
+import { cleanup, fireEvent } from '@testing-library/react';
 
 import Register from './Register';
+import { renderComponent } from '../../util/renderComponent';
 
-function renderWithRedux(
-  ui: JSX.Element,
-  {
-    state = initialState,
-    store = createStore(reducer, state),
-    route = '/user/register',
-    history = createMemoryHistory({ initialEntries: [route] }),
-  }: {
-    state?: AppState;
-    store?: Store;
-    route?: string;
-    history?: MemoryHistory;
-  } = {},
-) {
-  return {
-    ...render(
-      <Provider store={store}>
-        <Router history={history}>{ui}</Router>
-      </Provider>,
-    ),
-    store,
-    history,
-  };
-}
 afterEach(cleanup);
 jest.mock('axios');
 
+const preloadedState = { 
+  users: {
+    userId: '',
+    username: '',
+    starredPolls: [] as string[],
+  },
+};
+
 describe('<Register /> Component', () => {
   it('renders Register component', async () => {
-    const { getByText } = renderWithRedux(
-      <Route path="/user/register">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props: any) => <Register {...props} />}
-      </Route>,
-      {
-        route: '/user/register',
-      },
-    );
+    const { getByText } = renderComponent(<Register />, { preloadedState });
+
 
     expect(getByText(/Username/i).textContent).toBe('Username');
     expect(getByText(/^Password$/i).textContent).toBe(
@@ -60,15 +32,7 @@ describe('<Register /> Component', () => {
   });
 
   it('can input all correct values', () => {
-    const { getByLabelText } = renderWithRedux(
-      <Route path="/user/register">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props: any) => <Register {...props} />}
-      </Route>,
-      {
-        route: '/user/register',
-      },
-    );
+    const { getByLabelText } = renderComponent(<Register />, { preloadedState });
     const username = getByLabelText('Username') as HTMLInputElement;
     const email = getByLabelText('E-mail') as HTMLInputElement;
     const password = getByLabelText(
@@ -87,15 +51,7 @@ describe('<Register /> Component', () => {
   });
 
   it('incorrect inputs + prints error if register unsuccessful', async () => {
-    const { getByLabelText, getByText } = renderWithRedux(
-      <Route path="/user/register">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props: any) => <Register {...props} />}
-      </Route>,
-      {
-        route: '/user/register',
-      },
-    );
+    const { getByLabelText, getByText } = renderComponent(<Register />, { preloadedState });
     const username = getByLabelText('Username') as HTMLInputElement;
     const email = getByLabelText('E-mail') as HTMLInputElement;
     const password = getByLabelText(

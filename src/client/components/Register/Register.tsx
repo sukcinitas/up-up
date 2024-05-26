@@ -9,7 +9,7 @@ import {
   faEyeSlash,
 } from '@fortawesome/free-regular-svg-icons';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
-import { receiveCurrentUser } from '../../redux/actions';
+import { setCurrentUser } from '../../store/reducers/usersSlice';
 import checkValidity from '../../util/checkValidity';
 
 axios.defaults.withCredentials = true;
@@ -74,7 +74,7 @@ const Register = () => {
       .then(
         (res) => {
           if (res.data.success) {
-            dispatch(receiveCurrentUser(res.data.sessionUser));
+            dispatch(setCurrentUser(res.data.sessionUser));
           }
         },
         (err) => {

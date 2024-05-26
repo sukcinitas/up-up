@@ -1,19 +1,20 @@
 import React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faEye,
   faEyeSlash,
 } from '@fortawesome/free-regular-svg-icons';
 import axios from 'axios';
-import { receiveCurrentUser } from '../../redux/actions';
+import { setCurrentUser } from '../../store/reducers/usersSlice';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 axios.defaults.withCredentials = true;
 
 const Login = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -39,7 +40,8 @@ const Login = () => {
     axios.post('/api/user/login', { username, password }).then(
       (res) => {
         if (res.data.success) {
-          dispatch(receiveCurrentUser(res.data.sessionUser));
+          dispatch(setCurrentUser(res.data.sessionUser));
+          navigate("/");
         }
       },
       (err) => {

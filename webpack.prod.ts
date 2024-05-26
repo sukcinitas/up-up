@@ -1,6 +1,5 @@
 
 import sass from 'sass';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';

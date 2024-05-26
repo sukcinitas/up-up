@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,22 +5,19 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as solidStar } from '@fortawesome/free-solid-svg-icons';
-import { AppState, getStarredPollsAsync } from '../../redux/actions';
+import { fetchStarredPolls } from '../../store/reducers/usersSlice';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import Loader from '../Loader/Loader';
 import '../../sass/UserPolls.scss';
+import { AppDispatch, RootState } from '../../store';
 
 axios.defaults.withCredentials = true;
 
 const StarredPolls = () => {
-  const dispatch = useDispatch();
-  const { username, userId, starredPollsIds } = useSelector(
-    (state: AppState) => ({
-      username: state.username,
-      userId: state.userId,
-      starredPollsIds: state.starredPolls,
-    }),
-  );
+  const dispatch = useDispatch<AppDispatch>();
+  const username = useSelector((state: RootState) => state.users.username);
+  const userId = useSelector((state: RootState) => state.users.userId);
+  const starredPollsIds = useSelector((state: RootState) => state.users.starredPolls);
   const [starredPolls, setStarredPolls] = useState<
     {
       _id: string;
@@ -65,7 +61,7 @@ const StarredPolls = () => {
       .then(
         (res) => {
           if (res.data.success) {
-            dispatch(getStarredPollsAsync(username));
+            dispatch(fetchStarredPolls(username));
             setStarredPolls(
               starredPolls.filter((poll) => poll._id !== pollId),
             );

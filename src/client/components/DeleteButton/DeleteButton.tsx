@@ -51,9 +51,4 @@ const DeleteButton = ({ callback, id, poll }: TDeleButtonProps) => {
   );
 };
 
-DeleteButton.defaultProps = {
-  poll: false,
-  id: '',
-};
-
 export default DeleteButton;
