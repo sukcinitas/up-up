@@ -10,7 +10,7 @@
     "dev-server": "nodemon src/server/server.ts",
     "dev": "concurrently \"npm run dev-server\" \"npm run dev-client\"",
     "prod-client": "webpack --config webpack.prod.ts",
-    "prod-server": "ts-node src/server/server.ts",
+    "prod-server": "node --loader ts-node/esm -r ts-node/register --max-old-space-size=512 src/server/server.ts",
     "prod": "npm run prod-client && npm run prod-server",
     "start": "npm run prod-server",
     "heroku-postbuild": "npm run prod-client"
