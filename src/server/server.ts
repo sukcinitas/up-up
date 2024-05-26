@@ -1,10 +1,8 @@
-/* eslint-disable no-console */
 import passport from 'passport';
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import session from 'express-session';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import path from 'path';
 import helmet from 'helmet';
 import connectMongo from 'connect-mongo';
@@ -27,7 +25,6 @@ app.use(
     saveUninitialized: false,
     resave: false,
     store: connectMongo.create({
-      // mongooseConnection: mongoose.connection,
       collectionName: 'session',
       mongoUrl: process.env.MONGODB_URI,
       ttl: 60 * 60,

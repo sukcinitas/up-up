@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { Schema, model, Document, Model } from 'mongoose';
 import PollService from '../services/poll.service';
 import UserService from '../services/user.service';

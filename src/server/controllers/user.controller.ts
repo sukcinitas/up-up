@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
 import User, { IUser } from '../models/user.model';

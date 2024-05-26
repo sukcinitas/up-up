@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -44,7 +43,7 @@ const UserPolls = ({ username }: { username: string }) => {
     getUserPolls();
   }, [username]);
 
-  const handlePollDeletion = (id: String): void => {
+  const handlePollDeletion = (id: string): void => {
     axios.delete(`/api/polls/${id}`).then(
       (res) => {
         if (res.data.success) {
