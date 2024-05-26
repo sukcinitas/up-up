@@ -18,7 +18,7 @@ const BarChart = ({
 }: TBarChartProps): JSX.Element => {
   useEffect(() => {
     if (data.sumVotes !== 0) {
-      drawChart(data, width, leftMargin);
+      drawChart(data, width);
     }
   }, [data, width, leftMargin]);
 
