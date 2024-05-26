@@ -55,6 +55,7 @@ if (process.env.NODE_ENV === 'development') {
   };
 } else {
   corsOptions = {
+    credentials: true,
     origin: process.env.ORIGIN,
   };
 }
