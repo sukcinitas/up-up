@@ -7,7 +7,7 @@
   "scripts": {
     "test": "jest --runInBand --detectOpenHandles",
     "dev": "nodemon src/server.ts",
-    "prod": "node --loader ts-node/esm -r ts-node/register --max-old-space-size=512 src/server.ts",
+    "prod": "ts-node src/server.ts",
     "start": "npm run prod"
   },
   "author": "Gintarė Černiauskaitė",
