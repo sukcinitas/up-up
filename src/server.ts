@@ -56,7 +56,7 @@ if (process.env.NODE_ENV === 'development') {
 } else {
   corsOptions = {
     credentials: true,
-    origin: 'http://up-up.herokuapp.com',
+    origin: process.env.ORIGIN,
   };
 }
 app.use(cors(corsOptions));
