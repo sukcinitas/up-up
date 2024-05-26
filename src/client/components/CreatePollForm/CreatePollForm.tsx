@@ -13,9 +13,7 @@ axios.defaults.withCredentials = true;
 
 const CreatePollForm = () => {
   const navigate = useNavigate();
-  const { username } = useSelector((state: RootState) => ({
-    username: state.users.username,
-  }));
+  const username = useSelector((state: RootState) => state.users.username);
   const [name, setName] = useState('');
   const [question, setQuestion] = useState('');
   const [list, setList] = useState([

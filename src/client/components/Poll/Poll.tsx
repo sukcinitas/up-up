@@ -17,9 +17,7 @@ axios.defaults.withCredentials = true;
 const Poll = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { username } = useSelector((state: RootState) => ({
-    username: state.users.username,
-  }));
+  const username = useSelector((state: RootState) => state.users.username);
   const [poll, setPoll] = useState({
     name: '',
     question: '',

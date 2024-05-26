@@ -15,12 +15,8 @@ axios.defaults.withCredentials = true;
 const PollList = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { username, starredPolls } = useSelector(
-    (state: RootState) => ({
-      username: state.users.username,
-      starredPolls: state.users.starredPolls,
-    }),
-  );
+  const username = useSelector((state: RootState) => state.users.username);
+  const starredPolls = useSelector((state: RootState) => state.users.starredPolls);
   const [polls, setPolls] = useState<
     Array<{
       id: string;

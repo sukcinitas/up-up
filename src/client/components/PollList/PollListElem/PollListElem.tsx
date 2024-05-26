@@ -32,10 +32,8 @@ const PollListElem = ({
   link,
 }: TPollListElemProps) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { username, userId } = useSelector((state: RootState) => ({
-    username: state.users.username,
-    userId: state.users.userId,
-  }));
+  const username = useSelector((state: RootState) => state.users.username);
+  const userId = useSelector((state: RootState) => state.users.userId);
   const [errorMessage, setErrorMessage] = useState('');
 
   const starAPoll = (
