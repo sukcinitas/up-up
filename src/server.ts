@@ -31,7 +31,7 @@ app.use(
       autoRemove: 'native',
     }),
     cookie: {
-      sameSite: process.env.NODE_ENV === 'production',
+      sameSite: false,
       secure: process.env.NODE_ENV === 'production',
       maxAge: 86400000,
       httpOnly: true,
