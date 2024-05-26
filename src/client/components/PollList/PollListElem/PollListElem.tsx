@@ -19,7 +19,7 @@ type TPollListElemProps = {
   createdBy: string;
   updatedAt: string;
   starred: boolean;
-  link: Function;
+  link: (id: string) => void;
 };
 
 const PollListElem = ({

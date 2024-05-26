@@ -10,7 +10,7 @@ const sessionizeUser = (user: {
   username?: string;
   email?: string;
   password?: string;
-  starredPolls?: Array<{}>;
+  starredPolls?: Array<string>;
 }): { userId: string; username: string } => ({
   userId: user.id,
   username: user.username,
@@ -150,7 +150,7 @@ const UserController = {
       return passport.authenticate(
         'local',
         { session: true },
-        (err: any, user: Express.User) => {
+        (err: Error, user: Express.User) => {
           if (err) {
             return next(err);
           }

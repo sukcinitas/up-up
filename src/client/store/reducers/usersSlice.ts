@@ -67,7 +67,7 @@ export const usersSlice = createSlice({
             state.userId = action.payload._id;
             state.starredPolls = action.payload.starredPolls;
         })
-        .addCase(fetchUser.rejected, (state, action) => {
+        .addCase(fetchUser.rejected, (state) => {
             state.username = '';
             state.userId = '';
             state.starredPolls = [];

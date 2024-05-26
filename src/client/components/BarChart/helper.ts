@@ -21,7 +21,6 @@ const drawChart = (
     sumVotes: number;
   },
   w: number = 860,
-  left: number = 100,
 ): void => {
   d3.select('svg').remove();
 

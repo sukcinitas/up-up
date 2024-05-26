@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { body, validationResult, oneOf } from 'express-validator';
+import { body, validationResult, oneOf, ValidationError } from 'express-validator';
 
 export const validationRules = {
   poll: [
@@ -80,7 +80,7 @@ export const validate = (
   }
   const extractedErrors = errors
     .array()
-    .map((err: any) => `${err.msg}!`);
+    .map((err: ValidationError) => `${err.msg}!`);
   const message = extractedErrors.join(' ');
 
   return res.status(400).json({

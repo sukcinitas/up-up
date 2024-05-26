@@ -38,7 +38,6 @@ export interface IUser extends Document {
   starredPolls: Array<string>;
   createdAt: Date;
   updatedAt: Date;
-  getQuery: any;
 }
 
 userSchema.pre<IUser>('save', function hash() {
@@ -48,9 +47,9 @@ userSchema.pre<IUser>('save', function hash() {
 });
 userSchema.pre<IUser>('deleteOne', async function deleteUserPolls() {
   try {
-    const user = await UserService.getOneUserById(
-      this.getQuery()._id,
-    );
+    // @ts-ignore
+    const id = this.getQuery()._id;
+    const user = await UserService.getOneUserById(id);
     await PollService.deleteMany(user.username);
   } catch (err: unknown) {
     throw Error('Something went wrong!');

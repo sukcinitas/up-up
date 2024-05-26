@@ -15,7 +15,7 @@ export const renderComponent = (ui: JSX.Element, options: { preloadedState: Root
     preloadedState: options.preloadedState,
   });
 
-  const ProviderWrapper = ({ children }: { children: any }) => (
+  const ProviderWrapper = ({ children }: { children: React.ReactNode }) => (
       <Provider store={mockStore}>
         <Router>
           {children}

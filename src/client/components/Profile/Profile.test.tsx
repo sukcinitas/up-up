@@ -8,14 +8,6 @@ import axios from 'axios';
 import Profile from './Profile';
 import { renderComponent } from '../../util/renderComponent';
 
-const preloadedState = { 
-  users: {
-    userId: '',
-    username: '',
-    starredPolls: [] as string[],
-  },
-};
-
 afterEach(cleanup);
 jest.mock('axios');
 const axiosMock = axios as jest.Mocked<typeof axios>;
