@@ -1,45 +1,22 @@
 import React from 'react';
-import { Route, Router } from 'react-router-dom';
-import { createMemoryHistory, MemoryHistory } from 'history';
-import { createStore, applyMiddleware, Store } from 'redux';
-import { Provider } from 'react-redux';
 import {
-  render,
   cleanup,
   waitFor,
   fireEvent,
 } from '@testing-library/react';
 import axios from 'axios';
-import thunk from 'redux-thunk';
-import { AppState } from '../../redux/actions';
-import reducer, { initialState } from '../../redux/reducers';
 
 import PollList from './PollList';
+import { renderComponent } from '../../util/renderComponent';
 
-function renderWithRedux(
-  ui: JSX.Element,
-  {
-    state = initialState,
-    store = createStore(reducer, state, applyMiddleware(thunk)),
-    route = '/',
-    history = createMemoryHistory({ initialEntries: [route] }),
-  }: {
-    state?: AppState;
-    store?: Store;
-    route?: string;
-    history?: MemoryHistory;
-  } = {},
-) {
-  return {
-    ...render(
-      <Provider store={store}>
-        <Router history={history}>{ui}</Router>
-      </Provider>,
-    ),
-    store,
-    history,
-  };
-}
+const preloadedState = { 
+  users: {
+    userId: '',
+    username: '',
+    starredPolls: [] as string[],
+  },
+};
+
 afterEach(cleanup);
 jest.mock('axios');
 const axiosMock = axios as jest.Mocked<typeof axios>;
@@ -70,15 +47,7 @@ describe('<PollList /> Component', () => {
     axiosMock.get.mockResolvedValueOnce({
       data: { polls, success: true },
     });
-    const { getByText, getByTestId } = renderWithRedux(
-      <Route path="/">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props: any) => <PollList {...props} />}
-      </Route>,
-      {
-        route: '/',
-      },
-    );
+    const { getByText, getByTestId } = renderComponent(<PollList />, { preloadedState });
     const loader = getByTestId('loader');
     expect(loader.textContent).toBe('');
 
@@ -96,7 +65,7 @@ describe('<PollList /> Component', () => {
 
     fireEvent.click(getByText(/^most popular$/)); // I sort by most popular
     expect(pollsDiv.lastChild.firstChild.textContent).toBe(
-      'Test twocreated by testUser218 voteslast updated on 2020 m. vasario 12 d.',
+      'Test twocreated by testUser218 voteslast updated on February 12, 2020',
     );
   });
 
@@ -107,23 +76,18 @@ describe('<PollList /> Component', () => {
     axiosMock.get.mockResolvedValueOnce({
       data: { user: [{ starredPolls: [] }], success: true },
     });
-    const { getByText, getByTestId } = renderWithRedux(
-      <Route path="/">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props: any) => <PollList {...props} />}
-      </Route>,
-      {
-        route: '/',
-        state: {
-          username: 'testUser1',
-          userId: '1',
-          starredPolls: [
-            '5e31b8061907f3051baafd34',
-            '5e26f24f04f39d26e3cde70e',
-          ],
-        },
+
+    const preloadedState = {
+      users: {
+        username: 'testUser1',
+        userId: '1',
+        starredPolls: [
+          '5e31b8061907f3051baafd34',
+          '5e26f24f04f39d26e3cde70e',
+        ],
       },
-    );
+    }
+    const { getByText, getByTestId } = renderComponent(<PollList />, { preloadedState });
     const loader = getByTestId('loader');
     expect(loader.textContent).toBe('');
 

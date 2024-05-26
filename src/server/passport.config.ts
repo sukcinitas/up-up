@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { comparePassword } from './passwordHashing';
-import User, { IUser } from './models/user.model';
+import User from './models/user.model';
 
 passport.use(
   new LocalStrategy(
@@ -16,18 +16,22 @@ passport.use(
         }
         return done(null, user);
       } catch (err) {
-        return done(err);
+        return done(err, false);
       }
     },
   ),
 );
 
-passport.serializeUser((user: IUser, done): void => {
-  done(null, user.id);
+passport.serializeUser((user: Express.User, done): void => {
+  // @ts-ignore
+  done(null, user._id);
 });
 
-passport.deserializeUser((_id, done) => {
-  User.findOne({ _id }, (err: Error, user: any) => {
-    done(err, user);
-  });
+passport.deserializeUser(async (_id, done) => {
+  try {
+    const user = await User.findOne({ _id });
+    done(null, user);
+  } catch (err) {
+    done(err, null)
+  }
 });

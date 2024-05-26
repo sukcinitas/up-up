@@ -1,58 +1,28 @@
 import React from 'react';
-import { Route, Router } from 'react-router-dom';
-import { createMemoryHistory, MemoryHistory } from 'history';
-import { createStore, Store } from 'redux';
-import { Provider } from 'react-redux';
 import {
-  render,
   cleanup,
   fireEvent,
   waitFor,
 } from '@testing-library/react';
 import axios from 'axios';
-import { AppState } from '../../redux/actions';
-import reducer, { initialState } from '../../redux/reducers';
 
 import Login from './Login';
+import { renderComponent } from '../../util/renderComponent';
 
-function renderWithRedux(
-  ui: JSX.Element,
-  {
-    state = initialState,
-    store = createStore(reducer, state),
-    route = '/user/login',
-    history = createMemoryHistory({ initialEntries: [route] }),
-  }: {
-    state?: AppState;
-    store?: Store;
-    route?: string;
-    history?: MemoryHistory;
-  } = {},
-) {
-  return {
-    ...render(
-      <Provider store={store}>
-        <Router history={history}>{ui}</Router>
-      </Provider>,
-    ),
-    store,
-    history,
-  };
-}
+const preloadedState = { 
+  users: {
+    userId: '1',
+    username: 'testUser1',
+    starredPolls: ['1', '2'],
+  },
+};
+
 afterEach(cleanup);
 jest.mock('axios');
 const axiosMock = axios as jest.Mocked<typeof axios>;
 describe('<Login /> Component', () => {
   it('renders login component', async () => {
-    const { getByText, getAllByText } = renderWithRedux(
-      <Route path="/user/login">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props: any) => <Login {...props} />}
-      </Route>,
-      {
-        route: '/user/login',
-      },
-    );
+    const { getByText, getAllByText } = renderComponent(<Login />, { preloadedState });
 
     expect(getByText(/Username/i).textContent).toBe('Username');
     expect(getAllByText(/Login/i));
@@ -63,15 +33,7 @@ describe('<Login /> Component', () => {
   });
 
   it('can input all values', () => {
-    const { getByLabelText } = renderWithRedux(
-      <Route path="/user/login">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props: any) => <Login {...props} />}
-      </Route>,
-      {
-        route: '/user/login',
-      },
-    );
+    const { getByLabelText } = renderComponent(<Login />, { preloadedState });
 
     const usernameInput = getByLabelText(
       'Username',
@@ -100,15 +62,7 @@ describe('<Login /> Component', () => {
       getByTestId,
       getByText,
       getByLabelText,
-    } = renderWithRedux(
-      <Route path="/user/login">
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        {(props: any) => <Login {...props} />}
-      </Route>,
-      {
-        route: '/user/login',
-      },
-    );
+    } = renderComponent(<Login />, { preloadedState });
 
     const usernameInput = getByLabelText(
       'Username',

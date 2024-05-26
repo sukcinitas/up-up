@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
 import User, { IUser } from '../models/user.model';
@@ -11,7 +10,7 @@ const sessionizeUser = (user: {
   username?: string;
   email?: string;
   password?: string;
-  starredPolls?: Array<{}>;
+  starredPolls?: Array<string>;
 }): { userId: string; username: string } => ({
   userId: user.id,
   username: user.username,
@@ -43,10 +42,11 @@ const UserController = {
         });
       }
       await UserService.deleteUser(id);
-      req.logout();
-      return res.json({
-        success: true,
-        message: 'User has been successfully deleted!',
+      req.logout({}, () => {
+        return res.json({
+          success: true,
+          message: 'User has been successfully deleted!',
+        });
       });
     } catch (err: unknown) {
       return res.status(500).json({
@@ -109,10 +109,11 @@ const UserController = {
 
   async logout(req: Request, res: Response) {
     try {
-      await req.logout();
-      return res.json({
-        success: true,
-        message: 'User has successfully logged out!',
+      req.logout(() => {
+        return res.json({
+          success: true,
+          message: 'User has successfully logged out!',
+        });
       });
     } catch (err: unknown) {
       return res.status(500).json({
@@ -149,7 +150,7 @@ const UserController = {
       return passport.authenticate(
         'local',
         { session: true },
-        (err, user) => {
+        (err: Error, user: Express.User) => {
           if (err) {
             return next(err);
           }

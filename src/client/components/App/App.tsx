@@ -2,7 +2,7 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Switch,
+  Routes,
 } from 'react-router-dom';
 import { AuthRoute, ProtectedRoute } from '../../util/route';
 import Header from '../Header/Header';
@@ -18,20 +18,17 @@ import '../../sass/index.scss';
 
 const App = () => (
   <Router>
-    <Route component={Header} />
-    <Switch>
-      <ProtectedRoute
-        path="/user/create-poll"
-        component={CreatePollForm}
-      />
-      <AuthRoute path="/user/register" component={Register} />
-      <AuthRoute path="/user/login" component={Login} />
-      <ProtectedRoute path="/user/profile" component={Profile} />
-      <Route path="/polls/:id" component={Poll} />
-      <Route exact path="/" component={PollList} />
-      <Route path="*" component={NotFound} />
-    </Switch>
-    <Route component={Footer} />
+    <Header />
+    <Routes>
+      <Route path="/user/create-poll" element={ <ProtectedRoute><CreatePollForm /></ProtectedRoute> }/>
+      <Route path="/user/register" element={<AuthRoute><Register /></AuthRoute>} />
+      <Route path="/user/login" element={<AuthRoute><Login /></AuthRoute>} />
+      <Route path="/user/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+      <Route path="/polls/:id" Component={Poll} />
+      <Route path="/" Component={PollList} />
+      <Route path="*" Component={NotFound} />
+    </Routes>
+    <Footer />
   </Router>
 );
 

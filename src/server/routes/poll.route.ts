@@ -6,7 +6,7 @@ import authorize from '../authorize';
 
 const router = express.Router();
 
-const catchErr = (f: Function) => (
+const catchErr = (f: (req: Request, res: Response) => Promise<unknown>) => (
   req: Request,
   res: Response,
   next: NextFunction,

@@ -1,21 +1,19 @@
 import React from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import ReactRouterPropTypes from 'react-router-prop-types';
-import { RouteComponentProps } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from "react-router-dom";
 
 import axios from 'axios';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
-import { AppState } from '../../redux/actions';
+import { RootState } from '../../store';
 
 axios.defaults.withCredentials = true;
 
-const CreatePollForm = ({ history }: RouteComponentProps) => {
-  const { username } = useSelector((state: AppState) => ({
-    username: state.username,
-  }));
+const CreatePollForm = () => {
+  const navigate = useNavigate();
+  const username = useSelector((state: RootState) => state.users.username);
   const [name, setName] = useState('');
   const [question, setQuestion] = useState('');
   const [list, setList] = useState([
@@ -98,7 +96,7 @@ const CreatePollForm = ({ history }: RouteComponentProps) => {
     axios.post('/api/polls/create-poll', poll).then(
       (res: { data: { success: boolean; id: string } }): void => {
         if (res.data.success) {
-          history.push(`/polls/${res.data.id}`);
+          navigate(`/polls/${res.data.id}`);
         }
       },
       (err) => {
@@ -191,10 +189,6 @@ const CreatePollForm = ({ history }: RouteComponentProps) => {
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
     </form>
   );
-};
-
-CreatePollForm.propTypes = {
-  history: ReactRouterPropTypes.history.isRequired,
 };
 
 export default CreatePollForm;

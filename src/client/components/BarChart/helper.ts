@@ -1,4 +1,6 @@
 import * as d3 from 'd3';
+// import * as d3 from 'd3/dist/d3.min';
+
 
 // https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
 const hexToRgbA = (hex: string, opacity: number): string => {
@@ -19,7 +21,6 @@ const drawChart = (
     sumVotes: number;
   },
   w: number = 860,
-  left: number = 100,
 ): void => {
   d3.select('svg').remove();
 
@@ -143,7 +144,7 @@ const drawChart = (
       .attr('x2', 0)
       .attr('y2', 0);
   };
-  const handleOver = (d: {
+  const handleOver = (_event: Event, d: {
     option: string;
     votes: number;
     optionM: string;

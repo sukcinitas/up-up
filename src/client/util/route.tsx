@@ -1,66 +1,30 @@
 import React from 'react';
-// import  PropTypes from 'prop-types';
-// import ReactRouterPropTypes from 'react-router-prop-types';
 import { useSelector } from 'react-redux';
-import {
-  Redirect,
-  Route,
-  withRouter,
-  RouteComponentProps,
-} from 'react-router-dom';
-import { AppState } from '../redux/actions';
+import { Navigate } from 'react-router-dom';
+import { RootState } from '../store';
 
-interface RouteProps extends RouteComponentProps {
-  path: string;
-  component: any;
-}
-
-const Auth = ({ path, component: Component }: RouteProps) => {
-  const { isLoggedIn } = useSelector((state: AppState) => ({
-    isLoggedIn: Boolean(state.userId),
+const Auth = ({ children }: { children: JSX.Element }) => {
+  const { isLoggedIn } = useSelector((state: RootState) => ({
+    isLoggedIn: Boolean(state.users.userId),
   }));
-  return (
-    <Route
-      path={path}
-      render={() =>
-        isLoggedIn ? <Redirect to="/" from="/" /> : <Component />
-      }
-    />
-  );
+  if (isLoggedIn) {
+    return <Navigate to="/" />;
+  } else {
+    return children;
+  }
 };
 
-const Protected = ({
-  path,
-  component: Component,
-  history,
-}: RouteProps) => {
-  const { isLoggedIn } = useSelector((state: AppState) => ({
-    isLoggedIn: Boolean(state.userId),
+const Protected = ({ children }: { children: JSX.Element }) => {
+  const { isLoggedIn } = useSelector((state: RootState) => ({
+    isLoggedIn: Boolean(state.users.userId),
   }));
-  return (
-    <Route
-      path={path}
-      render={() =>
-        isLoggedIn ? (
-          <Component history={history} />
-        ) : (
-          <Redirect to="/user/login" from="/" />
-        )
-      }
-    />
-  );
+  if (isLoggedIn) {
+    return children;
+  } else {
+    return <Navigate to="/user/login" />;
+  }
 };
 
-// Auth.propTypes = {
-//   path: ReactRouterPropTypes.path.isRequired,
-//   component: PropTypes.elementType.isRequired,
-// };
+export const AuthRoute = Auth;
 
-// Protected.propTypes = {
-//   path: ReactRouterPropTypes.path.isRequired,
-//   component: PropTypes.elementType.isRequired,
-// };
-
-export const AuthRoute = withRouter(Auth);
-
-export const ProtectedRoute = withRouter(Protected);
+export const ProtectedRoute = Protected;

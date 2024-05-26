@@ -1,31 +1,23 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import ReactRouterPropTypes from 'react-router-prop-types';
 import axios from 'axios';
-import { RouteComponentProps } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import formatDate from '../../util/formatDate';
-import { AppState } from '../../redux/actions';
 import BarChart from '../BarChart/BarChart';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import DeleteButton from '../DeleteButton/DeleteButton';
 import Loader from '../Loader/Loader';
 import '../../sass/Poll.scss';
 import barChartWidth from '../../util/barChartWidth';
+import { RootState } from '../../store';
 
 axios.defaults.withCredentials = true;
 
-type RouteParams = {
-  id: string;
-};
-
-const Poll = ({
-  match,
-  history,
-}: RouteComponentProps<RouteParams>) => {
-  const { username } = useSelector((state: AppState) => ({
-    username: state.username,
-  }));
+const Poll = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const username = useSelector((state: RootState) => state.users.username);
   const [poll, setPoll] = useState({
     name: '',
     question: '',
@@ -46,15 +38,13 @@ const Poll = ({
   useEffect(() => {
     const fetchData = (): void => {
       setIsLoading(true);
-      axios.get(`/api/polls/${match.params.id}`).then(
+      axios.get(`/api/polls/${id}`).then(
         (res) => {
           if (res.data.success) {
             setPoll({ ...res.data.poll });
             setIsLoading(false);
-            setChartParams({
-              width: barChartWidth().w,
-              leftMargin: barChartWidth().left,
-            });
+            const { w: width, left: leftMargin } = barChartWidth();
+            setChartParams({ width, leftMargin });
           }
         },
         (err) => {
@@ -67,10 +57,10 @@ const Poll = ({
       );
     };
     fetchData();
-  }, [match.params.id]);
+  }, [id]);
 
   useEffect(() => {
-    const setSize = (e: Event): void => {
+    const setSize = (e?: Event): void => {
       const { windowW } = barChartWidth();
       const width = barChartWidth().w;
       const leftMargin = barChartWidth().left;
@@ -99,7 +89,7 @@ const Poll = ({
       return;
     } // initial dealing with only letting one vote per user
     axios
-      .put(`/api/polls/${match.params.id}`, {
+      .put(`/api/polls/${id}`, {
         option: {
           option: dataset.option,
           votes: dataset.votes,
@@ -125,10 +115,10 @@ const Poll = ({
   };
 
   const handlePollDeletion = (): void => {
-    axios.delete(`/api/polls/${match.params.id}`).then(
+    axios.delete(`/api/polls/${id}`).then(
       (res) => {
         if (res.data.success) {
-          history.push('/');
+          navigate('/');
         }
       },
       (err) => {
@@ -204,11 +194,6 @@ const Poll = ({
       </div>
     </div>
   );
-};
-
-Poll.propTypes = {
-  match: ReactRouterPropTypes.match.isRequired,
-  history: ReactRouterPropTypes.history.isRequired,
 };
 
 export default Poll;

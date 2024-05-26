@@ -1,10 +1,8 @@
-/* eslint-disable no-console */
 import passport from 'passport';
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import session from 'express-session';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import path from 'path';
 import helmet from 'helmet';
 import connectMongo from 'connect-mongo';
@@ -16,7 +14,6 @@ import userRouter from './routes/user.route';
 import pollRouter from './routes/poll.route';
 
 dotenv.config();
-const MongoStore = connectMongo(session);
 
 const app = express();
 app.use(helmet());
@@ -27,9 +24,9 @@ app.use(
     secret: process.env.SESS_SECRET,
     saveUninitialized: false,
     resave: false,
-    store: new MongoStore({
-      mongooseConnection: mongoose.connection,
-      collection: 'session',
+    store: connectMongo.create({
+      collectionName: 'session',
+      mongoUrl: process.env.MONGODB_URI,
       ttl: 60 * 60,
       autoRemove: 'native',
     }),
@@ -69,6 +66,7 @@ app.use(redirectToHTTPS([/localhost:(\d{4})/], [/\/insecure/], 301));
 app.use(express.static('dist'));
 
 const uri = process.env.MONGODB_URI;
+mongoose.set('strictQuery', false);
 mongoose.connect(uri);
 
 const { connection } = mongoose;
