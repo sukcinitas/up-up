@@ -21,7 +21,7 @@ app.use(helmet());
 app.use(
   session({
     name: process.env.SESS_NAME,
-    secret: process.env.SESS_SECRET,
+    secret: process.env.SESS_SECRET || '',
     saveUninitialized: false,
     resave: false,
     store: connectMongo.create({
@@ -55,7 +55,6 @@ if (process.env.NODE_ENV === 'development') {
   };
 } else {
   corsOptions = {
-    credentials: true,
     origin: process.env.ORIGIN,
   };
 }
@@ -67,7 +66,9 @@ app.use(express.static('dist'));
 
 const uri = process.env.MONGODB_URI;
 mongoose.set('strictQuery', false);
-mongoose.connect(uri);
+if (uri) {
+  mongoose.connect(uri);
+}
 
 const { connection } = mongoose;
 connection.once('open', () => {
