@@ -145,7 +145,7 @@ const drawChart = (
       .attr('x2', 0)
       .attr('y2', 0);
   };
-  const handleOver = (d: {
+  const handleOver = (_event: Event, d: {
     option: string;
     votes: number;
     optionM: string;

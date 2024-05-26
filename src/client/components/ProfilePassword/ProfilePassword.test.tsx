@@ -6,7 +6,7 @@ import {
 } from '@testing-library/react';
 import axios from 'axios';
 import ProfilePassword from './ProfilePassword';
-import { renderComponent } from '../../utils/renderComponent';
+import { renderComponent } from '../../util/renderComponent';
 
 afterEach(cleanup);
 jest.mock('axios');

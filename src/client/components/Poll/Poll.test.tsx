@@ -8,7 +8,7 @@ import axios from 'axios';
 import formatDate from '../../util/formatDate';
 
 import Poll from './Poll';
-import { renderComponent } from '../../utils/renderComponent';
+import { renderComponent } from '../../util/renderComponent';
 
 const preloadedState = { 
   users: {

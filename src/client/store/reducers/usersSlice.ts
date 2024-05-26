@@ -29,7 +29,6 @@ export const fetchUser = createAsyncThunk(
     'users/fetchUser',
     async() => {
         const response = await axios.get('/api/user/login');
-        console.log(response, 'user');
         if (response.data.user?.username) {
             const profileResponse = await axios.get(`/api/user/profile/${response.data.user.username}`);
             return profileResponse.data.user[0];
@@ -64,7 +63,6 @@ export const usersSlice = createSlice({
             state.starredPolls = action.payload;
         })
         .addCase(fetchUser.fulfilled, (state, action) => {
-            console.log(action, 'cia');
             state.username = action.payload.username;
             state.userId = action.payload._id;
             state.starredPolls = action.payload.starredPolls;

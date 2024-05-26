@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import drawChart from './helper';
 
@@ -16,9 +16,12 @@ const BarChart = ({
   width,
   leftMargin,
 }: TBarChartProps): JSX.Element => {
-  if (data.sumVotes !== 0) {
-    drawChart(data, width, leftMargin);
-  }
+  useEffect(() => {
+    if (data.sumVotes !== 0) {
+      drawChart(data, width, leftMargin);
+    }
+  }, [data, width, leftMargin]);
+
   return <div id="chart" />;
 };
 

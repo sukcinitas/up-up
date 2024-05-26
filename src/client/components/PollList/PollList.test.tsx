@@ -7,7 +7,7 @@ import {
 import axios from 'axios';
 
 import PollList from './PollList';
-import { renderComponent } from '../../utils/renderComponent';
+import { renderComponent } from '../../util/renderComponent';
 
 const preloadedState = { 
   users: {

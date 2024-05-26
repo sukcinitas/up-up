@@ -45,10 +45,8 @@ const Poll = () => {
           if (res.data.success) {
             setPoll({ ...res.data.poll });
             setIsLoading(false);
-            setChartParams({
-              width: barChartWidth().w,
-              leftMargin: barChartWidth().left,
-            });
+            const { w: width, left: leftMargin } = barChartWidth();
+            setChartParams({ width, leftMargin });
           }
         },
         (err) => {
@@ -64,7 +62,7 @@ const Poll = () => {
   }, [id]);
 
   useEffect(() => {
-    const setSize = (e: Event): void => {
+    const setSize = (e?: Event): void => {
       const { windowW } = barChartWidth();
       const width = barChartWidth().w;
       const leftMargin = barChartWidth().left;

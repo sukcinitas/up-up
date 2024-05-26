@@ -6,7 +6,7 @@ import {
 } from '@testing-library/react';
 import axios from 'axios';
 import Profile from './Profile';
-import { renderComponent } from '../../utils/renderComponent';
+import { renderComponent } from '../../util/renderComponent';
 
 const preloadedState = { 
   users: {

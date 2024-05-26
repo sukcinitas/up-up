@@ -1,7 +1,7 @@
 import React from 'react';
 import { cleanup } from '@testing-library/react';
 import PollListElem from './PollListElem';
-import { renderComponent } from '../../../utils/renderComponent';
+import { renderComponent } from '../../../util/renderComponent';
 
 afterEach(cleanup);
 

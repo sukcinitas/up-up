@@ -2,7 +2,7 @@ import React from 'react';
 import { cleanup, fireEvent } from '@testing-library/react';
 
 import Register from './Register';
-import { renderComponent } from '../../utils/renderComponent';
+import { renderComponent } from '../../util/renderComponent';
 
 afterEach(cleanup);
 jest.mock('axios');

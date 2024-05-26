@@ -7,7 +7,7 @@ import {
 import axios from 'axios';
 
 import Login from './Login';
-import { renderComponent } from '../../utils/renderComponent';
+import { renderComponent } from '../../util/renderComponent';
 
 const preloadedState = { 
   users: {

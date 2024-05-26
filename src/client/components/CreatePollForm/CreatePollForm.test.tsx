@@ -1,7 +1,7 @@
 import React from 'react';
 import { cleanup, fireEvent } from '@testing-library/react';
 import CreatePollForm from './CreatePollForm';
-import { renderComponent } from '../../utils/renderComponent';
+import { renderComponent } from '../../util/renderComponent';
 
 const preloadedState = { 
   users: {
