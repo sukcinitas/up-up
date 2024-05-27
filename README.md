@@ -1,6 +1,6 @@
 # Voting App
 
-A responsive application for poll creation and voting. You can check the application demo [here](https://lead-thoughtful-olivine.glitch.me/) (it might take ~ 10 seconds for the sleeping app to wake up).
+A responsive application for poll creation and voting. You can check the application demo [here](https://up-up.netlify.app/) (it might take ~ 10 seconds for the sleeping app to wake up).
 
 ![](https://github.com/sukcinitas/media/blob/master/uu/uu-1.gif)
 ![](https://github.com/sukcinitas/media/blob/master/uu/uu-2.gif)
